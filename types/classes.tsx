@@ -1,3 +1,5 @@
+import { perk } from "./perks";
+
 export enum magic {
   true,
   false,
@@ -15,18 +17,6 @@ export type skill = {
   desc: string;
   unique: boolean;
   ability: ability;
-};
-
-export type activationPrice = {
-  cost: number;
-  ability: ability;
-};
-
-export type perk = {
-  name: string;
-  desc: string;
-
-  activationPrice?: activationPrice;
 };
 
 export type basicClass = {
@@ -48,6 +38,8 @@ export type advancedClass = {
   isMagic: magic;
   skills: skill[];
   perks?: perk[];
+
+  colorScheme?: string;
 };
 
 export type mightyClass = {

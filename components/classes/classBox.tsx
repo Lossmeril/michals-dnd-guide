@@ -9,7 +9,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-const ClassBox = ({ type, name, desc, scheme }: any) => {
+const ClassBox = ({ type, name, desc, scheme, classes }: any) => {
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
@@ -27,8 +27,9 @@ const ClassBox = ({ type, name, desc, scheme }: any) => {
 
       <Stack>
         <CardBody>
-          <Heading size="md">{name}</Heading>
-
+          <Heading as="h2" size="lg">
+            {name}
+          </Heading>
           <Text py="2">{desc}</Text>
         </CardBody>
 

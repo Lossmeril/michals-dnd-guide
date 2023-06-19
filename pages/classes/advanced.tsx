@@ -3,7 +3,6 @@ import { advancedClasses } from "@/data/classes/advanced";
 import { Box } from "@chakra-ui/react";
 
 const AdvancedClassesPage = () => {
-  console.log(advancedClasses);
   return (
     <Box>
       {advancedClasses.map((advancedClass) => (

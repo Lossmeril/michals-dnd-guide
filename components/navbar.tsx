@@ -37,6 +37,18 @@ const Navbar = () => {
       <NavbarLink href="/classes/mighty">Mighty Classes</NavbarLink>
       <Divider my={2} />
 
+      <Heading
+        as="p"
+        size="sm"
+        textTransform="uppercase"
+        color={"blue.300"}
+        mt={4}
+        mb={2}
+      >
+        Debug menu
+      </Heading>
+      <NavbarLink href="/debug/perks">Perks</NavbarLink>
+
       {/* 
       <Heading
         as="p"
