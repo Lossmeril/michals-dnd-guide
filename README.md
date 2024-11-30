@@ -1,7 +1,7 @@
 ## Website guidebook to Michal's DnD
 This website serves as a neat handbook of ruleset for my version of DnD, created as an unholy amalgamation of *Dračí Doupě II* (Czech DnD) and *Dungeons & Dragons 5E*.
 
-<img src="/public/img/drd2.jpg" width="100" height="250">
+<img src="/public/img/drd2.jpg" width="180" height="250">
 
 **The webiste is currently under construction and is constantly updated with new rules.**
 
