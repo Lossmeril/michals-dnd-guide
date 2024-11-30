@@ -1,8 +1,11 @@
-import { magic, advancedClass } from "@/types/classes";
+import { magic, advancedClass, classRank } from "@/types/classes";
 import { basicClasses, basicClassesEnum } from "./basic";
+
+const defaultAdvancedClass = { classRank: classRank.advanced };
 
 export const advancedClasses: advancedClass[] = [
   {
+    ...defaultAdvancedClass,
     name: "Warrior",
     desc: "",
 
@@ -16,6 +19,8 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
+    classRank: classRank.advanced,
     name: "Ranger",
     desc: "",
 
@@ -29,6 +34,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Witcher",
     desc: "In order to hunt monsters, you have to become one. Witchers are supernatural warriors designed to track down and kill creatures not from this world. In their fight, they rely on a twisted version of their own magic - signs, through which they can cause burning pain to every ghost, demon or vampire.",
 
@@ -42,6 +48,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Scout",
     desc: "",
 
@@ -55,6 +62,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Shaman",
     desc: "",
 
@@ -68,6 +76,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Druid",
     desc: "",
 
@@ -81,6 +90,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Rogue",
     desc: "",
 
@@ -94,6 +104,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Alchemist",
     desc: "",
 
@@ -107,6 +118,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Warlock",
     desc: "",
 
@@ -120,6 +132,7 @@ export const advancedClasses: advancedClass[] = [
   },
 
   {
+    ...defaultAdvancedClass,
     name: "Mage",
     desc: "",
 

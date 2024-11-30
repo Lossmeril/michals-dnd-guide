@@ -1,7 +1,10 @@
-import { magic, basicClass } from "@/types/classes";
+import { magic, basicClass, classRank } from "@/types/classes";
+
+const defaultBasicClass = { classRank: classRank.basic };
 
 export const basicClasses: basicClass[] = [
   {
+    ...defaultBasicClass,
     name: "Fighter",
     desc: "",
 
@@ -12,6 +15,7 @@ export const basicClasses: basicClass[] = [
     colorScheme: "red",
   },
   {
+    ...defaultBasicClass,
     name: "Hunter",
     desc: "",
 
@@ -22,6 +26,7 @@ export const basicClasses: basicClass[] = [
     colorScheme: "green",
   },
   {
+    ...defaultBasicClass,
     name: "Juggler",
     desc: "",
 
@@ -32,6 +37,7 @@ export const basicClasses: basicClass[] = [
     colorScheme: "yellow",
   },
   {
+    ...defaultBasicClass,
     name: "Medic",
     desc: "",
 
@@ -42,6 +48,7 @@ export const basicClasses: basicClass[] = [
     colorScheme: "blue",
   },
   {
+    ...defaultBasicClass,
     name: "Incantor",
     desc: "",
 
