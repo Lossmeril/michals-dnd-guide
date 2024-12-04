@@ -2,6 +2,7 @@ import { advancedClass, basicClass, mightyClass } from "@/types/classes";
 import Image from "next/image";
 import Divider from "./divider";
 import Link from "next/link";
+import { perk } from "@/types/perks";
 
 interface CardProps {
   children: React.ReactNode;
@@ -74,6 +75,18 @@ export const ClassCard: React.FC<ClassCardProps> = ({ dndClass }) => {
       >
         Read more
       </Link>
+    </Card>
+  );
+};
+
+interface PerkCardProps {
+  perk: perk;
+}
+
+export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
+  return (
+    <Card>
+      <h4 className="font-bold text-xl text-left mb-2">{perk.name}</h4>
     </Card>
   );
 };

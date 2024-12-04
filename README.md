@@ -12,7 +12,8 @@ This website serves as a neat handbook of ruleset for my version of DnD, created
 - [ ] Races
 - [ ] Race abilities
 - [ ] Race perks
-- [ ] Functional navbar
+- [X] Functional navbar
+- [X] Mobile navbar
 - [ ] Combat rules
 - [ ] Bestiary
 

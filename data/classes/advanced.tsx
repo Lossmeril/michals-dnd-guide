@@ -1,5 +1,6 @@
 import { magic, advancedClass, classRank } from "@/types/classes";
 import { basicClasses, basicClassesEnum } from "./basic";
+import { perks } from "../perks/perks";
 
 const defaultAdvancedClass = { classRank: classRank.advanced };
 
@@ -72,7 +73,7 @@ export const advancedClasses: advancedClass[] = [
     ],
     isMagic: magic.semi,
     skills: [],
-    perks: [],
+    perks: [perks.InvisibleRider, perks.Skinchanger],
   },
 
   {
