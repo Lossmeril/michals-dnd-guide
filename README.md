@@ -9,7 +9,7 @@ This website serves as a neat handbook of ruleset for my version of DnD, created
 - [x] Basic, Advanced and Mighty classes
 - [ ] Class abilities
 - [ ] Class perks
-- [ ] Races
+- [X] Races
 - [ ] Race abilities
 - [ ] Race perks
 - [X] Functional navbar
