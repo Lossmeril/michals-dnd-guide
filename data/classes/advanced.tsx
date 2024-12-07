@@ -45,7 +45,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.semi,
     skills: [],
-    perks: [],
+    perks: [perks.WitcherSenses],
   },
 
   {
@@ -143,7 +143,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.true,
     skills: [],
-    perks: [],
+    perks: [perks.PiedPiper],
   },
 ];
 

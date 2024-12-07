@@ -1,4 +1,5 @@
 import { Magic, BasicClass, ClassRank } from "@/types/classes";
+import { perks } from "../perks/perks";
 
 const defaultBasicClass = { classRank: ClassRank.basic };
 
@@ -10,7 +11,13 @@ export const basicClasses: BasicClass[] = [
 
     isMagic: Magic.false,
     skills: [],
-    perks: [],
+    perks: [
+      perks.AudiencesFavourite,
+      perks.Gladiator,
+      perks.BrawnsOverBrains,
+      perks.FlyingWeapon,
+      perks.KnowThyEnemy,
+    ],
 
     colorScheme: "red",
   },
@@ -32,7 +39,7 @@ export const basicClasses: BasicClass[] = [
 
     isMagic: Magic.false,
     skills: [],
-    perks: [],
+    perks: [perks.StartingABand, perks.DonJuan, perks.HiddenPocket],
 
     colorScheme: "yellow",
   },

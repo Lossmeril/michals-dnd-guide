@@ -2,6 +2,7 @@ import { Ability } from "@/types/classes";
 import { Perk } from "@/types/perks";
 
 export const perks: { [key: string]: Perk } = {
+  // -- RACIAL PERKS
   ForTheKing: {
     name: "For the king",
     desc: "When facing a skill check or a challenge regarding a superior or an organisation you pledge you aliegance to, every scar gives you one extra resource to work with.",
@@ -22,6 +23,8 @@ export const perks: { [key: string]: Perk } = {
     name: "Bison skin",
     desc: "Even when not wearing any armour, you still get a +1 resistance bonus on exhaustion.",
   },
+
+  // -- FIGHTER PERKS
   AudiencesFavourite: {
     name: "Audience's favourite",
     desc: "You gain advantage in a close combat against humans and animals.",
@@ -46,6 +49,10 @@ export const perks: { [key: string]: Perk } = {
       ability: Ability.charisma,
     },
   },
+
+  // -- HUNTER PERKS
+
+  // -- JUGGLER PERKS
   StartingABand: {
     name: "Starting a band",
     desc: "When performing as a group, you can use defense manoeuvre to counter actions against other performancers. Others can use your charisma-s points to avert their own failures. You can also use the widespread manoeuvre for free.",
@@ -62,6 +69,16 @@ export const perks: { [key: string]: Perk } = {
       ability: Ability.soul,
     },
   },
+  // -- MEDIC PERKS
+
+  // -- INCANTOR PERKS
+
+  // -- WARRIOR PERKS
+
+  // -- RANGER PERKS
+
+  // -- RACIAL PERKS
+
   WitcherSenses: {
     name: "Witcher senses",
     desc: "You posses the ability to sense a presence of monsters and supernatural beings.",
