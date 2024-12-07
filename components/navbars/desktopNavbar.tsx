@@ -10,26 +10,37 @@ type NavbarItem = {
   subMenu?: NavbarItem[];
 };
 
-const navbarItems: NavbarItem[] = [
+type NavbarSection = {
+  title: string;
+  items: NavbarItem[];
+};
+
+const navbarItems: NavbarSection[] = [
   {
-    text: "Home",
-    link: "/",
-  },
-  {
-    text: "Classes",
-    link: "/classes",
-    subMenu: [
+    title: "Character Creation",
+    items: [
       {
-        text: "Basic",
-        link: "/classes/basic",
+        text: "Home",
+        link: "/",
       },
+      { text: "Races", link: "/races" },
       {
-        text: "Advanced",
-        link: "/classes/advanced",
-      },
-      {
-        text: "Mighty",
-        link: "/classes/mighty",
+        text: "Classes",
+        link: "/classes",
+        subMenu: [
+          {
+            text: "Basic",
+            link: "/classes/basic",
+          },
+          {
+            text: "Advanced",
+            link: "/classes/advanced",
+          },
+          {
+            text: "Mighty",
+            link: "/classes/mighty",
+          },
+        ],
       },
     ],
   },
@@ -49,16 +60,19 @@ const DesktopNavbarLink: React.FC<DesktopNavbarLinkProps> = ({
   subMenu,
 }) => {
   return (
-    <Link href={link} className="cursor-pointer">
+    <Link
+      href={link}
+      className="cursor-pointer hover:text-gray-500 transition-all"
+    >
       <li
-        className="border-b border-slate-800 p-3"
+        className="py-2 px-4"
         style={{
-          color: active ? "#94a3b8" : "",
+          color: active ? "#93c5fd" : "",
           fontWeight: active ? "bold" : "",
-          borderBottom: subMenu ? "0" : "",
-          paddingBottom: subMenu ? "0" : "",
+          paddingBottom: subMenu ? "0.25rem" : "",
         }}
       >
+        {subMenu ? "◆ " : ""}
         {children}
       </li>
     </Link>
@@ -70,35 +84,38 @@ const DesktopNavbar = () => {
 
   return (
     <nav className="hidden lg:block w-full py-4">
-      <ul className="mr-16">
-        {navbarItems.map((item) => (
-          <>
-            <DesktopNavbarLink
-              key={item.link}
-              link={item.link}
-              active={path === item.link}
-            >
-              {item.text}
-            </DesktopNavbarLink>
-            {item.subMenu === undefined ? (
-              <></>
-            ) : (
-              <ul className="ml-4">
-                {item.subMenu.map((subItem) => (
-                  <DesktopNavbarLink
-                    key={subItem.link}
-                    link={subItem.link}
-                    active={path.includes(subItem.link)}
-                    subMenu
-                  >
-                    {subItem.text}
-                  </DesktopNavbarLink>
-                ))}
-              </ul>
-            )}
-          </>
-        ))}
-      </ul>
+      {navbarItems.map((section) => (
+        <div key={section.title}>
+          <p className="text-blue-300 font-bold uppercase mb-2">
+            {section.title}
+          </p>
+          <ul className="mr-16 pb-8 border-b border-slate-700">
+            {section.items.map((item) => (
+              <div key={item.link}>
+                <DesktopNavbarLink link={item.link} active={path === item.link}>
+                  {item.text}
+                </DesktopNavbarLink>
+                {item.subMenu === undefined ? (
+                  <></>
+                ) : (
+                  <ul className="ml-4">
+                    {item.subMenu.map((subItem) => (
+                      <DesktopNavbarLink
+                        key={subItem.link}
+                        link={subItem.link}
+                        active={path.includes(subItem.link)}
+                        subMenu
+                      >
+                        {subItem.text}
+                      </DesktopNavbarLink>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </ul>
+        </div>
+      ))}
     </nav>
   );
 };
