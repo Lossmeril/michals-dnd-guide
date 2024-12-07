@@ -73,7 +73,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.semi,
     skills: [],
-    perks: [perks.InvisibleRider, perks.Skinchanger],
+    perks: [perks.Skinchanger, perks.InvisibleRider, perks.AnimalControl],
   },
 
   {

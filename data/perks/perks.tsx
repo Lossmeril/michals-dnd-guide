@@ -1,12 +1,88 @@
+import { Ability } from "@/types/classes";
 import { Perk } from "@/types/perks";
 
 export const perks: { [key: string]: Perk } = {
+  BisonSkin: {
+    name: "Bison skin",
+    desc: "Even when not wearing any armour, you still get a +1 resistance bonus on exhaustion.",
+  },
+  Gladiator: {
+    name: "Gladiator",
+    desc: "You gain proficiency in a close combat with improvised weapons against humans and animals.",
+  },
+  BrawnsOverBrains: {
+    name: "Brawns over brains",
+    desc: "You gain proficiency in activities requiring a raw strength.",
+  },
+  FlyingWeapon: {
+    name: "Flying weapon",
+    desc: "You can throw your primary weapon at a single target and still use your Fighter level as a proficiency bonus.",
+  },
+  KnowThyEnemy: {
+    name: "Know Thy Enemy",
+    desc: "You can read people's figthing styles. When fighting a human opponent, you can determine they have a weakness or a favourite tactic they will use.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.charisma,
+    },
+  },
+  StartingABand: {
+    name: "Starting a band",
+    desc: "When performing as a group, you can use defense manoeuvre to counter actions against other performancers. Others can use your charisma-s points to avert their own failures. You can also use the widespread manoeuvre for free.",
+  },
+  DonJuan: {
+    name: "Don Juan",
+    desc: "You gain proficiency in flirting, seducing and interrogating targets that would be attracted to you.",
+  },
+  HiddenPocket: {
+    name: "Hidden pocket",
+    desc: "Even after being searched, you can determine your character still has on them an item up to the size of a closed fist.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.soul,
+    },
+  },
+  WitcherSenses: {
+    name: "Witcher senses",
+    desc: "You posses the ability to sense a presence of monsters and supernatural beings.",
+  },
   Skinchanger: {
     name: "Skinchanger",
-    desc: "",
+    desc: "If you own a thing that once belonged to an animal, you can skinchange into said animal. While retain your stats, and gain proficiencies and special abilities of said animal, your actions are limited by the abilities of your new body (e.g., you cannot pick locks while in wolf's body)",
+    activationPrice: {
+      cost: 2,
+      ability: Ability.body,
+    },
   },
   InvisibleRider: {
     name: "Invisible rider",
-    desc: "",
+    desc: "You can warg into an animal that is friendly to you. While warged you sense the world through the animal's body and can feel its emotions. While you can give directions to said animal, you cannot directly control it. While warged, you lose control of your body and are unaware of its state.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.charisma,
+    },
+  },
+  AnimalControl: {
+    name: "Animal control",
+    desc: "You can warg into and can completely control an animal that is within your sight. However, to fully maintain a control, you lose the connection to your body. You can control the animal even if it struggles against you, however, you need to succeed each turn in keeping the connectionn unsevered.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.charisma,
+    },
+  },
+  PiedPiper: {
+    name: "Pied piper",
+    desc: "When playing an instrument, you are able to control animals similarly to Shaman's Animal Control. However, you are only able to give it general commands (e.g. ‘follow me’ or ‘attack on sight’). The spell is broken the moment you stop playing. Activation price is per animal and widespread does not apply.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.soul,
+    },
   },
 };
+
+export const perksArray = Object.keys(perks).map((key) => {
+  return {
+    id: key,
+    perkValues: perks[key],
+  };
+});

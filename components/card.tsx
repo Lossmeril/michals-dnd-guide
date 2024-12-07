@@ -4,6 +4,7 @@ import Divider from "./divider";
 import Link from "next/link";
 import { Perk } from "@/types/perks";
 import { Race } from "@/types/races";
+import { highlightText } from "@/utils/highlightText";
 
 interface CardProps {
   children: React.ReactNode;
@@ -109,7 +110,35 @@ interface PerkCardProps {
 export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
   return (
     <Card>
-      <h4 className="font-bold text-xl text-left mb-2">{perk.name}</h4>
+      <div className="relative w-28 aspect-square mb-4">
+        <Image
+          src={"/img/perks/" + perk.name + ".png"}
+          alt={perk.name + " perk"}
+          fill
+          className="object-contain"
+        />
+      </div>
+      <h4 className="font-bold text-xl text-left ">{perk.name}</h4>
+      <h5 className="font-bold text-sm italic text-gray-400 mb-2">
+        {perk.activationPrice ? "Activation price: " : "Passive skill"}
+        {perk.activationPrice ? (
+          <span
+            style={{
+              color:
+                "var(--" + perk.activationPrice.ability.toLowerCase() + ")",
+            }}
+          >
+            {perk.activationPrice.cost +
+              " " +
+              perk.activationPrice.ability.toLowerCase() +
+              " point" +
+              (perk.activationPrice.cost > 1 ? "s" : "")}
+          </span>
+        ) : (
+          <></>
+        )}
+      </h5>
+      <p className="text-sm">{highlightText(perk.desc)}</p>
     </Card>
   );
 };

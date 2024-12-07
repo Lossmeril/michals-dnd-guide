@@ -44,6 +44,15 @@ const navbarItems: NavbarSection[] = [
       },
     ],
   },
+  {
+    title: "Debug section",
+    items: [
+      {
+        text: "Perks",
+        link: "/perks",
+      },
+    ],
+  },
 ];
 
 interface DesktopNavbarLinkProps {
@@ -85,11 +94,11 @@ const DesktopNavbar = () => {
   return (
     <nav className="hidden lg:block w-full py-4">
       {navbarItems.map((section) => (
-        <div key={section.title}>
+        <div className="my-4" key={section.title}>
           <p className="text-blue-300 font-bold uppercase mb-2">
             {section.title}
           </p>
-          <ul className="mr-16 pb-8 border-b border-slate-700">
+          <ul className="mr-16 border-b border-slate-700">
             {section.items.map((item) => (
               <div key={item.link}>
                 <DesktopNavbarLink link={item.link} active={path === item.link}>
@@ -98,7 +107,7 @@ const DesktopNavbar = () => {
                 {item.subMenu === undefined ? (
                   <></>
                 ) : (
-                  <ul className="ml-4">
+                  <ul className="ml-4 mb-4">
                     {item.subMenu.map((subItem) => (
                       <DesktopNavbarLink
                         key={subItem.link}

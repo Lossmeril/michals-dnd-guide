@@ -13,9 +13,9 @@ export enum Magic {
 }
 
 export enum Ability {
-  body,
-  soul,
-  charisma,
+  body = "Body",
+  soul = "Soul",
+  charisma = "Charisma",
 }
 
 export type Skill = {
