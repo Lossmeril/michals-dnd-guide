@@ -2,17 +2,37 @@ import { Ability } from "@/types/classes";
 import { Perk } from "@/types/perks";
 
 export const perks: { [key: string]: Perk } = {
+  ForTheKing: {
+    name: "For the king",
+    desc: "When facing a skill check or a challenge regarding a superior or an organisation you pledge you aliegance to, every scar gives you one extra resource to work with.",
+  },
+  MaidenFair: {
+    name: "Maiden Fair",
+    desc: "When dealing with a person of the opposite gender that would be attracted to you, they will have a disadvantage in every challenge.",
+  },
+  IKnowAGuy: {
+    name: "I know a guy",
+    desc: "You can determine that a stranger owes you a favour from the past, or that you both have a common acquaintance which is on good terms with both of you.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.charisma,
+    },
+  },
   BisonSkin: {
     name: "Bison skin",
     desc: "Even when not wearing any armour, you still get a +1 resistance bonus on exhaustion.",
   },
+  AudiencesFavourite: {
+    name: "Audience's favourite",
+    desc: "You gain advantage in a close combat against humans and animals.",
+  },
   Gladiator: {
     name: "Gladiator",
-    desc: "You gain proficiency in a close combat with improvised weapons against humans and animals.",
+    desc: "You gain advantage in a close combat with improvised weapons against humans and animals.",
   },
   BrawnsOverBrains: {
     name: "Brawns over brains",
-    desc: "You gain proficiency in activities requiring a raw strength.",
+    desc: "You gain advantage in activities requiring a raw strength.",
   },
   FlyingWeapon: {
     name: "Flying weapon",
@@ -32,7 +52,7 @@ export const perks: { [key: string]: Perk } = {
   },
   DonJuan: {
     name: "Don Juan",
-    desc: "You gain proficiency in flirting, seducing and interrogating targets that would be attracted to you.",
+    desc: "You gain advantage in flirting, seducing and interrogating targets that would be attracted to you.",
   },
   HiddenPocket: {
     name: "Hidden pocket",
