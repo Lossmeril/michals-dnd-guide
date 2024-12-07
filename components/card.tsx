@@ -1,8 +1,9 @@
-import { advancedClass, basicClass, mightyClass } from "@/types/classes";
+import { AdvancedClass, BasicClass, MightyClass } from "@/types/classes";
 import Image from "next/image";
 import Divider from "./divider";
 import Link from "next/link";
-import { perk } from "@/types/perks";
+import { Perk } from "@/types/perks";
+import { Race } from "@/types/races";
 
 interface CardProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ children, imageSrc }) => {
   return (
-    <div className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-slate-800">
+    <div className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent">
       {imageSrc ? (
         <div className="w-full h-80 relative">
           <Image src={imageSrc} alt="" fill className="object-cover" />
@@ -28,7 +29,7 @@ const Card: React.FC<CardProps> = ({ children, imageSrc }) => {
 export default Card;
 
 interface ClassCardProps {
-  dndClass: basicClass | advancedClass | mightyClass;
+  dndClass: BasicClass | AdvancedClass | MightyClass;
 }
 
 export const ClassCard: React.FC<ClassCardProps> = ({ dndClass }) => {
@@ -79,8 +80,30 @@ export const ClassCard: React.FC<ClassCardProps> = ({ dndClass }) => {
   );
 };
 
+interface RaceCardProps {
+  race: Race;
+}
+
+export const RaceCard: React.FC<RaceCardProps> = ({ race }) => {
+  return (
+    <Card imageSrc={"/img/races/" + race.name.toLocaleLowerCase() + ".jpg"}>
+      <div>
+        <h3 className="font-bold text-2xl text-left mb-2">{race.plural}</h3>
+        <p className="text-slate-300 text-xs text-left">{race.desc}</p>{" "}
+        <Divider />
+      </div>
+      <Link
+        href={"/races/" + race.name.toLocaleLowerCase()}
+        className="w-full block px-4 py-2 rounded-md mt-5 bg-gray-700 font-bold text-center transition-all hover:bg-gray-600 active:bg-gray-900"
+      >
+        Read more
+      </Link>
+    </Card>
+  );
+};
+
 interface PerkCardProps {
-  perk: perk;
+  perk: Perk;
 }
 
 export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {

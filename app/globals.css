@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-em {
+strong {
   font-weight: bold;
   color: #93c5fd;
+}
+
+em {
+  font-style: italic;
 }

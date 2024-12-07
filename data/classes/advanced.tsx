@@ -1,10 +1,10 @@
-import { magic, advancedClass, classRank } from "@/types/classes";
+import { Magic, AdvancedClass, ClassRank } from "@/types/classes";
 import { basicClasses, basicClassesEnum } from "./basic";
 import { perks } from "../perks/perks";
 
-const defaultAdvancedClass = { classRank: classRank.advanced };
+const defaultAdvancedClass = { classRank: ClassRank.advanced };
 
-export const advancedClasses: advancedClass[] = [
+export const advancedClasses: AdvancedClass[] = [
   {
     ...defaultAdvancedClass,
     name: "Warrior",
@@ -14,14 +14,14 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.fighter],
       basicClasses[basicClassesEnum.juggler],
     ],
-    isMagic: magic.false,
+    isMagic: Magic.false,
     skills: [],
     perks: [],
   },
 
   {
     ...defaultAdvancedClass,
-    classRank: classRank.advanced,
+    classRank: ClassRank.advanced,
     name: "Ranger",
     desc: "",
 
@@ -29,7 +29,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.fighter],
       basicClasses[basicClassesEnum.hunter],
     ],
-    isMagic: magic.false,
+    isMagic: Magic.false,
     skills: [],
     perks: [],
   },
@@ -43,7 +43,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.fighter],
       basicClasses[basicClassesEnum.medic],
     ],
-    isMagic: magic.semi,
+    isMagic: Magic.semi,
     skills: [],
     perks: [],
   },
@@ -57,7 +57,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.hunter],
       basicClasses[basicClassesEnum.juggler],
     ],
-    isMagic: magic.false,
+    isMagic: Magic.false,
     skills: [],
     perks: [],
   },
@@ -71,7 +71,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.hunter],
       basicClasses[basicClassesEnum.medic],
     ],
-    isMagic: magic.semi,
+    isMagic: Magic.semi,
     skills: [],
     perks: [perks.InvisibleRider, perks.Skinchanger],
   },
@@ -85,7 +85,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.hunter],
       basicClasses[basicClassesEnum.incantor],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
     skills: [],
     perks: [],
   },
@@ -99,7 +99,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.juggler],
       basicClasses[basicClassesEnum.medic],
     ],
-    isMagic: magic.false,
+    isMagic: Magic.false,
     skills: [],
     perks: [],
   },
@@ -113,7 +113,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.medic],
       basicClasses[basicClassesEnum.incantor],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
     skills: [],
     perks: [],
   },
@@ -127,7 +127,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.fighter],
       basicClasses[basicClassesEnum.incantor],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
     skills: [],
     perks: [],
   },
@@ -141,7 +141,7 @@ export const advancedClasses: advancedClass[] = [
       basicClasses[basicClassesEnum.juggler],
       basicClasses[basicClassesEnum.incantor],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
     skills: [],
     perks: [],
   },

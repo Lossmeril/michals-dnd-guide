@@ -1,13 +1,13 @@
-import { ability } from "./classes";
+import { Ability } from "./classes";
 
-export type activationPrice = {
+export type ActivationPrice = {
   cost: number;
-  ability: ability;
+  ability: Ability;
 };
 
-export type perk = {
+export type Perk = {
   name: string;
   desc: string;
 
-  activationPrice?: activationPrice;
+  activationPrice?: ActivationPrice;
 };

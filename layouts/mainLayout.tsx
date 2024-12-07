@@ -17,7 +17,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <aside className="w-1/6">
           <DesktopNavbar />
         </aside>
-        <main className="w-5/6 py-20">{children}</main>
+        <main className="w-5/6 py-10">{children}</main>
       </div>
       <footer className="w-full flex flex-col justify-center h-10 py-10 border-t border-slate-700 text-center">
         <p>Made with lots of failed rolls</p>

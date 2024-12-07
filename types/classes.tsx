@@ -1,52 +1,52 @@
-import { perk } from "./perks";
+import { Perk } from "./perks";
 
-export enum classRank {
+export enum ClassRank {
   basic = "basic",
   advanced = "advanced",
   mighty = "mighty",
 }
 
-export enum magic {
+export enum Magic {
   true,
   false,
   semi,
 }
 
-export enum ability {
+export enum Ability {
   body,
   soul,
   charisma,
 }
 
-export type skill = {
+export type Skill = {
   name: string;
   desc: string;
   unique: boolean;
-  ability: ability;
+  ability: Ability;
 };
 
 type Class = {
   name: string;
   desc: string;
 
-  isMagic: magic;
-  skills: skill[];
-  perks?: perk[];
+  isMagic: Magic;
+  skills: Skill[];
+  perks?: Perk[];
 };
 
-export type basicClass = Class & {
-  classRank: classRank;
+export type BasicClass = Class & {
+  classRank: ClassRank;
 
   colorScheme: string;
 };
 
-export type advancedClass = Class & {
-  classRank: classRank;
-  classes: basicClass[];
+export type AdvancedClass = Class & {
+  classRank: ClassRank;
+  classes: BasicClass[];
   colorScheme?: string;
 };
 
-export type mightyClass = Class & {
-  classRank: classRank;
-  classes: advancedClass[];
+export type MightyClass = Class & {
+  classRank: ClassRank;
+  classes: AdvancedClass[];
 };

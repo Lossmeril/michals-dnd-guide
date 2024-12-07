@@ -1,6 +1,6 @@
-import { perk } from "@/types/perks";
+import { Perk } from "@/types/perks";
 
-export const perks: { [key: string]: perk } = {
+export const perks: { [key: string]: Perk } = {
   Skinchanger: {
     name: "Skinchanger",
     desc: "",

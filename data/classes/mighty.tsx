@@ -1,9 +1,9 @@
-import { classRank, magic, mightyClass } from "@/types/classes";
+import { ClassRank, Magic, MightyClass } from "@/types/classes";
 import { advancedClasses, advancedClassesEnum } from "./advanced";
 
-const defaultMightyClass = { classRank: classRank.mighty };
+const defaultMightyClass = { classRank: ClassRank.mighty };
 
-export const mightyClasses: mightyClass[] = [
+export const mightyClasses: MightyClass[] = [
   {
     ...defaultMightyClass,
     name: "Warlord",
@@ -15,7 +15,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.rogue],
       advancedClasses[advancedClassesEnum.scout],
     ],
-    isMagic: magic.false,
+    isMagic: Magic.false,
 
     perks: [],
     skills: [],
@@ -31,7 +31,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.witcher],
       advancedClasses[advancedClassesEnum.shaman],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
 
     perks: [],
     skills: [],
@@ -48,7 +48,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.mage],
       advancedClasses[advancedClassesEnum.alchemist],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
 
     perks: [],
     skills: [],
@@ -65,7 +65,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.witcher],
       advancedClasses[advancedClassesEnum.mage],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
 
     perks: [],
     skills: [],
@@ -81,7 +81,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.druid],
       advancedClasses[advancedClassesEnum.shaman],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
 
     perks: [],
     skills: [],
@@ -97,7 +97,7 @@ export const mightyClasses: mightyClass[] = [
       advancedClasses[advancedClassesEnum.mage],
       advancedClasses[advancedClassesEnum.alchemist],
     ],
-    isMagic: magic.true,
+    isMagic: Magic.true,
 
     perks: [],
     skills: [],
