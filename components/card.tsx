@@ -10,11 +10,15 @@ interface CardProps {
   children: React.ReactNode;
   imageSrc?: string;
   link?: string;
+  filled?: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ children, imageSrc }) => {
+const Card: React.FC<CardProps> = ({ children, imageSrc, filled }) => {
   return (
-    <div className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent">
+    <div
+      className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent"
+      style={{ backgroundColor: filled ? "#47556980" : "" }}
+    >
       {imageSrc ? (
         <div className="w-full h-80 relative">
           <Image src={imageSrc} alt="" fill className="object-cover" />

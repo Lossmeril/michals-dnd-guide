@@ -8,10 +8,11 @@ This website serves as a neat handbook of ruleset for my version of DnD, created
 ### Roadmap
 - [x] Basic, Advanced and Mighty classes
 - [ ] Class abilities
-- [ ] Class perks
+- [X] Class perks
 - [X] Races
 - [ ] Race abilities
-- [ ] Race perks
+- [X] Race perks
+- [ ] More perks than just testing ones
 - [X] Functional navbar
 - [X] Mobile navbar
 - [ ] Combat rules

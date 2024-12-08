@@ -1,10 +1,12 @@
 import { Race } from "@/types/races";
+import { perks } from "../perks/perks";
 
 export const playableRaces: Race[] = [
   {
     name: "Human",
     plural: "Humans",
     desc: "They come in all shapes and sizes. Diverse and courageous heroes, living life to the fullest.",
+    perks: [perks.ForTheKing, perks.MaidenFair, perks.IKnowAGuy],
   },
   {
     name: "Elf",
@@ -15,6 +17,7 @@ export const playableRaces: Race[] = [
     name: "Dwarf",
     plural: "Dwarves",
     desc: "Courageous and hearty. Steadfast and proud adventurers for whom honour and their word are everything.",
+    perks: [perks.IronLiver],
   },
   {
     name: "Halfling",
@@ -25,6 +28,7 @@ export const playableRaces: Race[] = [
     name: "Kroll",
     plural: "Krolls",
     desc: "Slightly primitive, yet wildreness atunned. Strong and resilient heroes of brawny appearance with brave hearts.",
+    perks: [perks.BisonSkin],
   },
 ];
 

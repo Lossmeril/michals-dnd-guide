@@ -19,14 +19,18 @@ export const perks: { [key: string]: Perk } = {
       ability: Ability.charisma,
     },
   },
+  IronLiver: {
+    name: "Iron liver",
+    desc: "You have an advantage at resisting alcohol.",
+  },
   BisonSkin: {
     name: "Bison skin",
     desc: "Even when not wearing any armour, you still get a +1 resistance bonus on exhaustion.",
   },
 
   // -- FIGHTER PERKS
-  AudiencesFavourite: {
-    name: "Audience's favourite",
+  CrowdChampion: {
+    name: "Crowd Champion",
     desc: "You gain advantage in a close combat against humans and animals.",
   },
   Gladiator: {
@@ -53,13 +57,25 @@ export const perks: { [key: string]: Perk } = {
   // -- HUNTER PERKS
 
   // -- JUGGLER PERKS
+  Quickchange: {
+    name: "Quickchange",
+    desc: "You are the master of improvisation. You can disguise yourself as someone else (e.g., old man, beggar) even though you did not have enough time to prepare. However, you cannot impersonate anyone specific.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.body,
+    },
+  },
+  Androgynous: {
+    name: "Androgynous",
+    desc: "You can disguise yourself a another gender and switch between gendered-disguises on a quick basis. This perk does not apply when you have a gender-distinguishing feature such as beard.",
+  },
   StartingABand: {
     name: "Starting a band",
     desc: "When performing as a group, you can use defense manoeuvre to counter actions against other performancers. Others can use your charisma-s points to avert their own failures. You can also use the widespread manoeuvre for free.",
   },
   DonJuan: {
     name: "Don Juan",
-    desc: "You gain advantage in flirting, seducing and interrogating targets that would be attracted to you.",
+    desc: "You gain advantage in flirting, seducing and extracting information from targets that would be attracted to you.",
   },
   HiddenPocket: {
     name: "Hidden pocket",
@@ -77,12 +93,33 @@ export const perks: { [key: string]: Perk } = {
 
   // -- RANGER PERKS
 
-  // -- RACIAL PERKS
+  // -- WITCHER PERKS
 
   WitcherSenses: {
     name: "Witcher senses",
     desc: "You posses the ability to sense a presence of monsters and supernatural beings.",
   },
+
+  // -- SCOUT PERKS
+  OakleafBearer: {
+    name: "Oakleaf bearer",
+    desc: "Your archery reflexes are god-like. Every time a conflict starts, you can skip everyone else's initiative roll and shoot a first arrow. You can only shoot one arrow.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.soul,
+    },
+  },
+  MrWorldwide: {
+    name: "Mr Worldwide",
+    desc: "If person is speaking a language you don't understand, you can make an educated guess on what they are saying. You can also communicate with them in a simple matter.",
+    activationPrice: {
+      cost: 1,
+      ability: Ability.soul,
+    },
+  },
+
+  // -- SHAMAN PERKS
+
   Skinchanger: {
     name: "Skinchanger",
     desc: "If you own a thing that once belonged to an animal, you can skinchange into said animal. While retain your stats, and gain proficiencies and special abilities of said animal, your actions are limited by the abilities of your new body (e.g., you cannot pick locks while in wolf's body)",

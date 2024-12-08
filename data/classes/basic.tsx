@@ -12,7 +12,7 @@ export const basicClasses: BasicClass[] = [
     isMagic: Magic.false,
     skills: [],
     perks: [
-      perks.AudiencesFavourite,
+      perks.CrowdChampion,
       perks.Gladiator,
       perks.BrawnsOverBrains,
       perks.FlyingWeapon,

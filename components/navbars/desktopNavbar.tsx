@@ -101,7 +101,13 @@ const DesktopNavbar = () => {
           <ul className="mr-16 border-b border-slate-700">
             {section.items.map((item) => (
               <div key={item.link}>
-                <DesktopNavbarLink link={item.link} active={path === item.link}>
+                <DesktopNavbarLink
+                  link={item.link}
+                  active={
+                    (path.includes(item.link) && item.link !== "/") ||
+                    path === item.link
+                  }
+                >
                   {item.text}
                 </DesktopNavbarLink>
                 {item.subMenu === undefined ? (

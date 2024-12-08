@@ -6,7 +6,7 @@ import { mightyClasses } from "@/data/classes/mighty";
 
 import Image from "next/image";
 
-export default async function Page({
+export default async function ClassDetailPage({
   params,
 }: {
   params: Promise<{ rank: string; dndclass: string }>;
@@ -45,7 +45,7 @@ export default async function Page({
           <p className="w-1/2 text-justify">{displayClass?.desc}</p>
         </div>
         <div className="w-1/4">
-          <div className="relative w-full h-[60vh] ">
+          <div className="relative w-full h-[60vh] overflow-hidden rounded-lg border border-slate-600">
             <Image
               src={
                 "/img/classes/" +
@@ -62,9 +62,15 @@ export default async function Page({
         </div>
       </div>
       <Divider />
-      <h3 className="font-bold text-2xl mb-5">
-        {displayClass?.name + "'s perks:"}
-      </h3>
+      <h3 className="font-bold text-2xl">{displayClass?.name + "'s perks:"}</h3>
+      <p className="mb-2">
+        Character can have a number of class perks corresponding to the level of
+        said class.
+      </p>
+      <p className="mb-5 text-xs">
+        An exception is a character that hit the maximum level 5, but still
+        decided to spend their level-up to get another class perk.
+      </p>
       <div className="grid grid-cols-4 gap-5">
         {displayClass?.perks?.map((perk) => (
           <PerkCard key={perk.name} perk={perk} />
