@@ -2,6 +2,7 @@ import Divider from "@/components/divider";
 import DesktopNavbar from "@/components/navbars/desktopNavbar";
 import MobileNavbar from "@/components/navbars/mobileNavbar";
 import Link from "next/link";
+import Image from "next/image";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -10,10 +11,21 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="w-4/5 mx-auto">
-      <header className="w-full flex flex-col justify-center h-28 py-5 border-b border-slate-700">
+      <header className="w-full flex flex-row justify-between items-center h-28 mt-5 border-b border-slate-700">
         <Link href="/">
-          <h1 className="text-4xl font-bold">Michal&apos;s DnD Guide</h1>
+          <h1 className="text-4xl font-bold">
+            Michal&apos;s
+            <br className="inline lg:hidden" /> D&D Guide
+          </h1>
         </Link>
+        <div className="relative h-full aspect-square">
+          <Image
+            src="/img/neidhart.png"
+            alt="Neidhart"
+            fill
+            className="object-contain"
+          />
+        </div>
       </header>
       <div className="flex flex-col lg:flex-row flex-nowrap">
         <div className="w-full flex lg:hidden mt-5 justify-center">
