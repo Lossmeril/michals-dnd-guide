@@ -52,7 +52,7 @@ const RacesPage = () => {
           </p>
         </Card>
       </div>
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
         {playableRaces.map((race) => (
           <RaceCard key={race.name} race={race} />
         ))}

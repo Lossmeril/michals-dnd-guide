@@ -5,7 +5,7 @@ const PerksPage = () => {
   return (
     <div>
       <h2 className="font-bold text-3xl mb-5">Perks (debug page)</h2>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {perksArray.map((perk) => (
           <PerkCard key={perk.perkValues.name} perk={perk.perkValues} />
         ))}

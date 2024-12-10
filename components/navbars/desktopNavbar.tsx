@@ -15,7 +15,7 @@ type NavbarSection = {
   items: NavbarItem[];
 };
 
-const navbarItems: NavbarSection[] = [
+export const navbarItems: NavbarSection[] = [
   {
     title: "Character Creation",
     items: [

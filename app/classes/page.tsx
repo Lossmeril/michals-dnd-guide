@@ -70,7 +70,7 @@ const ClassesPage = () => {
           the horse riding, and people leading). However, the ratio in which
           these mix is up to you.
         </p>
-        <div className="grid grid-cols-3 gap-5 my-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-5">
           <Card imageSrc="/img/classes/basic/fighter.jpg">
             <p className="italic font-bold text-sm mb-2">Example one</p>
             <h4 className="text-lg font-bold leading-tight mb-2">
@@ -116,7 +116,7 @@ const ClassesPage = () => {
             </p>
           </Card>
           <Card imageSrc="/img/classes/advanced/warrior-monk.webp">
-            <p className="italic font-bold text-sm mb-2 text-gray-300">
+            <p className="italic font-bold text-sm mb-2 text-gray-">
               Example three
             </p>
             <h4 className="text-lg font-bold leading-tight mb-2">
