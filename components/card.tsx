@@ -21,7 +21,12 @@ const Card: React.FC<CardProps> = ({ children, imageSrc, filled }) => {
     >
       {imageSrc ? (
         <div className="w-full h-80 relative">
-          <Image src={imageSrc} alt="" fill className="object-cover" />
+          <Image
+            src={imageSrc}
+            alt=""
+            fill
+            className="object-cover object-top"
+          />
         </div>
       ) : (
         <></>
