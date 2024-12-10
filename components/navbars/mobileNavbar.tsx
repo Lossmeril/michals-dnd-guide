@@ -1,22 +1,18 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 import { navbarItems } from "./desktopNavbar";
 import Link from "next/link";
-
-interface MobileMenuProps {
-  active: boolean;
-  menuToggle: Dispatch<SetStateAction<boolean>>;
-}
 
 interface MobileNavbarLinkProps {
   children: React.ReactNode;
   link: string;
   active?: boolean;
   subMenu?: boolean;
+  menuToggle: (state?: boolean) => void;
 }
 
 const MobileNavbarLinks: React.FC<MobileNavbarLinkProps> = ({
@@ -24,11 +20,13 @@ const MobileNavbarLinks: React.FC<MobileNavbarLinkProps> = ({
   link,
   active,
   subMenu,
+  menuToggle,
 }) => {
   return (
     <Link
       href={link}
       className="cursor-pointer hover:text-gray-500 transition-all"
+      onClick={() => menuToggle()}
     >
       <li
         className="py-2"
@@ -45,7 +43,12 @@ const MobileNavbarLinks: React.FC<MobileNavbarLinkProps> = ({
   );
 };
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ active }) => {
+interface MobileMenuProps {
+  active: boolean;
+  menuToggle: (state?: boolean) => void;
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ active, menuToggle }) => {
   const path = usePathname();
 
   return (
@@ -72,6 +75,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active }) => {
                       (path.includes(item.link) && item.link !== "/") ||
                       path === item.link
                     }
+                    menuToggle={menuToggle}
                   >
                     {item.text}
                   </MobileNavbarLinks>
@@ -85,6 +89,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active }) => {
                           link={subItem.link}
                           active={path.includes(subItem.link)}
                           subMenu
+                          menuToggle={menuToggle}
                         >
                           {subItem.text}
                         </MobileNavbarLinks>
@@ -104,20 +109,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active }) => {
 const MobileNavbar = () => {
   const [mobileNavActive, setMobileNav] = useState(false);
 
-  const handleMenuOpen = () => {
-    setMobileNav(!mobileNavActive);
+  const handleMenuToggle = (state?: boolean) => {
+    setMobileNav((prev) => (typeof state === "boolean" ? state : !prev));
   };
 
   return (
     <>
       <div className="relative w-full flex lg:hidden">
-        <div onClick={() => handleMenuOpen()}>
+        <div onClick={() => handleMenuToggle()}>
           <GiHamburgerMenu
             size={24}
             className="cursor-pointer active:scale-95"
           />
         </div>
-        <MobileMenu active={mobileNavActive} menuToggle={handleMenuOpen} />
+        <MobileMenu active={mobileNavActive} menuToggle={handleMenuToggle} />
       </div>
     </>
   );
