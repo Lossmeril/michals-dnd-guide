@@ -8,7 +8,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "When facing a skill check or a challenge regarding a superior or an organisation you pledge you aliegance to, every scar gives you one extra resource to work with.",
   },
   MaidenFair: {
-    name: "Maiden Fair",
+    name: "Maiden fair",
     desc: "When dealing with a person of the opposite gender that would be attracted to you, they will have a disadvantage in every challenge.",
   },
   IKnowAGuy: {
@@ -46,7 +46,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You can throw your primary weapon at a single target and still use your Fighter level as a proficiency bonus.",
   },
   KnowThyEnemy: {
-    name: "Know Thy Enemy",
+    name: "Know thy enemy",
     desc: "You can read people's figthing styles. When fighting a human opponent, you can determine they have a weakness or a favourite tactic they will use.",
     activationPrice: {
       cost: 1,

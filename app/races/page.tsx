@@ -1,22 +1,23 @@
 import Card, { RaceCard } from "@/components/card";
+import Text from "@/components/text";
 import { playableRaces } from "@/data/races/races";
 
 const RacesPage = () => {
   return (
     <div>
       <h2 className="font-bold text-3xl mb-5">Playable Races</h2>
-      <p>
+      <p className="mb-3">
         The creation of a character starts at picking their race. There are five
         basic races: <strong>Humans</strong>, <strong>Elves</strong>,{" "}
         <strong>Dwarves</strong>, <strong>Halflings</strong> (or Hobbits) and{" "}
         <strong>Krolls</strong> (who are an unique race to this D&D system).
       </p>
-      <p>
+      <Text>
         The race has no bigger impact on the gameplay besides one racial special
         skill that your character will gain. However, it has big implications
         for your character&apos;s backstory and how other people will react to
         them. But in the end, just have fun with what you want to play.
-      </p>
+      </Text>
       <div className="my-8">
         <Card filled>
           <h5 className="mb-4 font-bold">Frequently asked questions:</h5>
