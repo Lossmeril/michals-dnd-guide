@@ -145,7 +145,7 @@ export const perks: { [key: string]: Perk } = {
     },
   },
   PiedPiper: {
-    name: "Pied piper",
+    name: "Pied Piper",
     desc: "When playing an instrument, you are able to control animals similarly to Shaman's Animal Control. However, you are only able to give it general commands (e.g. ‘follow me’ or ‘attack on sight’). The spell is broken the moment you stop playing. Activation price is per animal and widespread does not apply.",
     activationPrice: {
       cost: 1,

@@ -16,3 +16,21 @@ strong {
 em {
   font-style: italic;
 }
+
+.desktop-navbar-link:last-child {
+  margin-bottom: 0.75rem;
+}
+
+.d6 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  border-radius: 5px;
+
+  width: 75px;
+  height: 75px;
+  display: grid;
+  place-items: center;
+  border: 2px solid white;
+  font-weight: bold;
+}

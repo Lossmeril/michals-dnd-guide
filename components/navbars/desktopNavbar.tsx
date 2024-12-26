@@ -45,6 +45,28 @@ export const navbarItems: NavbarSection[] = [
     ],
   },
   {
+    title: "Gameplay",
+    items: [
+      {
+        text: "Danger Level",
+        link: "/gameplay/danger-level",
+      },
+      { text: "Dice Rolls", link: "/gameplay/dice" },
+      {
+        text: "Resources",
+        link: "/gameplay/resources",
+      },
+      {
+        text: "Exhaustion and scars",
+        link: "/gameplay/exhaustion",
+      },
+      {
+        text: "Combat",
+        link: "/gameplay/combat",
+      },
+    ],
+  },
+  {
     title: "Debug section",
     items: [
       {
@@ -71,7 +93,7 @@ const DesktopNavbarLink: React.FC<DesktopNavbarLinkProps> = ({
   return (
     <Link
       href={link}
-      className="cursor-pointer hover:text-gray-500 transition-all"
+      className="cursor-pointer hover:text-gray-500 transition-all text-sm"
     >
       <li
         className="py-2 px-4"
@@ -100,7 +122,7 @@ const DesktopNavbar = () => {
           </p>
           <ul className="mr-16 border-b border-slate-700">
             {section.items.map((item) => (
-              <div key={item.link}>
+              <div className="desktop-navbar-link" key={item.link}>
                 <DesktopNavbarLink
                   link={item.link}
                   active={
@@ -113,7 +135,7 @@ const DesktopNavbar = () => {
                 {item.subMenu === undefined ? (
                   <></>
                 ) : (
-                  <ul className="ml-4 mb-4">
+                  <ul className="ml-4">
                     {item.subMenu.map((subItem) => (
                       <DesktopNavbarLink
                         key={subItem.link}
