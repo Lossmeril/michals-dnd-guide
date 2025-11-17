@@ -1,8 +1,8 @@
-import { Ability } from "./classes";
+import { Resource } from "./classes";
 
 export type ActivationPrice = {
   cost: number;
-  ability: Ability;
+  ability: Resource;
 };
 
 export type Perk = {

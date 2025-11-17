@@ -21,16 +21,116 @@ em {
   margin-bottom: 0.75rem;
 }
 
+.d4 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  width: 60px;
+  height: 60px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1em;
+
+  clip-path: polygon(50% 10%, 0% 100%, 100% 100%);
+}
+
 .d6 {
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  border-radius: 5px;
 
-  width: 75px;
-  height: 75px;
-  display: grid;
-  place-items: center;
-  border: 2px solid white;
+  width: 50px;
+  height: 50px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
   font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d8 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  width: 65px;
+  height: 65px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.d10 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  width: 60px;
+  height: 60px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  clip-path: polygon(50% 0%, 100% 40%, 100% 60%, 50% 100%, 0% 60%, 0% 40%);
+}
+
+.d12 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  width: 55px;
+  height: 55px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.5em;
+
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.d20 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  width: 62px;
+  height: 55px;
+
+  background-color: white;
+  color: rgb(31, 41, 55);
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }

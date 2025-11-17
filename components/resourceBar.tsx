@@ -1,17 +1,17 @@
-import { Ability } from "@/types/classes";
+import { ResourceType } from "@/types/resources";
 
 interface ResourceBoxProps {
   resourceStatus: "clear" | "exhausted" | "scar";
-  stat?: Ability;
+  stat?: ResourceType;
 }
 
 const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, stat }) => {
   return (
     <div
-      className="w-10 aspect-[3/4] border-2 overflow-hidden relative"
+      className="w-10 aspect-[3/4] border rounded overflow-hidden relative"
       title={
         stat
-          ? stat +
+          ? stat.name +
             " " +
             (resourceStatus !== "clear" ? resourceStatus : "resource")
           : (resourceStatus !== "clear"
@@ -31,14 +31,16 @@ const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, stat }) => {
             : resourceStatus === "exhausted"
             ? "#ffffff20"
             : "#ffffff80",
-        borderColor: stat ? "var(--" + stat.toLowerCase() + ")" : "white",
+        borderColor: stat ? "var(--" + stat.name.toLowerCase() + ")" : "white",
       }}
     >
       {resourceStatus !== "clear" ? (
         <div
           className="absolute w-[2px] h-full top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] bg-white rotate-[35deg]"
           style={{
-            borderColor: stat ? "var(--" + stat.toLowerCase() + ")" : "white",
+            borderColor: stat
+              ? "var(--" + stat.name.toLowerCase() + ")"
+              : "white",
           }}
         ></div>
       ) : (
@@ -56,9 +58,10 @@ const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, stat }) => {
 
 interface ResourceBarProps {
   size: number;
-  stat: Ability;
+  stat: ResourceType;
   exhaustions?: number;
   scars?: number;
+  hideTitle?: boolean;
 }
 
 const ResourceBar: React.FC<ResourceBarProps> = ({
@@ -66,6 +69,7 @@ const ResourceBar: React.FC<ResourceBarProps> = ({
   stat,
   exhaustions = 0,
   scars = 0,
+  hideTitle = false,
 }) => {
   const resources: ("clear" | "exhausted" | "scar")[] = [];
 
@@ -81,6 +85,14 @@ const ResourceBar: React.FC<ResourceBarProps> = ({
 
   return (
     <div className="flex flex-row flex-nowrap gap-3">
+      {stat && !hideTitle && (
+        <div className="flex flex-col items-center justify-center gap-1 mr-3 w-16">
+          <p style={{ color: stat.color }} className="text-3xl">
+            {stat.icon}
+          </p>
+          <p className="text-xs font-bold">{stat.name}</p>
+        </div>
+      )}
       {resources.map((box, index) => (
         <ResourceBox key={index} resourceStatus={box} stat={stat} />
       ))}

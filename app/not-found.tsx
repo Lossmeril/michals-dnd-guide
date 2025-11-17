@@ -1,5 +1,5 @@
 import Card from "@/components/card";
-import { D6 } from "@/components/dice";
+import { D20 } from "@/components/dice";
 
 const DangerLevelPage = () => {
   return (
@@ -11,7 +11,7 @@ const DangerLevelPage = () => {
             A <strong>natural 1</strong> was rolled and this page does not
             exist.
           </p>
-          <D6 display={1} />
+          <D20 display={1} />
         </div>
       </Card>
     </div>

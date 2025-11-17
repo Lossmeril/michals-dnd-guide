@@ -1,4 +1,5 @@
 import { Perk } from "./perks";
+import { Resource } from "./resources";
 
 export enum ClassRank {
   basic = "basic",
@@ -12,17 +13,11 @@ export enum Magic {
   semi,
 }
 
-export enum Ability {
-  body = "Body",
-  soul = "Soul",
-  charisma = "Charisma",
-}
-
 export type Skill = {
   name: string;
   desc: string;
   unique: boolean;
-  ability: Ability;
+  ability: Resource;
 };
 
 type Class = {
@@ -50,3 +45,4 @@ export type MightyClass = Class & {
   classRank: ClassRank;
   classes: AdvancedClass[];
 };
+export { Resource };

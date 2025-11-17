@@ -37,6 +37,33 @@ const Card: React.FC<CardProps> = ({ children, imageSrc, filled }) => {
   );
 };
 
+export const HorizontalCard: React.FC<CardProps> = ({
+  children,
+  imageSrc,
+  filled,
+}) => {
+  return (
+    <div
+      className="w-full flex flex-col lg:flex-row border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent"
+      style={{ backgroundColor: filled ? "#47556980" : "" }}
+    >
+      {imageSrc ? (
+        <div className="h-80 w-auto lg:w-80 lg:h-auto relative flex-shrink-0">
+          <Image
+            src={imageSrc}
+            alt=""
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="p-4 flex-grow">{children}</div>
+    </div>
+  );
+};
+
 export default Card;
 
 interface ClassCardProps {

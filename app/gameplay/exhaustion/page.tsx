@@ -1,7 +1,8 @@
-import Text from "@/components/text";
+import Text, { Stat, WikiLink } from "@/components/text";
 import ResourceBar from "@/components/resourceBar";
-import Card from "@/components/card";
-import { Ability } from "@/types/classes";
+import Card, { HorizontalCard } from "@/components/card";
+
+import resources from "@/data/resources/resources";
 
 const ExhaustionAndScarsPage = () => {
   return (
@@ -14,14 +15,19 @@ const ExhaustionAndScarsPage = () => {
           When your character pushes themselves beyond comfort, they become{" "}
           <strong>Exhausted</strong>. When they push even further, past their
           limits, they suffer what the game calls a <strong>Scar</strong>.
-          Together, these two rules create the tension and drama behind every
-          risky decision.
+          Together, these two rules represent represent the toll of your
+          actions. Mananing them and finding time to recover is an important
+          part of gameplay.
         </p>
 
         <Text>
-          {
-            "Whenever your character wants to avoid a bad outcome, they must spend an amount of Body-s, Soul-s, or Charisma-s equal to the current Danger Level. If they have enough points, they may Exhaust themselves. If they do not, they may choose to take a Scar instead."
-          }
+          Whenever your character wants to avoid a bad outcome, they must spend
+          an amount of <Stat type={resources[0].name} />,{" "}
+          <Stat type={resources[1].name} />, or{" "}
+          <Stat type={resources[2].name} /> equal to the current{" "}
+          <WikiLink href="/rules/danger-level">Danger Level</WikiLink>. If they
+          have enough points, they may Exhaust themselves. If they do not, they
+          may choose to take a Scar instead.
         </Text>
       </div>
 
@@ -42,44 +48,34 @@ const ExhaustionAndScarsPage = () => {
         </Text>
 
         {/* -------------------- EXHAUSTION EXAMPLE -------------------- */}
-        <Card filled>
-          <h4 className="font-bold text-xl mb-2">Example — Exhaustion</h4>
+        <HorizontalCard imageSrc="/img/michal.jpg" filled>
+          <p className="font-bold mb-4">Example:</p>
 
           <p className="mb-3">
-            Michal attempts a Charisma check to flirt with the burgmaster’s
-            daughter. He rolls badly, like the disappointment he is, but his
-            group needs her affection later that day.
+            Michal attempts a <Stat type={resources[2].name} /> check to flirt
+            with the burgmaster’s daughter. He fails, like the disappointment he
+            is, but his group needs her affection later that day.
           </p>
 
           <p className="mb-3">
             The current Danger Level is <strong>3</strong>. Michal decides to
-            Exhaust himself to avert the failure.
+            <strong> exhaust himself</strong> to avert the failure.
           </p>
 
           <p className="mb-2 font-semibold">Before:</p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={0}
-            scars={0}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={0} scars={0} />
 
           <p className="mt-4 mb-2 font-semibold">
-            After spending 3 Charisma-s:
+            After spending 3 <Stat type={resources[2].name} /> to exhaust:
           </p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={3}
-            scars={0}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={3} scars={0} />
 
           <p className="mt-4 mb-3">
             Michal turns his failed flirting attempt into a self-deprecating
             joke about city bad boys. It works. He succeeds — but he feels
             emotionally drained for the rest of the afternoon.
           </p>
-        </Card>
+        </HorizontalCard>
       </div>
 
       {/* -------------------- SCARS SECTION -------------------- */}
@@ -87,15 +83,21 @@ const ExhaustionAndScarsPage = () => {
         <h3 className="font-bold text-2xl mb-3">Scars</h3>
 
         <Text>
-          {
-            "A Scar is taken when a character does not have enough Resource points left to spend but still wants to avoid a bad outcome. A Scar grants the character two temporary points to spend, but at a price."
-          }
+          A scar is taken when a character does not have enough Resource points
+          left to spend but still wants to avoid a bad outcome. A scar grants
+          the character <strong>two temporary points to spend</strong>, but at a
+          price.
         </Text>
 
         <Text>
-          {
-            "Scars represent lasting harm — physical injury, mental strain, or social damage. Scarred points are crossed out permanently until the character heals them. Sleeping does not remove Scars."
-          }
+          Scars represent lasting harm: physical injury, mental strain, or
+          social damage. Scarred points are crossed out permanently until the
+          character heals them. Sleeping does not remove scars.
+        </Text>
+
+        <Text>
+          Points gained from taking a scar are to be spent immediately and the
+          leftover points are lost.
         </Text>
 
         {/* -------------------- SCAR EXAMPLES -------------------- */}
@@ -119,8 +121,8 @@ const ExhaustionAndScarsPage = () => {
         </Card>
 
         {/* -------------------- SCAR EXAMPLE -------------------- */}
-        <Card filled>
-          <h4 className="font-bold text-xl mb-2">Example — Taking a Scar</h4>
+        <HorizontalCard imageSrc="/img/michal.jpg" filled>
+          <p className="font-bold mb-4">Example: Scarring</p>
 
           <Text>
             Michal once again attempts to charm the burgmaster’s daughter. Once
@@ -128,28 +130,22 @@ const ExhaustionAndScarsPage = () => {
             party begs him not to screw this up.
           </Text>
           <Text>
-            The Danger Level is 3, but Michal has only 1 Charisma-s left. He
-            cannot Exhaust himself — so he chooses to take a Scar, gaining 2
-            temporary points to spend.
+            The{" "}
+            <strong>
+              <WikiLink href={"/gameplay/danger-level"}>Danger Level</WikiLink>
+            </strong>{" "}
+            is 3, but Michal has only 1 <Stat type={resources[2].name} /> left.
+            He cannot exhaust himself — so he chooses to take a{" "}
+            <strong>scar</strong>, gaining 2 temporary points to spend.
           </Text>
 
           <p className="mb-2 font-semibold">Before:</p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={7}
-            scars={0}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={0} />
 
           <p className="mt-4 mb-2 font-semibold">
             After spending 1 Charisma-s and taking 1 Scar:
           </p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={7}
-            scars={1}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={1} />
 
           <p className="mt-4 mb-3">
             Michal succeeds — but is seen speaking intimately with the
@@ -157,7 +153,7 @@ const ExhaustionAndScarsPage = () => {
             burgmaster is furious. Michal now carries a Charisma Scar: his
             reputation is damaged, and the town guard is looking for him.
           </p>
-        </Card>
+        </HorizontalCard>
       </div>
 
       {/* -------------------- HEALING SCARS -------------------- */}
@@ -178,20 +174,10 @@ const ExhaustionAndScarsPage = () => {
           </p>
 
           <p className="mb-2 font-semibold">Before healing:</p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={7}
-            scars={1}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={1} />
 
           <p className="mt-4 mb-2 font-semibold">After mending the Scar:</p>
-          <ResourceBar
-            size={8}
-            stat={Ability.charisma}
-            exhaustions={7}
-            scars={0}
-          />
+          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={0} />
         </Card>
       </div>
     </div>

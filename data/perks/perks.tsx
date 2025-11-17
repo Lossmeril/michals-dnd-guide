@@ -1,5 +1,5 @@
-import { Ability } from "@/types/classes";
 import { Perk } from "@/types/perks";
+import { Resource } from "@/types/resources";
 
 export const perks: { [key: string]: Perk } = {
   // -- RACIAL PERKS
@@ -16,7 +16,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You can determine that a stranger owes you a favour from the past, or that you both have a common acquaintance which is on good terms with both of you.",
     activationPrice: {
       cost: 1,
-      ability: Ability.charisma,
+      ability: Resource.charisma,
     },
   },
   IronLiver: {
@@ -50,7 +50,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You can read people's figthing styles. When fighting a human opponent, you can determine they have a weakness or a favourite tactic they will use.",
     activationPrice: {
       cost: 1,
-      ability: Ability.charisma,
+      ability: Resource.charisma,
     },
   },
 
@@ -62,7 +62,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You are the master of improvisation. You can disguise yourself as someone else (e.g., old man, beggar) even though you did not have enough time to prepare. However, you cannot impersonate anyone specific.",
     activationPrice: {
       cost: 1,
-      ability: Ability.body,
+      ability: Resource.body,
     },
   },
   Androgynous: {
@@ -82,7 +82,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "Even after being searched, you can determine your character still has on them an item up to the size of a closed fist.",
     activationPrice: {
       cost: 1,
-      ability: Ability.soul,
+      ability: Resource.soul,
     },
   },
   // -- MEDIC PERKS
@@ -106,7 +106,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "Your archery reflexes are god-like. Every time a conflict starts, you can skip everyone else's initiative roll and shoot a first arrow. You can only shoot one arrow.",
     activationPrice: {
       cost: 1,
-      ability: Ability.soul,
+      ability: Resource.soul,
     },
   },
   MrWorldwide: {
@@ -114,7 +114,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "If person is speaking a language you don't understand, you can make an educated guess on what they are saying. You can also communicate with them in a simple matter.",
     activationPrice: {
       cost: 1,
-      ability: Ability.soul,
+      ability: Resource.soul,
     },
   },
 
@@ -125,7 +125,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "If you own a thing that once belonged to an animal, you can skinchange into said animal. While retain your stats, and gain proficiencies and special abilities of said animal, your actions are limited by the abilities of your new body (e.g., you cannot pick locks while in wolf's body)",
     activationPrice: {
       cost: 2,
-      ability: Ability.body,
+      ability: Resource.body,
     },
   },
   InvisibleRider: {
@@ -133,7 +133,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You can warg into an animal that is friendly to you. While warged you sense the world through the animal's body and can feel its emotions. While you can give directions to said animal, you cannot directly control it. While warged, you lose control of your body and are unaware of its state.",
     activationPrice: {
       cost: 1,
-      ability: Ability.charisma,
+      ability: Resource.charisma,
     },
   },
   AnimalControl: {
@@ -141,7 +141,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "You can warg into and can completely control an animal that is within your sight. However, to fully maintain a control, you lose the connection to your body. You can control the animal even if it struggles against you, however, you need to succeed each turn in keeping the connectionn unsevered.",
     activationPrice: {
       cost: 1,
-      ability: Ability.charisma,
+      ability: Resource.charisma,
     },
   },
   PiedPiper: {
@@ -149,7 +149,7 @@ export const perks: { [key: string]: Perk } = {
     desc: "When playing an instrument, you are able to control animals similarly to Shaman's Animal Control. However, you are only able to give it general commands (e.g. ‘follow me’ or ‘attack on sight’). The spell is broken the moment you stop playing. Activation price is per animal and widespread does not apply.",
     activationPrice: {
       cost: 1,
-      ability: Ability.soul,
+      ability: Resource.soul,
     },
   },
 };
