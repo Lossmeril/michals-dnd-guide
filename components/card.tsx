@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Perk } from "@/types/perks";
 import { Race } from "@/types/races";
 import { highlightText } from "@/utils/highlightText";
+import Balancer from "react-wrap-balancer";
 
 interface CardProps {
   children: React.ReactNode;
@@ -55,7 +56,9 @@ export const ClassCard: React.FC<ClassCardProps> = ({ dndClass }) => {
     >
       <div>
         <h3 className="font-bold text-2xl text-left mb-2">{dndClass.name}</h3>
-        <p className="text-slate-300 text-xs text-left">{dndClass.desc}</p>{" "}
+        <p className="text-slate-300 text-xs text-left">
+          <Balancer>{dndClass.desc}</Balancer>
+        </p>
         <Divider />
         {"classes" in dndClass ? (
           <>

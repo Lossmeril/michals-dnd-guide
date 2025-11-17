@@ -2,13 +2,22 @@ import { Ability } from "@/types/classes";
 
 interface ResourceBoxProps {
   resourceStatus: "clear" | "exhausted" | "scar";
-  color?: string;
+  stat?: Ability;
 }
 
-const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, color }) => {
+const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, stat }) => {
   return (
     <div
       className="w-10 aspect-[3/4] border-2 overflow-hidden relative"
+      title={
+        stat
+          ? stat +
+            " " +
+            (resourceStatus !== "clear" ? resourceStatus : "resource")
+          : (resourceStatus !== "clear"
+              ? resourceStatus.charAt(0).toUpperCase() + resourceStatus.slice(1)
+              : "Healthy") + " Resource"
+      }
       style={{
         opacity:
           resourceStatus === "clear"
@@ -22,13 +31,15 @@ const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, color }) => {
             : resourceStatus === "exhausted"
             ? "#ffffff20"
             : "#ffffff80",
-        borderColor: color ? "var(--" + color + ")" : "white",
+        borderColor: stat ? "var(--" + stat.toLowerCase() + ")" : "white",
       }}
     >
       {resourceStatus !== "clear" ? (
         <div
           className="absolute w-[2px] h-full top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] bg-white rotate-[35deg]"
-          style={{ borderColor: color ? "var(--" + color + ")" : "white" }}
+          style={{
+            borderColor: stat ? "var(--" + stat.toLowerCase() + ")" : "white",
+          }}
         ></div>
       ) : (
         <></>
@@ -71,11 +82,7 @@ const ResourceBar: React.FC<ResourceBarProps> = ({
   return (
     <div className="flex flex-row flex-nowrap gap-3">
       {resources.map((box, index) => (
-        <ResourceBox
-          key={index}
-          resourceStatus={box}
-          color={stat.toLowerCase()}
-        />
+        <ResourceBox key={index} resourceStatus={box} stat={stat} />
       ))}
     </div>
   );
