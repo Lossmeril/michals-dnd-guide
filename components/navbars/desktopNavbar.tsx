@@ -64,6 +64,7 @@ export const navbarItems: NavbarSection[] = [
         text: "Combat",
         link: "/gameplay/combat",
       },
+      { text: "Manoeuvres", link: "/gameplay/manoeuvres" },
     ],
   },
   {

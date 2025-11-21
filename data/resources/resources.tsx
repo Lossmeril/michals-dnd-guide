@@ -1,5 +1,11 @@
 import { ResourceType, Resource } from "@/types/resources";
-import { GiBiceps, GiDramaMasks, GiSheikahEye } from "react-icons/gi";
+import {
+  GiBiceps,
+  GiCoins,
+  GiDramaMasks,
+  GiHerbsBundle,
+  GiSheikahEye,
+} from "react-icons/gi";
 
 const resources: ResourceType[] = [
   {
@@ -16,6 +22,12 @@ const resources: ResourceType[] = [
     name: Resource.charisma,
     icon: <GiDramaMasks />,
     color: "var(--charisma)",
+  },
+  { name: Resource.coin, icon: <GiCoins />, color: "var(--coin)" },
+  {
+    name: Resource.material,
+    icon: <GiHerbsBundle />,
+    color: "var(--material)",
   },
 ];
 

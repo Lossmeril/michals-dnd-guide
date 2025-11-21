@@ -36,20 +36,25 @@ const ExhaustionAndScarsPage = () => {
         <h3 className="font-bold text-2xl mb-3">Exhaustion</h3>
 
         <Text>
-          {
-            "A character Exhausts themselves when they spend Resource points to avert failure. Exhaustion means the character pushed their limits, strained their body, mind, or pride, and now carries the weight of that effort."
-          }
+          A character Exhausts themselves when they spend Resource points to
+          avert failure. Exhaustion means the character pushed their limits,
+          strained their body, mind, or pride, and now carries the weight of
+          that effort.
         </Text>
 
         <Text>
-          {
-            "To Exhaust themselves, the character spends an amount of Body-s, Soul-s, or Charisma-s equal to the current Danger Level. Exhausted points are marked by a single diagonal strike. Exhausted Resources always replenish after a full sleep."
-          }
+          To Exhaust themselves, the character spends an amount of Body-s,
+          Soul-s, or Charisma-s equal to the current Danger Level. Exhausted
+          points are marked by a single diagonal strike. Exhausted Resources
+          always replenish after a full sleep.
         </Text>
 
         {/* -------------------- EXHAUSTION EXAMPLE -------------------- */}
         <HorizontalCard imageSrc="/img/michal.jpg" filled>
-          <p className="font-bold mb-4">Example:</p>
+          <p className="italic font-bold text-sm mb-2">Example</p>
+          <h4 className="text-lg font-bold leading-tight mb-2">
+            Exhausting oneself
+          </h4>
 
           <p className="mb-3">
             Michal attempts a <Stat type={resources[2].name} /> check to flirt
@@ -122,8 +127,10 @@ const ExhaustionAndScarsPage = () => {
 
         {/* -------------------- SCAR EXAMPLE -------------------- */}
         <HorizontalCard imageSrc="/img/michal.jpg" filled>
-          <p className="font-bold mb-4">Example: Scarring</p>
-
+          <p className="italic font-bold text-sm mb-2">Example</p>
+          <h4 className="text-lg font-bold leading-tight mb-2">
+            Gaining scars
+          </h4>
           <Text>
             Michal once again attempts to charm the burgmaster’s daughter. Once
             again, he fails, as he is really bad at his game. Once again, his
@@ -158,26 +165,43 @@ const ExhaustionAndScarsPage = () => {
 
       {/* -------------------- HEALING SCARS -------------------- */}
       <div>
-        <h3 className="font-bold text-2xl mb-3">Healing Scars</h3>
+        <h3 className="font-bold text-2xl mb-3">Healing</h3>
 
+        <h4 className="font-bold text-xl mt-4 mb-2">Healing exhaustion</h4>
+
+        <h4 className="font-bold text-xl mt-4 mb-2">Healing scars</h4>
         <Text>
-          {
-            "Scars require time, effort, or help from others to heal. A character must meaningfully address the problem — treating the wound, seeking therapy, paying reparations, rebuilding trust, or resolving guilt — depending on the nature of the Scar."
-          }
+          Unlike exhaustion, scars require time, effort, or help from others to
+          heal. Scar is not healed after a rest. A character must meaningfully
+          address the problem — treating the wound, seeking therapy, paying
+          reparations, rebuilding trust, or resolving guilt — depending on the
+          nature of the scar.
+        </Text>
+        <Text>
+          Each scar takes five resource points to be healed. These points must
+          either be spent by the character who bears the scar, or in some
+          instances may be provided by other characters with special abilities
+          allowing them to do so.
         </Text>
 
         <Card>
           <p className="mb-3">
             Michal must now buy the burgmaster a generous drink, apologise
-            repeatedly, and spend some Charisma-s and money to repair his
-            reputation before he can remove the Scar.
+            repeatedly, and spend some <Stat type={resources[2].name} /> and
+            money to repair his reputation before he can remove the Scar.
           </p>
 
-          <p className="mb-2 font-semibold">Before healing:</p>
-          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={1} />
+          <Text>
+            In this instance, the DM allowed Michal to spread the cost of 5
+            resource points among 3 <Stat type={resources[2].name} /> points and{" "}
+            <strong>2 gold</strong>.
+          </Text>
 
-          <p className="mt-4 mb-2 font-semibold">After mending the Scar:</p>
-          <ResourceBar size={8} stat={resources[2]} exhaustions={7} scars={0} />
+          <p className="mb-2 font-semibold">Before healing:</p>
+          <ResourceBar size={8} stat={resources[2]} exhaustions={0} scars={1} />
+
+          <p className="mt-4 mb-2 font-semibold">After mending the scar:</p>
+          <ResourceBar size={8} stat={resources[2]} exhaustions={3} scars={0} />
         </Card>
       </div>
     </div>

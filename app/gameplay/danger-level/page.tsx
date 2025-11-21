@@ -16,9 +16,12 @@ const DangerLevelPage = () => {
       </p>
 
       <Text>
-        {
-          "Whenever your character wants to avoid a bad outcome — getting hurt, failing a task, losing an item, triggering a trap, or embarrassing themselves — they must spend an amount of their resources equal to the current Danger Level. This is how the game represents stress, effort, and the toll of dangerous situations. You can read more about resources on the Exhaustion and Scars page."
-        }
+        Whenever your character wants to avoid a bad outcome — getting hurt,
+        failing a task, losing an item, triggering a trap, or embarrassing
+        themselves — they must spend an amount of their resources equal to the
+        current Danger Level. This is how the game represents stress, effort,
+        and the toll of dangerous situations. You can read more about resources
+        on the Exhaustion and Scars page.
       </Text>
 
       <h3 className="font-bold text-2xl mt-6 mb-3">
@@ -26,9 +29,11 @@ const DangerLevelPage = () => {
       </h3>
 
       <Text>
-        {
-          "The Game Master adjusts the Danger Level based on the fiction of the scene. The number rises when the environment becomes hostile, when the situation becomes urgent or chaotic, or when the character is in a poor position. It should always be known to the players so they can make informed decisions."
-        }
+        The DM adjusts the Danger Level based on the fiction of the scene. The
+        number rises when the environment becomes hostile, when the situation
+        becomes urgent or chaotic, or when the character is in a poor position.
+        It should always be known to the players so they can make informed
+        decisions.
       </Text>
 
       <h3 className="font-bold text-2xl mt-6 mb-3">What the Numbers Mean</h3>
@@ -124,15 +129,17 @@ const DangerLevelPage = () => {
       <h3 className="font-bold text-2xl mt-6 mb-3">Why It Matters</h3>
 
       <Text>
-        {
-          "Danger Level is the pressure of the story made mechanical. At Danger Level 3, every risky decision costs 3 resources. At Danger Level 5, it costs 5 — and Scars become much more likely. A rising Danger Level pushes players to think creatively, retreat, negotiate, or change their approach. Any ability that lowers the Danger Level becomes extremely valuable."
-        }
+        Danger Level is the pressure of the story made mechanical. At Danger
+        Level 3, every risky decision costs 3 resources. At Danger Level 5, it
+        costs 5 — and Scars become much more likely. A rising Danger Level
+        pushes players to think creatively, retreat, negotiate, or change their
+        approach. Any ability that lowers the Danger Level becomes extremely
+        valuable.
       </Text>
 
       <Text>
-        {
-          "In short: Danger Level is a measure of how screwed you are if things go wrong — and how much it will cost you to stay in the fight."
-        }
+        In short: Danger Level is a measure of how screwed you are if things go
+        wrong — and how much it will cost you to stay in the fight.
       </Text>
     </div>
   );

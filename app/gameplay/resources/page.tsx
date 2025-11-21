@@ -119,7 +119,7 @@ const ResourcesPage = () => {
 
         {/* AMBIGUITY EXAMPLE */}
         <HorizontalCard imageSrc="/img/resources/split.jpg" filled>
-          <p className="font-bold mb-4">Rule nitpick:</p>
+          <p className="italic font-bold text-sm mb-2">Rule nitpick</p>
           <Text>
             There may be some moments in which the resource used changes based
             on context.
@@ -155,7 +155,7 @@ const ResourcesPage = () => {
           outcomes becomes more difficult and potentially dangerous.
         </Text>
 
-        <h4 className="font-bold mb-4">Not skill level</h4>
+        <h4 className="font-bold mt-12 mb-4">Not skill level</h4>
         <Text>
           The resources are not a measure of how skilled or talented your
           character is. They represent the limits of what they can handle right
@@ -177,7 +177,7 @@ const ResourcesPage = () => {
         </Text>
 
         <HorizontalCard imageSrc="/img/michal.jpg" filled>
-          <p className="font-bold mb-4">Example:</p>
+          <p className="italic font-bold text-sm mb-2">Example</p>
           <Text>
             Michal (<strong>Fighter</strong>: 4 | <strong>Juggler</strong>: 2 |{" "}
             <strong>Warrior</strong>: 1) has following stats:
@@ -244,16 +244,92 @@ const ResourcesPage = () => {
           normal — planning how to recover afterward is part of the adventure.
         </Text>
 
-        {/* SUMMARY */}
-        <h3 className="font-bold text-2xl mt-6 mb-3">Summary</h3>
-
+        <h2 className="font-bold text-3xl mb-5 mt-16">Secondary resources</h2>
         <Text>
-          <Stat type={Resource.body} />, <Stat type={Resource.soul} />, and{" "}
-          <Stat type={Resource.charisma} /> are flexible pools of effort, not
-          rigid character traits. You spend them to stay safe, perform
-          extraordinary feats, and succeed in dangerous situations. Managing
-          them well keeps your character alive and effective.
+          In addition to the three main Resources, all the characters also track
+          two separate resources: <strong>Gold</strong> and{" "}
+          <strong>Material</strong>.
         </Text>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 my-4">
+          {/* GOLD */}
+          <Card imageSrc="/img/resources/coin.webp">
+            <p
+              className="text-4xl mb-2"
+              style={{
+                color: resources.find((r) => r.name === Resource.coin)?.color,
+              }}
+            >
+              {resources.find((r) => r.name === Resource.coin)?.icon}
+            </p>
+
+            <h4 className="font-bold text-2xl text-left mb-2">Coins</h4>
+
+            <Text>
+              <Balancer>
+                Coins (gold, silver, copper) represent the currency your
+                character uses to trade for goods and services in the world.
+                While not directly used to avoid dangers, having enough money
+                can help your character bribe, buy better equipment, or pay for
+                healing services.
+              </Balancer>
+            </Text>
+
+            <Text>
+              <Balancer>
+                1 gold coin is made of 100 silver coins, and 1 silver coin is in
+                turn made of 10 copper coins.
+              </Balancer>
+            </Text>
+
+            <p className="text-xs italic mb-3">
+              <Balancer>
+                1 gold coin is considered a significant amount of money for most
+                commoners, while wealthy merchants and nobles often deal in
+                hundreds or thousands of gold coins.
+              </Balancer>
+            </p>
+          </Card>
+
+          {/* GOLD */}
+          <Card imageSrc="/img/resources/material.jpg">
+            <p
+              className="text-4xl mb-2"
+              style={{
+                color: resources.find((r) => r.name === Resource.material)
+                  ?.color,
+              }}
+            >
+              {resources.find((r) => r.name === Resource.material)?.icon}
+            </p>
+
+            <h4 className="font-bold text-2xl text-left mb-2">Material</h4>
+
+            <Text>
+              <Balancer>
+                Material is an abstract representation of your character&apos;s
+                supplies. Whether herbs for alchemy, wood for trap crafting, or
+                magical items to fuel your sigils, Material resource points are
+                spent to create something from nothing.
+              </Balancer>
+            </Text>
+
+            <Text>
+              <Balancer>
+                As many craftables devise their strength and/or the effect based
+                on the amount of Material used, maintaining a healthy stock of
+                it is crucial for characters who rely on crafting and alchemical
+                skills.
+              </Balancer>
+            </Text>
+            <p className="text-xs italic mb-3">
+              <Balancer>
+                The exact nature of a Material resource point is always assigned
+                before use, allowing for flexibility based on the
+                character&apos;s skills and the situation at hand.
+              </Balancer>
+            </p>
+          </Card>
+        </div>
       </div>
     </div>
   );
