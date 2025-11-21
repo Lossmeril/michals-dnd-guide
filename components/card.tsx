@@ -12,6 +12,7 @@ interface CardProps {
   imageSrc?: string;
   link?: string;
   filled?: boolean;
+  imgPosStyle?: string;
 }
 
 const Card: React.FC<CardProps> = ({ children, imageSrc, filled }) => {
@@ -41,6 +42,7 @@ export const HorizontalCard: React.FC<CardProps> = ({
   children,
   imageSrc,
   filled,
+  imgPosStyle,
 }) => {
   return (
     <div
@@ -53,13 +55,13 @@ export const HorizontalCard: React.FC<CardProps> = ({
             src={imageSrc}
             alt=""
             fill
-            className="object-cover object-center"
+            className={`object-cover object-center ${imgPosStyle}`}
           />
         </div>
       ) : (
         <></>
       )}
-      <div className="p-4 flex-grow">{children}</div>
+      <div className="p-6 pl-8 flex-grow">{children}</div>
     </div>
   );
 };

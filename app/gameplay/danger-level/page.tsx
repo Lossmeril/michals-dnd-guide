@@ -75,7 +75,7 @@ const DangerLevelPage = () => {
               </td>
             </tr>
 
-            <tr className="border-b border-slate-800">
+            <tr className="border-b border-slate-800 bg-slate-700">
               <td className="py-2 px-3 font-bold">2</td>
               <td className="py-2 px-3">Same shit, different day</td>
               <td className="py-2 px-3">Crossing a wild mountain stream</td>
@@ -95,7 +95,7 @@ const DangerLevelPage = () => {
               <td className="py-2 px-3">Trying to impress bored city folk</td>
             </tr>
 
-            <tr className="border-b border-slate-800">
+            <tr className="border-b border-slate-800 bg-slate-700">
               <td className="py-2 px-3 font-bold">4</td>
               <td className="py-2 px-3">The danger is real</td>
               <td className="py-2 px-3">
@@ -140,6 +140,18 @@ const DangerLevelPage = () => {
       <Text>
         In short: Danger Level is a measure of how screwed you are if things go
         wrong — and how much it will cost you to stay in the fight.
+      </Text>
+
+      <h3 className="font-bold text-2xl mt-6 mb-3">Each to their own</h3>
+
+      <Text>
+        Even in one situations,{" "}
+        <strong>all the characters might face different Danger Levels</strong>.
+        For example, a warrior who has just been knocked to the ground Levels.
+        For example, a warrior who has just been knocked to the ground might
+        face a Danger Level of 5 in the next attack, while their spellcasting
+        ally standing safely on the nearby hill them might only face a Danger
+        Level of 2 to cast a spell.
       </Text>
     </div>
   );

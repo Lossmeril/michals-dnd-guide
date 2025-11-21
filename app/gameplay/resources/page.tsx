@@ -309,16 +309,16 @@ const ResourcesPage = () => {
                 Material is an abstract representation of your character&apos;s
                 supplies. Whether herbs for alchemy, wood for trap crafting, or
                 magical items to fuel your sigils, Material resource points are
-                spent to create something from nothing.
+                spent to create something from nothing.{" "}
+                <strong>Each material point is worth 1 silver coin</strong>.
               </Balancer>
             </Text>
 
             <Text>
               <Balancer>
-                As many craftables devise their strength and/or the effect based
-                on the amount of Material used, maintaining a healthy stock of
-                it is crucial for characters who rely on crafting and alchemical
-                skills.
+                As many craftables devise their strength or the effect based on
+                the amount of Material used, maintaining a healthy stock of it
+                may prove crucial.
               </Balancer>
             </Text>
             <p className="text-xs italic mb-3">

@@ -107,26 +107,43 @@ const ExhaustionAndScarsPage = () => {
 
         {/* -------------------- SCAR EXAMPLES -------------------- */}
         <h4 className="font-bold text-xl mt-4 mb-2">Examples of Scars</h4>
-
-        <Card>
-          <ul className="list-disc pl-5">
-            <li>
-              <strong>Body-s:</strong> bleeding wound, illness, sprained ankle,
-              bruising, trembling hands, sensory loss
-            </li>
-            <li>
-              <strong>Soul-s:</strong> insomnia, anxiety, depression, guilt,
-              nightmares, shaken confidence
-            </li>
-            <li>
-              <strong>Charisma-s:</strong> mockery, ruined reputation, distrust,
-              being outlawed, social stigma
-            </li>
-          </ul>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          <Card>
+            <p className="text-3xl" style={{ color: resources[0].color }}>
+              {resources[0].icon}
+            </p>
+            <h5 className="font-bold mb-2">
+              <Stat type={resources[0].name}>Body</Stat> scars examples
+            </h5>
+            bleeding wound, illness, sprained ankle, bruising, trembling hands,
+            sensory loss
+          </Card>
+          <Card>
+            <p className="text-3xl" style={{ color: resources[1].color }}>
+              {resources[1].icon}
+            </p>
+            <h5 className="font-bold mb-2">
+              <Stat type={resources[1].name}>Soul</Stat> scars examples
+            </h5>
+            insomnia, anxiety, depression, guilt, nightmares, shaken confidence
+          </Card>
+          <Card>
+            <p className="text-3xl" style={{ color: resources[2].color }}>
+              {resources[2].icon}
+            </p>
+            <h5 className="font-bold mb-2">
+              <Stat type={resources[2].name}>Charisma</Stat> scars examples
+            </h5>
+            mockery, ruined reputation, distrust, being outlawed, social stigma
+          </Card>
+        </div>
 
         {/* -------------------- SCAR EXAMPLE -------------------- */}
-        <HorizontalCard imageSrc="/img/michal.jpg" filled>
+        <HorizontalCard
+          imageSrc="/img/exhaustion/scar.gif"
+          filled
+          imgPosStyle="object-[60%]"
+        >
           <p className="italic font-bold text-sm mb-2">Example</p>
           <h4 className="text-lg font-bold leading-tight mb-2">
             Gaining scars
@@ -168,6 +185,35 @@ const ExhaustionAndScarsPage = () => {
         <h3 className="font-bold text-2xl mb-3">Healing</h3>
 
         <h4 className="font-bold text-xl mt-4 mb-2">Healing exhaustion</h4>
+        <Text>
+          Exhausted resources regenerate after a period of rest; usually after a
+          night of sleep. The amount of resources regained depends on the
+          quality of rest.
+        </Text>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Card>
+            <h5 className="font-bold mb-2">Poor rest</h5>
+            <Text>
+              Whenever the characters rest under less than ideal conditions, the
+              rest is considered poor.{" "}
+              <strong>
+                Poor rest recoveres three exhausted resource points
+              </strong>
+              ; the choice of which points to recover is up to the player.
+            </Text>
+          </Card>
+          <Card>
+            <h5 className="font-bold mb-2">Quality rest</h5>
+            <Text>
+              A rest in a comfortable, safe and stress-free environment is
+              considered quality.{" "}
+              <strong>
+                Quality rest recovers all the exhausted resource points.
+              </strong>
+            </Text>
+          </Card>
+        </div>
 
         <h4 className="font-bold text-xl mt-4 mb-2">Healing scars</h4>
         <Text>
@@ -184,7 +230,16 @@ const ExhaustionAndScarsPage = () => {
           allowing them to do so.
         </Text>
 
-        <Card>
+        <HorizontalCard
+          filled
+          imageSrc="/img/exhaustion/healing.jpg"
+          imgPosStyle="object-[40%]"
+        >
+          <p className="italic font-bold text-sm mb-2">Example</p>
+          <h4 className="text-lg font-bold leading-tight mb-2">
+            Healing a scar
+          </h4>
+
           <p className="mb-3">
             Michal must now buy the burgmaster a generous drink, apologise
             repeatedly, and spend some <Stat type={resources[2].name} /> and
@@ -200,9 +255,27 @@ const ExhaustionAndScarsPage = () => {
           <p className="mb-2 font-semibold">Before healing:</p>
           <ResourceBar size={8} stat={resources[2]} exhaustions={0} scars={1} />
 
+          <div className="flex flex-row mt-2">
+            <div
+              className="px-2 rounded-full bg-yellow-100/20 text-xs font-bold flex flex-row items-center gap-1"
+              style={{ color: "var(--coin)" }}
+            >
+              {resources[3].icon} 6 silver coins
+            </div>
+          </div>
+
           <p className="mt-4 mb-2 font-semibold">After mending the scar:</p>
           <ResourceBar size={8} stat={resources[2]} exhaustions={3} scars={0} />
-        </Card>
+
+          <div className="flex flex-row mt-2">
+            <div
+              className="px-2 rounded-full bg-yellow-100/20 text-xs font-bold flex flex-row items-center gap-1"
+              style={{ color: "var(--coin)" }}
+            >
+              {resources[3].icon} 4 silver coins
+            </div>
+          </div>
+        </HorizontalCard>
       </div>
     </div>
   );

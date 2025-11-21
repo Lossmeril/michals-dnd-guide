@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Resource } from "@/types/resources";
 
 import Image from "next/image";
+import Balancer from "react-wrap-balancer";
 
 /* -----------------------------------------
  *  TEXT COMPONENT
@@ -15,7 +16,11 @@ interface TextProps {
 }
 
 const Text: React.FC<TextProps> = ({ children }) => {
-  return <div className="mb-3">{children}</div>;
+  return (
+    <div className="mb-3">
+      <Balancer>{children}</Balancer>
+    </div>
+  );
 };
 
 export default Text;

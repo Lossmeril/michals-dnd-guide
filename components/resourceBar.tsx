@@ -8,7 +8,7 @@ interface ResourceBoxProps {
 const ResourceBox: React.FC<ResourceBoxProps> = ({ resourceStatus, stat }) => {
   return (
     <div
-      className="w-10 aspect-[3/4] border rounded overflow-hidden relative"
+      className="w-4 lg:w-10 aspect-[3/4] border rounded overflow-hidden relative"
       title={
         stat
           ? stat.name +
@@ -84,13 +84,13 @@ const ResourceBar: React.FC<ResourceBarProps> = ({
   }
 
   return (
-    <div className="flex flex-row flex-nowrap gap-3">
+    <div className="flex flex-row flex-nowrap gap-1 lg:gap-3">
       {stat && !hideTitle && (
-        <div className="flex flex-col items-center justify-center gap-1 mr-3 w-16">
-          <p style={{ color: stat.color }} className="text-3xl">
+        <div className="flex flex-col items-center justify-center gap-1 mr-3 w-6 lg:w-16">
+          <p style={{ color: stat.color }} className="text-2xl lg:text-3xl">
             {stat.icon}
           </p>
-          <p className="text-xs font-bold">{stat.name}</p>
+          <p className="hidden lg:block text-xs font-bold">{stat.name}</p>
         </div>
       )}
       {resources.map((box, index) => (
