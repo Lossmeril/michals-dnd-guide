@@ -13,23 +13,45 @@ interface CardProps {
   link?: string;
   filled?: boolean;
   imgPosStyle?: string;
+  containImage?: boolean;
+  anchorLink?: string;
 }
 
-const Card: React.FC<CardProps> = ({ children, imageSrc, filled }) => {
+const Card: React.FC<CardProps> = ({
+  children,
+  imageSrc,
+  filled,
+  containImage,
+  anchorLink,
+}) => {
   return (
     <div
       className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent"
       style={{ backgroundColor: filled ? "#47556980" : "" }}
+      id={anchorLink}
     >
       {imageSrc ? (
-        <div className="w-full h-80 relative">
-          <Image
-            src={imageSrc}
-            alt=""
-            fill
-            className="object-cover object-top"
-          />
-        </div>
+        containImage ? (
+          <div className="w-full relative">
+            <Image
+              src={imageSrc}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto object-top object-contain"
+            />
+          </div>
+        ) : (
+          <div className="w-full h-80 relative">
+            <Image
+              src={imageSrc}
+              alt=""
+              fill
+              className="object-top object-cover"
+            />
+          </div>
+        )
       ) : (
         <></>
       )}

@@ -43,7 +43,7 @@ export const perks: { [key: string]: Perk } = {
   },
   FlyingWeapon: {
     name: "Flying weapon",
-    desc: "You can throw your primary weapon at a single target and still use your Fighter level as a proficiency bonus.",
+    desc: "You can throw a non-throwing weapon and use its proper damage dice instead of treating it as an improvised weapon.",
   },
   KnowThyEnemy: {
     name: "Know thy enemy",
@@ -91,6 +91,11 @@ export const perks: { [key: string]: Perk } = {
 
   // -- WARRIOR PERKS
 
+  MountainThatRides: {
+    name: "Mountain that rides",
+    desc: "Your sheer strength allows you to wield two-handed weapons with one hand, allowing you to use a shield or another weapon in your off-hand.",
+  },
+
   // -- RANGER PERKS
 
   // -- WITCHER PERKS
@@ -98,6 +103,14 @@ export const perks: { [key: string]: Perk } = {
   WitcherSenses: {
     name: "Witcher senses",
     desc: "You posses the ability to sense a presence of monsters and supernatural beings.",
+  },
+  TiwazSign: {
+    name: "Tiwaz sign",
+    desc: "A witcher sign that acts as a temporary shield. When activated, you may use a Defense manoeuvre indefinitely until the end of the conflict. You may only use this perk once per conflict.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
   },
 
   // -- SCOUT PERKS

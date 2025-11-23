@@ -7,12 +7,10 @@ type HighlightDict = {
 };
 
 const highlights: HighlightDict = {
-  "body-s": { type: "strong", color: "body" },
-  "soul-s": { type: "strong", color: "soul" },
-  "charisma-s": { type: "strong", color: "charisma" },
-
   fighter: { type: "link", url: "/classes/basic/fighter" },
   shaman: { type: "link", url: "/classes/advanced/shaman" },
+
+  advantage: { type: "link", url: "/gameplay/manoeuvres#precise" },
 };
 
 export function highlightText(text: string): JSX.Element {

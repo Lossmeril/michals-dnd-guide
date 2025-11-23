@@ -11,6 +11,10 @@
   --material: lightgray;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 strong {
   font-weight: bold;
   color: #93c5fd;
