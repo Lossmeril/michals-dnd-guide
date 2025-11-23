@@ -1,4 +1,4 @@
-import Text from "@/components/text";
+import Text, { WikiLink } from "@/components/text";
 import { highlightText } from "@/utils/highlightText";
 
 const DangerLevelPage = () => {
@@ -32,8 +32,9 @@ const DangerLevelPage = () => {
         The DM adjusts the Danger Level based on the fiction of the scene. The
         number rises when the environment becomes hostile, when the situation
         becomes urgent or chaotic, or when the character is in a poor position.
-        It should always be known to the players so they can make informed
-        decisions.
+        The players can also lower the Danger Level by taking actions that
+        improve their situation, such as finding cover, creating distractions,
+        or negotiating with NPCs.
       </Text>
 
       <h3 className="font-bold text-2xl mt-6 mb-3">What the Numbers Mean</h3>
@@ -131,10 +132,10 @@ const DangerLevelPage = () => {
       <Text>
         Danger Level is the pressure of the story made mechanical. At Danger
         Level 3, every risky decision costs 3 resources. At Danger Level 5, it
-        costs 5 — and Scars become much more likely. A rising Danger Level
-        pushes players to think creatively, retreat, negotiate, or change their
-        approach. Any ability that lowers the Danger Level becomes extremely
-        valuable.
+        costs 5 — and <WikiLink href="/gameplay/exhaustion">Scars</WikiLink>{" "}
+        become much more likely. A rising Danger Level pushes players to think
+        creatively, retreat, negotiate, or change their approach. Any ability
+        that lowers the Danger Level becomes extremely valuable.
       </Text>
 
       <Text>

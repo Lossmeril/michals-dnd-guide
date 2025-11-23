@@ -1,104 +1,113 @@
-interface dieProps {
-  display: number;
-  max?: number;
+interface DieImageProps {
+  type: string;
+  number: string;
+
   noLabel?: boolean;
 }
 
-export const D4: React.FC<dieProps> = ({ display, max = 4, noLabel }) => {
+const DieImage: React.FC<DieImageProps> = ({ type, number, noLabel }) => {
   return (
     <>
-      <div className="d4 mb-2" title={`D4: ${display <= max ? display : max}`}>
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D4: {display <= max ? display : max}
-        </p>
-      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/dice/${type}_${number}.svg`}
+        title={`${type}: ${number}`}
+        alt={`${type}: ${number}`}
+        className="w-10"
+      />
+      {!noLabel && <p className="text-xs font-bold">{`${type}: ${number}`}</p>}
     </>
   );
 };
 
-export const D6: React.FC<dieProps> = ({ display, max = 6, noLabel }) => {
-  return (
-    <>
-      <div className="d6 mb-2" title={`D6: ${display <= max ? display : max}`}>
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D6: {display <= max ? display : max}
-        </p>
-      )}
-    </>
-  );
+interface DieProps {
+  display: string;
+  noLabel?: boolean;
+}
+
+interface D4Props extends Omit<DieProps, "display"> {
+  display: "1" | "2" | "3" | "4";
+}
+
+export const D4: React.FC<D4Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D4" number={display} noLabel={noLabel} />;
 };
 
-export const D8: React.FC<dieProps> = ({ display, max = 8, noLabel }) => {
-  return (
-    <>
-      <div className="d8 mb-2" title={`D8: ${display <= max ? display : max}`}>
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D8: {display <= max ? display : max}
-        </p>
-      )}
-    </>
-  );
+interface D6Props extends Omit<DieProps, "display"> {
+  display: "1" | "2" | "3" | "4" | "5" | "6";
+}
+
+export const D6: React.FC<D6Props> = ({ display, noLabel }) => {
+  return <DieImage type="D6" number={display} noLabel={noLabel} />;
+};
+interface D8Props extends Omit<DieProps, "display"> {
+  display: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8";
+}
+
+export const D8: React.FC<D8Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D8" number={display} noLabel={noLabel} />;
 };
 
-export const D10: React.FC<dieProps> = ({ display, max = 10, noLabel }) => {
-  return (
-    <>
-      <div
-        className="d10 mb-2"
-        title={`D10: ${display <= max ? display : max}`}
-      >
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D10: {display <= max ? display : max}
-        </p>
-      )}
-    </>
-  );
+interface D10Props extends Omit<DieProps, "display"> {
+  display: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "0";
+}
+
+export const D10: React.FC<D10Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D10" number={display} noLabel={noLabel} />;
 };
 
-export const D12: React.FC<dieProps> = ({ display, max = 12, noLabel }) => {
-  return (
-    <>
-      <div
-        className="d12 mb-2"
-        title={`D12: ${display <= max ? display : max}`}
-      >
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D12: {display <= max ? display : max}
-        </p>
-      )}
-    </>
-  );
+interface D100Props extends Omit<DieProps, "display"> {
+  display: "10" | "20" | "30" | "40" | "50" | "60" | "70" | "80" | "90" | "00";
+}
+
+export const D100: React.FC<D100Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D10" number={display} noLabel={noLabel} />;
 };
 
-export const D20: React.FC<dieProps> = ({ display, max = 20, noLabel }) => {
-  return (
-    <>
-      <div
-        className="d20 mb-2"
-        title={`D20: ${display <= max ? display : max}`}
-      >
-        {display <= max ? display : max}
-      </div>
-      {!noLabel && (
-        <p className="text-xs font-bold">
-          D20: {display <= max ? display : max}
-        </p>
-      )}
-    </>
-  );
+interface D12Props extends Omit<DieProps, "display"> {
+  display:
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12";
+}
+
+export const D12: React.FC<D12Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D12" number={display} noLabel={noLabel} />;
+};
+
+interface D20Props extends Omit<DieProps, "display"> {
+  display:
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20";
+}
+
+export const D20: React.FC<D20Props> = ({ display = "1", noLabel }) => {
+  return <DieImage type="D20" number={display} noLabel={noLabel} />;
 };

@@ -233,7 +233,7 @@ const ExhaustionAndScarsPage = () => {
         <HorizontalCard
           filled
           imageSrc="/img/exhaustion/healing.jpg"
-          imgPosStyle="object-[40%]"
+          imgPosStyle="object-[45%]"
         >
           <p className="italic font-bold text-sm mb-2">Example</p>
           <h4 className="text-lg font-bold leading-tight mb-2">

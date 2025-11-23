@@ -13,11 +13,11 @@ const DiceRollsPage = () => {
         <div className="flex flex-col gap-5">
           <HorizontalCard imageSrc="/img/dice/skill check.webp">
             <h3 className="font-bold text-2xl mb-3">Skill check</h3>
-            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 pb-3 px-5 mb-3">
-              <D6 display={6} noLabel />
-              <p className="text-xl font-bold mt-2">+</p>{" "}
-              <D6 display={6} noLabel />{" "}
-              <p className="text-xl font-bold mt-2">
+            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 py-3 px-5 my-3">
+              <D6 display={"6"} noLabel />
+              <p className="text-xl font-bold ">+</p>{" "}
+              <D6 display={"6"} noLabel />{" "}
+              <p className="text-xl font-bold">
                 {" "}
                 + <strong>class level</strong> &#8805; 9
               </p>
@@ -39,15 +39,15 @@ const DiceRollsPage = () => {
           </HorizontalCard>
           <HorizontalCard imageSrc="/img/dice/challenge.webp">
             <h3 className="font-bold text-2xl mb-3">Challenge</h3>
-            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 pb-3 px-5 mb-3">
-              <D20 display={20} noLabel />
-              <p className="text-xl font-bold mt-2">
+            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 py-3 px-5 my-3">
+              <D20 display={"20"} noLabel />
+              <p className="text-xl font-bold">
                 {" "}
                 + <strong>class level</strong>
               </p>
-              <p className="text-xl font-bold mt-2"> vs.</p>{" "}
-              <D20 display={20} noLabel />{" "}
-              <p className="text-xl font-bold mt-2">
+              <p className="text-xl font-bold"> vs.</p>{" "}
+              <D20 display={"20"} noLabel />{" "}
+              <p className="text-xl font-bold">
                 {" "}
                 + <strong>class level</strong>
               </p>
@@ -66,9 +66,9 @@ const DiceRollsPage = () => {
           </HorizontalCard>
           <HorizontalCard imageSrc="/img/dice/initiative.jpg">
             <h3 className="font-bold text-2xl mb-3">Initiative</h3>
-            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 pb-3 px-5 mb-3">
-              <D20 display={20} noLabel />
-              <p className="text-xl font-bold mt-2"></p>
+            <div className="flex flex-row items-center justify-start w-fit gap-3 rounded-md bg-slate-700 border border-slate-600 py-3 px-5 my-3">
+              <D20 display={"20"} noLabel />
+              <p className="text-xl font-bold"></p>
             </div>
             <Text>
               Initiative is a roll that determines the order of actions in
