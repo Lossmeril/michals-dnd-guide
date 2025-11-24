@@ -1,4 +1,4 @@
-import { Perk } from "./perks";
+import { Perk, Spell } from "./perks";
 import { Resource } from "./resources";
 
 export enum ClassRank {
@@ -26,7 +26,10 @@ type Class = {
 
   isMagic: Magic;
   skills: Skill[];
+  coreSpells?: Spell[];
+
   perks?: Perk[];
+  spells?: Spell[];
 };
 
 export type BasicClass = Class & {

@@ -26,6 +26,47 @@ const Text: React.FC<TextProps> = ({ children }) => {
 export default Text;
 
 /* -----------------------------------------
+ *  HEADINGS COMPONENTS
+ * ----------------------------------------*/
+
+interface HeadingProps {
+  children: ReactNode;
+  id?: string;
+}
+
+export const H2: React.FC<HeadingProps> = ({ children, id }) => {
+  return (
+    <h2 className="font-bold text-3xl mb-5" id={id}>
+      {children}
+    </h2>
+  );
+};
+
+export const H3: React.FC<HeadingProps> = ({ children, id }) => {
+  return (
+    <h3 className="font-bold text-xl mb-2" id={id}>
+      {children}
+    </h3>
+  );
+};
+
+export const H4: React.FC<HeadingProps> = ({ children, id }) => {
+  return (
+    <h4 className="text-lg font-bold leading-tight mb-2" id={id}>
+      {children}
+    </h4>
+  );
+};
+
+export const H5: React.FC<HeadingProps> = ({ children, id }) => {
+  return (
+    <h5 className="font-bold mb-2" id={id}>
+      {children}
+    </h5>
+  );
+};
+
+/* -----------------------------------------
  *  STAT COMPONENT
  * ----------------------------------------*/
 

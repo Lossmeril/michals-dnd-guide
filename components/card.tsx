@@ -181,7 +181,9 @@ export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
           className="object-contain"
         />
       </div>
-      <h4 className="font-bold text-xl text-left ">{perk.name}</h4>
+      <h4 className="font-bold text-xl text-left leading-none mb-1">
+        {perk.name}
+      </h4>
       <h5 className="font-bold text-sm italic text-gray-400 mb-2">
         {perk.activationPrice ? "Activation price: " : "Passive skill"}
         {perk.activationPrice ? (
@@ -194,14 +196,18 @@ export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
             {perk.activationPrice.cost +
               " " +
               perk.activationPrice.ability.toLowerCase() +
-              " point" +
-              (perk.activationPrice.cost > 1 ? "s" : "")}
+              " " +
+              (perk.activationPrice.priceUnit
+                ? " / " + perk.activationPrice.priceUnit
+                : "")}
           </span>
         ) : (
           <></>
         )}
       </h5>
-      <p className="text-sm">{highlightText(perk.desc)}</p>
+      <p className="text-sm">
+        <Balancer>{highlightText(perk.desc)}</Balancer>
+      </p>
     </Card>
   );
 };

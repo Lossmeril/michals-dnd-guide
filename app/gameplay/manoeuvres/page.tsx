@@ -244,7 +244,7 @@ const ManoeuvresPage = () => {
 
           <Card
             filled
-            imageSrc="/img/manoeuvres/invisible.jpg"
+            imageSrc="/img/manoeuvres/invisible.webp"
             anchorLink="invisible"
           >
             <h3 className="font-bold text-xl mb-2">Invisible</h3>
@@ -256,6 +256,13 @@ const ManoeuvresPage = () => {
             <Text>
               Rolls against the target have disadvantage, and the target&apos;s
               rolls have advantage.
+            </Text>
+            <Text>
+              <strong>
+                Invisible should not be confused with hidden. A hidden target is
+                a perception status, while an invisible target is a magically
+                obscured entity.
+              </strong>
             </Text>
           </Card>
 

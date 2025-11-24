@@ -3,9 +3,14 @@ import { Resource } from "@/types/resources";
 
 export const perks: { [key: string]: Perk } = {
   // -- RACIAL PERKS
+  // HUMAN
   ForTheKing: {
     name: "For the king",
     desc: "When facing a skill check or a challenge regarding a superior or an organisation you pledge you aliegance to, every scar gives you one extra resource to work with.",
+  },
+  SticksAndStones: {
+    name: "Sticks and stones",
+    desc: "Words do not faze you. Every charisma scar grants you a +1 resource to spend.",
   },
   MaidenFair: {
     name: "Maiden fair",
@@ -19,9 +24,69 @@ export const perks: { [key: string]: Perk } = {
       ability: Resource.charisma,
     },
   },
+
+  // ELF
+  BehindBlueEyes: {
+    name: "Behind blue eyes",
+    desc: "The wisdom of the ages guides you. Every soul scar grants you a +1 resource to spend.",
+  },
+  EternalNobility: {
+    name: "Eternal nobility",
+    desc: "The elven charisma quickly overshadows gossip. Healing a charisma scar costs only 4 resources.",
+  },
+  VeilOfNight: {
+    name: "Veil of night",
+    desc: "When you stand motionless in darkness or dim light, you become nearly invisible to others. You are considered hidden from creatures that rely on sight to detect you until you move, the light level changes, or you are approached within 5 feet range.",
+  },
+
+  // DWARF
+  NightEyes: {
+    name: "Night eyes",
+    desc: "Your days underground have paid off. You can see in the dark as if it were foggy daylight.",
+  },
+  SkinMadeOfIronSteelInYourBones: {
+    name: "Skin made of iron, steel in your bones",
+    desc: "You are a peak dwarwen specimen in terms of toughness. Healing a body scar costs only 4 resources.",
+  },
   IronLiver: {
     name: "Iron liver",
     desc: "You have an advantage at resisting alcohol.",
+  },
+  BloodBond: {
+    name: "Blood bond",
+    desc: "You can determine that a dwarven character belongs to your clan or family, that you both share a common ancestor, or that the character is in debt to your kin.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.charisma,
+    },
+  },
+
+  // HOBBIT
+  SixthSense: {
+    name: "Sixth sense",
+    desc: "You have an uncanny ability to sense danger, even though you don't have any clues. This perk has a 50% chance to activate, with the DM performing a hidden roll.",
+  },
+  SilentFeet: {
+    name: "Silent feet",
+    desc: "You gain an advantage in sneaking and moving silently whenever walking barefoot.",
+  },
+  Connosieur: {
+    name: "Connosieur",
+    desc: "You can determine that your character has a snack on them, be it a flask of ale, a bag of raisins, a fistful of exotic tobacco or a small piece of cheese.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
+  // KROLL
+  Echolocation: {
+    name: "Echolocation",
+    desc: "You can hear even the slightest sounds. You can navigate in total darkness and determine the layout of an unfamiliar area as long as there are sounds present.",
+  },
+  Fury: {
+    name: "Fury",
+    desc: "Every Body scar you have grants you a +1 resource to spend.",
   },
   BisonSkin: {
     name: "Bison skin",
@@ -86,6 +151,16 @@ export const perks: { [key: string]: Perk } = {
     },
   },
   // -- MEDIC PERKS
+
+  OmniPotion: {
+    name: "Omni potion",
+    desc: "You can create a healing substance that can heal any type of wound and is universal.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+      priceUnit: "unit",
+    },
+  },
 
   // -- INCANTOR PERKS
 

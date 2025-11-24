@@ -1,11 +1,14 @@
 import { PerkCard } from "@/components/card";
 import Divider from "@/components/divider";
+import Text, { H3 } from "@/components/text";
 import { advancedClasses } from "@/data/classes/advanced";
 import { basicClasses } from "@/data/classes/basic";
 import { mightyClasses } from "@/data/classes/mighty";
+import resources from "@/data/resources/resources";
 
 import Image from "next/image";
 import Link from "next/link";
+import Balancer from "react-wrap-balancer";
 
 export default async function ClassDetailPage({
   params,
@@ -48,8 +51,52 @@ export default async function ClassDetailPage({
           <p className="capitalize">{displayClass?.classRank + " class"}</p>
           <h2 className="font-bold text-3xl mb-5">{displayClass?.name}</h2>
           <Divider />
-          <p className="">{displayClass?.desc}</p>
+          <Text>{displayClass?.desc}</Text>
+          <Divider />
+
+          <H3>Class skills</H3>
+          <p className="mb-5 text-xs">
+            Below are the skills you can add the class level to when rolling
+            dice. If the skill is marked as <strong>unique</strong>, only
+            characters with this class can attempt it.
+          </p>
+
+          {displayClass?.skills.map((skill) => (
+            <div
+              key={skill.name}
+              className="border-b last-of-type:border-b-0 border-slate-600/50 py-3 flex flex-row gap-5 items-center w-4/5"
+            >
+              <div>
+                <p
+                  className="text-4xl mb-2"
+                  style={{
+                    color: resources.find((r) => r.name === skill.ability)
+                      ?.color,
+                  }}
+                >
+                  {resources.find((r) => r.name === skill.ability)?.icon}
+                </p>
+              </div>
+              <div>
+                <h4 className="font-bold text-sm mb-1 text-slate-300">
+                  {skill.name}{" "}
+                  {skill.unique && (
+                    <strong
+                      className="text-sm"
+                      title="Unique skill means only characters of this class may attempt this action."
+                    >
+                      unique skill
+                    </strong>
+                  )}
+                </h4>
+                <p className="text-sm text-slate-400">
+                  <Balancer>{skill.desc}</Balancer>
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
+
         <div className="w-full md:w-1/2 lg:w-1/4">
           <Link href={"/classes/" + displayClass?.classRank}>
             <p className="block lg:hidden mb-5 text-blue-300">
