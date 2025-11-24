@@ -4,6 +4,7 @@ import { perks } from "../perks/perks";
 const defaultBasicClass = { classRank: ClassRank.basic };
 
 export const basicClasses: BasicClass[] = [
+  //------ FIGHTER ------
   {
     ...defaultBasicClass,
     name: "Fighter",
@@ -46,6 +47,7 @@ export const basicClasses: BasicClass[] = [
 
     colorScheme: "red",
   },
+  //------ HUNTER ------
   {
     ...defaultBasicClass,
     name: "Hunter",
@@ -94,6 +96,7 @@ export const basicClasses: BasicClass[] = [
 
     colorScheme: "green",
   },
+  //------ JUGGLER ------
   {
     ...defaultBasicClass,
     name: "Juggler",
@@ -136,6 +139,7 @@ export const basicClasses: BasicClass[] = [
 
     colorScheme: "yellow",
   },
+  //------ MEDIC ------
   {
     ...defaultBasicClass,
     name: "Medic",
@@ -172,12 +176,14 @@ export const basicClasses: BasicClass[] = [
 
     colorScheme: "blue",
   },
+  //------ INCANTOR ------
   {
     ...defaultBasicClass,
     name: "Incantor",
     desc: "Master of the arcane and divine, the Incantor wields magic and rituals to shape the world. Skilled in ancient lore and sensing the supernatural, they communicate with spirits, cast blessings and curses, and harness relics of power. Whether scholar, mystic, or prophet, they channel forces beyond mortal understanding.",
 
     isMagic: Magic.true,
+
     skills: [
       {
         name: "Scholarship",
@@ -210,7 +216,10 @@ export const basicClasses: BasicClass[] = [
         unique: true,
       },
     ],
+    coreSpells: [perks.BlessingsAndCurses, perks.EyeSigil],
+
     perks: [],
+    spells: [],
 
     colorScheme: "purple",
   },

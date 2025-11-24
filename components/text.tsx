@@ -44,7 +44,7 @@ export const H2: React.FC<HeadingProps> = ({ children, id }) => {
 
 export const H3: React.FC<HeadingProps> = ({ children, id }) => {
   return (
-    <h3 className="font-bold text-xl mb-2" id={id}>
+    <h3 className="font-bold text-2xl mb-2 mt-8" id={id}>
       {children}
     </h3>
   );

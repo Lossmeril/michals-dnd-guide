@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent"
+      className="w-full border border-slate-600 rounded-lg overflow-hidden shadow-sm bg-transparent relative"
       style={{ backgroundColor: filled ? "#47556980" : "" }}
       id={anchorLink}
     >
@@ -173,12 +173,24 @@ interface PerkCardProps {
 export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
   return (
     <Card>
+      {perk.components && (
+        <div className="absolute top-0 right-0 bg-blue-400 w-28 text-center font-bold uppercase text-xs py-1 rotate-45 translate-y-3 translate-x-8">
+          Spell
+        </div>
+      )}
       <div className="relative w-28 aspect-square mb-4">
+        <Image
+          src={"/img/perks/--border--.svg"}
+          fill
+          alt=""
+          className="object-cover z-10"
+        />
         <Image
           src={"/img/perks/" + perk.name + ".png"}
           alt={perk.name + " perk"}
           fill
-          className="object-contain"
+          className="object-cover"
+          style={{ borderColor: "var(--charisma)" }}
         />
       </div>
       <h4 className="font-bold text-xl text-left leading-none mb-1">
@@ -208,6 +220,34 @@ export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
       <p className="text-sm">
         <Balancer>{highlightText(perk.desc)}</Balancer>
       </p>
+
+      <div className="flex flex-row flex-wrap text-xs gap-x-3 gap-y-1 mt-3">
+        {perk.damage && (
+          <p className="">
+            <strong>Damage:</strong> {perk.damage}
+          </p>
+        )}
+        {perk.range && (
+          <p className="">
+            <strong>Range:</strong> {perk.range}
+          </p>
+        )}
+        {perk.areaOfEffect && (
+          <p className="">
+            <strong>Area of Effect:</strong> {perk.areaOfEffect}
+          </p>
+        )}
+        {perk.duration && (
+          <p className="">
+            <strong>Duration:</strong> {perk.duration}
+          </p>
+        )}
+        {perk.damageType && (
+          <p className="">
+            <strong>Damage Type:</strong> {perk.damageType}
+          </p>
+        )}
+      </div>
     </Card>
   );
 };

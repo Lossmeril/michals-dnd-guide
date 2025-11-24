@@ -44,7 +44,15 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.semi,
     skills: [],
-    perks: [perks.WitcherSenses],
+    coreSpells: [perks.IsaSign],
+    perks: [
+      perks.WitcherSenses,
+      perks.TiwazSign,
+      perks.BerkanoSign,
+      perks.RaidhoSign,
+      perks.OthalaSign,
+      perks.MutatedBody,
+    ],
   },
 
   {

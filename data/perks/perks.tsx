@@ -1,4 +1,4 @@
-import { Perk } from "@/types/perks";
+import { DamageType, Perk, SpellComponent, SpellDuration } from "@/types/perks";
 import { Resource } from "@/types/resources";
 
 export const perks: { [key: string]: Perk } = {
@@ -37,6 +37,10 @@ export const perks: { [key: string]: Perk } = {
   VeilOfNight: {
     name: "Veil of night",
     desc: "When you stand motionless in darkness or dim light, you become nearly invisible to others. You are considered hidden from creatures that rely on sight to detect you until you move, the light level changes, or you are approached within 5 feet range.",
+  },
+  MagicalTies: {
+    name: "Magical ties",
+    desc: "When storing resources into the Incantor's ritual item, you can store one extra resource.",
   },
 
   // DWARF
@@ -164,6 +168,37 @@ export const perks: { [key: string]: Perk } = {
 
   // -- INCANTOR PERKS
 
+  BlessingsAndCurses: {
+    name: "Blessings and curses",
+    desc: "You may create a simple spell that either helps or hinders a target. The curse cannot deal direct damage, but can affect all target's attributes. It will usually have a form like 'may your aim be true' or 'may your tongue be tied'. ",
+
+    components: [SpellComponent.verbal, SpellComponent.somatic],
+    range: "One target",
+  },
+
+  EyeSigil: {
+    name: "Eye sigil",
+    desc: "You may create a sigil through which you may cast any Incantor spell. You can affect only entities present within the sigil.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+      priceUnit: "sigil strength",
+    },
+    components: [SpellComponent.material],
+    range: "The area within the sigil",
+    duration: SpellDuration.short,
+  },
+
+  SigilGuardian: {
+    name: "Sigil guardian",
+    desc: "You may create a sigil through which you may cast any Incantor spell. You can affect only entities present within the sigil.",
+
+    components: [SpellComponent.material],
+    range: "The area within the sigil",
+    duration: SpellDuration.short,
+  },
+
   // -- WARRIOR PERKS
 
   MountainThatRides: {
@@ -175,17 +210,73 @@ export const perks: { [key: string]: Perk } = {
 
   // -- WITCHER PERKS
 
+  IsaSign: {
+    name: "Isa sign",
+    desc: "Through channeling of raw magical energy, you are able to cause pain to the bodies of monsters and supernatural beings.",
+
+    damage: "1d6",
+    components: [SpellComponent.somatic],
+    range: "One target",
+    duration: SpellDuration.instantaneous,
+    damageType: DamageType.radiant,
+  },
+
   WitcherSenses: {
     name: "Witcher senses",
-    desc: "You posses the ability to sense a presence of monsters and supernatural beings.",
+    desc: "You posses the ability to sense a presence of monsters and supernatural beings. Greater supernatural entities are impossible to sense.",
   },
+
   TiwazSign: {
     name: "Tiwaz sign",
     desc: "A witcher sign that acts as a temporary shield. When activated, you may use a Defense manoeuvre indefinitely until the end of the conflict. You may only use this perk once per conflict.",
     activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+
+    components: [SpellComponent.somatic],
+    range: "Self",
+    duration: SpellDuration.combat,
+  },
+
+  BerkanoSign: {
+    name: "Berkano sign",
+    desc: "A witcher sign that counters magical effects. When activated, you break one spell or magical effect targeting you. This will not work for the consequences of magic (e.g., burning ground). You cannot shield an ally. You may use the sign as a part of a defense manoeuvre.",
+
+    activationPrice: {
       cost: 1,
       ability: Resource.soul,
     },
+    components: [SpellComponent.somatic],
+    range: "Self",
+    duration: SpellDuration.instantaneous,
+  },
+
+  RaidhoSign: {
+    name: "Raidho sign",
+    desc: "A witcher sign that allows you to calm down and focus minds of allies that face a monster or supernatural being. When activated, the target's danger level is reduced by one. This will not work on yourself. You may use the sign to break your ally out of fear or charm conditions; in that case, the target's danger level stays unchanged.",
+
+    components: [SpellComponent.somatic],
+    range: "Self",
+    duration: SpellDuration.instantaneous,
+  },
+
+  OthalaSign: {
+    name: "Othala sign",
+    desc: "A witcher sign that allows you to perform a quick scan of the surrounding area. When activated, you may sense the presence of magic, monsters and supernatural beings within 20 metres. You may also determine their exact location and approximate number. You will also detect the positions of hidden or invisible entities.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.charisma,
+    },
+    components: [SpellComponent.somatic],
+    range: "20 metres",
+    duration: SpellDuration.instantaneous,
+  },
+
+  MutatedBody: {
+    name: "Mutated body",
+    desc: "Your body has undergone mutations that leave mundane poisons in the dust. Every time you face a poison-related challenge, paralysis or petrification attempt, you don't have to use your action to resist it. Furthermore, you gain advantage on such challenges.",
   },
 
   // -- SCOUT PERKS
