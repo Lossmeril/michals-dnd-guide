@@ -41,10 +41,12 @@ export const basicClasses: BasicClass[] = [
       perks.CrowdChampion,
       perks.Gladiator,
       perks.BrawnsOverBrains,
+      perks.UWotM8,
+      perks.Bodyguard,
       perks.FlyingWeapon,
+      perks.RockFist,
       perks.KnowThyEnemy,
     ],
-
     colorScheme: "red",
   },
   //------ HUNTER ------
@@ -92,8 +94,16 @@ export const basicClasses: BasicClass[] = [
         unique: false,
       },
     ],
-    perks: [],
-
+    perks: [
+      perks.OneEyeOpen,
+      perks.Aliens,
+      perks.MacGyver,
+      perks.Sniper,
+      perks.WildThing,
+      perks.SoonMayTheWellermanCome,
+      perks.SharpSenses,
+      perks.WeatherBoy,
+    ],
     colorScheme: "green",
   },
   //------ JUGGLER ------
@@ -135,8 +145,13 @@ export const basicClasses: BasicClass[] = [
         unique: false,
       },
     ],
-    perks: [perks.StartingABand, perks.DonJuan, perks.HiddenPocket],
-
+    perks: [
+      perks.Quickchange,
+      perks.Androgynous,
+      perks.StartingABand,
+      perks.DonJuan,
+      perks.HiddenPocket,
+    ],
     colorScheme: "yellow",
   },
   //------ MEDIC ------

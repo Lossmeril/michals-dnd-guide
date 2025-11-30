@@ -16,7 +16,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.false,
     skills: [],
-    perks: [],
+    perks: [perks.MountainThatRides],
   },
 
   {
@@ -30,7 +30,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.false,
     skills: [],
-    perks: [],
+    perks: [perks.MakeHaste],
   },
 
   {
@@ -46,6 +46,7 @@ export const advancedClasses: AdvancedClass[] = [
     skills: [],
     coreSpells: [perks.IsaSign],
     perks: [
+      perks.IsaSign,
       perks.WitcherSenses,
       perks.TiwazSign,
       perks.BerkanoSign,
@@ -66,7 +67,7 @@ export const advancedClasses: AdvancedClass[] = [
     ],
     isMagic: Magic.false,
     skills: [],
-    perks: [],
+    perks: [perks.OakleafBearer, perks.MrWorldwide],
   },
 
   {

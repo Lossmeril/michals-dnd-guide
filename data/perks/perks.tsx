@@ -82,6 +82,14 @@ export const perks: { [key: string]: Perk } = {
       ability: Resource.soul,
     },
   },
+  Scrappy: {
+    name: "Scrappy",
+    desc: "Once a day, you can scavenge material resources from the environment even when there seems to be nothing useful around. You can gather one material resources this way.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
 
   // KROLL
   Echolocation: {
@@ -97,9 +105,9 @@ export const perks: { [key: string]: Perk } = {
     desc: "Even when not wearing any armour, you still get a +1 resistance bonus on exhaustion.",
   },
 
-  // -- FIGHTER PERKS
+  // -- FIGHTER PERKS - 8
   CrowdChampion: {
-    name: "Crowd Champion",
+    name: "Fight Club",
     desc: "You gain advantage in a close combat against humans and animals.",
   },
   Gladiator: {
@@ -110,9 +118,21 @@ export const perks: { [key: string]: Perk } = {
     name: "Brawns over brains",
     desc: "You gain advantage in activities requiring a raw strength.",
   },
+  UWotM8: {
+    name: "U wot m8?",
+    desc: "You gain advantage in self-praise, shaming and taunting others and intimidation.",
+  },
+  Bodyguard: {
+    name: "Bodyguard",
+    desc: "You can use the defense manoeuvre to protect an ally within your reach. You can also exhaust your resources to avert failures targeting your ally.",
+  },
   FlyingWeapon: {
     name: "Flying weapon",
     desc: "You can throw a non-throwing weapon and use its proper damage dice instead of treating it as an improvised weapon.",
+  },
+  RockFist: {
+    name: "Rock fist",
+    desc: "Your punches hit like a hammer blow. When fighting unarmed, you can use a d6 for damage instead of d4.",
   },
   KnowThyEnemy: {
     name: "Know thy enemy",
@@ -123,7 +143,55 @@ export const perks: { [key: string]: Perk } = {
     },
   },
 
-  // -- HUNTER PERKS
+  // -- HUNTER PERKS - 6
+  OneEyeOpen: {
+    name: "One eye open",
+    desc: "Even when resting, you remain partially alert. After activating this perk, you wake up soon enough to react to danger and may roll initiative, where normally you would skip a turn. This perk does not work if you are unconscious, or put to sleep by magic or a poison.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+  Aliens: {
+    name: "Aliens",
+    desc: "You have an uncanny ability to sense creatures that don't belong in the area. You are able to determine where such entities are located within 1 hour of walking distance.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+  MacGyver: {
+    name: "MacGyver",
+    desc: "You can create a simple trap or a snare using improvised materials found in the environment (e.g. material you gather on the spot). The trap's strength is equal up to your maximum soul limit. You need at least 10 minutes to set up the trap.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+  Sniper: {
+    name: "Sniper",
+    desc: "You gain advantage when making ranged attacks at humans or beasts from a hidden position or at long range.",
+  },
+  WildThing: {
+    name: "Wild thing",
+    desc: "You may use advantage on tracking, wilderness survival, hunting, fishing, foraging, setting up traps and campsites, and navigating in the wild.",
+  },
+  SoonMayTheWellermanCome: {
+    name: "Soon May The Wellerman Come",
+    desc: "You may use advantage on swimming, sailing, rowing, and other water-related activities. You are also able to construct simple rafts and boats from improvised materials found in the environment.",
+  },
+  SharpSenses: {
+    name: "Sharp senses",
+    desc: "You may use advantage on perception challenges that rely on sight, hearing, or smell and unless obstructed, you are able to scout the distant view even under adverse conditions. You can also hold your breath for two turns rather than one.",
+  },
+  WeatherBoy: {
+    name: "Weather boy",
+    desc: "You can predict the weather for the next day with reasonable accuracy.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
 
   // -- JUGGLER PERKS
   Quickchange: {
@@ -154,8 +222,8 @@ export const perks: { [key: string]: Perk } = {
       ability: Resource.soul,
     },
   },
-  // -- MEDIC PERKS
 
+  // -- MEDIC PERKS
   OmniPotion: {
     name: "Omni potion",
     desc: "You can create a healing substance that can heal any type of wound and is universal.",
@@ -207,6 +275,16 @@ export const perks: { [key: string]: Perk } = {
   },
 
   // -- RANGER PERKS
+
+  MakeHaste: {
+    name: "Make haste",
+    desc: "When leading your party, the group can travel at higher speed rate (slow to normal, normal to fast) while keeping the same stats as for the lower.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+      priceUnit: "group member",
+    },
+  },
 
   // -- WITCHER PERKS
 

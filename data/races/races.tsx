@@ -34,7 +34,12 @@ export const playableRaces: Race[] = [
     name: "Halfling",
     plural: "Halflings",
     desc: "Hospitable and jovial folk. Tiny people in who hold more courage than it seems at first glance.",
-    perks: [perks.SixthSense, perks.SilentFeet, perks.Connosieur],
+    perks: [
+      perks.SixthSense,
+      perks.SilentFeet,
+      perks.Connosieur,
+      perks.Scrappy,
+    ],
   },
   {
     name: "Kroll",
