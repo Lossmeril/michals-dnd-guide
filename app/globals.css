@@ -23,7 +23,3 @@ strong {
 em {
   font-style: italic;
 }
-
-.desktop-navbar-link:last-child {
-  margin-bottom: 0.75rem;
-}

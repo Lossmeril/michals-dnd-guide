@@ -68,6 +68,15 @@ export const navbarItems: NavbarSection[] = [
     ],
   },
   {
+    title: "Applets",
+    items: [
+      {
+        text: "Movement calculator",
+        link: "/applets/movement",
+      },
+    ],
+  },
+  {
     title: "Debug section",
     items: [
       {
@@ -97,7 +106,7 @@ const DesktopNavbarLink: React.FC<DesktopNavbarLinkProps> = ({
       className="cursor-pointer hover:text-gray-500 transition-all text-sm"
     >
       <li
-        className="py-2 px-4"
+        className="py-1 px-4"
         style={{
           color: active ? "#93c5fd" : "",
           fontWeight: active ? "bold" : "",
@@ -123,7 +132,7 @@ const DesktopNavbar = () => {
           </p>
           <ul className="mr-16 border-b border-slate-700">
             {section.items.map((item) => (
-              <div className="desktop-navbar-link" key={item.link}>
+              <div className="last-of-type:mb-3" key={item.link}>
                 <DesktopNavbarLink
                   link={item.link}
                   active={

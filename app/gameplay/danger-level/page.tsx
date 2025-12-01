@@ -1,19 +1,19 @@
-import Text, { WikiLink } from "@/components/text";
+import Text, { H2, H3, WikiLink } from "@/components/text";
 import { highlightText } from "@/utils/highlightText";
 
 const DangerLevelPage = () => {
   return (
     <div>
-      <h2 className="font-bold text-3xl mb-5">Danger Level</h2>
+      <H2>Danger Level</H2>
 
-      <p className="mb-3">
+      <Text>
         <strong>Danger Level</strong> sounds like something complicated, but
         it’s actually one of the simplest — and most important — rules in the
         game. It is a single number that represents how risky, chaotic, or
         technically difficult the current situation is. The higher the number,
         the worse things can go for your character. In most scenes, the default
         Danger Level is <strong>3</strong>.
-      </p>
+      </Text>
 
       <Text>
         Whenever your character wants to avoid a bad outcome — getting hurt,
@@ -24,9 +24,7 @@ const DangerLevelPage = () => {
         on the Exhaustion and Scars page.
       </Text>
 
-      <h3 className="font-bold text-2xl mt-6 mb-3">
-        Changing the Danger Level
-      </h3>
+      <H3>Changing the Danger Level</H3>
 
       <Text>
         The DM adjusts the Danger Level based on the fiction of the scene. The
@@ -37,12 +35,12 @@ const DangerLevelPage = () => {
         or negotiating with NPCs.
       </Text>
 
-      <h3 className="font-bold text-2xl mt-6 mb-3">What the Numbers Mean</h3>
+      <H3>What the Numbers Mean</H3>
 
-      <p className="mb-3">
+      <Text>
         Here is a practical scale you can use to imagine what each Danger Level
         feels like:
-      </p>
+      </Text>
 
       {/* 🔥 Scrollable table wrapper */}
       <div className="overflow-x-auto w-full">
@@ -127,7 +125,7 @@ const DangerLevelPage = () => {
         </table>
       </div>
 
-      <h3 className="font-bold text-2xl mt-6 mb-3">Why It Matters</h3>
+      <H3>Why It Matters</H3>
 
       <Text>
         Danger Level is the pressure of the story made mechanical. At Danger
@@ -143,7 +141,7 @@ const DangerLevelPage = () => {
         wrong — and how much it will cost you to stay in the fight.
       </Text>
 
-      <h3 className="font-bold text-2xl mt-6 mb-3">Each to their own</h3>
+      <H3>Each to their own</H3>
 
       <Text>
         Even in one situations,{" "}

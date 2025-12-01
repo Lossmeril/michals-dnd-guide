@@ -1,13 +1,13 @@
 "use client";
 
-import Text, { WikiLink } from "@/components/text";
+import Text, { H2, H3, H4, WikiLink } from "@/components/text";
 
 const CombatPage = () => {
   return (
     <div className="flex flex-col gap-10">
       {/* INTRO */}
       <div className="w-full">
-        <h2 className="font-bold text-3xl mb-5">Combat</h2>
+        <H2>Combat</H2>
         <Text>
           Combat is a way to resolve situations where more than two characters
           are in direct conflict, and where the outcome is uncertain.
@@ -25,20 +25,20 @@ const CombatPage = () => {
           character a bonus action or reaction.
         </Text>
 
-        <h3 className="font-bold text-2xl mt-6 mb-3">Movement</h3>
+        <H3>Movement</H3>
         <Text>
           During their turn, a character can move up to their movement speed.
           Movement can be broken up before and after an action.
         </Text>
 
-        <h3 className="font-bold text-2xl mt-6 mb-3">Actions</h3>
+        <H3>Actions</H3>
         <Text>
           Actions are the main activities a character can perform. Common
           actions include attacking with a weapon, casting a spell, or using an
           item. Some actions may require a roll to determine success.
         </Text>
 
-        <h4 className="font-bold text-xl mt-6 mb-3">Types of actions</h4>
+        <H4>Types of actions</H4>
 
         <div className="overflow-x-auto w-full">
           <table className="min-w-full text-sm mb-5 border-collapse">
