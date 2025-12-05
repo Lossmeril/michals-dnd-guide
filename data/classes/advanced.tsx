@@ -47,7 +47,20 @@ export const advancedClasses: AdvancedClass[] = [
         unique: false,
       },
     ],
-    perks: [perks.MountainThatRides, perks.Rider],
+    perks: [
+      perks.MountainThatRides,
+      perks.Rider,
+      perks.Jockey,
+      perks.Bastion,
+      perks.Parry,
+      perks.DoubleTrouble,
+      perks.DefenderOfPeople,
+      perks.WarDancer,
+      perks.WellKnown,
+      perks.LegendaryWarrior,
+      perks.MonasticSchool,
+      perks.Herold,
+    ],
   },
 
   {
@@ -98,7 +111,19 @@ export const advancedClasses: AdvancedClass[] = [
         unique: false,
       },
     ],
-    perks: [perks.MakeHaste],
+    perks: [
+      perks.MakeHaste,
+      perks.HunterInstinct,
+      perks.Berserk,
+      perks.ToughOfBody,
+      perks.SoonMayTheWellermanCome,
+      perks.TrophyHunter,
+      perks.FriendOfAllMonsters,
+      perks.Carpenter,
+      perks.PackLeader,
+      perks.AnimalDoctor,
+      perks.NaturalAdvantage,
+    ],
   },
 
   {

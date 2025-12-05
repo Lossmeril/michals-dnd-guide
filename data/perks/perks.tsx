@@ -397,8 +397,8 @@ export const perks: { [key: string]: Perk } = {
     desc: "You gain advantage on mount riding, controlling and calming your mount, as well as fighting from a mount.",
   },
 
-  Defender: {
-    name: "Defender",
+  Bastion: {
+    name: "Bastion",
     desc: "With this perk, you are able to use your Warrior level as a bonus when constructing simple wooden structures such as barricades, palisades, watchtowers or moats (similar to Ranger's woodworking skill).",
   },
 
@@ -410,6 +410,11 @@ export const perks: { [key: string]: Perk } = {
   DoubleTrouble: {
     name: "Double trouble",
     desc: "If wielding two melee weapons, you can use a bonus action to make an additional attack with your off-hand weapon. You may only use this perk once per turn.",
+  },
+
+  Herold: {
+    name: "Herold",
+    desc: "You gain advantage on dealing with noble or high-standing people.",
   },
 
   DefenderOfPeople: {
@@ -434,6 +439,11 @@ export const perks: { [key: string]: Perk } = {
   LegendaryWarrior: {
     name: "Legendary warrior",
     desc: "You choose a primary weapon type (sword, axe, spear, mace, hammer, polearm, staff). When fighting with your chosen weapon type, you may use the mighty manoeuvre for free (dealing an extra damage die).",
+  },
+
+  MonasticSchool: {
+    name: "Monastic school",
+    desc: "When fighting unarmed, you may use the number of d6 dice equal to your Warrior level.",
   },
 
   // -- RANGER PERKS
@@ -475,6 +485,36 @@ export const perks: { [key: string]: Perk } = {
   TrophyHunter: {
     name: "Trophy hunter",
     desc: "When entering a conflict against a monster you have previously defeated, you gain two Advantage dice to use in the conflict (depending on your Ranger level: 1-d4, 2-d6, 3-d8, 4-d10, 5-d12).",
+  },
+
+  FriendOfAllMonsters: {
+    name: "Friend of all monsters",
+    desc: "You may use advantage on taming, training, handling and dealing with monsters.",
+  },
+
+  Carpenter: {
+    name: "Carpenter",
+    desc: "You gain advantage on woodworking, gathering wood and constructing simple wooden structures.",
+  },
+
+  PackLeader: {
+    name: "Pack leader",
+    desc: "You can use the widespread manoeuvre for free when interacting with animals that outnumber you.",
+  },
+
+  AnimalDoctor: {
+    name: "Animal doctor",
+    desc: "You can use your Ranger level as a bonus when healing animals and beasts, even though you are not a Shaman.",
+  },
+
+  NaturalAdvantage: {
+    name: "Natural advantage",
+    desc: "Once a conflict you can determine that you have manoeuvred the enemy into a terrain that disadvantages them. You use this perk as your bonus action.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
   },
 
   // -- WITCHER PERKS
