@@ -34,6 +34,7 @@ export enum SpellDuration {
   combat = "Until the end of combat",
   short = "Until the next sunset or sunrise",
   long = "Until the next solstice or equinox",
+  will = "Until dismissed by the caster or target",
 }
 
 export enum DamageType {

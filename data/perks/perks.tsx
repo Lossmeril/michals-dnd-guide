@@ -502,7 +502,12 @@ export const perks: { [key: string]: Perk } = {
       cost: 2,
       ability: Resource.body,
     },
+
+    components: [SpellComponent.somatic],
+    range: "Self",
+    duration: SpellDuration.will,
   },
+
   InvisibleRider: {
     name: "Invisible rider",
     desc: "You can warg into an animal that is friendly to you. While warged you sense the world through the animal's body and can feel its emotions. While you can give directions to said animal, you cannot directly control it. While warged, you lose control of your body and are unaware of its state.",
@@ -510,7 +515,12 @@ export const perks: { [key: string]: Perk } = {
       cost: 1,
       ability: Resource.charisma,
     },
+
+    components: [SpellComponent.somatic],
+    range: "A friendly animal",
+    duration: SpellDuration.will,
   },
+
   AnimalControl: {
     name: "Animal control",
     desc: "You can warg into and can completely control an animal that is within your sight. However, to fully maintain a control, you lose the connection to your body. You can control the animal even if it struggles against you, however, you need to succeed each turn in keeping the connectionn unsevered.",
@@ -518,7 +528,13 @@ export const perks: { [key: string]: Perk } = {
       cost: 1,
       ability: Resource.charisma,
     },
+
+    components: [SpellComponent.somatic],
+    range: "A nearby animal",
+    duration: SpellDuration.concentration,
   },
+
+  // -- MAGE PERKS
   PiedPiper: {
     name: "Pied Piper",
     desc: "When playing an instrument, you are able to control animals similarly to Shaman's Animal Control. However, you are only able to give it general commands (e.g. ‘follow me’ or ‘attack on sight’). The spell is broken the moment you stop playing. Activation price is per animal and widespread does not apply.",
@@ -526,6 +542,79 @@ export const perks: { [key: string]: Perk } = {
       cost: 1,
       ability: Resource.soul,
     },
+
+    components: [SpellComponent.somatic],
+    range: "A nearby animal",
+    duration: SpellDuration.concentration,
+  },
+
+  // -- WARLOCK PERKS
+  FireBending: {
+    name: "Fire Bending",
+    desc: "You may control fire in a limited manner. You can ignite flammable objects, extinguish small fires, and shape existing flames. You can also manipulate existing smoke. You can also create a small magical fires. All of these fires stem from your body and cannot be created from nothing. If these fires come in contact with an entity, they deal small fire damage. The fire effect is comparable to a torch flame.",
+
+    components: [SpellComponent.somatic],
+    range: "Self/Touch",
+    duration: SpellDuration.instantaneous,
+    damageType: DamageType.fire,
+    damage: "1d6",
+  },
+
+  AirBending: {
+    name: "Air Bending",
+    desc: "You may control air in a limited manner. You can create small gusts of wind, manipulate existing air currents, and create minor air-based effects such as lifting light objects with a wind or creating a breeze. You can also create a small magical blast of air that can push entities back.",
+
+    components: [SpellComponent.somatic],
+    range: "Self/2 metres",
+    duration: SpellDuration.instantaneous,
+  },
+
+  Fireball: {
+    name: "Fireball",
+    desc: "You can hurl a ball of fire that explodes upon impact, dealing fire damage to all entities within the blast radius. Every entity within the area may make a saving throw to halve the damage.",
+
+    components: [
+      SpellComponent.verbal,
+      SpellComponent.somatic,
+      SpellComponent.material,
+    ],
+    activationPrice: {
+      cost: 2,
+      ability: Resource.material,
+    },
+    range: "30 metres",
+    duration: SpellDuration.instantaneous,
+    damageType: DamageType.fire,
+    damage: "(3+Warlock Level)d6",
+  },
+
+  FireShield: {
+    name: "Fire Shield",
+    desc: "You create a magical shield of thin flames that wreath your body, providing resistance to cold damage and melee attacks. When the shield is attacked, it breaks, dealing fire damage to the attacker. You may choose to create a cold fire shield instead, which provides resistance to fire damage and deals cold damage to attackers.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+    },
+
+    components: [SpellComponent.somatic, SpellComponent.material],
+    range: "Self",
+    duration: SpellDuration.combat,
+    damageType: DamageType.fire,
+    damage: "2d8",
+  },
+
+  SalamanderSigil: {
+    name: "Salamander Sigil",
+    desc: "You may create a sigil, same as Incantor's Eye Sigil, that allows you to cast Fire Bending and Fireball through it.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+      priceUnit: "sigil strength",
+    },
+    components: [SpellComponent.material],
+    range: "The area within the sigil",
   },
 };
 

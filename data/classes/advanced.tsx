@@ -386,7 +386,8 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [],
+    coreSpells: [perks.FireBending, perks.AirBending],
+    perks: [perks.Fireball, perks.FireShield, perks.SalamanderSigil],
   },
 
   {
