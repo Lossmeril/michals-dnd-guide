@@ -310,6 +310,10 @@ export const advancedClasses: AdvancedClass[] = [
       perks.SoulOfWater,
       perks.CommuneWithNature,
       perks.SeismicSense,
+      perks.NaturalRecovery,
+      perks.Sprout,
+      perks.CreateOrDestroyWater,
+      perks.Earthquake,
     ],
   },
 
@@ -349,7 +353,13 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [perks.YourLipsAreVenomousPoison],
+    perks: [
+      perks.YourLipsAreVenomousPoison,
+      perks.InflitrationExpertise,
+      perks.CityGuide,
+      perks.UrbanShadows,
+      perks.ViperBite,
+    ],
   },
 
   {

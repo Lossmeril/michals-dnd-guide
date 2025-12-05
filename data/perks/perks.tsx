@@ -794,15 +794,99 @@ export const perks: { [key: string]: Perk } = {
     components: [SpellComponent.somatic],
   },
 
+  NaturalRecovery: {
+    name: "Natural recovery",
+    desc: "After meditating in a natural environment for at least an hour, you can recover additional resources equal to your Druid level. You may use this perk once per day.",
+  },
+
+  CreateOrDestroyWater: {
+    name: "Create or destroy water",
+    desc: "You can create up to 10 litres of clean water within an area of 1 cubic metre, or destroy the same amount of water in an area of the same size. The water created is clean and safe to drink. The water may fall at once or as a rain over a period of 10 minutes. Alternatively, you can use destroy water to remove fog or dampness in an area.",
+
+    activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+
+    range: "10 metres",
+    duration: SpellDuration.instantaneous,
+    components: [
+      SpellComponent.somatic,
+      SpellComponent.material,
+      "a drop of water",
+    ],
+  },
+
+  Sprout: {
+    name: "Sprout",
+    desc: "You can cause a seed or a small plant to grow into a full-sized plant or tree within minutes. The plant grows in an area of 1 cubic metre and can be of any species you are familiar with. The plant is healthy and can be used for various purposes, such as providing shade, food, or shelter. Alternatively, you can use this spell to heal, wither and destroy a plant or tree within the same size limit.",
+
+    activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+
+    range: "10 metres",
+    duration: SpellDuration.instantaneous,
+    components: [
+      SpellComponent.somatic,
+      SpellComponent.material,
+      "a seed or a small plant",
+    ],
+  },
+
+  Earthquake: {
+    name: "Earthquake",
+    desc: "You can create a localized earthquake that affects a 30-metre radius area centered on a point within range. The ground shakes violently, causing structures to collapse and creatures to lose their footing. All creatures in the area must make a saving throw or be knocked prone and take bludgeoning damage. Structures in the area may also be damaged or destroyed, depending on their size and construction. If the spell lasts more than one turn, fisures start to open in the ground.",
+
+    activationPrice: {
+      cost: 3,
+      ability: Resource.soul,
+    },
+
+    range: "30 metres",
+    duration: SpellDuration.concentration,
+    components: [SpellComponent.somatic, SpellComponent.material],
+  },
+
   // -- ROGUE PERKS
   YourLipsAreVenomousPoison: {
     name: "Your lips are venomous poison",
-    desc: "You can create a contact poison that your character is immune to and can be spread through touch or kissing.",
+    desc: "You can create a contact poison starts to take effect even if only coming in contact with the skin. For an additional 1 Material resource per unit of strength, you can make the poison not affect you and therefore can be spread through touch or kissing.",
+    activationPrice: {
+      cost: 3,
+      ability: Resource.material,
+      priceUnit: "per unit of strength / 4 per unit of strength)",
+    },
+  },
+  InflitrationExpertise: {
+    name: "Inflitration expertise",
+    desc: "You can unfailingly craft a false identity for yourself, complete with documentation, appearance and backstory. The prerequisite is that you have at least one day to prepare the identity and spend 25 coins. After adopting the identity, all creatures believe you to be who you say you are, unless they have an obvious reason to doubt you. You cannot impersonate a specific individual with this perk.",
+
+    activationPrice: {
+      cost: 25,
+      ability: Resource.coin,
+    },
+  },
+
+  CityGuide: {
+    name: "City guide",
+    desc: "You may determine that there is any location within a city or a feature typical for that environment (e.g., a dead end, cemetary, a tavern, a statue, serwers or a market) within your vicinity in the city.",
+  },
+
+  UrbanShadows: {
+    name: "Urban Shadows",
+    desc: "You gain the ability to hide in urban environments even in places with little to no cover and shake off pursures that are in close proximity to you.",
+
     activationPrice: {
       cost: 1,
-      ability: Resource.material,
-      priceUnit: "per unit of strength",
+      ability: Resource.charisma,
     },
+  },
+
+  ViperBite: {
+    name: "Viper bite",
+    desc: "In a combat, if you are attacked by an enemy, you don't exhaust yourself to defend yourself and the enemy misses, you may use your reaction to make a melee attack against them with a free mighty manoeuvre.",
   },
 
   // -- MAGE PERKS
