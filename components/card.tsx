@@ -117,7 +117,10 @@ export const ClassCard: React.FC<ClassCardProps> = ({ dndClass }) => {
             <div className="flex flex-row flex-wrap gap-2 w-full">
               {dndClass.classes.map((reqClass) => (
                 <div
-                  className="text-xs text-slate-300 bg-slate-600 rounded-sm px-2 "
+                  className={`text-xs text-slate-300 rounded-sm px-2 `}
+                  style={{
+                    backgroundColor: "var(--" + reqClass.colorScheme + ")",
+                  }}
                   key={reqClass.name}
                 >
                   {reqClass.name}

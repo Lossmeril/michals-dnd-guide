@@ -130,9 +130,25 @@ export const perks: { [key: string]: Perk } = {
     name: "Flying weapon",
     desc: "You can throw a non-throwing weapon and use its proper damage dice instead of treating it as an improvised weapon.",
   },
+  GetSpeared: {
+    name: "Get speared",
+    desc: "You can use your Fighter class as a basis for a throwing weapon attack with a weapon that is designed to be thrown and weided at the same time (axe, spear, javelin).",
+  },
   RockFist: {
     name: "Rock fist",
     desc: "Your punches hit like a hammer blow. When fighting unarmed, you can use a d6 for damage instead of d4.",
+  },
+  TheBestDefense: {
+    name: "The best defense",
+    desc: "If using a shield in a combat, you may use a bonus action to make a shield bash attack that deals 1d4 damage and has 1/2 chance to leave prone, but only after an attack action.",
+  },
+  LongReach: {
+    name: "Long reach",
+    desc: "After attacking with a polearm or a staff, you can use a bonus action either to i) make an unarmed strike with the weapon's shaft, dealing 1d4 damage or and has 1/2 chance to leave prone or; ii) to step back 1 metre and disengage.",
+  },
+  GotYou: {
+    name: "Got you",
+    desc: "When attacking an opponent with a weapon that has a mean to do so, you may use a free cunning manoueuvre to grapple the opponent if the attack hits.",
   },
   KnowThyEnemy: {
     name: "Know thy enemy",
@@ -176,13 +192,17 @@ export const perks: { [key: string]: Perk } = {
     name: "Wild thing",
     desc: "You may use advantage on tracking, wilderness survival, hunting, fishing, foraging, setting up traps and campsites, and navigating in the wild.",
   },
-  SoonMayTheWellermanCome: {
-    name: "Soon May The Wellerman Come",
-    desc: "You may use advantage on swimming, sailing, rowing, and other water-related activities. You are also able to construct simple rafts and boats from improvised materials found in the environment.",
+  JustKeepSwimming: {
+    name: "Just Keep Swimming",
+    desc: "You may use advantage on swimming, sailing, rowing, and other water-related activities.",
   },
   SharpSenses: {
     name: "Sharp senses",
     desc: "You may use advantage on perception challenges that rely on sight, hearing, or smell and unless obstructed, you are able to scout the distant view even under adverse conditions. You can also hold your breath for two turns rather than one.",
+  },
+  DoubleShot: {
+    name: "Double shot",
+    desc: "When attacking with a ranged weapon, you can use a bonus action to make an additional attack with the same weapon. The condition is that you have a clear shot and easily reachable ammunition.",
   },
   WeatherBoy: {
     name: "Weather boy",
@@ -214,6 +234,22 @@ export const perks: { [key: string]: Perk } = {
     name: "Don Juan",
     desc: "You gain advantage in flirting, seducing and extracting information from targets that would be attracted to you.",
   },
+  TwoBirds: {
+    name: "Two Birds",
+    desc: "When attacking with a throwing weapon, you can use a widespread manoeuvre to throw two projectiles at once, targeting two targets. Condition is that you have the ammunition easily reachable.",
+  },
+  RandomBullshitGo: {
+    name: "Random bullshit, go",
+    desc: "You gain advantage in throwing attacks targeting humans and animals.",
+  },
+  MissionPossible: {
+    name: "Mission possible",
+    desc: "You gain advantage in stealth, climbing, scaling walls annd acrobacy.",
+  },
+  SteadyHands: {
+    name: "Steady hands",
+    desc: "You gain advantage in lockpicking, pickpocketing, sleight of hand and getting out of restraints.",
+  },
   HiddenPocket: {
     name: "Hidden pocket",
     desc: "Even after being searched, you can determine your character still has on them an item up to the size of a closed fist.",
@@ -232,6 +268,10 @@ export const perks: { [key: string]: Perk } = {
       ability: Resource.material,
       priceUnit: "unit",
     },
+  },
+  GardenOfEden: {
+    name: "Garden of Eden",
+    desc: "Once a day you may gather herbs and plants from the wild to be used as Material resources. The harvest takes you at least 30 minutes of foraging. You gather 1d4-1 Material resources this way.",
   },
 
   // -- INCANTOR PERKS
@@ -274,6 +314,55 @@ export const perks: { [key: string]: Perk } = {
     desc: "Your sheer strength allows you to wield two-handed weapons with one hand, allowing you to use a shield or another weapon in your off-hand.",
   },
 
+  Rider: {
+    name: "Rider",
+    desc: "When fighting mounted, you gain the option to use bonus action to use your mount to either i) knock all targets within 1 metre prone or ii) to trample a target, dealing 1d6 damage and pushing them 1 metre back. You also gain the widespread manoeuvre for free for intimidation when mounted.",
+  },
+
+  Jockey: {
+    name: "Jockey",
+    desc: "You gain advantage on mount riding, controlling and calming your mount, as well as fighting from a mount.",
+  },
+
+  Defender: {
+    name: "Defender",
+    desc: "With this perk, you are able to use your Warrior level as a bonus when constructing simple wooden structures such as barricades, palisades, watchtowers or moats (similar to Ranger's woodworking skill).",
+  },
+
+  Parry: {
+    name: "Parry",
+    desc: "When using a defense manoeuvre to defend yourself against a melee attack, you may roll your weapon's damage dice to deal a counterattack on a successful parry. You may only use this perk once per conflict.",
+  },
+
+  DoubleTrouble: {
+    name: "Double trouble",
+    desc: "If wielding two melee weapons, you can use a bonus action to make an additional attack with your off-hand weapon. You may only use this perk once per turn.",
+  },
+
+  DefenderOfPeople: {
+    name: "Defender of people",
+    desc: "You can use your Charisma resources to avert other people's failures when defending them against intimidation or other psychological attacks.",
+  },
+
+  WarDancer: {
+    name: "War dancer",
+    desc: "When facing more than one opponent in close combat, you can use a defense manoeuvre for free throughout the conflict, until you are no longer outnumbered.",
+  },
+
+  WellKnown: {
+    name: "Well known",
+    desc: "You can state a fact about yourself that makes others more willing to help you. This may be a heroic deed, a noble birth or a famous ancestry. You must describe the fact to the DM beforehand.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.charisma,
+    },
+  },
+
+  LegendaryWarrior: {
+    name: "Legendary warrior",
+    desc: "You choose a primary weapon type (sword, axe, spear, mace, hammer, polearm, staff). When fighting with your chosen weapon type, you may use the mighty manoeuvre for free (dealing an extra damage die).",
+  },
+
   // -- RANGER PERKS
 
   MakeHaste: {
@@ -284,6 +373,35 @@ export const perks: { [key: string]: Perk } = {
       ability: Resource.soul,
       priceUnit: "group member",
     },
+  },
+
+  HunterInstinct: {
+    name: "Hunter instinct",
+    desc: "This perk has two effects: i) you can sense the presence of monsters when nearby, even without any giveaways; ii) you can fight against monsters and animals even when unasisted by normal senses (e.g., in total darkness or dense fog).",
+  },
+
+  Berserk: {
+    name: "Berserk",
+    desc: "Once a day, you can enter a berserk state as a free action. While berserk, you gain advantage on all attack rolls and can add your Ranger level to damage rolls. You also gain resistance to bludgeoning, slashing and piercing damage. The berserk state lasts for 5 turns or until you fall unconscious.",
+    activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+  },
+
+  ToughOfBody: {
+    name: "Tough of body",
+    desc: "One scar of body can avert your entire failure no matter the danger level (normally, a scar gives you only 2 resource points to spend).",
+  },
+
+  SoonMayTheWellermanCome: {
+    name: "Soon May The Wellerman Come",
+    desc: "You may use advantage sailing, rowing, boat construction and other ship-related activities. You are also able to construct simple rafts from improvised materials found in the environment.",
+  },
+
+  TrophyHunter: {
+    name: "Trophy hunter",
+    desc: "When entering a conflict against a monster you have previously defeated, you gain two Advantage dice to use in the conflict (depending on your Ranger level: 1-d4, 2-d6, 3-d8, 4-d10, 5-d12).",
   },
 
   // -- WITCHER PERKS

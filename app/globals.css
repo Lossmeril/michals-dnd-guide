@@ -9,6 +9,12 @@
 
   --coin: khaki;
   --material: lightgray;
+
+  --red: #f8717140;
+  --blue: #60a5fa40;
+  --green: #34d39940;
+  --yellow: #fbbf2440;
+  --purple: #a78bfa40;
 }
 
 html {
