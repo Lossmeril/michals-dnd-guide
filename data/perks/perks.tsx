@@ -336,7 +336,7 @@ export const perks: { [key: string]: Perk } = {
 
   BlessingsAndCurses: {
     name: "Blessings and curses",
-    desc: "You may create a simple spell that either helps or hinders a target. The curse cannot deal direct damage, but can affect all target's attributes. It will usually have a form like 'may your aim be true' or 'may your tongue be tied'. The result may be an advantage or disadvantage on a specific type of challenge.",
+    desc: "You may create a simple spell that either helps or hinders a target. The curse cannot deal direct damage, but can affect all target's attributes. It will usually have a form like 'may your aim be true' or 'may your tongue be tied'. The result may be an advantage or disadvantage on a specific type of challenge, or grant the target a bonus d4.",
 
     components: [SpellComponent.verbal, SpellComponent.somatic],
     range: "One target",
@@ -378,6 +378,20 @@ export const perks: { [key: string]: Perk } = {
     components: [SpellComponent.somatic],
     range: "10 metres",
     duration: SpellDuration.concentration,
+  },
+
+  Charm: {
+    name: "Charm",
+    desc: "You can attempt to charm a humanoid you can see within range. It must make a saving throw to resist the effect (with advantage if you are in direct conflict). If it fails the saving throw, it is charmed by you until the spell ends or you or your allies do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+
+    components: [SpellComponent.somatic],
+    range: "10 metres",
+    duration: SpellDuration.short,
   },
 
   // -- WARRIOR PERKS
@@ -517,6 +531,16 @@ export const perks: { [key: string]: Perk } = {
     },
   },
 
+  BordersWalker: {
+    name: "Borders walker",
+    desc: "Your encumbrance cost (if any) is reduced by 1 resource while traversing wilderness.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
   // -- WITCHER PERKS
 
   IsaSign: {
@@ -537,7 +561,7 @@ export const perks: { [key: string]: Perk } = {
 
   TiwazSign: {
     name: "Tiwaz sign",
-    desc: "A witcher sign that acts as a temporary shield. When activated, you may use a Defense manoeuvre indefinitely until the end of the conflict. You may only use this perk once per conflict.",
+    desc: "A witcher sign that acts as a temporary shield. When activated, you may use a Defense manoeuvre indefinitely until the end of the conflict. This sign does not protect you from damage taken, but allows you to avert attacks without spending resources.",
     activationPrice: {
       cost: 2,
       ability: Resource.soul,
@@ -586,6 +610,26 @@ export const perks: { [key: string]: Perk } = {
   MutatedBody: {
     name: "Mutated body",
     desc: "Your body has undergone mutations that leave mundane poisons in the dust. Every time you face a poison-related challenge, paralysis or petrification attempt, you don't have to use your action to resist it. Furthermore, you gain advantage on such challenges.",
+  },
+
+  SowiloSign: {
+    name: "Sowilo sign",
+    desc: "A witcher sign that allows you to create a burst of bright light that blinds all entities within a 5-metre radius. Affected entities must make a saving throw or be blinded for two turns.",
+
+    components: [SpellComponent.somatic],
+    range: "5 metres",
+    duration: SpellDuration.instantaneous,
+  },
+
+  KenazSign: {
+    name: "Kenaz rune",
+    desc: "With this sign, you can create a burst of flame that deals fire and radiant damage to all entities within a 5-metre radius. Every entity within the area may make a saving throw to halve the damage.",
+
+    components: [SpellComponent.somatic],
+    range: "5 metres",
+    duration: SpellDuration.instantaneous,
+    damageType: [DamageType.fire, DamageType.radiant],
+    damage: "Witcher Level × d6",
   },
 
   // -- SCOUT PERKS
@@ -645,6 +689,95 @@ export const perks: { [key: string]: Perk } = {
     components: [SpellComponent.somatic],
     range: "A nearby animal",
     duration: SpellDuration.concentration,
+  },
+
+  DreamEater: {
+    name: "Dream eater",
+    desc: "You can enter the dreams of a sleeping target and manipulate them. You can plant suggestions, extract information or simply torment the target. The target may make a saving throw to resist your intrusion each round. They will wake up if you cause them any harm in the dream and will remember the dream vividly upon waking up, including your face if you show it to them.",
+    activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+
+    components: [SpellComponent.verbal, SpellComponent.somatic],
+    range: "One sleeping target",
+    duration: SpellDuration.concentration,
+  },
+
+  // -- DRUID PERKS
+
+  ManipulatePlants: {
+    name: "Manipulate plants",
+    desc: "You can control plants in a limited manner and natural shape. You can cause plants to grow, move, or change shape. You can also create simple plant-based constructs such as barriers or weapons and change features of a plant (make thorns grow on a tulip). You can feel the presence of plants, even specific species. You cannot create plants from nothing nor cause any direct damage.",
+  },
+
+  WaterBending: {
+    name: "Water Bending",
+    desc: "You may control water in a limited manner, in all of its natural form. You can create waves, manipulate existing water currents, pull water from earth, change the water's state and/or make the water levitate or shoot it at people. You can feel the presence of water. You cannot create water from nothing and this manipulation does not cause any direct damage.",
+  },
+
+  EarthBending: {
+    name: "Earth Bending",
+    desc: "You may control earth in a limited manner. You can create tremors,  create minor earth-based effects (e.g. raising small walls of earth or creating pits), make earth levitate, find minerals, make rock formation split and/or insert things in stone or earth as if it were water. All of the earth must be in its natural form. You cannot create earth from nothing and this manipulation does not cause any direct damage.",
+  },
+
+  MarchingForest: {
+    name: "Marching forest",
+    desc: "For all of your plant manipulation spells, you may use the widespread manoeuvre for free.",
+  },
+
+  RockAndStone: {
+    name: "Rock and Stone",
+    desc: "For all of your earth bending spells, you may use the widespread manoeuvre for free.",
+  },
+
+  Tsunami: {
+    name: "Tsunami",
+    desc: "For all of your water bending spells, you may use the widespread manoeuvre for free.",
+  },
+
+  MemoryOfWood: {
+    name: "Memory of Wood",
+    desc: "You can now use plant manipulation even on objects that are modified by human hands, such as wooden furniture or buildings made of wood.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
+  HeartOfStone: {
+    name: "Heart of Stone",
+    desc: "You can now use earth bending even on objects that are modified by human hands, such as stone buildings, clay pottery or metal weapons.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
+  SoulOfWater: {
+    name: "Soul of Water",
+    desc: "You can now use water bending even on objects that are modified by human hands or are coming from humans, such as wine in a bottle, a soup in a bowl or a pool of blood. However, you cannot bend water that is contained in living beings.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
+  CommuneWithNature: {
+    name: "Commune with Nature",
+    desc: "You are able to communicate with plants, earth and water. This allows you to do one of the following: i) immediately gain the knowledge about the surrounding area (e.g., if there are any dangers, water sources, useful plants); ii) ask a question about anything in the target's past. However, the target's knowledge is limited to what it has experienced directly (e.g. plants can sense pressure, light level and temperature; rocks can sense pressure, temperature and vibrarions).",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.charisma,
+    },
+
+    range: "Self",
+    duration: SpellDuration.instantaneous,
+    components: [SpellComponent.somatic, SpellComponent.verbal],
   },
 
   // -- ROGUE PERKS
@@ -785,6 +918,17 @@ export const perks: { [key: string]: Perk } = {
     ],
     range: "Touch",
     duration: SpellDuration.concentration,
+  },
+
+  BurningHands: {
+    name: "Burning Hands",
+    desc: "You create a cone of fire that erupts from your hands, dealing fire damage to all entities within the area. Every entity within the area may make a saving throw to halve the damage. This spell ignites flammable objects in the area that aren't being worn or carried.",
+
+    components: [SpellComponent.verbal, SpellComponent.somatic],
+    range: "Self (5-metre cone)",
+    duration: SpellDuration.instantaneous,
+    damageType: DamageType.fire,
+    damage: "2d6",
   },
 };
 

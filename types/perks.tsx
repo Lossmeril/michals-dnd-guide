@@ -14,7 +14,7 @@ export type Perk = {
 
   components?: SpellComponent | string[];
   damage?: string;
-  damageType?: DamageType;
+  damageType?: DamageType | DamageType[];
   range?: string;
   areaOfEffect?: string;
   duration?: SpellDuration;

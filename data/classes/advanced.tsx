@@ -123,6 +123,7 @@ export const advancedClasses: AdvancedClass[] = [
       perks.PackLeader,
       perks.AnimalDoctor,
       perks.NaturalAdvantage,
+      perks.BordersWalker,
     ],
   },
 
@@ -171,6 +172,8 @@ export const advancedClasses: AdvancedClass[] = [
       perks.RaidhoSign,
       perks.OthalaSign,
       perks.MutatedBody,
+      perks.SowiloSign,
+      perks.KenazSign,
     ],
   },
 
@@ -255,7 +258,12 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [perks.Skinchanger, perks.InvisibleRider, perks.AnimalControl],
+    perks: [
+      perks.Skinchanger,
+      perks.InvisibleRider,
+      perks.AnimalControl,
+      perks.DreamEater,
+    ],
   },
 
   {
@@ -288,7 +296,20 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [],
+    coreSpells: [
+      perks.EarthBending,
+      perks.WaterBending,
+      perks.ManipulatePlants,
+    ],
+    perks: [
+      perks.MarchingForest,
+      perks.RockAndStone,
+      perks.Tsunami,
+      perks.MemoryOfWood,
+      perks.HeartOfStone,
+      perks.SoulOfWater,
+      perks.CommuneWithNature,
+    ],
   },
 
   {
@@ -365,14 +386,8 @@ export const advancedClasses: AdvancedClass[] = [
         ability: Resource.charisma,
         unique: true,
       },
-      {
-        name: "Transmutation magic",
-        desc: "Controlling and shaping the material and energy acccording to acquired spells.",
-        ability: Resource.soul,
-        unique: true,
-      },
     ],
-    perks: [],
+    perks: [perks.Fly],
   },
 
   {
@@ -412,7 +427,13 @@ export const advancedClasses: AdvancedClass[] = [
       },
     ],
     coreSpells: [perks.FireBending, perks.AirBending],
-    perks: [perks.Fireball, perks.FireShield, perks.SalamanderSigil],
+    perks: [
+      perks.Fireball,
+      perks.FireShield,
+      perks.SalamanderSigil,
+      perks.DeafeningRoar,
+      perks.Fly,
+    ],
   },
 
   {
