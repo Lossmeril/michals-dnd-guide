@@ -196,6 +196,10 @@ export const perks: { [key: string]: Perk } = {
     name: "Just Keep Swimming",
     desc: "You may use advantage on swimming, sailing, rowing, and other water-related activities.",
   },
+  BeastMaster: {
+    name: "Beast Master",
+    desc: "You may use advantage on taming, training, and handling animals.",
+  },
   SharpSenses: {
     name: "Sharp senses",
     desc: "You may use advantage on perception challenges that rely on sight, hearing, or smell and unless obstructed, you are able to scout the distant view even under adverse conditions. You can also hold your breath for two turns rather than one.",
@@ -211,6 +215,10 @@ export const perks: { [key: string]: Perk } = {
       cost: 1,
       ability: Resource.soul,
     },
+  },
+  Restless: {
+    name: "Restless",
+    desc: "Poor rest heals 5 resources instead of the usual 3.",
   },
 
   // -- JUGGLER PERKS
@@ -273,12 +281,45 @@ export const perks: { [key: string]: Perk } = {
     name: "Garden of Eden",
     desc: "Once a day you may gather herbs and plants from the wild to be used as Material resources. The harvest takes you at least 30 minutes of foraging. You gather 1d4-1 Material resources this way.",
   },
+  WalkingBathhouse: {
+    name: "Walking Bathhouse",
+    desc: "You can deterine that there is a rumour or a gossip about a non-playable character, be it good or bad.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.charisma,
+    },
+  },
+  GoodSamaritan: {
+    name: "Good Samaritan",
+    desc: "When healing someone else's scars, you may use your own resources to pay for their healing cost, be it partially or fully.",
+  },
+  Negotiator: {
+    name: "Negotiator",
+    desc: "You gain advantage in haggling, bartering, persuading and convincing others.",
+  },
+  GoodAdvice: {
+    name: "Good advice",
+    desc: "When an ally is facing a challenge in negotiation, bargaining or persuasion, you can use your Charisma resources to help them avert their failure.",
+  },
+  FieldMedic: {
+    name: "Field medic",
+    desc: "You may also use an action in conflict to heal an ally for 1 Body resource during combat. You may also use a bonus action to stabilise a dying ally, if there is one.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+    },
+  },
+  ItsNotASacrifice: {
+    name: "It's not a sacrifice",
+    desc: "When taking care of someone for a reasonable time (at least one hour), you may give the player any amount of your Body resources to heal their Body resources.",
+  },
 
   // -- INCANTOR PERKS
 
   BlessingsAndCurses: {
     name: "Blessings and curses",
-    desc: "You may create a simple spell that either helps or hinders a target. The curse cannot deal direct damage, but can affect all target's attributes. It will usually have a form like 'may your aim be true' or 'may your tongue be tied'. ",
+    desc: "You may create a simple spell that either helps or hinders a target. The curse cannot deal direct damage, but can affect all target's attributes. It will usually have a form like 'may your aim be true' or 'may your tongue be tied'. The result may be an advantage or disadvantage on a specific type of challenge.",
 
     components: [SpellComponent.verbal, SpellComponent.somatic],
     range: "One target",
@@ -301,10 +342,15 @@ export const perks: { [key: string]: Perk } = {
   SigilGuardian: {
     name: "Sigil guardian",
     desc: "You may create a sigil through which you may cast any Incantor spell. You can affect only entities present within the sigil.",
+  },
 
-    components: [SpellComponent.material],
-    range: "The area within the sigil",
-    duration: SpellDuration.short,
+  DetectMagic: {
+    name: "Detect magic",
+    desc: "You can sense the presence of magic within 10 metres of you. If you have confirmed the presence of magic, you may use an action to see a faint aura around the magical effects and identify its school of magic, if any. The spell is blocked by walls and other solid obstructions.",
+
+    components: [SpellComponent.somatic],
+    range: "10 metres",
+    duration: SpellDuration.concentration,
   },
 
   // -- WARRIOR PERKS
