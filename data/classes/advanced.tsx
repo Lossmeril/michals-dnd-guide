@@ -309,6 +309,7 @@ export const advancedClasses: AdvancedClass[] = [
       perks.HeartOfStone,
       perks.SoulOfWater,
       perks.CommuneWithNature,
+      perks.SeismicSense,
     ],
   },
 

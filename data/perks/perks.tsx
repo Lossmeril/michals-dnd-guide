@@ -780,6 +780,20 @@ export const perks: { [key: string]: Perk } = {
     components: [SpellComponent.somatic, SpellComponent.verbal],
   },
 
+  SeismicSense: {
+    name: "Seismic sense",
+    desc: "After casting, you can sense vibrations in the ground, allowing you to detect the presence of creatures and objects within 30 metres. You can determine the location and movement of these entities, even if they are hidden or invisible. However, you can only identify generic details about them (e.g., number and approximate size). You may also sense the layout of the surrounding terrain, including any obstacles or structures and use it to navigate in complete darkness.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+
+    range: "30 metres",
+    duration: SpellDuration.concentration,
+    components: [SpellComponent.somatic],
+  },
+
   // -- ROGUE PERKS
   YourLipsAreVenomousPoison: {
     name: "Your lips are venomous poison",
