@@ -4,7 +4,6 @@ import Divider from "./divider";
 import Link from "next/link";
 import { Perk } from "@/types/perks";
 import { Race } from "@/types/races";
-import { highlightText } from "@/utils/highlightText";
 import Balancer from "react-wrap-balancer";
 
 interface CardProps {
@@ -196,10 +195,10 @@ export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
           style={{ borderColor: "var(--charisma)" }}
         />
       </div>
-      <h4 className="font-bold text-xl text-left leading-none mb-1">
+      <h4 className="font-bold text-lg text-left leading-none mb-1">
         {perk.name}
       </h4>
-      <h5 className="font-bold text-sm italic text-gray-400 mb-2">
+      <h5 className="font-bold text-xs italic text-gray-400 mb-2">
         {perk.activationPrice ? "Activation price: " : "Passive skill"}
         {perk.activationPrice ? (
           <span
@@ -220,8 +219,8 @@ export const PerkCard: React.FC<PerkCardProps> = ({ perk }) => {
           <></>
         )}
       </h5>
-      <p className="text-sm">
-        <Balancer>{highlightText(perk.desc)}</Balancer>
+      <p className="text-xs">
+        <Balancer>{perk.desc}</Balancer>
       </p>
 
       <div className="flex flex-row flex-wrap text-xs gap-x-3 gap-y-1 mt-3">

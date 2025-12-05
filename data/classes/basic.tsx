@@ -201,6 +201,10 @@ export const basicClasses: BasicClass[] = [
       perks.Negotiator,
       perks.GoodAdvice,
       perks.FieldMedic,
+      perks.ItsNotASacrifice,
+      perks.Medicineman,
+      perks.Poisoner,
+      perks.UnusualPoison,
     ],
 
     colorScheme: "blue",
@@ -247,8 +251,7 @@ export const basicClasses: BasicClass[] = [
     ],
     coreSpells: [perks.BlessingsAndCurses, perks.EyeSigil],
 
-    perks: [],
-    spells: [],
+    perks: [perks.DetectMagic, perks.SigilGuardian],
 
     colorScheme: "purple",
   },

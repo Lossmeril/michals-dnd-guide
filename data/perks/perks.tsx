@@ -314,6 +314,23 @@ export const perks: { [key: string]: Perk } = {
     name: "It's not a sacrifice",
     desc: "When taking care of someone for a reasonable time (at least one hour), you may give the player any amount of your Body resources to heal their Body resources.",
   },
+  Medicineman: {
+    name: "Medicineman",
+    desc: "You gain advantage in healing human body wounds, treating diseases and applying medicine.",
+  },
+  Poisoner: {
+    name: "Poisoner",
+    desc: "You gain advantage in creating, identifying, serving poisons and masking their usage.",
+  },
+  UnusualPoison: {
+    name: "Unusual Poison",
+    desc: "The effect of this perk is threefold: i) you can create poisons that take effect immediatelly; ii) you can create a poison that stays inactive until activated by something (e.g. alcohol); iii) you can create poisons that are undetectable by normal means (e.g., taste, smell, appearance).",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+      priceUnit: "per effect per unit of strength",
+    },
+  },
 
   // -- INCANTOR PERKS
 
@@ -341,7 +358,17 @@ export const perks: { [key: string]: Perk } = {
 
   SigilGuardian: {
     name: "Sigil guardian",
-    desc: "You may create a sigil through which you may cast any Incantor spell. You can affect only entities present within the sigil.",
+    desc: "You may create a sigil that features a guardian entity that wakes up the sigil only when a certain condition is met (e.g. someone specific touches the symbol, someone says a password).",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+  },
+
+  MightyAmulets: {
+    name: "Mighty amulets",
+    desc: "You don't have to use any Material resources to charge your magical amulet.",
   },
 
   DetectMagic: {
