@@ -302,7 +302,7 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [],
+    perks: [perks.YourLipsAreVenomousPoison],
   },
 
   {
@@ -420,7 +420,7 @@ export const advancedClasses: AdvancedClass[] = [
         unique: true,
       },
     ],
-    perks: [perks.PiedPiper],
+    perks: [perks.PiedPiper, perks.BlindingLights],
   },
 ];
 

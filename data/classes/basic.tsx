@@ -251,7 +251,7 @@ export const basicClasses: BasicClass[] = [
     ],
     coreSpells: [perks.BlessingsAndCurses, perks.EyeSigil],
 
-    perks: [perks.DetectMagic, perks.SigilGuardian],
+    perks: [perks.DetectMagic, perks.SigilGuardian, perks.MightyAmulets],
 
     colorScheme: "purple",
   },

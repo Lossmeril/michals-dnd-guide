@@ -12,7 +12,7 @@ export type Perk = {
 
   activationPrice?: ActivationPrice;
 
-  components?: SpellComponent[];
+  components?: SpellComponent | string[];
   damage?: string;
   damageType?: DamageType;
   range?: string;

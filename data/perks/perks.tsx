@@ -607,6 +607,17 @@ export const perks: { [key: string]: Perk } = {
     duration: SpellDuration.concentration,
   },
 
+  // -- ROGUE PERKS
+  YourLipsAreVenomousPoison: {
+    name: "Your lips are venomous poison",
+    desc: "You can create a contact poison that your character is immune to and can be spread through touch or kissing.",
+    activationPrice: {
+      cost: 1,
+      ability: Resource.material,
+      priceUnit: "per unit of strength",
+    },
+  },
+
   // -- MAGE PERKS
   PiedPiper: {
     name: "Pied Piper",
@@ -619,6 +630,20 @@ export const perks: { [key: string]: Perk } = {
     components: [SpellComponent.somatic],
     range: "A nearby animal",
     duration: SpellDuration.concentration,
+  },
+
+  BlindingLights: {
+    name: "Blinding lights",
+    desc: "You can create a burst of bright light that blinds all entities within a 5-metre radius. Affected entities must make a saving throw or be blinded for two turns.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+
+    components: [SpellComponent.verbal, SpellComponent.somatic],
+    range: "10 metres",
+    duration: SpellDuration.instantaneous,
   },
 
   // -- WARLOCK PERKS
@@ -688,6 +713,38 @@ export const perks: { [key: string]: Perk } = {
     },
     components: [SpellComponent.material],
     range: "The area within the sigil",
+  },
+
+  DeafeningRoar: {
+    name: "Deafening Roar",
+    desc: "You rip the electric charge around a target, causing a loud thunderous roar that can deafen and disorient them. The target must make a saving throw or be deafened for a two turns.",
+
+    activationPrice: {
+      cost: 1,
+      ability: Resource.soul,
+    },
+
+    components: [SpellComponent.verbal, SpellComponent.somatic],
+    range: "One target",
+    duration: SpellDuration.instantaneous,
+  },
+
+  Fly: {
+    name: "Fly",
+    desc: "You touch a willing creature, granting them the ability to fly for the duration of the spell. The target can fly at a speed of 10 metres per turn and can ascend or descend at will. The spell ends if the target is incapacitated or if you lose concentration.",
+
+    activationPrice: {
+      cost: 2,
+      ability: Resource.soul,
+    },
+
+    components: [
+      SpellComponent.somatic,
+      SpellComponent.material,
+      "a feather of any bird",
+    ],
+    range: "Touch",
+    duration: SpellDuration.concentration,
   },
 };
 
