@@ -357,7 +357,11 @@ export const advancedClasses: AdvancedClass[] = [
       perks.YourLipsAreVenomousPoison,
       perks.InflitrationExpertise,
       perks.CityGuide,
+<<<<<<< HEAD
       perks.UrbanShadows,
+=======
+      perks.UrbanShadow,
+>>>>>>> origin/master
       perks.ViperBite,
     ],
   },

@@ -884,8 +884,13 @@ export const perks: { [key: string]: Perk } = {
     },
   },
 
+<<<<<<< HEAD
   ViperBite: {
     name: "Viper bite",
+=======
+  ViberBite: {
+    name: "Viber bite",
+>>>>>>> origin/master
     desc: "In a combat, if you are attacked by an enemy, you don't exhaust yourself to defend yourself and the enemy misses, you may use your reaction to make a melee attack against them with a free mighty manoeuvre.",
   },
 
