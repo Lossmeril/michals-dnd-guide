@@ -1,18 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import MainLayout from "@/layouts/mainLayout";
 
-const geistSans = localFont({
-  src: "../public/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "../public/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -27,9 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800 text-white w-screen overflow-x-hidden scroll-smooth`}
+        className={`  antialiased bg-gray-800 text-white w-screen overflow-x-hidden scroll-smooth`}
       >
-        <MainLayout>{children}</MainLayout>
+        {children}
       </body>
     </html>
   );
