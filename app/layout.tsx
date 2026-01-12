@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -14,10 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`  antialiased bg-gray-800 text-white w-screen overflow-x-hidden scroll-smooth`}
-      >
-        {children}
+      <body>
+        <Navbar />
+        <main
+          className={`grid w-full min-h-screen place-items-center bg-gray-100 p-4`}
+        >
+          {children}
+        </main>
       </body>
     </html>
   );
