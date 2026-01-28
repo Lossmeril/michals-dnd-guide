@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ?? "/app";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,8 +33,8 @@ const LoginPage = () => {
       return;
     }
 
-    // Optional: redirect somewhere
-    // router.push("/"); (see below)
+    router.replace(next);
+    router.refresh();
   };
 
   return (

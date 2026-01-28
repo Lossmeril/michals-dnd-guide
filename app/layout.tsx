@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import Navbar from "@/components/navbar";
+// import AuthGuard from "@/components/authGuard";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -16,12 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {" "}
+        {/* <AuthGuard> */}
         <Navbar />
         <main
           className={`grid w-full min-h-screen place-items-center bg-gray-100 p-4`}
         >
           {children}
         </main>
+        {/* </AuthGuard> */}
       </body>
     </html>
   );
