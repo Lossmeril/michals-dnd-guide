@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-
 import "./globals.css";
+
 import Navbar from "@/components/navbar";
+
 // import AuthGuard from "@/components/authGuard";
 
 export const metadata: Metadata = {
@@ -17,7 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        {" "}
         {/* <AuthGuard> */}
         <Navbar />
         <main

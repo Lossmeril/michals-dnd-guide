@@ -1,13 +1,13 @@
 import Card from "@/components/card";
+import { PageLayout } from "@/components/layouts/base";
+import { H1 } from "@/components/ui/text";
 
 const AppHomePage = () => {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <PageLayout>
       <header className="mb-8">
-        <h1 className="font-serif text-3xl text-[#2b1d0e]">
-          Michal&apos;s D&amp;D Guide
-        </h1>
-        <p className="mt-2 text-sm text-[#2b1d0e]/80">
+        <H1>Michal&apos;s D&amp;D Guide</H1>
+        <p className="mt-2 text-sm text-dnd-red ">
           Choose what you want to do.
         </p>
       </header>
@@ -37,7 +37,7 @@ const AppHomePage = () => {
           imagePos="top"
         />
       </section>
-    </main>
+    </PageLayout>
   );
 };
 

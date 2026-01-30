@@ -8,10 +8,6 @@ export default {
     "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
     "./utils/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {
-    extend: {
 
-    },
-  },
   plugins: [],
 } satisfies Config;

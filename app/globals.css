@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 :root {
+  --dnd-red: #b22222;
+  --dnd-red-dark: #7f1d1d;
+  --dnd-ink: #2b1d0e;
+
   --body: palevioletred;
   --soul: mediumslateblue;
   --charisma: goldenrod;
@@ -19,13 +23,4 @@
 
 html {
   scroll-behavior: smooth;
-}
-
-strong {
-  font-weight: bold;
-  color: #93c5fd;
-}
-
-em {
-  font-style: italic;
 }
