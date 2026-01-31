@@ -5,54 +5,35 @@ import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
 import type { Character, CharacterInsert } from "@/types/character";
-import { TextArea, TextInput } from "@/components/ui/inputs";
-import {
-  CharacterLayout,
-  CharacterLayoutBox,
-} from "@/components/layouts/character";
 import { AppPageLayout } from "@/components/layouts/base";
-import Button from "@/components/ui/button";
+import CharacterEditor from "@/components/layouts/characterCreator";
 
 const NewCharacterPage = () => {
   const router = useRouter();
 
-  const [character, setCharacter] = useState<Character>({
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const initialCharacter: Character = {
     name: "",
     backstory: null,
     image_url: null,
-  });
+  };
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const create = async (character: Character) => {
     setError(null);
-
-    if (!character.name.trim()) {
-      setError("Name is required.");
-      return;
-    }
-
-    setLoading(true);
+    setSaving(true);
 
     const supabase = supabaseBrowser();
     const { data: auth } = await supabase.auth.getUser();
     const user = auth.user;
 
-    // ----------------------------------------------------------------
-    // CHECK AUTHENTICATION
-    // ----------------------------------------------------------------
-
+    // Check authentication
     if (!user) {
-      setLoading(false);
+      setSaving(false);
       router.replace("/login?next=/app/characters/new");
       return;
     }
-
-    // ----------------------------------------------------------------
-    // CREATE PAYLOAD TO INSERT IN DB
-    // ----------------------------------------------------------------
 
     const payload: CharacterInsert = {
       owner_user_id: user.id,
@@ -64,11 +45,7 @@ const NewCharacterPage = () => {
       .from("characters")
       .insert(payload);
 
-    setLoading(false);
-
-    // ----------------------------------------------------------------
-    // ERROR HANDLING
-    // ----------------------------------------------------------------
+    setSaving(false);
 
     if (insertError) {
       setError(insertError.message);
@@ -81,94 +58,16 @@ const NewCharacterPage = () => {
 
   return (
     <AppPageLayout title="Create New Character">
-      <form onSubmit={handleCreate} className="mt-2 space-y-5">
-        <CharacterLayout>
-          <CharacterLayoutBox colspan={2} className="">
-            <TextInput
-              label="Name"
-              value={character.name}
-              onChange={(e) =>
-                setCharacter((c) => ({ ...c, name: e.target.value }))
-              }
-              required
-              error={null}
-            />
-            <TextArea
-              label="Backstory"
-              value={character.backstory ?? ""}
-              onChange={(e) =>
-                setCharacter((c) => ({
-                  ...c,
-                  backstory: e.target.value.trim() ? e.target.value : null,
-                }))
-              }
-            />
-
-            <div className="space-y-2">
-              <TextInput
-                className="w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-[#2b1d0e] outline-none focus:border-red-900"
-                value={character.image_url ?? ""}
-                onChange={(e) =>
-                  setCharacter((c) => ({
-                    ...c,
-                    image_url: e.target.value.trim() ? e.target.value : null,
-                  }))
-                }
-                placeholder="https://…"
-                inputMode="url"
-                label="Image URL"
-                error={null}
-              />
-            </div>
-          </CharacterLayoutBox>
-          <CharacterLayoutBox colspan={1} className="p-0">
-            <div className="overflow-hidden rounded-xl border-2 border-red-900/20 bg-white/50 w-full h-full">
-              {character.image_url?.trim() ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={character.image_url ?? ""}
-                  alt="Character preview"
-                  className="h-full w-full object-cover"
-                  onError={() =>
-                    setError("Could not load image from that URL.")
-                  }
-                />
-              ) : (
-                <></>
-              )}
-            </div>
-          </CharacterLayoutBox>
-          <CharacterLayoutBox colspan={2}>
-            <></>
-          </CharacterLayoutBox>
-          <CharacterLayoutBox
-            colspan={6}
-            className="flex items-center justify-between"
-          >
-            {error && (
-              <div className="rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
-                {error}
-              </div>
-            )}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-3">
-                <Button
-                  label={loading ? "Creating…" : "Create Character"}
-                  type="submit"
-                  disabled={loading}
-                  mode="default"
-                />
-
-                <Button
-                  label="Cancel"
-                  mode="inverted"
-                  onClick={() => router.back()}
-                />
-              </div>
-            </div>
-          </CharacterLayoutBox>
-        </CharacterLayout>
-      </form>
+      <CharacterEditor
+        initialCharacter={initialCharacter}
+        submitLabel="Create Character"
+        submittingLabel="Creating…"
+        isSubmitting={saving}
+        error={error}
+        setError={setError}
+        onSave={create}
+        onCancel={() => router.back()}
+      />
     </AppPageLayout>
   );
 };

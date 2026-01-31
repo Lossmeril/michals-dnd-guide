@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DecorativeBorder from "../features/decorativeBorder";
+import DecorativeBorder from "../snippets/decorativeBorder";
 
 type CardVariant = "default" | "example";
 
@@ -42,6 +42,7 @@ const Card = ({
   const content = (
     <div className={`${base} ${variantClass} ${className ?? ""}`}>
       {variant === "example" && <DecorativeBorder />}
+
       {imageSrc && (
         <div className="relative h-40 w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
