@@ -1,10 +1,12 @@
-import { H1 } from "../ui/text";
-
 interface AppPageLayoutProps {
   title: string;
   className?: string;
   children: React.ReactNode;
 }
+
+// --------------------------------------------------------------
+// LAYOUT FOR PAGES WITH APPLICATION TYPE BEHAVIOR AND NAVIGATION
+// --------------------------------------------------------------
 
 export const AppPageLayout: React.FC<AppPageLayoutProps> = ({
   title,
@@ -12,8 +14,10 @@ export const AppPageLayout: React.FC<AppPageLayoutProps> = ({
   children,
 }) => {
   return (
-    <main className={`w-full min-h-screen px-20 py-10 ${className}`}>
-      <H1>{title}</H1>
+    <main className={`w-full min-h-screen px-20 ${className}`}>
+      <div className="book">
+        <h1>{title}</h1>
+      </div>
       {children}
     </main>
   );

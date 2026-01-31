@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DecorativeBorder from "../features/decorativeBorder";
 
 type CardVariant = "default" | "example";
 
@@ -31,16 +32,16 @@ const Card = ({
   className,
   imagePos = "top",
 }: CardProps) => {
-  const base =
-    "group overflow-hidden rounded-2xl border-2 shadow-sm transition hover:-translate-y-0.5";
+  const base = "group ";
 
   const variantClass =
     variant === "example"
-      ? "border-[#2b1d0e]/40 bg-[#fbf7f0]"
-      : "border-red-900 bg-[#f4efe6]";
+      ? "rulebox"
+      : "border-red-900 bg-transparent rounded-lg border-2 shadow-sm transition hover:-translate-y-0.5";
 
   const content = (
     <div className={`${base} ${variantClass} ${className ?? ""}`}>
+      {variant === "example" && <DecorativeBorder />}
       {imageSrc && (
         <div className="relative h-40 w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -57,9 +58,9 @@ const Card = ({
         <div className="p-6">
           {title && (
             <div className="flex items-center justify-between gap-3">
-              <h2 className="font-serif text-xl text-red-900">{title}</h2>
+              <h2 className="font-serif text-xl text-dnd-red-dark">{title}</h2>
               {href && (
-                <span className="text-red-900/80 transition group-hover:translate-x-0.5">
+                <span className="text-dnd-red-dark/80 transition group-hover:translate-x-0.5">
                   →
                 </span>
               )}
@@ -67,7 +68,7 @@ const Card = ({
           )}
 
           {description && (
-            <p className="mt-3 text-sm text-[#2b1d0e]/80">{description}</p>
+            <p className="mt-3 text-sm text-dnd-ink/80">{description}</p>
           )}
 
           {children && <div className="mt-4">{children}</div>}

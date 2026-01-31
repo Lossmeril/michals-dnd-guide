@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.scss";
 
 import Navbar from "@/components/navbar";
 
@@ -20,11 +20,8 @@ export default function RootLayout({
       <body className="">
         {/* <AuthGuard> */}
         <Navbar />
-        <main
-          className={`grid w-full min-h-screen place-items-center bg-gray-100 p-4`}
-        >
-          {children}
-        </main>
+        <main className={`w-full min-h-screen py-32`}>{children}</main>
+
         {/* </AuthGuard> */}
       </body>
     </html>

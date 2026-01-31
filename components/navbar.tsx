@@ -3,11 +3,11 @@ import NavbarUser from "./navbar/navbarUser";
 
 const Navbar = () => {
   return (
-    <nav className="w-full border-b-2 border-red-900 bg-[#f4efe6] text-[#2b1d0e]">
-      <div className="mx-auto flex max-w-full items-center justify-between px-6 py-4">
+    <nav className="w-full border-b-2 border-dnd-red-dark bg-dnd-accent-yellow text-dnd-ink">
+      <div className="mx-auto flex max-w-full items-center justify-between px-6 py-4 h-16 overflow-hidden">
         <div className="font-serif text-xl tracking-wide">
           <Link href="/">
-            <span className="uppercase tracking-widest text-red-900">
+            <span className="uppercase tracking-widest text-dnd-red-dark">
               Michal&apos;s D&amp;D Guide
             </span>
           </Link>

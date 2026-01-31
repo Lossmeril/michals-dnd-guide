@@ -5,7 +5,8 @@ import { supabaseBrowser } from "@/lib/supabase/browser";
 import type { DB_Character } from "@/types/character";
 
 import { AppPageLayout } from "@/components/layouts/base";
-import Link from "next/link";
+
+import Button from "@/components/ui/button";
 
 const CharactersPage = () => {
   const [characters, setCharacters] = useState<DB_Character[]>([]);
@@ -82,7 +83,11 @@ const CharactersPage = () => {
                 </td>
                 <td>{character.name}</td>
                 <td>
-                  <Link href={`/characters/${character.id}`}>Edit</Link>
+                  <Button
+                    href={`/app/characters/${character.id}`}
+                    label="Edit"
+                    mode="inverted"
+                  />
                 </td>
               </tr>
             ))}

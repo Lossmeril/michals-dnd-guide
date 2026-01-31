@@ -63,7 +63,7 @@ const NavbarUser = () => {
   if (!profile) {
     return (
       <div>
-        <a href="/login" className="text-sm text-red-900 hover:underline">
+        <a href="/login" className="text-sm text-dnd-red hover:underline">
           Sign in
         </a>
       </div>
@@ -77,17 +77,17 @@ const NavbarUser = () => {
         <img
           src={profile.avatar_url}
           alt={profile.display_name ?? "User avatar"}
-          className="h-8 w-8 rounded-full border border-red-900 object-cover"
+          className="h-8 w-8 rounded-full border border-dnd-red object-cover"
         />
       ) : (
-        <div className="h-8 w-8 rounded-full border border-red-900 bg-[#e9dfcf] flex items-center justify-center text-xs">
+        <div className="h-8 w-8 rounded-full border border-dnd-red-dark bg-dnd-red-dark/10 flex items-center justify-center text-xs font-serif text-dnd-red-dark font-bold">
           {profile.display_name?.slice(0, 2).toUpperCase() ?? "??"}
         </div>
       )}
 
       <button
         onClick={handleSignOut}
-        className="text-sm text-red-900 hover:underline"
+        className="text-sm text-dnd-red-dark hover:cursor-pointer hover:underline"
       >
         Sign out
       </button>

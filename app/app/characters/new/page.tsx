@@ -11,6 +11,7 @@ import {
   CharacterLayoutBox,
 } from "@/components/layouts/character";
 import { AppPageLayout } from "@/components/layouts/base";
+import Button from "@/components/ui/button";
 
 const NewCharacterPage = () => {
   const router = useRouter();
@@ -150,21 +151,20 @@ const NewCharacterPage = () => {
               </div>
             )}
             <div className="flex items-center gap-3">
-              <button
-                type="submit"
-                disabled={loading}
-                className="rounded-xl border-2 border-red-900 bg-red-900 px-4 py-2 font-serif text-sm text-[#f4efe6] transition hover:opacity-95 disabled:opacity-60"
-              >
-                {loading ? "Creating…" : "Create Character"}
-              </button>
+              <div className="flex items-center gap-3">
+                <Button
+                  label={loading ? "Creating…" : "Create Character"}
+                  type="submit"
+                  disabled={loading}
+                  mode="default"
+                />
 
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="rounded-xl border-2 border-red-900/30 bg-transparent px-4 py-2 font-serif text-sm text-red-900 transition hover:bg-red-900/5"
-              >
-                Cancel
-              </button>
+                <Button
+                  label="Cancel"
+                  mode="inverted"
+                  onClick={() => router.back()}
+                />
+              </div>
             </div>
           </CharacterLayoutBox>
         </CharacterLayout>
