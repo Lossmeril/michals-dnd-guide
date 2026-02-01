@@ -27,8 +27,6 @@ const CharacterEditPage = ({ params }: PageProps) => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -62,8 +60,6 @@ const CharacterEditPage = ({ params }: PageProps) => {
   }, [characterId]);
 
   const save = async (character: Character) => {
-    setSaving(true);
-
     const supabase = supabaseBrowser();
 
     const payload: CharacterUpdate = {
@@ -78,8 +74,6 @@ const CharacterEditPage = ({ params }: PageProps) => {
       .update(payload)
       .eq("id", characterId);
 
-    setSaving(false);
-
     if (updateError) {
       return;
     }
@@ -92,7 +86,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
   if (loading) {
     return (
       <AppPageLayout title="Character">
-        <p className="text-sm opacity-70">Loading…</p>
+        <p className="text-sm opacity-70">Loading...</p>
       </AppPageLayout>
     );
   }
@@ -101,7 +95,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
     return (
       <AppPageLayout title="Character">
         <div className="text-red-900">
-          <strong>Error:</strong> Character not found (or you don’t have
+          <strong>Error:</strong> Character not found (or you don&apos;t have
           access).
         </div>
       </AppPageLayout>
@@ -111,10 +105,8 @@ const CharacterEditPage = ({ params }: PageProps) => {
   return (
     <AppPageLayout title="Edit Character">
       <CharacterEditor
+        characterId={characterId}
         initialCharacter={initialCharacter}
-        submitLabel="Save"
-        submittingLabel="Saving…"
-        isSubmitting={saving}
         onSave={save}
         onCancel={() => router.push(`/app/characters/${characterId}`)}
       />

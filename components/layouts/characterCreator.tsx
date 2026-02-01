@@ -25,6 +25,7 @@ export function parseStepId(input: string | null | undefined): StepId {
 // ---------------------------------------
 
 type CharacterEditorShellProps = {
+  characterId: string;
   initialCharacter: Character;
   initialStep?: StepId;
   onSave: (character: Character) => Promise<void> | void;
@@ -32,6 +33,7 @@ type CharacterEditorShellProps = {
 };
 
 const CharacterEditorShell: React.FC<CharacterEditorShellProps> = ({
+  characterId,
   initialCharacter,
   initialStep = DEFAULT_STEP,
   onSave,
@@ -146,6 +148,7 @@ const CharacterEditorShell: React.FC<CharacterEditorShellProps> = ({
       <section className="rounded-xl border-2 border-red-900/20 bg-white/40 p-4">
         {activeStep === "about" && (
           <CharacterAboutStep
+            characterId={characterId}
             value={draft}
             onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
             setError={setError}

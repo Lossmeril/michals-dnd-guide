@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import type { DB_Character } from "@/types/character";
+import type {
+  Character,
+  CharacterInsert,
+  DB_Character,
+} from "@/types/character";
 
 import { AppPageLayout } from "@/components/layouts/base";
 
@@ -17,8 +21,148 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import DeleteButton from "@/components/ui/deleteButton";
+import DecorativeBorder from "@/components/snippets/decorativeBorder";
+import { getStoragePathFromPublicUrl } from "@/components/editors/characterImageUpload";
 
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+// MAKE NEW CHARACTER MODAL
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+
+interface MakeNewCharacterModalProps {
+  open: boolean;
+
+  name: string;
+  setName: (v: string) => void;
+
+  confirmLabel?: string;
+  cancelLabel?: string;
+
+  onCancel: () => void;
+}
+
+const MakeNewCharacterModal: React.FC<MakeNewCharacterModalProps> = ({
+  open,
+  name,
+  setName,
+  confirmLabel = "Create",
+  cancelLabel = "Cancel",
+  onCancel,
+}) => {
+  const router = useRouter();
+
+  const [saving, setSaving] = useState(false);
+
+  // ESC to close
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onCancel]);
+
+  if (!open) return null;
+
+  const initialCharacter: Character = {
+    name: name,
+    backstory: null,
+    image_url: null,
+  };
+  const isNameInputted = name.trim().length > 0;
+
+  const create = async (character: Character) => {
+    setSaving(true);
+
+    const supabase = supabaseBrowser();
+    const { data: auth } = await supabase.auth.getUser();
+    const user = auth.user;
+
+    // Check authentication
+    if (!user) {
+      setSaving(false);
+      router.replace("/login?next=/app/characters/new");
+      return;
+    }
+
+    const payload: CharacterInsert = {
+      owner_user_id: user.id,
+      ...character,
+      name: character.name.trim(),
+    };
+
+    const { data, error: insertError } = await supabase
+      .from("characters")
+      .insert(payload)
+      .select("id")
+      .single();
+
+    setSaving(false);
+
+    if (insertError || !data) return;
+
+    onCancel();
+    router.push(`/app/characters/${data.id}/edit?step=about`);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center p-4">
+      {/* ------------------------------ Backdrop */}
+      <button
+        type="button"
+        className="absolute inset-0 bg-black/40"
+        onClick={onCancel}
+        aria-label="Close modal"
+      />
+
+      {/* ------------------------------ Modal */}
+      <div className="relative w-full min-w-lg max-w-3xl border-y-2 border-dnd-ink bg-dnd-bg shadow-lg">
+        <DecorativeBorder />
+        <div className="book p-6">
+          <h2 className="font-serif text-xl text-dnd-red-dark">
+            Create a new character
+          </h2>
+          <p>Name your creation and let your adventure begin!</p>
+
+          <input
+            className="mt-3 w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoFocus
+          />
+
+          <div className="mt-5 flex items-center justify-end gap-3">
+            <Button
+              label={cancelLabel}
+              type="button"
+              onClick={onCancel}
+              mode="inverted"
+            />
+
+            <Button
+              label={saving ? "Creating…" : confirmLabel}
+              type="button"
+              onClick={() => create(initialCharacter)}
+              disabled={!isNameInputted}
+              mode="default"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
 // REUSABLE STANDARDIZED CLASS TABLE
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+
 const CharactersTable = ({
   characters,
   title,
@@ -36,7 +180,7 @@ const CharactersTable = ({
         titles={[
           { title: "Image", width: "5%" },
           { title: "Name", width: "10%" },
-          { title: "Edit", width: "10%" },
+          { title: "Actions", width: "10%" },
         ]}
       ></TableHead>
 
@@ -44,7 +188,7 @@ const CharactersTable = ({
         {characters.map((c) => (
           <TableRow key={c.id}>
             <TableCell>
-              <div className="overflow-hidden bg-white/50 w-16 h-16">
+              <div className="overflow-hidden w-16 h-16 border-r border-dnd-ink/20">
                 {c.image_url?.trim() ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
@@ -65,9 +209,14 @@ const CharactersTable = ({
             </TableCell>
 
             <TableCell className="">
-              <div className="w-full h-full flex flex-row items-center gap-4">
+              <div className="w-full h-full flex flex-row items-center gap-2">
                 <Button
                   href={`/app/characters/${c.id}`}
+                  label="View"
+                  mode="inverted"
+                />
+                <Button
+                  href={`/app/characters/${c.id}/edit?step=about`}
                   label="Edit"
                   mode="inverted"
                 />
@@ -78,11 +227,34 @@ const CharactersTable = ({
                   confirmPrefix="I want to kill"
                   onDelete={async () => {
                     const supabase = supabaseBrowser();
+
+                    // 1) fetch image_url for this character
+                    const { data, error: fetchErr } = await supabase
+                      .from("characters")
+                      .select("image_url")
+                      .eq("id", c.id)
+                      .single();
+
+                    if (fetchErr) throw new Error(fetchErr.message);
+
+                    // 2) delete file if present
+                    const imageUrl = data?.image_url;
+                    if (imageUrl) {
+                      const path = getStoragePathFromPublicUrl(imageUrl); // helper below
+                      const { error: storageErr } = await supabase.storage
+                        .from("characters")
+                        .remove([path]);
+                      // optional: ignore 404-ish cases
+                      if (storageErr) console.warn(storageErr.message);
+                    }
+
+                    // 3) delete db row
                     const { error } = await supabase
                       .from("characters")
                       .delete()
                       .eq("id", c.id);
                     if (error) throw new Error(error.message);
+
                     router.refresh();
                     await loadCharacters();
                   }}
@@ -96,32 +268,25 @@ const CharactersTable = ({
   );
 };
 
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+// CHARACTERS PAGE
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+
 const CharactersPage = () => {
+  // Characters data
   const [characters, setCharacters] = useState<DB_Character[]>([]);
+
+  // Characters loading state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadCharacters = async () => {
-      const supabase = supabaseBrowser();
+  // New character modal state and data
+  const [showNewCharacterModal, setShowNewCharacterModal] = useState(false);
+  const [newCharacterName, setNewCharacterName] = useState("");
 
-      const { data, error } = await supabase
-        .from("characters")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setCharacters(data ?? []);
-      }
-
-      setLoading(false);
-    };
-
-    loadCharacters();
-  }, []);
-
+  // Character reload function
   const loadCharacters = async () => {
     setLoading(true);
     const supabase = supabaseBrowser();
@@ -144,10 +309,22 @@ const CharactersPage = () => {
       <div className="my-4">
         <Button
           label="Add Character"
-          href="/app/characters/new"
+          onClick={() => setShowNewCharacterModal(true)}
           mode="default"
         />
       </div>
+
+      {/* Make New Character Modal */}
+      <MakeNewCharacterModal
+        open={showNewCharacterModal}
+        name={newCharacterName}
+        setName={setNewCharacterName}
+        onCancel={() => {
+          setShowNewCharacterModal(false);
+          setNewCharacterName("");
+        }}
+      />
+
       {loading && <p className="text-sm opacity-70">Loading characters…</p>}
 
       {error && (

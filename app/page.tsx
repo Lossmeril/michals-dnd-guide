@@ -44,13 +44,13 @@ const AppHomePage = () => {
           imagePos="top"
         />
 
-        <Card
+        {/* <Card
           title="Make a Character"
           description="Start a new character and choose race, perks, and classes."
           href="/app/characters/new"
           imageSrc="https://www.dndbeyond.com/avatars/thumbnails/43940/869/420/618/638607459717652437.png"
           imagePos="top"
-        />
+        /> */}
 
         <Card
           title="Browse Characters"
