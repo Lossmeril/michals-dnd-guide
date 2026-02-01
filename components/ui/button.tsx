@@ -24,17 +24,17 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const modeStyles: Record<string, string> = {
     default:
-      "bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif",
+      "bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif shadow-xs",
     inverted:
-      "bg-transparent border-dnd-red-dark/30 text-dnd-red-dark hover:text-dnd-bg hover:border-dnd-red-dark hover:bg-dnd-red-dark font-serif",
+      "bg-transparent border-dnd-red-dark/30 text-dnd-red-dark hover:text-dnd-bg hover:border-dnd-red-dark hover:bg-dnd-red-dark font-serif shadow-xs",
     transparent:
-      "bg-transparent border-transparent text-dnd-red-dark hover:bg-dnd-red-dark/10 font-serif",
+      "bg-transparent border-transparent text-dnd-red-dark hover:-translate-y-0.25 font-serif",
     monochrome:
-      "bg-transparent border-dnd-ink/30 text-dnd-ink hover:bg-dnd-ink/10 font-serif",
+      "bg-transparent border-dnd-ink/30 text-dnd-ink hover:bg-dnd-ink/10 font-serif shadow-xs",
   };
 
   const styles = [
-    "h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition",
+    "h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm transition",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer",
     disabled ? "opacity-60 pointer-events-none" : "",
     modeStyles[mode] || modeStyles.default,
@@ -44,7 +44,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       <Link href={href} onClick={onClick} className={styles}>
-        {label}
+        {mode !== "transparent" ? label : `${label} →`}
       </Link>
     );
   }
@@ -56,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       className={styles}
     >
-      {label}
+      {mode !== "transparent" ? label : `${label} →`}
     </button>
   );
 };

@@ -1,10 +1,8 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.scss";
 
 import Navbar from "@/components/navbar/navbar";
-
-import AuthGuard from "@/components/auth/authGuard";
-import AdminNavbar from "@/components/navbar/adminNavbar";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -13,17 +11,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className="">
+      <body>
         <Navbar />
-        <main className={`w-full min-h-screen relative`}>
-          <AdminNavbar />
-          <AuthGuard>{children}</AuthGuard>
-        </main>
+        {children}
       </body>
     </html>
   );

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { useRouter, useSearchParams } from "next/navigation";
+import Button from "@/components/ui/button";
+import { PageLayout } from "@/components/layouts/base";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -38,37 +40,51 @@ const LoginClient = () => {
   };
 
   return (
-    <div className="max-w-sm">
-      <form onSubmit={handleLogin} className="space-y-4">
-        <input
-          className="w-full rounded border p-2"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <input
-          className="w-full rounded border p-2"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button
-          className="w-full rounded border p-2"
-          type="submit"
-          disabled={loading}
+    <PageLayout>
+      <div className="w-full h-full grid place-items-center book">
+        <div className="mb-6">
+          <h1 className="">Log in</h1>
+        </div>
+        <form
+          onSubmit={handleLogin}
+          className="max-w-2xl w-full space-y-6 text-center"
         >
-          {loading ? "Signing in…" : "Log in"}
-        </button>
+          <input
+            className="w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-[#2b1d0e] outline-none focus:border-red-900"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        {error && <p className="text-red-500">{error}</p>}
-      </form>
-    </div>
+          <input
+            className="w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-[#2b1d0e] outline-none focus:border-red-900"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <div className="flex justify-center flex-row items-center gap-4">
+            <Button
+              type="submit"
+              disabled={loading}
+              label={loading ? "Signing in…" : "Log in"}
+            />
+            <Button
+              type="button"
+              mode="transparent"
+              label="Create account"
+              href="/signup"
+            />
+          </div>
+
+          {error && <p className="text-red-500">{error}</p>}
+        </form>
+      </div>
+    </PageLayout>
   );
 };
 

@@ -13,6 +13,7 @@ type Props = {
 const AuthGuard = ({ children }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
+
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,8 @@ const AuthGuard = ({ children }: Props) => {
       sub.subscription.unsubscribe();
     };
   }, [router, pathname]);
+
+  if (pathname?.startsWith("/login")) return <>{children}</>;
 
   if (!ready) {
     return (
