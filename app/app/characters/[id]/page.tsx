@@ -4,38 +4,31 @@ import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
-import type {
-  Character,
-  CharacterUpdate,
-  DB_Character,
-} from "@/types/character";
+import type { DB_Character } from "@/types/character";
 import { AppPageLayout } from "@/components/layouts/base";
-import CharacterEditor from "@/components/layouts/characterCreator";
-import Link from "next/link";
+import {
+  CharacterLayout,
+  CharacterLayoutBox,
+} from "@/components/layouts/character";
+import Button from "@/components/ui/button";
 
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-const CharacterEditPage = ({ params }: PageProps) => {
+const CharacterViewPage = ({ params }: PageProps) => {
   const router = useRouter();
   const { id: characterId } = use(params);
 
-  const [initialCharacter, setInitialCharacter] = useState<Character>({
-    name: "",
-    backstory: null,
-    image_url: null,
-  });
-
+  const [character, setCharacter] = useState<DB_Character | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      setError(null);
       setLoading(true);
+      setError(null);
 
       const supabase = supabaseBrowser();
       const { data, error } = await supabase
@@ -44,51 +37,19 @@ const CharacterEditPage = ({ params }: PageProps) => {
         .eq("id", characterId)
         .single<DB_Character>();
 
-      if (error) {
+      if (error || !data) {
         setNotFound(true);
+        setCharacter(null);
         setLoading(false);
         return;
       }
 
-      setInitialCharacter({
-        name: data.name,
-        backstory: data.backstory,
-        image_url: data.image_url,
-      });
-
+      setCharacter(data);
       setLoading(false);
     };
 
     load();
   }, [characterId]);
-
-  const save = async (character: Character) => {
-    setError(null);
-    setSaving(true);
-
-    const supabase = supabaseBrowser();
-
-    const payload: CharacterUpdate = {
-      name: character.name,
-      backstory: character.backstory,
-      image_url: character.image_url,
-      updated_at: new Date().toISOString(),
-    };
-
-    const { error: updateError } = await supabase
-      .from("characters")
-      .update(payload)
-      .eq("id", characterId);
-
-    setSaving(false);
-
-    if (updateError) {
-      setError(updateError.message);
-      return;
-    }
-
-    router.refresh();
-  };
 
   if (loading) {
     return (
@@ -98,7 +59,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
     );
   }
 
-  if (notFound) {
+  if (notFound || !character) {
     return (
       <AppPageLayout title="Character">
         <div className="text-red-900">
@@ -106,27 +67,81 @@ const CharacterEditPage = ({ params }: PageProps) => {
           access).
         </div>
 
-        <Link href="/app/characters" className="mt-4 inline-block">
-          Back to Characters
-        </Link>
+        <div className="mt-4">
+          <Button
+            label="Back to Characters"
+            mode="inverted"
+            onClick={() => router.push("/app/characters")}
+          />
+        </div>
       </AppPageLayout>
     );
   }
 
   return (
-    <AppPageLayout title="Character">
-      <CharacterEditor
-        initialCharacter={initialCharacter}
-        submitLabel="Save"
-        submittingLabel="Saving…"
-        isSubmitting={saving}
-        error={error}
-        setError={setError}
-        onSave={save}
-        onCancel={() => router.push("/app/characters")}
-      />
+    <AppPageLayout title={character.name}>
+      <CharacterLayout>
+        <CharacterLayoutBox colspan={2}>
+          <div className="space-y-4">
+            <div>
+              <h2 className="font-serif text-xl text-dnd-red-dark">Name</h2>
+              <p className="mt-1 text-dnd-ink">{character.name}</p>
+            </div>
+
+            <div>
+              <h2 className="font-serif text-xl text-dnd-red-dark">
+                Backstory
+              </h2>
+              <p className="mt-1 whitespace-pre-wrap text-dnd-ink/90">
+                {character.backstory ? character.backstory : "—"}
+              </p>
+            </div>
+
+            {error && (
+              <div className="rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
+                {error}
+              </div>
+            )}
+          </div>
+        </CharacterLayoutBox>
+
+        <CharacterLayoutBox colspan={1} className="p-0">
+          <div className="overflow-hidden rounded-xl border-2 border-red-900/20 bg-white/50 w-full h-full">
+            {character.image_url?.trim() ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={character.image_url}
+                alt={`${character.name} portrait`}
+                className="h-full w-full object-cover"
+                onError={() => setError("Could not load image from that URL.")}
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-sm text-dnd-ink/60">
+                No image
+              </div>
+            )}
+          </div>
+        </CharacterLayoutBox>
+
+        <CharacterLayoutBox
+          colspan={6}
+          className="flex items-center justify-between"
+        >
+          <Button
+            label="Back"
+            mode="inverted"
+            onClick={() => router.push("/app/characters")}
+          />
+
+          <Button
+            label="Edit"
+            mode="default"
+            onClick={() => router.push(`/app/characters/${characterId}/edit`)}
+          />
+        </CharacterLayoutBox>
+      </CharacterLayout>
     </AppPageLayout>
   );
 };
 
-export default CharacterEditPage;
+export default CharacterViewPage;
