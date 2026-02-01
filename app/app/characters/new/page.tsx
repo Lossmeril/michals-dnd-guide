@@ -6,13 +6,12 @@ import { supabaseBrowser } from "@/lib/supabase/browser";
 
 import type { Character, CharacterInsert } from "@/types/character";
 import { AppPageLayout } from "@/components/layouts/base";
-import CharacterEditor from "@/components/layouts/characterCreator";
+import CharacterEditorShell from "@/components/layouts/characterCreator";
 
 const NewCharacterPage = () => {
   const router = useRouter();
 
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const initialCharacter: Character = {
     name: "",
@@ -21,7 +20,6 @@ const NewCharacterPage = () => {
   };
 
   const create = async (character: Character) => {
-    setError(null);
     setSaving(true);
 
     const supabase = supabaseBrowser();
@@ -48,7 +46,6 @@ const NewCharacterPage = () => {
     setSaving(false);
 
     if (insertError) {
-      setError(insertError.message);
       return;
     }
 
@@ -58,16 +55,13 @@ const NewCharacterPage = () => {
 
   return (
     <AppPageLayout title="Create New Character">
-      <CharacterEditor
+      <CharacterEditorShell
         initialCharacter={initialCharacter}
         submitLabel="Create Character"
         submittingLabel="Creating…"
         isSubmitting={saving}
-        error={error}
-        setError={setError}
         onSave={create}
         onCancel={() => router.back()}
-        cancelLabel="Cancel"
       />
     </AppPageLayout>
   );

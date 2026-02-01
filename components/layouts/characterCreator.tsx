@@ -1,189 +1,171 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Character } from "@/types/character";
-import { TextArea, TextInput } from "@/components/ui/inputs";
-import {
-  CharacterLayout,
-  CharacterLayoutBox,
-} from "@/components/layouts/character";
 import Button from "@/components/ui/button";
+import {
+  BasicsStep,
+  BackstoryStep,
+  ImageStep,
+} from "./characterCreatorSteps/simple";
 
-interface CharacterEditorSideBarProps {
-  sections: { title: string; editor: React.ReactNode }[];
+type StepId = "basics" | "backstory" | "image";
 
-  onSectionChange?: (sectionEditor: React.ReactNode) => void;
+type Step = {
+  id: StepId;
+  title: string;
+};
+
+function validateStep(step: StepId, c: Character): string | null {
+  if (step === "basics") {
+    if (!c.name.trim()) return "Name is required.";
+  }
+
+  return null;
 }
 
-const CharacterEditorSideBar: React.FC<CharacterEditorSideBarProps> = ({
-  sections,
-  onSectionChange = () => {},
-}) => {
-  return (
-    <div className="w-full bg-dnd colspan-1 rounded-xl border-2 border-red-900/20 p-4">
-      <div className="flex flex-col gap-6">
-        {sections.map((section) => (
-          <div
-            key={section.title}
-            onClick={() => onSectionChange(section.editor)}
-          >
-            {section.title}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-type CharacterEditorProps = {
-  initialCharacter: Character;
-
-  submitLabel: string;
-  submittingLabel?: string;
-  isSubmitting?: boolean;
-  cancelLabel?: string;
-
-  onSave: (character: Character) => Promise<void> | void;
-  onCancel: () => void;
-
-  error?: string | null;
-  setError?: (msg: string | null) => void;
-
-  className?: string;
-};
-
-const CharacterEditor = ({
+const CharacterEditorShell = ({
   initialCharacter,
-
-  submitLabel,
-  submittingLabel = "Saving…",
-  isSubmitting = false,
-
   onSave,
   onCancel,
+  isSubmitting = false,
+  submitLabel = "Save",
+  submittingLabel = "Saving…",
+}: {
+  initialCharacter: Character;
+  onSave: (character: Character) => Promise<void> | void;
+  onCancel: () => void;
+  isSubmitting?: boolean;
+  submitLabel?: string;
+  submittingLabel?: string;
+}) => {
+  const steps: Step[] = useMemo(
+    () => [
+      { id: "basics", title: "Basics" },
+      { id: "backstory", title: "Backstory" },
+      { id: "image", title: "Portrait" },
+    ],
+    [],
+  );
 
-  error = null,
-  setError,
+  const [activeStep, setActiveStep] = useState<StepId>("basics");
+  const [draft, setDraft] = useState<Character>(initialCharacter);
+  const [error, setError] = useState<string | null>(null);
 
-  className,
-}: CharacterEditorProps) => {
-  const [character, setCharacter] = useState<Character>(initialCharacter);
-  const [activeSection, setActiveSection] = useState<React.ReactNode>(<></>);
+  useEffect(() => setDraft(initialCharacter), [initialCharacter]);
 
-  // If the initial character changes (e.g. loaded from DB), sync state once.
-  useEffect(() => {
-    setCharacter(initialCharacter);
-  }, [initialCharacter]);
+  const currentError = validateStep(activeStep, draft);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (setError) setError(null);
-
-    if (!character.name.trim()) {
-      if (setError) setError("Name is required.");
+  const goTo = (next: StepId) => {
+    // optional: block navigation if current step invalid
+    const err = validateStep(activeStep, draft);
+    if (err) {
+      setError(err);
       return;
     }
+    setError(null);
+    setActiveStep(next);
+  };
 
-    // normalize only what must be normalized
+  const nextStep = () => {
+    const idx = steps.findIndex((s) => s.id === activeStep);
+    if (idx < steps.length - 1) goTo(steps[idx + 1].id);
+  };
+
+  const prevStep = () => {
+    const idx = steps.findIndex((s) => s.id === activeStep);
+    if (idx > 0) setActiveStep(steps[idx - 1].id);
+  };
+
+  const handleSave = async () => {
+    const err = validateStep(activeStep, draft);
+    if (err) {
+      setError(err);
+      return;
+    }
+    setError(null);
+
     const normalized: Character = {
-      ...character,
-      name: character.name.trim(),
+      ...draft,
+      name: draft.name.trim(),
+      backstory: draft.backstory?.trim() ? draft.backstory : null,
+      image_url: draft.image_url?.trim() ? draft.image_url : null,
     };
 
     await onSave(normalized);
   };
 
   return (
-    <div className={`${className} grid grid-cols-6 gap-20 pt-10`}>
-      <CharacterEditorSideBar
-        sections={[{ title: "About", editor: <div>I am editor</div> }]}
-        onSectionChange={setActiveSection}
-      />
-      <div className="col-span-5">{activeSection}</div>
-      <div className="col-span-5">
-        <form onSubmit={handleSubmit} className="mt-2 space-y-5">
-          <CharacterLayout>
-            <CharacterLayoutBox colspan={2}>
-              <TextInput
-                label="Name"
-                value={character.name}
-                onChange={(e) =>
-                  setCharacter((c) => ({ ...c, name: e.target.value }))
-                }
-                required
-                error={null}
-              />
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
+      <aside className="w-full rounded-xl border-2 border-red-900/20 bg-dnd p-4">
+        <div className="flex flex-col gap-2">
+          {steps.map((s) => {
+            const isActive = s.id === activeStep;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => goTo(s.id)}
+                className={[
+                  "rounded-lg px-3 py-2 text-left transition",
+                  isActive
+                    ? "bg-white/60 border border-red-900/20"
+                    : "hover:bg-white/30",
+                ].join(" ")}
+              >
+                <div className="font-medium">{s.title}</div>
+              </button>
+            );
+          })}
+        </div>
+      </aside>
 
-              <TextArea
-                label="Backstory"
-                value={character.backstory ?? ""}
-                onChange={(e) =>
-                  setCharacter((c) => ({
-                    ...c,
-                    backstory: e.target.value.trim() ? e.target.value : null,
-                  }))
-                }
-                error={null}
-              />
+      <section className="rounded-xl border-2 border-red-900/20 bg-white/40 p-4">
+        {activeStep === "basics" && (
+          <BasicsStep
+            value={draft}
+            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
+          />
+        )}
+        {activeStep === "backstory" && (
+          <BackstoryStep
+            value={draft}
+            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
+          />
+        )}
+        {activeStep === "image" && (
+          <ImageStep
+            value={draft}
+            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
+            setError={setError}
+          />
+        )}
 
-              <TextInput
-                label="Image URL"
-                value={character.image_url ?? ""}
-                onChange={(e) =>
-                  setCharacter((c) => ({
-                    ...c,
-                    image_url: e.target.value.trim() ? e.target.value : null,
-                  }))
-                }
-                placeholder="https://…"
-                inputMode="url"
-                error={null}
-              />
-            </CharacterLayoutBox>
+        {error && (
+          <div className="mt-4 w-fit border-y-2 border-dnd-red-dark bg-dnd-accent-red px-3 py-2 text-sm text-dnd-red-dark">
+            {error}
+          </div>
+        )}
 
-            <CharacterLayoutBox colspan={1} className="p-0">
-              <div className="overflow-hidden rounded-xl border-2 border-red-900/20 bg-white/50 w-full h-full">
-                {character.image_url?.trim() ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={character.image_url}
-                    alt="Character preview"
-                    className="h-full w-full object-cover"
-                    onError={() =>
-                      setError?.("Could not load image from that URL.")
-                    }
-                  />
-                ) : null}
-              </div>
-            </CharacterLayoutBox>
+        <div className="mt-6 flex items-center justify-between gap-3">
+          <div className="flex gap-3">
+            <Button label="Back" mode="inverted" onClick={onCancel} />
+          </div>
 
-            <CharacterLayoutBox
-              colspan={6}
-              className="flex items-center justify-between"
-            >
-              <div className="flex items-center gap-3">
-                <Button
-                  label={isSubmitting ? submittingLabel : submitLabel}
-                  type="submit"
-                  disabled={isSubmitting}
-                  mode="default"
-                />
-
-                <Button label="Back" mode="inverted" onClick={onCancel} />
-              </div>
-            </CharacterLayoutBox>
-            <CharacterLayoutBox colspan={6}>
-              {error && (
-                <div className="bg-dnd-accent-red border-y-2 border-dnd-red-dark relative w-fit px-3 py-2 text-sm text-dnd-red-dark">
-                  {error}
-                </div>
-              )}
-            </CharacterLayoutBox>
-          </CharacterLayout>
-        </form>
-      </div>
+          <div className="flex gap-3">
+            <Button label="Previous" mode="inverted" onClick={prevStep} />
+            <Button label="Next" mode="inverted" onClick={nextStep} />
+            <Button
+              label={isSubmitting ? submittingLabel : submitLabel}
+              mode="default"
+              onClick={handleSave}
+              disabled={isSubmitting || !!currentError}
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default CharacterEditor;
+export default CharacterEditorShell;

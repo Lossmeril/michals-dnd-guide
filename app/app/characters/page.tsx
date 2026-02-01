@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import type { DB_Character } from "@/types/character";
 
@@ -16,7 +14,6 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import DeleteButton from "@/components/ui/deleteButton";
 
 // REUSABLE STANDARDIZED CLASS TABLE
 const CharactersTable = ({
@@ -26,8 +23,6 @@ const CharactersTable = ({
   characters: DB_Character[];
   title?: string;
 }) => {
-  const router = useRouter();
-
   return (
     <Table title={title}>
       <TableHead
@@ -58,33 +53,16 @@ const CharactersTable = ({
               </div>
             </TableCell>
 
-            <TableCell className="">
+            <TableCell className="align-center">
               <div className="font-serif text-dnd-ink">{c.name}</div>
             </TableCell>
 
-            <TableCell className="">
-              <div className="w-full h-full flex flex-row items-center gap-4">
-                <Button
-                  href={`/app/characters/${c.id}`}
-                  label="Edit"
-                  mode="inverted"
-                />
-                <DeleteButton
-                  entityName={c.name}
-                  mode="icon"
-                  confirmTitle={`You are about to delete ${c.name}`}
-                  confirmPrefix="I want to kill"
-                  onDelete={async () => {
-                    const supabase = supabaseBrowser();
-                    const { error } = await supabase
-                      .from("characters")
-                      .delete()
-                      .eq("id", c.id);
-                    if (error) throw new Error(error.message);
-                    router.refresh();
-                  }}
-                />
-              </div>
+            <TableCell className="align-center">
+              <Button
+                href={`/app/characters/${c.id}/edit`}
+                label="Edit"
+                mode="inverted"
+              />
             </TableCell>
           </TableRow>
         ))}

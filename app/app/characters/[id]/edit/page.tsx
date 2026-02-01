@@ -28,12 +28,11 @@ const CharacterEditPage = ({ params }: PageProps) => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      setError(null);
       setLoading(true);
 
       const supabase = supabaseBrowser();
@@ -63,7 +62,6 @@ const CharacterEditPage = ({ params }: PageProps) => {
   }, [characterId]);
 
   const save = async (character: Character) => {
-    setError(null);
     setSaving(true);
 
     const supabase = supabaseBrowser();
@@ -83,7 +81,6 @@ const CharacterEditPage = ({ params }: PageProps) => {
     setSaving(false);
 
     if (updateError) {
-      setError(updateError.message);
       return;
     }
 
@@ -118,11 +115,8 @@ const CharacterEditPage = ({ params }: PageProps) => {
         submitLabel="Save"
         submittingLabel="Saving…"
         isSubmitting={saving}
-        error={error}
-        setError={setError}
         onSave={save}
         onCancel={() => router.push(`/app/characters/${characterId}`)}
-        cancelLabel="Cancel"
       />
     </AppPageLayout>
   );
