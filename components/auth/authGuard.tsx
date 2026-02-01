@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { AppPageLayout } from "../layouts/base";
+import Spinner from "../ui/spinner";
 
 type Props = {
   children: React.ReactNode;
@@ -41,7 +43,16 @@ const AuthGuard = ({ children }: Props) => {
   }, [router, pathname]);
 
   if (!ready) {
-    return <div className="p-6 text-sm text-red-900">Loading…</div>;
+    return (
+      <AppPageLayout title={""}>
+        <div className="w-full h-full grid place-items-center">
+          <div className="flex flex-col justify-center items-center gap-6">
+            <p>Loading…</p>
+            <Spinner />
+          </div>
+        </div>
+      </AppPageLayout>
+    );
   }
 
   return <>{children}</>;

@@ -1,13 +1,13 @@
 "use client";
 
 import AdminGuard from "@/components/auth/adminGuard";
-import { AppPageLayout } from "@/components/layouts/base";
+import { AdminAppPageLayout } from "@/components/layouts/base";
 import Card from "@/components/ui/card";
 
 const AdminHomePage = () => {
   return (
     <AdminGuard>
-      <AppPageLayout title="Admin">
+      <AdminAppPageLayout title="Admin">
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <Card
             title="Classes"
@@ -27,7 +27,7 @@ const AdminHomePage = () => {
             className="opacity-70 pointer-events-none"
           />
         </div>
-      </AppPageLayout>
+      </AdminAppPageLayout>
     </AdminGuard>
   );
 };

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/navbar";
 
-// import AuthGuard from "@/components/authGuard";
+import AuthGuard from "@/components/auth/authGuard";
+import AdminNavbar from "@/components/navbar/adminNavbar";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -18,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        {/* <AuthGuard> */}
         <Navbar />
-        <main className={`w-full min-h-screen py-32`}>{children}</main>
-
-        {/* </AuthGuard> */}
+        <main className={`w-full min-h-screen relative`}>
+          <AdminNavbar />
+          <AuthGuard>{children}</AuthGuard>
+        </main>
       </body>
     </html>
   );

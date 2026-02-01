@@ -37,7 +37,7 @@ const Card = ({
   const variantClass =
     variant === "example"
       ? "rulebox"
-      : "border-red-900 bg-transparent rounded-lg border-2 shadow-sm transition hover:-translate-y-0.5";
+      : "border-red-900 bg-transparent rounded-lg border-2 shadow-sm transition hover:-translate-y-0.5 overflow-hidden";
 
   const content = (
     <div className={`${base} ${variantClass} ${className ?? ""}`}>

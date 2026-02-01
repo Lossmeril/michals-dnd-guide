@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { AdminAppPageLayout } from "../layouts/base";
+import Spinner from "../ui/spinner";
 
 type Props = {
   children: React.ReactNode;
@@ -42,7 +44,17 @@ const AdminGuard = ({ children }: Props) => {
     check();
   }, [router]);
 
-  if (loading) return <p className="text-sm opacity-70">Checking access…</p>;
+  if (loading)
+    return (
+      <AdminAppPageLayout title={""}>
+        <div className="w-full h-full grid place-items-center">
+          <div className="flex flex-col justify-center items-center gap-6">
+            <p>Checking access…</p>
+            <Spinner />
+          </div>
+        </div>
+      </AdminAppPageLayout>
+    );
 
   return <>{children}</>;
 };

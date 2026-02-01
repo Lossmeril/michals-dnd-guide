@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import AdminGuard from "@/components/auth/adminGuard";
-import { AppPageLayout } from "@/components/layouts/base";
+import { AdminAppPageLayout } from "@/components/layouts/base";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import type { DB_Class } from "@/types/class";
-import Card from "@/components/ui/card";
+
 import Button from "@/components/ui/button";
 
 const AdminClassesPage = () => {
@@ -33,9 +33,13 @@ const AdminClassesPage = () => {
     load();
   }, []);
 
+  const basicClasses = classes.filter((c) => c.rank === "basic");
+  const advancedClasses = classes.filter((c) => c.rank === "advanced");
+  const mightyClasses = classes.filter((c) => c.rank === "mighty");
+
   return (
     <AdminGuard>
-      <AppPageLayout title="Admin: Classes">
+      <AdminAppPageLayout title="Admin: Classes">
         <div className="mt-4 flex items-center justify-between">
           <Button label="Back" mode="inverted" href="/app/admin" />
           <Button label="New class" href="/app/admin/classes/new" />
@@ -49,22 +53,198 @@ const AdminClassesPage = () => {
           </div>
         )}
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {classes.map((c) => (
-            <Card
-              key={c.id}
-              title={c.title}
-              description={`${c.rank.toUpperCase()} • Magic: ${c.is_magic}`}
-              imageSrc={c.image_url ?? undefined}
-              href={`/app/admin/classes/${c.id}/edit`}
-            >
-              {c.short_desc ? (
-                <p className="mt-2 text-sm text-dnd-ink/80">{c.short_desc}</p>
-              ) : null}
-            </Card>
-          ))}
-        </div>
-      </AppPageLayout>
+        <section className="mt-6">
+          <h3>Basic Classes</h3>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b-2 border-red-900 p-2 text-left">
+                <th className="w-20">Image</th>
+                <th>Name</th>
+                <th className="w-44">Rank</th>
+                <th className="w-44">Magic</th>
+                <th className="w-28">Edit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {basicClasses.map((c) => (
+                <tr
+                  key={c.id}
+                  className="w-full even:bg-[#F5EBD1] odd:bg-transparent p-2"
+                >
+                  <td>
+                    <div className="overflow-hidden bg-white/50 w-16 h-16">
+                      {c.image_url?.trim() ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={c.image_url}
+                          alt={c.title}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full text-sm text-[#2b1d0e]/50">
+                          No Image
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="align-center">
+                    <div className="font-serif text-dnd-ink">{c.title}</div>
+                  </td>
+
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.rank[0].toUpperCase() + c.rank.slice(1)}
+                  </td>
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.is_magic === "semi"
+                      ? "Pseudo"
+                      : c.is_magic === "true"
+                        ? "Yes"
+                        : "No"}
+                  </td>
+
+                  <td className="align-center">
+                    <Button
+                      href={`/app/admin/classes/${c.id}/edit`}
+                      label="Edit"
+                      mode="inverted"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+        <section className="mt-6">
+          <h3>Advanced Classes</h3>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b-2 border-red-900 p-2 text-left">
+                <th className="w-20">Image</th>
+                <th>Name</th>
+                <th className="w-44">Rank</th>
+                <th className="w-44">Magic</th>
+                <th className="w-28">Edit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {advancedClasses.map((c) => (
+                <tr
+                  key={c.id}
+                  className="w-full even:bg-[#F5EBD1] odd:bg-transparent p-2"
+                >
+                  <td>
+                    <div className="overflow-hidden bg-white/50 w-16 h-16">
+                      {c.image_url?.trim() ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={c.image_url}
+                          alt={c.title}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full text-sm text-[#2b1d0e]/50">
+                          No Image
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="align-center">
+                    <div className="font-serif text-dnd-ink">{c.title}</div>
+                  </td>
+
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.rank[0].toUpperCase() + c.rank.slice(1)}
+                  </td>
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.is_magic === "semi"
+                      ? "Pseudo"
+                      : c.is_magic === "true"
+                        ? "Yes"
+                        : "No"}
+                  </td>
+
+                  <td className="align-center">
+                    <Button
+                      href={`/app/admin/classes/${c.id}/edit`}
+                      label="Edit"
+                      mode="inverted"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+        <section className="mt-6">
+          <h3>Mighty Classes</h3>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b-2 border-red-900 p-2 text-left">
+                <th className="w-20">Image</th>
+                <th>Name</th>
+                <th className="w-44">Rank</th>
+                <th className="w-44">Magic</th>
+                <th className="w-28">Edit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {mightyClasses.map((c) => (
+                <tr
+                  key={c.id}
+                  className="w-full even:bg-[#F5EBD1] odd:bg-transparent p-2"
+                >
+                  <td>
+                    <div className="overflow-hidden bg-white/50 w-16 h-16">
+                      {c.image_url?.trim() ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={c.image_url}
+                          alt={c.title}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full text-sm text-[#2b1d0e]/50">
+                          No Image
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="align-center">
+                    <div className="font-serif text-dnd-ink">{c.title}</div>
+                  </td>
+
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.rank[0].toUpperCase() + c.rank.slice(1)}
+                  </td>
+                  <td className="align-center text-sm text-dnd-ink/80">
+                    {c.is_magic === "semi"
+                      ? "Pseudo"
+                      : c.is_magic === "true"
+                        ? "Yes"
+                        : "No"}
+                  </td>
+
+                  <td className="align-center">
+                    <Button
+                      href={`/app/admin/classes/${c.id}/edit`}
+                      label="Edit"
+                      mode="inverted"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      </AdminAppPageLayout>
     </AdminGuard>
   );
 };
