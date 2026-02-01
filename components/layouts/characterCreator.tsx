@@ -3,87 +3,106 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Character } from "@/types/character";
 import Button from "@/components/ui/button";
-import {
-  BasicsStep,
-  BackstoryStep,
-  ImageStep,
-} from "./characterCreatorSteps/simple";
+import { CharacterAboutStep } from "./characterCreatorSteps/aboutStep";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-type StepId = "basics" | "backstory" | "image";
+// ---------------------------------------
+// Types and helpers
+// ---------------------------------------
 
-type Step = {
-  id: StepId;
-  title: string;
-};
+export const STEP_IDS = ["about"] as const;
+export type StepId = (typeof STEP_IDS)[number];
 
-function validateStep(step: StepId, c: Character): string | null {
-  if (step === "basics") {
-    if (!c.name.trim()) return "Name is required.";
-  }
+export const DEFAULT_STEP: StepId = "about";
 
-  return null;
+export function parseStepId(input: string | null | undefined): StepId {
+  if (!input) return DEFAULT_STEP;
+  return (STEP_IDS as readonly string[]).includes(input)
+    ? (input as StepId)
+    : DEFAULT_STEP;
 }
 
-const CharacterEditorShell = ({
-  initialCharacter,
-  onSave,
-  onCancel,
-  isSubmitting = false,
-  submitLabel = "Save",
-  submittingLabel = "Saving…",
-}: {
+// ---------------------------------------
+
+type CharacterEditorShellProps = {
   initialCharacter: Character;
+  initialStep?: StepId;
   onSave: (character: Character) => Promise<void> | void;
   onCancel: () => void;
-  isSubmitting?: boolean;
-  submitLabel?: string;
-  submittingLabel?: string;
-}) => {
-  const steps: Step[] = useMemo(
-    () => [
-      { id: "basics", title: "Basics" },
-      { id: "backstory", title: "Backstory" },
-      { id: "image", title: "Portrait" },
-    ],
-    [],
-  );
+};
 
-  const [activeStep, setActiveStep] = useState<StepId>("basics");
+const CharacterEditorShell: React.FC<CharacterEditorShellProps> = ({
+  initialCharacter,
+  initialStep = DEFAULT_STEP,
+  onSave,
+  onCancel,
+}) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [draft, setDraft] = useState<Character>(initialCharacter);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => setDraft(initialCharacter), [initialCharacter]);
+  // Single source of truth from URL:
+  const stepFromUrl = parseStepId(searchParams.get("step"));
 
-  const currentError = validateStep(activeStep, draft);
+  // UI state mirrors URL; initialize from server-passed initialStep if URL missing
+  const [activeStep, setActiveStep] = useState<StepId>(
+    () => stepFromUrl ?? initialStep,
+  );
 
-  const goTo = (next: StepId) => {
-    // optional: block navigation if current step invalid
-    const err = validateStep(activeStep, draft);
-    if (err) {
-      setError(err);
-      return;
+  // If URL changes (back/forward/manual edit), update UI state
+  useEffect(() => {
+    setActiveStep(stepFromUrl);
+  }, [stepFromUrl]);
+
+  // If URL has no step, set it once (so deep-link is always canonical)
+  useEffect(() => {
+    const current = searchParams.get("step");
+    if (!current) {
+      const sp = new URLSearchParams(searchParams.toString());
+      sp.set("step", initialStep);
+      router.replace(`${pathname}?${sp.toString()}`);
     }
-    setError(null);
-    setActiveStep(next);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const steps = useMemo(
+    () =>
+      STEP_IDS.map((id) => ({
+        id,
+        title: id === "about" ? "About" : "",
+      })),
+    [],
+  );
+
+  const setStepInUrl = (next: StepId, mode: "push" | "replace" = "push") => {
+    const sp = new URLSearchParams(searchParams.toString());
+    sp.set("step", next);
+    const url = `${pathname}?${sp.toString()}`;
+
+    if (mode === "replace") router.replace(url);
+    else router.push(url);
   };
 
   const nextStep = () => {
     const idx = steps.findIndex((s) => s.id === activeStep);
-    if (idx < steps.length - 1) goTo(steps[idx + 1].id);
+    if (idx < steps.length - 1) setStepInUrl(steps[idx + 1].id);
   };
 
   const prevStep = () => {
     const idx = steps.findIndex((s) => s.id === activeStep);
-    if (idx > 0) setActiveStep(steps[idx - 1].id);
+    if (idx > 0) setStepInUrl(steps[idx - 1].id);
   };
 
   const handleSave = async () => {
-    const err = validateStep(activeStep, draft);
-    if (err) {
-      setError(err);
+    setError(null);
+
+    if (!draft.name.trim()) {
+      setError("Name is required.");
       return;
     }
-    setError(null);
 
     const normalized: Character = {
       ...draft,
@@ -97,6 +116,9 @@ const CharacterEditorShell = ({
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
+      {/* ------------------------------------------ */}
+      {/* SIDEBAR */}
+      {/* ------------------------------------------ */}
       <aside className="w-full rounded-xl border-2 border-red-900/20 bg-dnd p-4">
         <div className="flex flex-col gap-2">
           {steps.map((s) => {
@@ -105,12 +127,10 @@ const CharacterEditorShell = ({
               <button
                 key={s.id}
                 type="button"
-                onClick={() => goTo(s.id)}
+                onClick={() => setStepInUrl(s.id)}
                 className={[
-                  "rounded-lg px-3 py-2 text-left transition",
-                  isActive
-                    ? "bg-white/60 border border-red-900/20"
-                    : "hover:bg-white/30",
+                  "px-3 py-2 text-left transition",
+                  isActive ? "menu-banner" : "hover:bg-white/30",
                 ].join(" ")}
               >
                 <div className="font-medium">{s.title}</div>
@@ -120,21 +140,12 @@ const CharacterEditorShell = ({
         </div>
       </aside>
 
+      {/* ------------------------------------------ */}
+      {/* MAIN SECTION / EDITING WINDOW */}
+      {/* ------------------------------------------ */}
       <section className="rounded-xl border-2 border-red-900/20 bg-white/40 p-4">
-        {activeStep === "basics" && (
-          <BasicsStep
-            value={draft}
-            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
-          />
-        )}
-        {activeStep === "backstory" && (
-          <BackstoryStep
-            value={draft}
-            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
-          />
-        )}
-        {activeStep === "image" && (
-          <ImageStep
+        {activeStep === "about" && (
+          <CharacterAboutStep
             value={draft}
             onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
             setError={setError}
@@ -148,19 +159,12 @@ const CharacterEditorShell = ({
         )}
 
         <div className="mt-6 flex items-center justify-between gap-3">
-          <div className="flex gap-3">
-            <Button label="Back" mode="inverted" onClick={onCancel} />
-          </div>
+          <Button label="Back" mode="inverted" onClick={onCancel} />
 
           <div className="flex gap-3">
             <Button label="Previous" mode="inverted" onClick={prevStep} />
             <Button label="Next" mode="inverted" onClick={nextStep} />
-            <Button
-              label={isSubmitting ? submittingLabel : submitLabel}
-              mode="default"
-              onClick={handleSave}
-              disabled={isSubmitting || !!currentError}
-            />
+            <Button label="Save" mode="default" onClick={handleSave} />
           </div>
         </div>
       </section>
