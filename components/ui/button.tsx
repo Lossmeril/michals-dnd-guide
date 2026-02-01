@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 interface ButtonProps {
-  label: string;
+  label: string | React.ReactNode;
   href?: string;
 
   mode?: "default" | "transparent" | "inverted" | "monochrome";
@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const styles = [
-    "inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition",
+    "h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer",
     disabled ? "opacity-60 pointer-events-none" : "",
     modeStyles[mode] || modeStyles.default,

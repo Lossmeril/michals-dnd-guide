@@ -16,11 +16,7 @@ const AppHomePage = () => {
           molestie vitae vehicula venenatis, tincidunt ac pede. In rutrum. Etiam
           egestas wisi a erat. <a href="#">Proin mattis lacinia justo.</a>{" "}
           Quisque porta. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Duis viverra diam
-          non justo. Mauris elementum mauris vitae tortor. Fusce tellus. Etiam
-          quis quam. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-          odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-          voluptatem sequi nesciunt. Aliquam erat volutpat.
+          velit esse cillum dolore eu fugiat nulla pariatur.
         </p>
         <h3>Subheading Example</h3>
         <p>
