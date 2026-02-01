@@ -122,6 +122,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
         setError={setError}
         onSave={save}
         onCancel={() => router.push(`/app/characters/${characterId}`)}
+        cancelLabel="Cancel"
       />
     </AppPageLayout>
   );

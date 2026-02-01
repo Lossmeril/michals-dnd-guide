@@ -67,6 +67,7 @@ const NewCharacterPage = () => {
         setError={setError}
         onSave={create}
         onCancel={() => router.back()}
+        cancelLabel="Cancel"
       />
     </AppPageLayout>
   );

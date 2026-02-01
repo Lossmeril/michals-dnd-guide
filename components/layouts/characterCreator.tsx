@@ -15,6 +15,7 @@ type CharacterEditorProps = {
   submitLabel: string;
   submittingLabel?: string;
   isSubmitting?: boolean;
+  cancelLabel?: string;
 
   onSave: (character: Character) => Promise<void> | void;
   onCancel: () => void;
@@ -127,12 +128,6 @@ const CharacterEditor = ({
             colspan={6}
             className="flex items-center justify-between"
           >
-            {error && (
-              <div className="rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
-                {error}
-              </div>
-            )}
-
             <div className="flex items-center gap-3">
               <Button
                 label={isSubmitting ? submittingLabel : submitLabel}
@@ -143,6 +138,13 @@ const CharacterEditor = ({
 
               <Button label="Back" mode="inverted" onClick={onCancel} />
             </div>
+          </CharacterLayoutBox>
+          <CharacterLayoutBox colspan={6}>
+            {error && (
+              <div className="bg-dnd-accent-red border-y-2 border-dnd-red-dark relative w-fit px-3 py-2 text-sm text-dnd-red-dark">
+                {error}
+              </div>
+            )}
           </CharacterLayoutBox>
         </CharacterLayout>
       </form>

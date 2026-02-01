@@ -127,17 +127,19 @@ const CharacterViewPage = ({ params }: PageProps) => {
           colspan={6}
           className="flex items-center justify-between"
         >
-          <Button
-            label="Back"
-            mode="inverted"
-            onClick={() => router.push("/app/characters")}
-          />
+          <div className="flex items-center gap-3">
+            <Button
+              label="Back"
+              mode="inverted"
+              onClick={() => router.push("/app/characters")}
+            />
 
-          <Button
-            label="Edit"
-            mode="default"
-            onClick={() => router.push(`/app/characters/${characterId}/edit`)}
-          />
+            <Button
+              label="Edit"
+              mode="default"
+              onClick={() => router.push(`/app/characters/${characterId}/edit`)}
+            />
+          </div>
         </CharacterLayoutBox>
       </CharacterLayout>
     </AppPageLayout>
