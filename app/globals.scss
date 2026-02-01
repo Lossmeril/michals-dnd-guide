@@ -25,6 +25,18 @@
   --color-purple: #a78bfa40;
 }
 
+::selection {
+  background: var(--color-dnd-accent-red);
+  color: black;
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: var(--color-dnd-accent-red);
+  color: black;
+  text-shadow: none;
+}
+
 html {
   scroll-behavior: smooth;
   background: url("../public/img/bg.webp") no-repeat center center fixed;
