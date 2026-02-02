@@ -15,7 +15,7 @@ export const AppPageLayout: React.FC<AppPageLayoutProps> = ({
 }) => {
   return (
     <main className={`w-full min-h-screen px-20 py-32 ${className}`}>
-      <div className="book">
+      <div className="book mb-8">
         <h1>{title}</h1>
       </div>
       {children}

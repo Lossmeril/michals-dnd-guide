@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+
+// ------------ TYPES
 import type { Character } from "@/types/character";
 
-import { useUrlStep } from "@/lib/editors/useUrlStep";
+// ------------ IMPORT EDITOR SHELL
 import { EditorShell } from "@/components/editors/genericCreator";
-import { CharacterAboutStep } from "./characterCreatorSteps/aboutStep";
+import { useUrlStep } from "@/lib/editors/useUrlStep";
 
+// ------------ IMPORT STEPS
+import { CharacterAboutStep } from "./characterCreatorSteps/1aboutStep";
 import {
   CharacterAttributesStep,
   type Attributes,
-} from "./characterCreatorSteps/attributesStep";
-import { CharacterRaceStep } from "./characterCreatorSteps/raceStep";
+} from "./characterCreatorSteps/2attributesStep";
+import { CharacterRaceStep } from "./characterCreatorSteps/3raceStep";
 
 // steps for this editor
 const STEP_IDS = ["about", "attributes", "race"] as const;

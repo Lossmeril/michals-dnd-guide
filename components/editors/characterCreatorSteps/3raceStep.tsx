@@ -58,9 +58,9 @@ export const CharacterRaceStep: React.FC<RaceStepProps> = ({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="font-serif text-xl text-dnd-ink">
+        <h3 className="font-serif text-xl text-dnd-ink mb-2">
           Select your character&apos;s race
-        </h2>
+        </h3>
         <p className="text-sm text-dnd-ink/70">
           Pick one. You can change it later.
         </p>

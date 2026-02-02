@@ -12,7 +12,7 @@ import type {
 import { AppPageLayout } from "@/components/layouts/base";
 import CharacterEditorShell from "@/components/editors/characterCreator";
 
-import type { Attributes } from "@/components/editors/characterCreatorSteps/attributesStep";
+import type { Attributes } from "@/components/editors/characterCreatorSteps/2attributesStep";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -168,7 +168,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
   }
 
   return (
-    <AppPageLayout title="Edit Character">
+    <AppPageLayout title={`Editing ${initialCharacter.name}`}>
       <CharacterEditorShell
         characterId={characterId}
         initialCharacter={initialCharacter}
