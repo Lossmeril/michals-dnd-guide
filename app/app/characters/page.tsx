@@ -203,11 +203,11 @@ const CharactersTable = ({
 
             <TableCell className="">
               <div className="w-full h-full flex flex-row items-center gap-2">
-                <Button
+                {/* <Button
                   href={`/app/characters/${c.id}`}
                   label="View"
                   mode="inverted"
-                />
+                /> */}
                 <Button
                   href={`/app/characters/${c.id}/edit?step=about`}
                   label="Edit"

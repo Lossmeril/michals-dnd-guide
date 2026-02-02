@@ -144,7 +144,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
     // character_stats has PK (character_id, stat_id) so upsert works
     await supabase.from("character_stats").upsert(rows);
 
-    router.push(`/app/characters/${characterId}`);
+    router.push(`/app/characters`);
     router.refresh();
   };
 
