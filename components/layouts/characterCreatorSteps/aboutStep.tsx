@@ -1,7 +1,6 @@
 import { TextArea, TextInput } from "@/components/ui/inputs";
-import { uploadCharacterImage } from "@/components/editors/characterImageUpload";
+import { UploadImageButton } from "@/components/editors/imageUpload";
 import type { Character } from "@/types/character";
-import { supabaseBrowser } from "@/lib/supabase/browser";
 
 type AboutStepProps = {
   characterId: string;
@@ -56,43 +55,11 @@ export const CharacterAboutStep: React.FC<AboutStepProps> = ({
           ) : null}
 
           <div className="absolute bottom-4 left-4 flex transform flex-col items-center gap-2">
-            <label
-              htmlFor="imgUpload"
-              className="bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer"
-            >
-              {value.image_url ? "Change Image" : "Upload Image"}
-            </label>
-            <input
-              id="imgUpload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-
-                if (file.size > 2 * 1024 * 1024) {
-                  setError("Image must be under 2MB.");
-                  return;
-                }
-
-                try {
-                  setError(null);
-                  const url = await uploadCharacterImage(
-                    supabaseBrowser(),
-                    file,
-                    characterId,
-                  );
-                  onChange({ image_url: url });
-                } catch (err) {
-                  console.error(err);
-                  setError(
-                    err instanceof Error
-                      ? `Error: ${err.message}`
-                      : "Image upload failed.",
-                  );
-                }
-              }}
+            <UploadImageButton
+              characterId={characterId}
+              image_url={value.image_url}
+              onChange={(patch) => onChange(patch)}
+              setError={setError}
             />
           </div>
         </div>

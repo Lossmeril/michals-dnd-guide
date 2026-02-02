@@ -1,8 +1,18 @@
 export const CLASS_RANKS = ["basic", "advanced", "mighty"] as const;
 export type ClassRank = (typeof CLASS_RANKS)[number];
+export enum ClassRankEnum {
+  basic = "Basic Class",
+  advanced = "Advanced Class",
+  mighty = "Mighty Class",
+}
 
 export const MAGIC_KINDS = ["false", "semi", "true"] as const;
 export type MagicKind = (typeof MAGIC_KINDS)[number];
+export enum MagicKindEnum {
+  false = "Non-Magic Class",
+  semi = "Pseudo-Magic Class",
+  true = "Magic Class",
+}
 
 export type Class = {
   rank: ClassRank;

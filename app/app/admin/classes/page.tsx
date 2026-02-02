@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import type { DB_Class } from "@/types/class";
+import {
+  Class,
+  CLASS_RANKS,
+  ClassInsert,
+  ClassRankEnum,
+  isOneOf,
+  MagicKindEnum,
+  type ClassRank,
+  type DB_Class,
+} from "@/types/class";
 
 import AdminGuard from "@/components/auth/adminGuard";
 
@@ -17,12 +26,144 @@ import {
   TableHead,
   TableRow,
 } from "@/components/ui/table";
+import { useRouter } from "next/navigation";
+import CreateModal from "@/components/ui/modals/createModal";
+import { ClassPrerequisiteRow } from "@/types/classPrereq";
+import fetchPrerequisities from "@/lib/prerequisitiesFetch";
 
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
 // MAKE NEW CLASS MODAL
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
+
+interface MakeNewClassModalProps {
+  open: boolean;
+
+  name: string;
+  rank: ClassRank;
+  setName: (v: string) => void;
+  setRank: (v: ClassRank) => void;
+
+  confirmLabel?: string;
+  cancelLabel?: string;
+
+  onCancel: () => void;
+}
+
+const MakeNewClassModal: React.FC<MakeNewClassModalProps> = ({
+  open,
+  name,
+  rank,
+  setName,
+  setRank,
+  confirmLabel = "Create",
+  cancelLabel = "Cancel",
+  onCancel,
+}) => {
+  const router = useRouter();
+
+  const [saving, setSaving] = useState(false);
+
+  // ESC to close
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onCancel]);
+
+  if (!open) return null;
+
+  const initialClass: Class = {
+    title: name,
+    rank: rank,
+    is_magic: "false",
+    description: "",
+    short_desc: "",
+    color_scheme: null,
+    image_url: null,
+  };
+  const isNameInputted = name.trim().length > 0;
+
+  const create = async (newClass: Class) => {
+    setSaving(true);
+
+    const supabase = supabaseBrowser();
+    const { data: auth } = await supabase.auth.getUser();
+    const user = auth.user;
+
+    // Check authentication
+    if (!user) {
+      setSaving(false);
+      router.replace("/login?next=/app/admin/classes/new");
+      return;
+    }
+
+    const payload: ClassInsert = {
+      ...newClass,
+      title: newClass.title.trim(),
+    };
+
+    const { data, error: insertError } = await supabase
+      .from("classes")
+      .insert(payload)
+      .select("id")
+      .single();
+
+    setSaving(false);
+
+    if (insertError || !data) return;
+
+    onCancel();
+    router.push(`/app/admin/classes/${data.id}/edit`);
+  };
+
+  return (
+    <CreateModal
+      open={open}
+      title="Create a new class"
+      onConfirm={() => create(initialClass)}
+      confirmLabel={confirmLabel}
+      canConfirm={isNameInputted && !saving}
+      confirmLoading={saving}
+      cancelLabel={cancelLabel}
+      onCancel={onCancel}
+    >
+      <input
+        className="mt-3 w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        autoFocus
+      />
+
+      <div className="space-y-2">
+        <label className="text-sm text-dnd-ink/80">Rank</label>
+        <select
+          value={rank}
+          onChange={async (e) => {
+            const value = e.target.value;
+            if (!isOneOf(value, CLASS_RANKS)) return;
+
+            // rank change = reset prereqs and reload candidates
+            setRank(value);
+          }}
+          className="w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
+        >
+          {CLASS_RANKS.map((rank) => (
+            <option key={rank} value={rank}>
+              {rank}
+            </option>
+          ))}
+        </select>
+      </div>
+    </CreateModal>
+  );
+};
 
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
@@ -31,11 +172,19 @@ import {
 // --------------------------------------------------------------------
 const ClassTable = ({
   classes,
+  rank,
   title,
+  prerequisities,
 }: {
   classes: DB_Class[];
+  rank?: ClassRank;
   title?: string;
+  prerequisities?: ClassPrerequisiteRow[];
 }) => {
+  const displayClasses = rank
+    ? classes.filter((c) => c.rank === rank)
+    : classes;
+
   return (
     <Table title={title}>
       <TableHead
@@ -49,15 +198,15 @@ const ClassTable = ({
       ></TableHead>
 
       <TableBody>
-        {classes.map((c) => (
-          <TableRow key={c.id}>
+        {displayClasses.map((displayClasses) => (
+          <TableRow key={displayClasses.id}>
             <TableCell>
               <div className="overflow-hidden bg-white/50 w-16 h-16">
-                {c.image_url?.trim() ? (
+                {displayClasses.image_url?.trim() ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
-                    src={c.image_url}
-                    alt={c.title}
+                    src={displayClasses.image_url}
+                    alt={displayClasses.title}
                     className="object-cover w-full h-full"
                   />
                 ) : (
@@ -69,22 +218,29 @@ const ClassTable = ({
             </TableCell>
 
             <TableCell className="align-center">
-              <div className="font-serif text-dnd-ink">{c.title}</div>
+              <div className="font-serif text-dnd-ink">
+                {displayClasses.title}
+              </div>
+              <p className="text-[10px] text-dnd-ink/30">
+                {fetchPrerequisities({
+                  classes,
+                  prerequisities: prerequisities || [],
+                  child_class_id: displayClasses.id,
+                })
+                  .map((prereq) => `${prereq.title}`)
+                  .join(" + ")}
+              </p>
             </TableCell>
             <TableCell className="align-center text-sm text-dnd-ink/80">
-              {c.rank[0].toUpperCase() + c.rank.slice(1)}
+              {ClassRankEnum[displayClasses.rank]}
             </TableCell>
             <TableCell className="align-center text-sm text-dnd-ink/80">
-              {c.is_magic === "semi"
-                ? "Pseudo"
-                : c.is_magic === "true"
-                  ? "Yes"
-                  : "No"}
+              {MagicKindEnum[displayClasses.is_magic]}
             </TableCell>
 
             <TableCell className="align-center">
               <Button
-                href={`/app/admin/classes/${c.id}/edit`}
+                href={`/app/admin/classes/${displayClasses.id}/edit`}
                 label="Edit"
                 mode="inverted"
               />
@@ -103,40 +259,75 @@ const ClassTable = ({
 // --------------------------------------------------------------------
 const AdminClassesPage = () => {
   const [classes, setClasses] = useState<DB_Class[]>([]);
+  const [prerequisities, setPrerequisities] = useState<ClassPrerequisiteRow[]>(
+    [],
+  );
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // New class modal state and data
+  const [showNewClassModal, setShowNewClassModal] = useState(false);
+  const [newClassName, setNewClassName] = useState("");
+  const [newClassRank, setNewClassRank] = useState<ClassRank>("basic");
+
+  const loadClasses = async () => {
+    setLoading(true);
+    setError(null);
+
+    const supabase = supabaseBrowser();
+    const { data, error } = await supabase
+      .from("classes")
+      .select("*")
+      .order("rank", { ascending: true })
+      .order("title", { ascending: true });
+
+    if (error) setError(error.message);
+    setClasses((data ?? []) as DB_Class[]);
+    setLoading(false);
+  };
+
+  const loadPrerequisities = async () => {
+    const supabase = supabaseBrowser();
+    const { data, error } = await supabase
+      .from("class_prerequisites")
+      .select("*");
+
+    if (error) {
+      console.error("Error loading class prerequisites:", error.message);
+    } else {
+      setPrerequisities(data ?? []);
+    }
+  };
+
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      setError(null);
-
-      const supabase = supabaseBrowser();
-      const { data, error } = await supabase
-        .from("classes")
-        .select("*")
-        .order("rank", { ascending: true })
-        .order("title", { ascending: true });
-
-      if (error) setError(error.message);
-      setClasses((data ?? []) as DB_Class[]);
-      setLoading(false);
-    };
-
-    load();
+    loadPrerequisities();
+    loadClasses();
   }, []);
-
-  const basicClasses = classes.filter((c) => c.rank === "basic");
-  const advancedClasses = classes.filter((c) => c.rank === "advanced");
-  const mightyClasses = classes.filter((c) => c.rank === "mighty");
 
   return (
     <AdminGuard>
       <AdminAppPageLayout title="Admin: Classes">
-        <div className="mt-4 flex items-center justify-start gap-4">
-          <Button label="New class" href="/app/admin/classes/new" />
-          <Button label="Back" mode="inverted" href="/app/admin" />
+        <div className="my-4">
+          <Button
+            label="Add Class"
+            onClick={() => setShowNewClassModal(true)}
+            mode="default"
+          />
         </div>
+
+        {/* Make New Class Modal */}
+        <MakeNewClassModal
+          open={showNewClassModal}
+          name={newClassName}
+          setName={setNewClassName}
+          onCancel={() => {
+            setShowNewClassModal(false);
+            setNewClassName("");
+          }}
+          rank={newClassRank}
+          setRank={setNewClassRank}
+        />
 
         {loading && <p className="mt-6 text-sm opacity-70">Loading…</p>}
 
@@ -147,15 +338,25 @@ const AdminClassesPage = () => {
         )}
 
         <section className="mt-6">
-          <ClassTable classes={basicClasses} title="Basic Classes" />
+          <ClassTable classes={classes} title="Basic Classes" rank="basic" />
         </section>
 
         <section className="mt-6">
-          <ClassTable classes={advancedClasses} title="Advanced Classes" />
+          <ClassTable
+            classes={classes}
+            title="Advanced Classes"
+            rank="advanced"
+            prerequisities={prerequisities}
+          />
         </section>
 
         <section className="mt-6">
-          <ClassTable classes={mightyClasses} title="Mighty Classes" />
+          <ClassTable
+            classes={classes}
+            title="Mighty Classes"
+            rank="mighty"
+            prerequisities={prerequisities}
+          />
         </section>
       </AdminAppPageLayout>
     </AdminGuard>

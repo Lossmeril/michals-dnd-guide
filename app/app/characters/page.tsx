@@ -21,8 +21,9 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import DeleteButton from "@/components/ui/deleteButton";
-import DecorativeBorder from "@/components/snippets/decorativeBorder";
-import { getStoragePathFromPublicUrl } from "@/components/editors/characterImageUpload";
+
+import { getStoragePathFromPublicUrl } from "@/components/editors/imageUpload";
+import CreateModal from "@/components/ui/modals/createModal";
 
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
@@ -110,50 +111,23 @@ const MakeNewCharacterModal: React.FC<MakeNewCharacterModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center p-4">
-      {/* ------------------------------ Backdrop */}
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/40"
-        onClick={onCancel}
-        aria-label="Close modal"
+    <CreateModal
+      open={open}
+      title="Create a new character"
+      onConfirm={() => create(initialCharacter)}
+      confirmLabel={confirmLabel}
+      canConfirm={isNameInputted && !saving}
+      confirmLoading={saving}
+      cancelLabel={cancelLabel}
+      onCancel={onCancel}
+    >
+      <input
+        className="mt-3 w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        autoFocus
       />
-
-      {/* ------------------------------ Modal */}
-      <div className="relative w-full min-w-lg max-w-3xl border-y-2 border-dnd-ink bg-dnd-bg shadow-lg">
-        <DecorativeBorder />
-        <div className="book p-6">
-          <h2 className="font-serif text-xl text-dnd-red-dark">
-            Create a new character
-          </h2>
-          <p>Name your creation and let your adventure begin!</p>
-
-          <input
-            className="mt-3 w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-          />
-
-          <div className="mt-5 flex items-center justify-end gap-3">
-            <Button
-              label={cancelLabel}
-              type="button"
-              onClick={onCancel}
-              mode="inverted"
-            />
-
-            <Button
-              label={saving ? "Creating…" : confirmLabel}
-              type="button"
-              onClick={() => create(initialCharacter)}
-              disabled={!isNameInputted}
-              mode="default"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    </CreateModal>
   );
 };
 
@@ -189,18 +163,16 @@ const CharactersTable = ({
           <TableRow key={c.id}>
             <TableCell>
               <div className="overflow-hidden w-16 h-16 border-r border-dnd-ink/20">
-                {c.image_url?.trim() ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={c.image_url}
-                    alt={c.name}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center w-full h-full text-sm text-[#2b1d0e]/50">
-                    No Image
-                  </div>
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={
+                    c.image_url?.trim()
+                      ? c.image_url
+                      : "https://placehold.co/80?text=No%20Image%20:("
+                  }
+                  alt={c.name}
+                  className="object-cover w-full h-full"
+                />
               </div>
             </TableCell>
 

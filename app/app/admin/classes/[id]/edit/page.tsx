@@ -7,8 +7,10 @@ import { AppPageLayout } from "@/components/layouts/base";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import {
   CLASS_RANKS,
+  ClassRankEnum,
   isOneOf,
   MAGIC_KINDS,
+  MagicKindEnum,
   type Class,
   type ClassRank,
   type ClassUpdate,
@@ -52,9 +54,6 @@ const AdminEditClassPage = ({ params }: PageProps) => {
       return { min: 3, max: 5, parentRank: "advanced" as const };
     return { min: 0, max: 0, parentRank: null };
   }, [form.rank]);
-
-  const prettifyRank = (rank: ClassRank) =>
-    rank[0].toUpperCase() + rank.slice(1);
 
   // Load class + prerequisites + candidates
   useEffect(() => {
@@ -327,7 +326,7 @@ const AdminEditClassPage = ({ params }: PageProps) => {
                 >
                   {CLASS_RANKS.map((rank) => (
                     <option key={rank} value={rank}>
-                      {rank}
+                      {ClassRankEnum[rank]}
                     </option>
                   ))}
                 </select>
@@ -347,7 +346,7 @@ const AdminEditClassPage = ({ params }: PageProps) => {
                 >
                   {MAGIC_KINDS.map((kind) => (
                     <option key={kind} value={kind}>
-                      {kind}
+                      {MagicKindEnum[kind]}
                     </option>
                   ))}
                 </select>
@@ -485,7 +484,7 @@ const AdminEditClassPage = ({ params }: PageProps) => {
                           {c.title}
                         </span>
                         <span className="ml-auto text-xs text-dnd-ink/60">
-                          {prettifyRank(c.rank)}
+                          {ClassRankEnum[c.rank]}
                         </span>
                       </label>
                     );
