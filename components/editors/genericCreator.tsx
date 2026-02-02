@@ -55,7 +55,7 @@ export function EditorShell<TStep extends string>({
                 type="button"
                 onClick={() => onStepChange(s.id)}
                 className={[
-                  "px-3 py-2 text-left transition",
+                  "px-3 py-2 text-left transition hover:cursor-pointer",
                   isActive ? "menu-banner" : "hover:bg-white/30",
                 ].join(" ")}
               >

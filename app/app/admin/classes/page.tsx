@@ -155,7 +155,7 @@ const MakeNewClassModal: React.FC<MakeNewClassModalProps> = ({
         >
           {CLASS_RANKS.map((rank) => (
             <option key={rank} value={rank}>
-              {rank}
+              {ClassRankEnum[rank]}
             </option>
           ))}
         </select>

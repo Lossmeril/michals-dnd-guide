@@ -30,7 +30,7 @@ export default function AdminEditClassPage({ params }: PageProps) {
   const [notFound, setNotFound] = useState(false);
 
   // prerequisites UI state (page owns this)
-  const [candidateParents] = useState<DB_Class[]>([]);
+  const [candidateParents, setCandidateParents] = useState<DB_Class[]>([]);
   const [selectedParentIds, setSelectedParentIds] = useState<string[]>([]);
   const [prereqError, setPrereqError] = useState<string | null>(null);
   const [savingPrereqs, setSavingPrereqs] = useState(false);
@@ -79,6 +79,23 @@ export default function AdminEditClassPage({ params }: PageProps) {
         (r: PrereqRow) => r.parent_class_id,
       );
       setSelectedParentIds(existingParentIds);
+
+      // 3) candidate parents
+      const { data: candidates, error: candidatesErr } = await supabase
+        .from("classes")
+        .select("*")
+        .lt("rank", data.rank === "mighty" ? "mighty" : "advanced")
+        .order("title", { ascending: true });
+
+      if (candidatesErr) {
+        setPrereqError(candidatesErr.message);
+      } else {
+        setCandidateParents(
+          data.rank === "mighty"
+            ? candidates.filter((c) => c.rank === "advanced")
+            : (candidates ?? []),
+        );
+      }
 
       setLoading(false);
     };

@@ -138,6 +138,7 @@ export const ClassBasicsStep: React.FC<BasicsStepProps> = ({
             <UploadImageButton
               id={classId}
               image_url={value.image_url}
+              bucket="rulebook/classes"
               onChange={onChange}
               setError={setError}
             />

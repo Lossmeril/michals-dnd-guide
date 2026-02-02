@@ -1,7 +1,7 @@
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-export const SUPABASE_BUCKETS = ["characters"] as const;
+export const SUPABASE_BUCKETS = ["characters", "rulebook/classes"] as const;
 export type SupabaseBucket = (typeof SUPABASE_BUCKETS)[number];
 
 export async function uploadImage(
@@ -50,20 +50,24 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
   onChange,
   setError,
 }) => {
+  const inputId = `imgUpload-${bucket}-${id}`;
+
   return (
     <>
       <label
-        htmlFor="imgUpload"
+        htmlFor={inputId}
         className="bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer"
       >
         {image_url ? "Change Image" : "Upload Image"}
       </label>
+
       <input
-        id="imgUpload"
+        id={inputId}
         type="file"
         accept="image/*"
         className="hidden"
         onChange={async (e) => {
+          const input = e.target as HTMLInputElement;
           const file = e.target.files?.[0];
           if (!file) return;
 
@@ -74,8 +78,19 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
 
           try {
             setError(null);
-            const url = await uploadImage(supabaseBrowser(), bucket, file, id);
-            onChange({ image_url: url });
+
+            const baseUrl = await uploadImage(
+              supabaseBrowser(),
+              bucket,
+              file,
+              id,
+            );
+            const bustedUrl = `${baseUrl}?v=${Date.now()}`;
+
+            onChange({ image_url: bustedUrl });
+
+            // optional: allow uploading the same file again
+            input.value = "";
           } catch (err) {
             console.error(err);
             setError(

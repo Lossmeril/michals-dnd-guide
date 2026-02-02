@@ -57,6 +57,7 @@ export const CharacterAboutStep: React.FC<AboutStepProps> = ({
           <div className="absolute bottom-4 left-4 flex transform flex-col items-center gap-2">
             <UploadImageButton
               id={characterId}
+              bucket="characters"
               image_url={value.image_url}
               onChange={onChange}
               setError={setError}
