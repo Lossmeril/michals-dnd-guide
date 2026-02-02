@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Button from "@/components/ui/button";
 import type { DB_Class, ClassRank } from "@/types/class";
 
-type Props = {
+interface PrerequisitesStepProps {
   rank: ClassRank;
   allCandidates: DB_Class[];
   selectedParentIds: string[];
@@ -15,9 +15,9 @@ type Props = {
 
   onSave: () => Promise<void>;
   saving: boolean;
-};
+}
 
-const PrerequisitesEditor = ({
+const PrerequisitesStep: React.FC<PrerequisitesStepProps> = ({
   rank,
   allCandidates,
   selectedParentIds,
@@ -26,7 +26,7 @@ const PrerequisitesEditor = ({
   setError,
   onSave,
   saving,
-}: Props) => {
+}) => {
   const requiredText =
     rank === "advanced"
       ? "Pick exactly 2 Basic classes."
@@ -121,4 +121,4 @@ const PrerequisitesEditor = ({
   );
 };
 
-export default PrerequisitesEditor;
+export default PrerequisitesStep;

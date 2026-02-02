@@ -1,5 +1,5 @@
 import { TextArea, TextInput } from "@/components/ui/inputs";
-import { UploadImageButton } from "@/components/editors/imageUpload";
+import { UploadImageButton } from "@/components/ui/imageUpload";
 import type { Character } from "@/types/character";
 
 type AboutStepProps = {
@@ -56,9 +56,9 @@ export const CharacterAboutStep: React.FC<AboutStepProps> = ({
 
           <div className="absolute bottom-4 left-4 flex transform flex-col items-center gap-2">
             <UploadImageButton
-              characterId={characterId}
+              id={characterId}
               image_url={value.image_url}
-              onChange={(patch) => onChange(patch)}
+              onChange={onChange}
               setError={setError}
             />
           </div>

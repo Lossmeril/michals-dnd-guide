@@ -36,7 +36,7 @@ export function getStoragePathFromPublicUrl(
 }
 
 interface UploadImageButtonProps {
-  characterId: string;
+  id: string;
   bucket?: SupabaseBucket;
   image_url: string | null;
   onChange: (patch: { image_url: string | null }) => void;
@@ -44,7 +44,7 @@ interface UploadImageButtonProps {
 }
 
 export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
-  characterId,
+  id,
   bucket = "characters",
   image_url,
   onChange,
@@ -74,12 +74,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
 
           try {
             setError(null);
-            const url = await uploadImage(
-              supabaseBrowser(),
-              bucket,
-              file,
-              characterId,
-            );
+            const url = await uploadImage(supabaseBrowser(), bucket, file, id);
             onChange({ image_url: url });
           } catch (err) {
             console.error(err);

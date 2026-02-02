@@ -36,7 +36,6 @@ import fetchPrerequisities from "@/lib/prerequisitiesFetch";
 // MAKE NEW CLASS MODAL
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
-
 interface MakeNewClassModalProps {
   open: boolean;
 

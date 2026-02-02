@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import DeleteButton from "@/components/ui/deleteButton";
 
-import { getStoragePathFromPublicUrl } from "@/components/editors/imageUpload";
+import { getStoragePathFromPublicUrl } from "@/components/ui/imageUpload";
 import CreateModal from "@/components/ui/modals/createModal";
 
 // --------------------------------------------------------------------

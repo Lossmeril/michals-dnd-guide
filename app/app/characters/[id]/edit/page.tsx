@@ -10,7 +10,7 @@ import type {
   DB_Character,
 } from "@/types/character";
 import { AppPageLayout } from "@/components/layouts/base";
-import CharacterEditor from "@/components/layouts/characterCreator";
+import CharacterEditorShell from "@/components/editors/characterCreator";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -104,7 +104,7 @@ const CharacterEditPage = ({ params }: PageProps) => {
 
   return (
     <AppPageLayout title="Edit Character">
-      <CharacterEditor
+      <CharacterEditorShell
         characterId={characterId}
         initialCharacter={initialCharacter}
         onSave={save}
