@@ -24,6 +24,7 @@ import DeleteButton from "@/components/ui/deleteButton";
 
 import { getStoragePathFromPublicUrl } from "@/components/ui/imageUpload";
 import CreateModal from "@/components/ui/modals/createModal";
+import { DB_Race } from "@/types/race";
 
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
@@ -73,6 +74,10 @@ const MakeNewCharacterModal: React.FC<MakeNewCharacterModalProps> = ({
     name: name,
     backstory: null,
     image_url: null,
+    class_level_cap: 8,
+
+    race_id: null,
+    racial_perk_id: null,
   };
   const isNameInputted = name.trim().length > 0;
 
@@ -139,10 +144,12 @@ const MakeNewCharacterModal: React.FC<MakeNewCharacterModalProps> = ({
 
 const CharactersTable = ({
   characters,
+  races,
   title,
   loadCharacters,
 }: {
   characters: DB_Character[];
+  races?: DB_Race[];
   title?: string;
   loadCharacters: () => Promise<void>;
 }) => {
@@ -154,6 +161,8 @@ const CharactersTable = ({
         titles={[
           { title: "Image", width: "5%" },
           { title: "Name", width: "10%" },
+          { title: "Level", width: "10%" },
+          { title: "Race", width: "10%" },
           { title: "Actions", width: "10%" },
         ]}
       ></TableHead>
@@ -178,6 +187,18 @@ const CharactersTable = ({
 
             <TableCell className="">
               <div className="font-serif text-dnd-ink">{c.name}</div>
+            </TableCell>
+
+            <TableCell className="">
+              <div className="font-serif text-dnd-ink">{c.class_level_cap}</div>
+            </TableCell>
+
+            <TableCell className="">
+              <div className="font-serif text-dnd-ink">
+                {c.race_id
+                  ? (races?.find((r) => r.id === c.race_id)?.name ?? "-")
+                  : "-"}
+              </div>
             </TableCell>
 
             <TableCell className="">
@@ -257,6 +278,7 @@ const CharactersPage = () => {
   // New character modal state and data
   const [showNewCharacterModal, setShowNewCharacterModal] = useState(false);
   const [newCharacterName, setNewCharacterName] = useState("");
+  const [races, setRaces] = useState<DB_Race[]>([]);
 
   // Character reload function
   const loadCharacters = async () => {
@@ -272,8 +294,23 @@ const CharactersPage = () => {
     setLoading(false);
   };
 
+  const loadRaces = async () => {
+    const supabase = supabaseBrowser();
+    const { data, error } = await supabase
+      .from("races")
+      .select("id,name")
+      .order("name", { ascending: true });
+
+    if (error) {
+      console.error("Failed to load races:", error.message);
+      return;
+    }
+    setRaces((data ?? []) as DB_Race[]);
+  };
+
   useEffect(() => {
     loadCharacters();
+    loadRaces();
   }, []);
 
   return (
@@ -316,6 +353,7 @@ const CharactersPage = () => {
           <CharactersTable
             characters={characters}
             loadCharacters={loadCharacters}
+            races={races}
           />
         )}
       </section>

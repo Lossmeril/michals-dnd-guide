@@ -7,8 +7,14 @@ import { useUrlStep } from "@/lib/editors/useUrlStep";
 import { EditorShell } from "@/components/editors/genericCreator";
 import { CharacterAboutStep } from "./characterCreatorSteps/aboutStep";
 
+import {
+  CharacterAttributesStep,
+  type Attributes,
+} from "./characterCreatorSteps/attributesStep";
+import { CharacterRaceStep } from "./characterCreatorSteps/raceStep";
+
 // steps for this editor
-const STEP_IDS = ["about"] as const;
+const STEP_IDS = ["about", "attributes", "race"] as const;
 type StepId = (typeof STEP_IDS)[number];
 const DEFAULT_STEP: StepId = "about";
 
@@ -16,6 +22,10 @@ type Props = {
   characterId: string;
   initialCharacter: Character;
   initialStep?: StepId;
+
+  attributes: Attributes;
+  setAttributes: (next: Attributes) => void;
+
   onSave: (character: Character) => Promise<void> | void;
   onCancel: () => void;
 };
@@ -24,6 +34,10 @@ export default function CharacterEditorShell({
   characterId,
   initialCharacter,
   initialStep,
+
+  attributes,
+  setAttributes,
+
   onSave,
   onCancel,
 }: Props) {
@@ -54,8 +68,30 @@ export default function CharacterEditorShell({
           />
         ),
       },
+      {
+        id: "attributes" as const,
+        title: "Attributes",
+        render: () => (
+          <CharacterAttributesStep
+            value={attributes}
+            onChange={(patch) => setAttributes({ ...attributes, ...patch })}
+            setError={setError}
+          />
+        ),
+      },
+      {
+        id: "race" as const,
+        title: "Race",
+        render: () => (
+          <CharacterRaceStep
+            value={draft}
+            onChange={(patch) => setDraft((c) => ({ ...c, ...patch }))}
+            setError={setError}
+          />
+        ),
+      },
     ],
-    [characterId, draft],
+    [characterId, draft, attributes, setAttributes],
   );
 
   const stepsForSidebar = useMemo(
@@ -89,6 +125,8 @@ export default function CharacterEditorShell({
       name: draft.name.trim(),
       backstory: draft.backstory?.trim() ? draft.backstory : null,
       image_url: draft.image_url?.trim() ? draft.image_url : null,
+
+      race_id: draft.race_id ?? null,
     };
 
     await onSave(normalized);

@@ -1,7 +1,11 @@
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-export const SUPABASE_BUCKETS = ["characters", "rulebook/classes"] as const;
+export const SUPABASE_BUCKETS = [
+  "characters",
+  "rulebook/classes",
+  "rulebook/races",
+] as const;
 export type SupabaseBucket = (typeof SUPABASE_BUCKETS)[number];
 
 export async function uploadImage(

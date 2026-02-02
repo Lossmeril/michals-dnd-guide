@@ -200,19 +200,17 @@ const ClassTable = ({
         {displayClasses.map((displayClasses) => (
           <TableRow key={displayClasses.id}>
             <TableCell>
-              <div className="overflow-hidden bg-white/50 w-16 h-16">
-                {displayClasses.image_url?.trim() ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={displayClasses.image_url}
-                    alt={displayClasses.title}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center w-full h-full text-sm text-[#2b1d0e]/50">
-                    No Image
-                  </div>
-                )}
+              <div className="overflow-hidden w-16 h-16 border-r border-dnd-ink/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={
+                    displayClasses.image_url?.trim()
+                      ? displayClasses.image_url
+                      : "https://placehold.co/80?text=No%20Image%20:("
+                  }
+                  alt={displayClasses.title}
+                  className="object-cover w-full h-full"
+                />
               </div>
             </TableCell>
 

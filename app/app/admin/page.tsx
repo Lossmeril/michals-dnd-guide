@@ -10,6 +10,11 @@ const AdminHomePage = () => {
       <AdminAppPageLayout title="Admin">
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <Card
+            title="Races"
+            description="Create and edit basic, advanced and mighty races."
+            href="/app/admin/races"
+          />
+          <Card
             title="Classes"
             description="Create and edit basic, advanced and mighty classes."
             href="/app/admin/classes"
