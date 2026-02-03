@@ -1,8 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.scss";
-
-import Navbar from "@/components/navbar/navbar";
+import { QueryProvider } from "./providers";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -17,8 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
