@@ -115,6 +115,8 @@ const CharacterEditPage = ({ params }: PageProps) => {
       updated_at: new Date().toISOString(),
 
       race_id: character.race_id ?? null,
+      racial_perk_id: character.racial_perk_id ?? null,
+      class_level_cap: character.class_level_cap ?? 8,
     };
 
     const { error: updateError } = await supabase
@@ -142,6 +144,8 @@ const CharacterEditPage = ({ params }: PageProps) => {
     }));
 
     // character_stats has PK (character_id, stat_id) so upsert works
+    if (!byKey.body || !byKey.soul || !byKey.charisma) return;
+
     await supabase.from("character_stats").upsert(rows);
 
     router.push(`/app/characters`);

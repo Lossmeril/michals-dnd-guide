@@ -3,10 +3,10 @@ export type Character = {
   backstory: string | null;
   image_url: string | null;
 
-  class_level_cap: number; // CURRENT LEVEL NUMBER; DEFAULT IS 8
-
   race_id: string | null;
   racial_perk_id: string | null;
+
+  class_level_cap: number;
 };
 
 export type DB_Character = Character & {

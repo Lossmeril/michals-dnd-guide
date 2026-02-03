@@ -1,3 +1,5 @@
+import { isOneOf } from "./shared.js";
+
 export const CLASS_RANKS = ["basic", "advanced", "mighty"] as const;
 export type ClassRank = (typeof CLASS_RANKS)[number];
 export enum ClassRankEnum {
@@ -33,9 +35,4 @@ export type DB_Class = Class & {
 export type ClassInsert = Class;
 export type ClassUpdate = Partial<Class> & { updated_at?: string };
 
-export function isOneOf<T extends readonly string[]>(
-  value: string,
-  options: T,
-): value is T[number] {
-  return options.includes(value);
-}
+export { isOneOf };
