@@ -134,29 +134,21 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 };
 
 interface DeleteButtonProps {
-  // -------------------------------------
   // Deleted entity info
-  // -------------------------------------
   entityName: string;
+  entityType?: string; // for future use, e.g. "character", "spell", etc.
 
-  // -------------------------------------
   // UI customization
-  // -------------------------------------
   label?: string;
   confirmTitle?: string;
   confirmDescription?: string;
-  entityType?: string; // for future use, e.g. "character", "spell", etc.
 
   confirmPrefix?: string; // default "DELETE"
 
-  // -------------------------------------
   // Styles
-  // -------------------------------------
   mode?: "icon" | "button";
 
-  // -------------------------------------
   // Functions
-  // -------------------------------------
   onDelete: () => Promise<void> | void;
   onDeleted?: () => void;
 }
@@ -175,16 +167,23 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   mode = "icon",
   onDeleted,
 }) => {
+  // Modal open state
   const [open, setOpen] = useState(false);
+
+  // What is typed
   const [inputValue, setInputValue] = useState("");
+
+  // Controls
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Confirmation phrase to match
   const confirmPhrase = useMemo(
     () => `${confirmPrefix} ${entityName}`,
     [confirmPrefix, entityName],
   );
 
+  // Close modal and reset state
   const close = () => {
     setOpen(false);
     setInputValue("");
@@ -192,6 +191,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
     setConfirming(false);
   };
 
+  // Handle the confirm action
   const handleConfirm = async () => {
     setError(null);
     setConfirming(true);
@@ -212,7 +212,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         label={
           <>
             <BsTrash3Fill className="text-base" />
-            {mode === "button" ? <span>{label}</span> : null}
+            {mode === "button" ? <span className="ml-2">{label}</span> : null}
           </>
         }
         type="button"
@@ -222,6 +222,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
       <ConfirmDeleteModal
         open={open}
+        onCancel={close}
+        onConfirm={handleConfirm}
         title={
           confirmTitle
             ? confirmTitle
@@ -231,8 +233,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         confirmPhrase={confirmPhrase}
         inputValue={inputValue}
         setInputValue={setInputValue}
-        onCancel={close}
-        onConfirm={handleConfirm}
         confirming={confirming}
         error={error}
         confirmLabel={label}

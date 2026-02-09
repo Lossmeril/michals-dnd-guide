@@ -21,7 +21,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ headings }) => {
     <thead className="">
       <tr>
         {headings.map((heading) => (
-          <th key={heading} className="">
+          <th
+            key={heading}
+            className="px-3 py-1 text-sm border-b-2 border-dnd-ink text-left"
+          >
             {heading}
           </th>
         ))}
@@ -43,5 +46,5 @@ interface TableCellProps {
 }
 
 export const TableCell: React.FC<TableCellProps> = ({ children }) => {
-  return <td className="border border-gray-300 px-4 py-2">{children}</td>;
+  return <td className="px-3 py-1 text-sm">{children}</td>;
 };

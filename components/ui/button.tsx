@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const styles = [
-    "h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm transition",
+    "h-8 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm transition",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer",
     disabled ? "opacity-60 pointer-events-none" : "",
     modeStyles[mode] || modeStyles.default,

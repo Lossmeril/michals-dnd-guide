@@ -19,6 +19,7 @@ export type Database = {
           backstory: string | null
           created_at: string
           id: number
+          image: string | null
           level: number
           name: string
           personality: string | null
@@ -28,6 +29,7 @@ export type Database = {
           backstory?: string | null
           created_at?: string
           id?: number
+          image?: string | null
           level: number
           name: string
           personality?: string | null
@@ -37,6 +39,7 @@ export type Database = {
           backstory?: string | null
           created_at?: string
           id?: number
+          image?: string | null
           level?: number
           name?: string
           personality?: string | null
