@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      character_class: {
+        Row: {
+          character: number | null
+          class: number | null
+          id: number
+          level: number
+        }
+        Insert: {
+          character?: number | null
+          class?: number | null
+          id?: number
+          level: number
+        }
+        Update: {
+          character?: number | null
+          class?: number | null
+          id?: number
+          level?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_class_character_fkey"
+            columns: ["character"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_class_class_fkey"
+            columns: ["class"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       characters: {
         Row: {
           backstory: string | null
@@ -54,6 +90,21 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      classes: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
       }
       races: {
         Row: {

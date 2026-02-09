@@ -1,4 +1,4 @@
-import type { Race, RaceUpdate } from "@/types/races";
+import type { Race, RaceInsert, RaceUpdate } from "@/types/races";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
 type ListOptions = {
@@ -42,5 +42,18 @@ export const racesRepo = {
     const { error } = await supabase.from("races").delete().eq("id", id);
 
     if (error) throw error;
+  },
+
+  async insert(payload: RaceInsert) {
+    const supabase = supabaseBrowser();
+
+    const { data, error } = await supabase
+      .from("races")
+      .insert(payload)
+      .select("*")
+      .single();
+
+    if (error) throw error;
+    return data as Race;
   },
 };

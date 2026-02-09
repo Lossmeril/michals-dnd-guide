@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { charactersRepo } from "@/lib/repos/characters";
-import type { Character, CharacterUpdate } from "@/types/character";
+import type {
+  Character,
+  CharacterInsert,
+  CharacterUpdate,
+} from "@/types/character";
 
 export function useCharacters() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -26,6 +30,12 @@ export function useCharacters() {
     void reload();
   }, []);
 
+  async function create(payload: CharacterInsert) {
+    const created = await charactersRepo.insert(payload);
+    setCharacters((prev) => [...prev, created]);
+    return created;
+  }
+
   async function update(id: Character["id"], patch: CharacterUpdate) {
     const updated = await charactersRepo.update(id, patch);
     setCharacters((prev) => prev.map((c) => (c.id === id ? updated : c)));
@@ -37,5 +47,14 @@ export function useCharacters() {
     setCharacters((prev) => prev.filter((c) => c.id !== id));
   }
 
-  return { characters, setCharacters, loading, error, reload, update, remove };
+  return {
+    characters,
+    setCharacters,
+    loading,
+    error,
+    reload,
+    create,
+    update,
+    remove,
+  };
 }

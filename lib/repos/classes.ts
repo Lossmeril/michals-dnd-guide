@@ -1,63 +1,59 @@
-import type {
-  Character,
-  CharacterInsert,
-  CharacterUpdate,
-} from "@/types/character";
+import type { Class, ClassInsert, ClassUpdate } from "@/types/class";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
 type ListOptions = {
   limit?: number;
-  orderBy?: keyof Character;
+  orderBy?: keyof Class;
   ascending?: boolean;
 };
 
-export const charactersRepo = {
+export const classesRepo = {
   async list(opts: ListOptions = {}) {
     const supabase = supabaseBrowser();
     const { limit = 100, orderBy = "id", ascending = true } = opts;
 
     const { data, error } = await supabase
-      .from("characters")
+      .from("classes")
       .select("*")
       .order(String(orderBy), { ascending })
       .limit(limit);
 
     if (error) throw error;
-    return data as Character[];
+    return data as Class[];
   },
 
-  async update(id: Character["id"], patch: CharacterUpdate) {
+  async update(id: Class["id"], patch: ClassUpdate) {
     const supabase = supabaseBrowser();
 
     const { data, error } = await supabase
-      .from("characters")
+      .from("classes")
       .update(patch)
       .eq("id", id)
       .select("*")
       .single();
 
     if (error) throw error;
-    return data as Character;
+    return data as Class;
   },
 
-  async delete(id: Character["id"]) {
+  async delete(id: Class["id"]) {
     const supabase = supabaseBrowser();
 
-    const { error } = await supabase.from("characters").delete().eq("id", id);
+    const { error } = await supabase.from("classes").delete().eq("id", id);
 
     if (error) throw error;
   },
 
-  async insert(payload: CharacterInsert) {
+  async insert(payload: ClassInsert) {
     const supabase = supabaseBrowser();
 
     const { data, error } = await supabase
-      .from("characters")
+      .from("classes")
       .insert(payload)
       .select("*")
       .single();
 
     if (error) throw error;
-    return data as Character;
+    return data as Class;
   },
 };

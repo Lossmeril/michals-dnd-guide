@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { racesRepo } from "@/lib/repos/races";
-import type { Race, RaceUpdate } from "@/types/races";
+import type { Race, RaceInsert, RaceUpdate } from "@/types/races";
 
 export function useRaces() {
   const [races, setRaces] = useState<Race[]>([]);
@@ -26,6 +26,12 @@ export function useRaces() {
     void reload();
   }, []);
 
+  async function create(payload: RaceInsert) {
+    const created = await racesRepo.insert(payload);
+    setRaces((prev) => [...prev, created]);
+    return created;
+  }
+
   async function update(id: Race["id"], patch: RaceUpdate) {
     const updated = await racesRepo.update(id, patch);
     setRaces((prev) => prev.map((r) => (r.id === id ? updated : r)));
@@ -37,5 +43,5 @@ export function useRaces() {
     setRaces((prev) => prev.filter((r) => r.id !== id));
   }
 
-  return { races, setRaces, loading, error, reload, update, remove };
+  return { races, setRaces, loading, error, reload, create, update, remove };
 }
