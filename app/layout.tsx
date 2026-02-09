@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import { QueryProvider } from "./providers";
+import { PreviewGrid } from "@/components/layout/gridLayout";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <PreviewGrid />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
