@@ -6,24 +6,54 @@ import Button from "@/components/ui/button";
 import { Table, TableCell, TableRow } from "@/components/ui/table";
 import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
+import {
+  getCharactersClasses,
+  getRaceById,
+} from "@/lib/helpers/relationGetters";
+import { useClasses } from "@/lib/hooks/useClasses";
+import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
+import { imagePlaceholder } from "@/lib/webGlobals";
 
 const AppHomePage = () => {
   const { characters, remove } = useCharacters();
   const { races } = useRaces();
+  const { classes } = useClasses();
+  const { relCharacterClasses } = useRelCharacterClasses();
 
   return (
     <main className="w-screen h-screen py-40">
       <Container>
         <Grid>
           <div className="col-span-10 col-start-2 w-full">
-            <Table headings={["Image", "Name", "Level", "Race", "Actions"]}>
+            <Table
+              headings={[
+                "Image",
+                "Name",
+                "Level",
+                "Race",
+                "Classes",
+                "Actions",
+              ]}
+            >
               {characters!.map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell>{c.image}</TableCell>
+                  <TableCell>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={c.image ?? imagePlaceholder}
+                      alt={`${c.name} portrait`}
+                      className="w-16 h-16 object-cover"
+                    />
+                  </TableCell>
                   <TableCell>{c.name}</TableCell>
                   <TableCell>{c.level}</TableCell>
                   <TableCell>
-                    {races.find((r) => r.id === c.race)?.name}
+                    {getRaceById(races!, c.race || 0)?.name || "Unknown Race"}
+                  </TableCell>
+                  <TableCell>
+                    {getCharactersClasses(classes!, relCharacterClasses!, c.id)
+                      .map((cls) => cls.name)
+                      .join(", ")}
                   </TableCell>
                   <TableCell>
                     <Button

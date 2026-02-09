@@ -1,16 +1,28 @@
 "use client";
 
+//  ------------------- React and Next
 import React, { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+
+//  ------------------- UI
 import { Container, Grid } from "@/components/layout/gridLayout";
+import Button from "@/components/ui/button";
+
+//  ------------------- Types and Hooks
+import { Character } from "@/types/character";
+import { RelCharacterClass } from "@/types/relCharacterClass";
+
 import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
-import { Character } from "@/types/character";
-import Button from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { calculatePointsToSpend } from "@/lib/validators/pointsToSpend";
-import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
 import { useClasses } from "@/lib/hooks/useClasses";
-import { RelCharacterClass } from "@/types/relCharacterClass";
+import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
+
+//  ------------------- Utils
+import { calculatePointsToSpend } from "@/lib/validators/pointsToSpend";
+
+//  ------------------- Editor sections
+import CharacterGeneralSection from "@/components/editors/character/CharacterGeneralSection";
+import CharacterClassesSection from "@/components/editors/character/CharacterClassesSection";
 
 interface CharacterPageProps {
   params: Promise<{
@@ -156,56 +168,12 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
           </ul>
         </aside>
 
-        <div className="col-span-7 col-start-4 grid grid-cols-7 gap-4">
-          <div className="col-span-7 border-1 border-dnd-ink/20 rounded-lg p-5 w-full grid grid-cols-7 gap-4">
-            <div className="col-span-3">
-              <label htmlFor="name">Name:</label>
-              <input
-                id="name"
-                type="text"
-                value={character.name}
-                onChange={(event) =>
-                  setCharacter((prev) => ({
-                    ...prev!,
-                    name: event.target.value,
-                  }))
-                }
-              />
-            </div>
-
-            <div className="col-span-2">
-              <label htmlFor="level">Level:</label>
-              <input
-                id="level"
-                type="number"
-                min={1}
-                value={character.level}
-                onChange={(event) => {
-                  const next =
-                    Number.parseInt(event.target.value || "1", 10) || 1;
-                  setCharacter((prev) => ({
-                    ...prev!,
-                    level: next,
-                  }));
-                }}
-              />
-            </div>
-
-            <div className="col-span-2">
-              <label htmlFor="personality">Personality:</label>
-              <input
-                id="personality"
-                type="text"
-                value={character.personality ?? ""}
-                onChange={(event) =>
-                  setCharacter((prev) => ({
-                    ...prev!,
-                    personality: event.target.value,
-                  }))
-                }
-              />
-            </div>
-
+        <div className="col-span-9 col-start-4 grid grid-cols-9 gap-4">
+          <CharacterGeneralSection
+            character={character}
+            setCharacter={setCharacter}
+          />
+          <div className="col-span-9 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full gap-4">
             <label htmlFor="race-select">Race:</label>
             <select
               id="race-select"
@@ -224,35 +192,19 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
               ))}
             </select>
           </div>
+          <CharacterClassesSection
+            classes={classes}
+            classLevels={classLevels}
+            setClassLevels={setClassLevels}
+          />
 
-          <div className="col-span-7 border-1 border-dnd-ink/20 rounded-lg p-5 w-full grid grid-cols-7 gap-4">
-            <h2>Classes</h2>
-            <div className="col-span-7 grid grid-cols-5 gap-4">
-              {classes.map((c) => (
-                <div
-                  key={c.id}
-                  className="border border-dnd-ink/20 grid place-items-center rounded-lg p-3"
-                >
-                  {c.name}
-
-                  <input
-                    type="number"
-                    min={0}
-                    max={5}
-                    value={classLevels[c.id] ?? 0}
-                    onChange={(e) => {
-                      const raw =
-                        Number.parseInt(e.target.value || "0", 10) || 0;
-                      const clamped = clampLevel(raw);
-                      setClassLevels((prev) => ({ ...prev, [c.id]: clamped }));
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="col-span-9 col-start-1">
+            <Button
+              label="Save Changes"
+              type="button"
+              onClick={onSaveChanges}
+            />
           </div>
-
-          <Button label="Save Changes" type="button" onClick={onSaveChanges} />
         </div>
       </Grid>
     </Container>

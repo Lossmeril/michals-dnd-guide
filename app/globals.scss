@@ -197,3 +197,9 @@ div > .corner {
     transform: rotate(0deg) scaleX(-100%);
   }
 }
+
+input,
+select,
+textarea {
+  @apply border-1 border-dnd-ink/20 rounded-lg bg-transparent px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-dnd-red focus:border-transparent;
+}
