@@ -1,2 +1,2 @@
-export const imagePlaceholder =
-  "https://placehold.co/400/orange/white?text=Character+Portrait";
+export const IMAGE_PLACEHOLDER =
+  "https://placehold.co/200/orange/white?text=Character+Portrait";

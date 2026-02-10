@@ -1,4 +1,4 @@
-import { imagePlaceholder } from "@/lib/webGlobals";
+import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import { Character } from "@/types/character";
 
 interface CharacterGeneralSectionProps {
@@ -79,7 +79,7 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
         <div className="border-1 border-dnd-ink/20 rounded-lg aspect-square">
           {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
           <img
-            src={character.image ?? imagePlaceholder}
+            src={character.image ?? IMAGE_PLACEHOLDER}
             alt={`${character.name} portrait`}
             className="w-full h-full object-cover"
           />

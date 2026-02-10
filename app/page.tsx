@@ -12,7 +12,7 @@ import {
 } from "@/lib/helpers/relationGetters";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
-import { imagePlaceholder } from "@/lib/webGlobals";
+import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 
 const AppHomePage = () => {
   const { characters, remove } = useCharacters();
@@ -40,7 +40,7 @@ const AppHomePage = () => {
                   <TableCell>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={c.image ?? imagePlaceholder}
+                      src={c.image ?? IMAGE_PLACEHOLDER}
                       alt={`${c.name} portrait`}
                       className="w-16 h-16 object-cover"
                     />

@@ -1,20 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import ClassCard from "./ClassCard";
-
-type ClassItem = {
-  id: number;
-  name: string;
-};
+import { Class } from "@/types/class";
+import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
+import { doesMeetClassPrerequisitesFromLevels } from "@/lib/validators/classRequirements";
 
 type Props = {
-  classes: ClassItem[];
+  classes: Class[];
   classLevels: Record<number, number>;
   setClassLevels: React.Dispatch<React.SetStateAction<Record<number, number>>>;
-  minLevel?: number; // optional customization
-  maxLevel?: number; // optional customization
-  title?: string; // optional customization
+
+  minLevel?: number;
+  maxLevel?: number;
+  title?: string;
+
+  noMorePointsToSpend?: boolean;
 };
 
 const clamp = (n: number, min: number, max: number) =>
@@ -27,34 +28,82 @@ const CharacterClassesSection: React.FC<Props> = ({
   minLevel = 0,
   maxLevel = 5,
   title = "Classes",
+  noMorePointsToSpend = false,
 }) => {
-  const onChangeLevel = (classId: number, value: string) => {
-    // allow empty string while typing -> treat as 0
-    const parsed = value.trim() === "" ? 0 : Number.parseInt(value, 10);
-    const next = Number.isFinite(parsed)
-      ? clamp(parsed, minLevel, maxLevel)
-      : 0;
+  const { classPrerequisites } = useClassPrerequisites();
 
-    setClassLevels((prev) => ({
-      ...prev,
-      [classId]: next,
-    }));
-  };
+  const onChangeLevel = useCallback(
+    (classId: number, value: string) => {
+      const parsed = value.trim() === "" ? 0 : Number.parseInt(value, 10);
+      const next = Number.isFinite(parsed)
+        ? clamp(parsed, minLevel, maxLevel)
+        : 0;
+
+      setClassLevels((prev) => ({
+        ...prev,
+        [classId]: next,
+      }));
+    },
+    [minLevel, maxLevel, setClassLevels],
+  );
+
+  // Precompute metReqs per classId so it’s consistent everywhere
+  const metReqsById = useMemo(() => {
+    const map: Record<number, boolean> = {};
+    for (const c of classes) {
+      map[c.id] = doesMeetClassPrerequisitesFromLevels(
+        c,
+        classLevels,
+        classPrerequisites,
+      );
+    }
+    return map;
+  }, [classes, classLevels, classPrerequisites]);
+
+  // Optional: if something becomes disabled, force its level to 0 (in parent)
+  useEffect(() => {
+    setClassLevels((prev) => {
+      let changed = false;
+      const next = { ...prev };
+
+      for (const c of classes) {
+        if (!metReqsById[c.id] && (next[c.id] ?? 0) > 0) {
+          next[c.id] = 0;
+          changed = true;
+        }
+      }
+
+      return changed ? next : prev;
+    });
+  }, [metReqsById, classes, setClassLevels]);
+
+  const renderRank = (rank: "basic" | "advanced" | "mighty", label: string) => (
+    <>
+      <h3>{label}</h3>
+      <div className="col-span-9 grid grid-cols-5 gap-4">
+        {classes
+          .filter((c) => c.class_rank === rank)
+          .map((c) => (
+            <ClassCard
+              key={c.id}
+              c={c}
+              onChangeLevel={onChangeLevel}
+              classLevels={classLevels}
+              metReqs={metReqsById[c.id]}
+              noMorePointsToSpend={noMorePointsToSpend}
+            />
+          ))}
+      </div>
+    </>
+  );
 
   return (
     <section className="col-span-9 border-1 border-dnd-ink/20 rounded-lg p-5 w-full grid grid-cols-9 gap-4">
       <h2 className="col-span-9">{title}</h2>
 
-      <div className="col-span-9 grid grid-cols-5 gap-4">
-        {classes.map((c) => (
-          <ClassCard
-            key={c.id}
-            c={c}
-            onChangeLevel={onChangeLevel}
-            classLevels={classLevels}
-          />
-        ))}
-      </div>
+      {renderRank("basic", "Basic classes")}
+      {renderRank("advanced", "Advanced classes")}
+      {renderRank("mighty", "Mighty classes")}
     </section>
   );
 };

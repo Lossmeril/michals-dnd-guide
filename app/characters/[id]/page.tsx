@@ -196,6 +196,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
             classes={classes}
             classLevels={classLevels}
             setClassLevels={setClassLevels}
+            noMorePointsToSpend={pointsToSpend <= 0}
           />
 
           <div className="col-span-9 col-start-1">

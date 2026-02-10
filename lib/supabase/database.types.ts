@@ -91,16 +91,52 @@ export type Database = {
           },
         ]
       }
+      class_prerequisites: {
+        Row: {
+          class_required: number
+          for_class: number
+          id: number
+        }
+        Insert: {
+          class_required: number
+          for_class: number
+          id?: number
+        }
+        Update: {
+          class_required?: number
+          for_class?: number
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_prerequisities_class_required_fkey"
+            columns: ["class_required"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_prerequisities_for_class_fkey"
+            columns: ["for_class"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       classes: {
         Row: {
+          class_rank: Database["public"]["Enums"]["class_rank"]
           id: number
           name: string
         }
         Insert: {
+          class_rank?: Database["public"]["Enums"]["class_rank"]
           id?: number
           name: string
         }
         Update: {
+          class_rank?: Database["public"]["Enums"]["class_rank"]
           id?: number
           name?: string
         }
