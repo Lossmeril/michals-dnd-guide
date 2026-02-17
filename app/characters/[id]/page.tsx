@@ -9,8 +9,8 @@ import { Container, Grid } from "@/components/layout/gridLayout";
 import Button from "@/components/ui/button";
 
 //  ------------------- Types and Hooks
-import { Character } from "@/types/character";
-import { RelCharacterClass } from "@/types/relCharacterClass";
+import type { Character } from "@/types/character";
+import type { RelCharacterClass } from "@/types/relCharacterClass";
 
 import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
@@ -30,7 +30,51 @@ interface CharacterPageProps {
   }>;
 }
 
+// -------------------------------------
+// Helpers
+// -------------------------------------
+
 const clampLevel = (n: number) => Math.max(0, Math.min(5, n));
+
+function buildExistingRelationsByClass(
+  rels: RelCharacterClass[],
+  characterId: number,
+) {
+  const map = new Map<string, RelCharacterClass>();
+  for (const rel of rels) {
+    if (rel.character === characterId && rel.class != null) {
+      map.set(rel.class, rel);
+    }
+  }
+  return map;
+}
+
+function buildInitialClassLevels(
+  classIds: string[],
+  existingByClass: Map<string, RelCharacterClass>,
+) {
+  const initial: Record<string, number> = {};
+  for (const id of classIds) {
+    initial[id] = existingByClass.get(id)?.level ?? 0;
+  }
+  return initial;
+}
+
+function sumLevels(levels: Record<string, number>) {
+  return Object.values(levels).reduce((sum, lvl) => sum + (lvl || 0), 0);
+}
+
+function getPointsToSpend(
+  characterLevel: number,
+  classLevels: Record<string, number>,
+) {
+  const spent = sumLevels(classLevels);
+  return calculatePointsToSpend(characterLevel || 1, spent);
+}
+
+// -------------------------------------
+// Component
+// -------------------------------------
 
 const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   const router = useRouter();
@@ -38,7 +82,6 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
 
   const { characters, update: updateCharacters } = useCharacters();
   const { races } = useRaces();
-
   const { classes } = useClasses();
   const {
     relCharacterClasses,
@@ -47,15 +90,22 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
     remove: removeRelCharacterClasses,
   } = useRelCharacterClasses();
 
+  // -------------------------------------
+  // Local state
+  // -------------------------------------
+
   const [loading, setLoading] = useState(true);
   const [character, setCharacter] = useState<Character | undefined>(undefined);
 
   // local-only edits; saved on button press
-  const [classLevels, setClassLevels] = useState<Record<number, number>>({});
+  const [classLevels, setClassLevels] = useState<Record<string, number>>({});
+
+  // -------------------------------------
+  // Data lookups
+  // -------------------------------------
 
   // Load character once
   useEffect(() => {
-    if (!characters) return;
     const found = characters.find((c) => c.id.toString() === id);
     setCharacter(found);
     setLoading(false);
@@ -63,14 +113,8 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
 
   // Build a stable lookup of existing relations for this character
   const existingByClass = useMemo(() => {
-    if (!character) return new Map<number, RelCharacterClass>();
-    const map = new Map<number, RelCharacterClass>();
-    for (const rel of relCharacterClasses) {
-      if (rel.character === character.id && rel.class != null) {
-        map.set(rel.class, rel);
-      }
-    }
-    return map;
+    if (!character) return new Map<string, RelCharacterClass>();
+    return buildExistingRelationsByClass(relCharacterClasses, character.id);
   }, [character, relCharacterClasses]);
 
   // Initialize local classLevels only when the character changes (so edits don't get wiped)
@@ -78,12 +122,9 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
     if (!character) return;
     if (!classes?.length) return;
 
-    const initial: Record<number, number> = {};
-    for (const c of classes) {
-      const rel = existingByClass.get(c.id);
-      initial[c.id] = rel?.level ?? 0;
-    }
-    setClassLevels(initial);
+    const classIds = classes.map((c) => c.id);
+    setClassLevels(buildInitialClassLevels(classIds, existingByClass));
+
     // intentionally NOT depending on relCharacterClasses to avoid resetting unsaved edits
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character?.id, classes]);
@@ -91,12 +132,12 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   // Points to spend should reflect *local* edits (not DB state) because you only save on button press
   const pointsToSpend = useMemo(() => {
     if (!character) return 0;
-    const spent = Object.values(classLevels).reduce(
-      (sum, lvl) => sum + (lvl || 0),
-      0,
-    );
-    return calculatePointsToSpend(character.level || 1, spent);
+    return getPointsToSpend(character.level || 1, classLevels);
   }, [classLevels, character]);
+
+  // -------------------------------------
+  // Loading / not found states
+  // -------------------------------------
 
   if (loading) {
     return (
@@ -117,6 +158,10 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
       </Container>
     );
   }
+
+  // -------------------------------------
+  // Actions
+  // -------------------------------------
 
   const onSaveChanges = async () => {
     // 1) save character
@@ -154,6 +199,10 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
     router.push("/");
   };
 
+  // -------------------------------------
+  // Render
+  // -------------------------------------
+
   return (
     <Container>
       <Grid className="items-start pt-10">
@@ -173,6 +222,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
             character={character}
             setCharacter={setCharacter}
           />
+
           <div className="col-span-9 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full gap-4">
             <label htmlFor="race-select">Race:</label>
             <select
@@ -181,7 +231,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
               onChange={(event) =>
                 setCharacter((prev) => ({
                   ...prev!,
-                  race: Number.parseInt(event.target.value, 10),
+                  race: event.target.value,
                 }))
               }
             >
@@ -192,6 +242,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
               ))}
             </select>
           </div>
+
           <CharacterClassesSection
             classes={classes}
             classLevels={classLevels}

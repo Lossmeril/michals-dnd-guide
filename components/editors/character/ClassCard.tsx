@@ -2,8 +2,8 @@ import { Class } from "@/types/class";
 
 interface ClassCardProps {
   c: Class;
-  onChangeLevel: (classId: number, newLevel: string) => void;
-  classLevels: Record<number, number>;
+  onChangeLevel: (classId: string, newLevel: string) => void;
+  classLevels: Record<string, number>;
 
   metReqs?: boolean;
   noMorePointsToSpend?: boolean;

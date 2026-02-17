@@ -43,79 +43,77 @@ html {
   background-color: white;
 }
 
-.book {
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    color: var(--color-dnd-ink);
+h1,
+h2,
+h3,
+h4 {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  color: var(--color-dnd-ink);
+}
+
+h1 {
+  color: var(--color-dnd-red-dark);
+
+  font-size: 2rem;
+  line-height: 2.25rem;
+
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+
+  color: var(--color-dnd-red-dark);
+
+  font-size: 1.35rem;
+  line-height: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+
+  &::first-letter {
+    font-size: 1.25em;
   }
 
-  h1 {
-    color: var(--color-dnd-red-dark);
-
-    font-size: 2rem;
-    line-height: 2.25rem;
-
-    margin-bottom: 0.5rem;
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: var(--color-dnd-underline);
+    margin-top: 0px;
   }
+}
 
-  h2 {
-    margin-bottom: 0.5rem;
-    margin-top: 1rem;
+h3 {
+  margin-bottom: 0.15rem;
+  margin-top: 0.5rem;
 
-    color: var(--color-dnd-red-dark);
+  font-size: 1.15rem;
+  line-height: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
 
-    font-size: 1.35rem;
-    line-height: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+  color: var(--color-dnd-red-dark);
 
-    &::first-letter {
-      font-size: 1.25em;
-    }
-
-    &::after {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 2.5px;
-      background-color: var(--color-dnd-underline);
-      margin-top: 0px;
-    }
+  &::first-letter {
+    font-size: 1.25em;
   }
+}
 
-  h3 {
-    margin-bottom: 0.15rem;
-    margin-top: 0.5rem;
+p {
+  margin-bottom: 1rem;
 
-    font-size: 1.15rem;
-    line-height: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+  font-size: 0.9rem;
+  line-height: 1.65;
 
-    color: var(--color-dnd-red-dark);
+  color: color-mix(in oklab, var(--color-dnd-ink) 85%, black);
+}
 
-    &::first-letter {
-      font-size: 1.25em;
-    }
-  }
-
-  p {
-    margin-bottom: 1rem;
-
-    font-size: 0.9rem;
-    line-height: 1.65;
-
-    color: color-mix(in oklab, var(--color-dnd-ink) 85%, black);
-  }
-
-  a {
-    color: var(--color-dnd-red-dark);
-    text-decoration: underline dotted;
-    text-underline-offset: 3px;
-  }
+a {
+  color: var(--color-dnd-red-dark);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
 }
 
 .rulebox {

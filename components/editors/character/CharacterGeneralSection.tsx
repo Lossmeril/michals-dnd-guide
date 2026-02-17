@@ -1,5 +1,7 @@
+import { UploadImageButton } from "@/components/uploadImageButton";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import { Character } from "@/types/character";
+import { useState } from "react";
 
 interface CharacterGeneralSectionProps {
   character: Character;
@@ -10,6 +12,8 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
   character,
   setCharacter,
 }) => {
+  const [imageError, setImageError] = useState<string | null>(null);
+
   return (
     <>
       <div className="col-span-7 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full grid grid-cols-7 gap-4">
@@ -84,18 +88,20 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
             className="w-full h-full object-cover"
           />
         </div>
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={character.image ?? ""}
-          onChange={(event) =>
+        <UploadImageButton
+          id={character.id.toString()}
+          image_url={character.image}
+          onChange={(patch) =>
             setCharacter((prev) => ({
               ...prev!,
-              image: event.target.value,
+              ...patch,
             }))
           }
-          className="mt-2"
+          setError={(msg) => {
+            setImageError(msg);
+          }}
         />
+        {imageError && <p className="text-red-500">{imageError}</p>}
       </div>
     </>
   );

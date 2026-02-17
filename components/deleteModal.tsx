@@ -99,7 +99,6 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         </Alert>
 
         <input
-          className="mt-3 w-full rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-dnd-ink outline-none focus:border-red-900"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder={confirmPhrase}

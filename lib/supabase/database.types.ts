@@ -17,19 +17,19 @@ export type Database = {
       character_class: {
         Row: {
           character: number | null
-          class: number | null
+          class: string | null
           id: number
           level: number
         }
         Insert: {
           character?: number | null
-          class?: number | null
+          class?: string | null
           id?: number
           level: number
         }
         Update: {
           character?: number | null
-          class?: number | null
+          class?: string | null
           id?: number
           level?: number
         }
@@ -59,7 +59,7 @@ export type Database = {
           level: number
           name: string
           personality: string | null
-          race: number | null
+          race: string | null
         }
         Insert: {
           backstory?: string | null
@@ -69,7 +69,7 @@ export type Database = {
           level: number
           name: string
           personality?: string | null
-          race?: number | null
+          race?: string | null
         }
         Update: {
           backstory?: string | null
@@ -79,7 +79,7 @@ export type Database = {
           level?: number
           name?: string
           personality?: string | null
-          race?: number | null
+          race?: string | null
         }
         Relationships: [
           {
@@ -93,18 +93,18 @@ export type Database = {
       }
       class_prerequisites: {
         Row: {
-          class_required: number
-          for_class: number
+          class_required: string
+          for_class: string
           id: number
         }
         Insert: {
-          class_required: number
-          for_class: number
+          class_required: string
+          for_class: string
           id?: number
         }
         Update: {
-          class_required?: number
-          for_class?: number
+          class_required?: string
+          for_class?: string
           id?: number
         }
         Relationships: [
@@ -127,32 +127,32 @@ export type Database = {
       classes: {
         Row: {
           class_rank: Database["public"]["Enums"]["class_rank"]
-          id: number
+          id: string
           name: string
         }
         Insert: {
           class_rank?: Database["public"]["Enums"]["class_rank"]
-          id?: number
+          id: string
           name: string
         }
         Update: {
           class_rank?: Database["public"]["Enums"]["class_rank"]
-          id?: number
+          id?: string
           name?: string
         }
         Relationships: []
       }
       races: {
         Row: {
-          id: number
+          id: string
           name: string | null
         }
         Insert: {
-          id?: number
+          id: string
           name?: string | null
         }
         Update: {
-          id?: number
+          id?: string
           name?: string | null
         }
         Relationships: []

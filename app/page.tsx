@@ -13,10 +13,15 @@ import {
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
+import {
+  CreateCharacterButton,
+  CreateRaceButton,
+} from "@/components/createModal";
+import { BsPencilSquare } from "react-icons/bs";
 
 const AppHomePage = () => {
-  const { characters, remove } = useCharacters();
-  const { races } = useRaces();
+  const { characters, remove, create } = useCharacters();
+  const { races, remove: removeRace, create: createRace } = useRaces();
   const { classes } = useClasses();
   const { relCharacterClasses } = useRelCharacterClasses();
 
@@ -24,7 +29,10 @@ const AppHomePage = () => {
     <main className="w-screen h-screen py-40">
       <Container>
         <Grid>
-          <div className="col-span-10 col-start-2 w-full">
+          <div className="col-span-4 md:col-span-6 lg:col-span-8 xl:col-span-10 xl:col-start-2 w-full">
+            <h3>Characters</h3>
+            <CreateCharacterButton onCreate={create} />
+
             <Table
               headings={[
                 "Image",
@@ -48,7 +56,7 @@ const AppHomePage = () => {
                   <TableCell>{c.name}</TableCell>
                   <TableCell>{c.level}</TableCell>
                   <TableCell>
-                    {getRaceById(races!, c.race || 0)?.name || "Unknown Race"}
+                    {getRaceById(races!, c.race || "")?.name || "Unknown Race"}
                   </TableCell>
                   <TableCell>
                     {getCharactersClasses(classes!, relCharacterClasses!, c.id)
@@ -57,7 +65,7 @@ const AppHomePage = () => {
                   </TableCell>
                   <TableCell>
                     <Button
-                      label="Edit"
+                      label={<BsPencilSquare className="text-base" />}
                       type="button"
                       href={`/characters/${c.id}`}
                       mode="inverted"
@@ -74,7 +82,9 @@ const AppHomePage = () => {
             </Table>
           </div>
 
-          <div className="col-span-10 col-start-2 w-full">
+          <div className="col-span-4 md:col-span-6 lg:col-span-8 xl:col-span-10 xl:col-start-2 w-full">
+            <h3>Races</h3>
+            <CreateRaceButton onCreate={createRace} />
             <Table headings={["Race", "Actions"]}>
               {races.map((r) => (
                 <TableRow key={r.id}>
@@ -83,7 +93,7 @@ const AppHomePage = () => {
                   <TableCell>
                     <DeleteButton
                       entityName={r.name ?? "Unknown Race"}
-                      onDelete={() => remove(r.id)}
+                      onDelete={() => removeRace(r.id)}
                       entityType="race"
                     />
                   </TableCell>

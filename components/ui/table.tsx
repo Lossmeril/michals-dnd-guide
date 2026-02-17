@@ -46,5 +46,5 @@ interface TableCellProps {
 }
 
 export const TableCell: React.FC<TableCellProps> = ({ children }) => {
-  return <td className="px-3 py-1 text-sm">{children}</td>;
+  return <td className="px-3 py-1 text-sm space-x-2">{children}</td>;
 };
