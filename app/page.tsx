@@ -1,7 +1,11 @@
 "use client";
 
 import DeleteButton from "@/components/deleteModal";
-import { Container, Grid } from "@/components/layout/gridLayout";
+import {
+  Container,
+  Grid,
+  GridContent,
+} from "@/components/layout/layoutPrimitives";
 import Button from "@/components/ui/button";
 import { Table, TableCell, TableRow } from "@/components/ui/table";
 import { useCharacters } from "@/lib/hooks/useCharacters";
@@ -26,10 +30,10 @@ const AppHomePage = () => {
   const { relCharacterClasses } = useRelCharacterClasses();
 
   return (
-    <main className="w-screen h-screen py-40">
+    <main className="min-h-screen py-40">
       <Container>
         <Grid>
-          <div className="col-span-4 md:col-span-6 lg:col-span-8 xl:col-span-10 xl:col-start-2 w-full">
+          <GridContent>
             <h3>Characters</h3>
             <CreateCharacterButton onCreate={create} />
 
@@ -43,23 +47,23 @@ const AppHomePage = () => {
                 "Actions",
               ]}
             >
-              {characters!.map((c) => (
+              {characters?.map((c) => (
                 <TableRow key={c.id}>
                   <TableCell>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={c.image ?? IMAGE_PLACEHOLDER}
                       alt={`${c.name} portrait`}
-                      className="w-16 h-16 object-cover"
+                      className="h-16 w-16 object-cover"
                     />
                   </TableCell>
                   <TableCell>{c.name}</TableCell>
                   <TableCell>{c.level}</TableCell>
                   <TableCell>
-                    {getRaceById(races!, c.race || "")?.name || "Unknown Race"}
+                    {getRaceById(races, c.race || "")?.name || "Unknown Race"}
                   </TableCell>
                   <TableCell>
-                    {getCharactersClasses(classes!, relCharacterClasses!, c.id)
+                    {getCharactersClasses(classes, relCharacterClasses, c.id)
                       .map((cls) => cls.name)
                       .join(", ")}
                   </TableCell>
@@ -80,16 +84,15 @@ const AppHomePage = () => {
                 </TableRow>
               ))}
             </Table>
-          </div>
+          </GridContent>
 
-          <div className="col-span-4 md:col-span-6 lg:col-span-8 xl:col-span-10 xl:col-start-2 w-full">
+          <GridContent>
             <h3>Races</h3>
             <CreateRaceButton onCreate={createRace} />
             <Table headings={["Race", "Actions"]}>
               {races.map((r) => (
                 <TableRow key={r.id}>
                   <TableCell>{r.name}</TableCell>
-
                   <TableCell>
                     <DeleteButton
                       entityName={r.name ?? "Unknown Race"}
@@ -100,7 +103,7 @@ const AppHomePage = () => {
                 </TableRow>
               ))}
             </Table>
-          </div>
+          </GridContent>
         </Grid>
       </Container>
     </main>

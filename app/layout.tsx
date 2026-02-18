@@ -1,8 +1,11 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import "./globals.scss";
+
 import { QueryProvider } from "./providers";
-import { PreviewGrid } from "@/components/layout/gridLayout";
+
+import "./globals.scss";
+
+import { GridPreview } from "@/components/layout/previewGrid";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -17,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PreviewGrid />
+        <GridPreview />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

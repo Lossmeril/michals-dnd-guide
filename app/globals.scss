@@ -1,4 +1,12 @@
+// =============================================================================
+// Tailwind v4 imports
+// =============================================================================
+
 @import "tailwindcss";
+
+// =============================================================================
+// Theme tokens
+// =============================================================================
 
 @theme {
   --color-dnd-bg: #f4efe6;
@@ -25,179 +33,324 @@
   --color-purple: #a78bfa40;
 }
 
-::selection {
-  background: var(--color-dnd-accent-red);
-  color: black;
-  text-shadow: none;
-}
+// =============================================================================
+// Base styles
+// =============================================================================
 
-::-moz-selection {
-  background: var(--color-dnd-accent-red);
-  color: black;
-  text-shadow: none;
-}
+@layer base {
+  // -------------------------------------
+  // Global element behavior
+  // -------------------------------------
 
-html {
-  scroll-behavior: smooth;
-  background: url("../public/img/bg.webp") no-repeat center center fixed;
-  background-color: white;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  color: var(--color-dnd-ink);
-}
-
-h1 {
-  color: var(--color-dnd-red-dark);
-
-  font-size: 2rem;
-  line-height: 2.25rem;
-
-  margin-bottom: 0.5rem;
-}
-
-h2 {
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-
-  color: var(--color-dnd-red-dark);
-
-  font-size: 1.35rem;
-  line-height: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-
-  &::first-letter {
-    font-size: 1.25em;
+  ::selection,
+  ::-moz-selection {
+    background: var(--color-dnd-accent-red);
+    color: black;
+    text-shadow: none;
   }
 
-  &::after {
-    content: "";
-    display: block;
+  html {
+    scroll-behavior: smooth;
+
+    // Fixed background on html keeps body layout predictable
+    background-color: white;
+    background: url("/img/bg.webp") no-repeat center center fixed;
+  }
+
+  body {
+    min-height: 100%;
+  }
+
+  // -------------------------------------
+  // Form controls
+  // -------------------------------------
+
+  input,
+  select,
+  textarea {
     width: 100%;
-    height: 2.5px;
-    background-color: var(--color-dnd-underline);
-    margin-top: 0px;
+    border-radius: 0.5rem;
+    border: 1px solid color-mix(in oklab, var(--color-dnd-ink) 20%, transparent);
+    background: transparent;
+    padding: 0.5rem 0.75rem;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--color-dnd-red);
   }
 }
 
-h3 {
-  margin-bottom: 0.15rem;
-  margin-top: 0.5rem;
+// =============================================================================
+// Component primitives
+// =============================================================================
 
-  font-size: 1.15rem;
-  line-height: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
+@layer components {
+  // -------------------------------------
+  // Layout primitives
+  // -------------------------------------
 
-  color: var(--color-dnd-red-dark);
-
-  &::first-letter {
-    font-size: 1.25em;
+  .app-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1536px; // screen-2xl
+    padding-left: 1.5rem; // px-6
+    padding-right: 1.5rem;
   }
-}
 
-p {
-  margin-bottom: 1rem;
-
-  font-size: 0.9rem;
-  line-height: 1.65;
-
-  color: color-mix(in oklab, var(--color-dnd-ink) 85%, black);
-}
-
-a {
-  color: var(--color-dnd-red-dark);
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}
-
-.rulebox {
-  border-top: 2px solid var(--color-dnd-ink);
-  border-bottom: 2px solid var(--color-dnd-ink);
-  background-color: var(--color-dnd-accent-green);
-
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.35);
-  position: relative;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--color-dnd-ink);
+  @media (min-width: 768px) {
+    .app-container {
+      padding-left: 2.5rem; // px-10
+      padding-right: 2.5rem;
+    }
   }
-}
 
-// ---------------------------------------------
-// ---    BANNER FOR ACTIVE SIDEBAR PAGES   ----
-// ---------------------------------------------
+  @media (min-width: 1280px) {
+    .app-container {
+      padding-left: 4rem; // px-16
+      padding-right: 4rem;
+    }
+  }
 
-.menu-banner {
-  position: relative;
-  color: white;
-  ::after {
-    content: "";
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .app-grid {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .app-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+
+  .app-content {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 1280px) {
+    .app-content {
+      grid-column: 2 / span 10;
+    }
+  }
+
+  // -------------------------------------
+  // Grid preview overlay
+  // -------------------------------------
+
+  .app-grid-preview {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1536px;
+
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .app-grid-preview {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .app-grid-preview {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+  .app-grid-preview-inner {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    height: 100vh;
+  }
+
+  @media (min-width: 768px) {
+    .app-grid-preview-inner {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .app-grid-preview-inner {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+
+  .app-grid-preview-col {
+    height: 100%;
+    width: 100%;
+    opacity: 0.1;
+    background: rgb(239 68 68 / 0.5);
+  }
+
+  // -------------------------------------
+  // Typography (Tailwind prose only)
+  // -------------------------------------
+
+  .prose {
+    :where(h1, h2, h3, h4) {
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      color: var(--color-dnd-ink);
+    }
+
+    :where(h1) {
+      color: var(--color-dnd-red-dark);
+      font-size: 2rem;
+      line-height: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    :where(h2) {
+      margin: 1rem 0 0.5rem;
+      color: var(--color-dnd-red-dark);
+
+      font-size: 1.35rem;
+      line-height: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+
+      &::first-letter {
+        font-size: 1.25em;
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2.5px;
+        background-color: var(--color-dnd-underline);
+        margin-top: 0;
+      }
+    }
+
+    :where(h3) {
+      margin: 0.5rem 0 0.15rem;
+      font-size: 1.15rem;
+      line-height: 2rem;
+
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--color-dnd-red-dark);
+
+      &::first-letter {
+        font-size: 1.25em;
+      }
+    }
+
+    :where(p) {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: color-mix(in oklab, var(--color-dnd-ink) 85%, black);
+    }
+
+    :where(a) {
+      color: var(--color-dnd-red-dark);
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+    }
+  }
+
+  // -------------------------------------
+  // Shared UI patterns
+  // -------------------------------------
+
+  .rulebox {
+    border-top: 2px solid var(--color-dnd-ink);
+    border-bottom: 2px solid var(--color-dnd-ink);
+    background-color: var(--color-dnd-accent-green);
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+    position: relative;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--color-dnd-ink);
+    }
+  }
+
+  // -------------------------------------
+  // Navigation
+  // -------------------------------------
+
+  .menu-banner {
+    position: relative;
+    color: white;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 100px;
+      background: url("/img/character-creator/menu-banner.svg") no-repeat center
+        center;
+      z-index: -1;
+    }
+  }
+
+  // -------------------------------------
+  // Decorative utilities
+  // -------------------------------------
+
+  .corner {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: url(../public/img/character-creator/menu-banner.svg) no-repeat
-      center center;
-    z-index: -1;
+    width: 20px;
+    height: 20px;
+
+    clip-path: polygon(0 0, 100% 0, 0 50%);
+    background-color: var(--color-dnd-ink);
+    z-index: 10;
+
+    &.corner1 {
+      top: -22px;
+      left: 0;
+      transform: rotate(180deg);
+    }
+
+    &.corner2 {
+      bottom: -22px;
+      right: 0;
+      transform: rotate(0deg);
+    }
+
+    &.corner3 {
+      top: -22px;
+      right: 0;
+      transform: rotate(180deg) scaleX(-100%);
+    }
+
+    &.corner4 {
+      bottom: -22px;
+      left: 0;
+      transform: rotate(0deg) scaleX(-100%);
+    }
   }
-}
-// ---------------------------------------------
-// --- DECORATIVE CORNERS FOR EXAMPLE CARDS ----
-// ---------------------------------------------
-
-div > .corner {
-  content: "";
-
-  position: absolute;
-
-  width: 20px;
-  height: 20px;
-  clip-path: polygon(0 0, 100% 0, 0 50%);
-
-  background-color: var(--color-dnd-ink);
-
-  z-index: 10;
-
-  &.corner1 {
-    top: -22px;
-    left: 0;
-    transform: rotate(180deg);
-  }
-
-  &.corner2 {
-    bottom: -22px;
-    right: 0;
-    transform: rotate(0deg);
-  }
-
-  &.corner3 {
-    top: -22px;
-    right: 0;
-    transform: rotate(180deg) scaleX(-100%);
-  }
-
-  &.corner4 {
-    bottom: -22px;
-    left: 0;
-    transform: rotate(0deg) scaleX(-100%);
-  }
-}
-
-input,
-select,
-textarea {
-  @apply border-1 border-dnd-ink/20 rounded-lg bg-transparent px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-dnd-red focus:border-transparent;
 }

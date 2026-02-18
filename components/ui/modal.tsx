@@ -1,4 +1,4 @@
-import { Container, Grid } from "../layout/gridLayout";
+import { Container, Grid } from "../layout/layoutPrimitives";
 import DecorativeBorder from "./decorativeBorder";
 
 interface ModalProps {

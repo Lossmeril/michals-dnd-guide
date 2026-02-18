@@ -42,15 +42,15 @@ export function getStoragePathFromPublicUrl(
 interface UploadImageButtonProps {
   id: string;
   bucket?: SupabaseBucket;
-  image_url: string | null;
-  onChange: (patch: { image_url: string | null }) => void;
+  image: string | null;
+  onChange: (patch: { image: string | null }) => void;
   setError: (msg: string | null) => void;
 }
 
 export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
   id,
   bucket = "characters",
-  image_url,
+  image,
   onChange,
   setError,
 }) => {
@@ -62,7 +62,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
         htmlFor={inputId}
         className="bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer"
       >
-        {image_url ? "Change Image" : "Upload Image"}
+        {image ? "Change Image" : "Upload Image"}
       </label>
 
       <input
@@ -89,11 +89,11 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
               file,
               id,
             );
+
             const bustedUrl = `${baseUrl}?v=${Date.now()}`;
 
-            onChange({ image_url: bustedUrl });
+            onChange({ image: bustedUrl });
 
-            // optional: allow uploading the same file again
             input.value = "";
           } catch (err) {
             console.error(err);

@@ -1,14 +1,15 @@
 "use client";
 
-//  ------------------- React and Next
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
-//  ------------------- UI
-import { Container, Grid } from "@/components/layout/gridLayout";
+import {
+  Container,
+  Grid,
+  GridContent,
+} from "@/components/layout/layoutPrimitives";
 import Button from "@/components/ui/button";
 
-//  ------------------- Types and Hooks
 import type { Character } from "@/types/character";
 import type { RelCharacterClass } from "@/types/relCharacterClass";
 
@@ -17,17 +18,14 @@ import { useRaces } from "@/lib/hooks/useRaces";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
 
-//  ------------------- Utils
 import { calculatePointsToSpend } from "@/lib/validators/pointsToSpend";
 
-//  ------------------- Editor sections
 import CharacterGeneralSection from "@/components/editors/character/CharacterGeneralSection";
 import CharacterClassesSection from "@/components/editors/character/CharacterClassesSection";
+import RaceCard from "@/components/editors/character/RaceCard";
 
 interface CharacterPageProps {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 }
 
 // -------------------------------------
@@ -72,15 +70,31 @@ function getPointsToSpend(
   return calculatePointsToSpend(characterLevel || 1, spent);
 }
 
+const PageMessage = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Container>
+      <Grid className="pt-10">
+        <GridContent>
+          <div className="rounded-lg border-1 border-dnd-ink/20 p-5">
+            {children}
+          </div>
+        </GridContent>
+      </Grid>
+    </Container>
+  );
+};
+
 // -------------------------------------
 // Component
 // -------------------------------------
 
 const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
+  console.clear();
+
   const router = useRouter();
   const { id } = React.use(params);
 
-  const { characters, update: updateCharacters } = useCharacters();
+  const { characters, update: updateCharacter } = useCharacters();
   const { races } = useRaces();
   const { classes } = useClasses();
   const {
@@ -104,20 +118,17 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   // Data lookups
   // -------------------------------------
 
-  // Load character once
   useEffect(() => {
     const found = characters.find((c) => c.id.toString() === id);
     setCharacter(found);
     setLoading(false);
   }, [characters, id]);
 
-  // Build a stable lookup of existing relations for this character
   const existingByClass = useMemo(() => {
     if (!character) return new Map<string, RelCharacterClass>();
     return buildExistingRelationsByClass(relCharacterClasses, character.id);
   }, [character, relCharacterClasses]);
 
-  // Initialize local classLevels only when the character changes (so edits don't get wiped)
   useEffect(() => {
     if (!character) return;
     if (!classes?.length) return;
@@ -129,43 +140,27 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character?.id, classes]);
 
-  // Points to spend should reflect *local* edits (not DB state) because you only save on button press
   const pointsToSpend = useMemo(() => {
     if (!character) return 0;
     return getPointsToSpend(character.level || 1, classLevels);
   }, [classLevels, character]);
 
   // -------------------------------------
-  // Loading / not found states
+  // Loading / not found
   // -------------------------------------
 
-  if (loading) {
-    return (
-      <Container>
-        <Grid>
-          <div className="col-span-12 col-start-1">Loading...</div>
-        </Grid>
-      </Container>
-    );
-  }
-
-  if (!character) {
-    return (
-      <Container>
-        <Grid>
-          <div className="col-span-12 col-start-1">Character not found</div>
-        </Grid>
-      </Container>
-    );
-  }
+  if (loading) return <PageMessage>Loading…</PageMessage>;
+  if (!character) return <PageMessage>Character not found.</PageMessage>;
 
   // -------------------------------------
   // Actions
   // -------------------------------------
 
   const onSaveChanges = async () => {
+    // if (!classes?.length) return;
+
     // 1) save character
-    await updateCharacters(character.id, character);
+    await updateCharacter(character.id, character);
 
     // 2) save class relations (diff against existingByClass)
     const ops: Promise<unknown>[] = [];
@@ -205,59 +200,65 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
 
   return (
     <Container>
-      <Grid className="items-start pt-10">
-        <aside className="col-span-3 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full">
-          <p>Points to Spend: {pointsToSpend}</p>
-          <ul className="flex flex-col gap-10">
-            <li>General</li>
-            <li>Race</li>
-            <li>Classes</li>
-            <li>Perks</li>
-            <li>Equipment</li>
-          </ul>
-        </aside>
+      <Grid className="pt-10">
+        <GridContent>
+          <div className="grid grid-cols-12 gap-4 items-start">
+            <aside className="col-span-12 xl:col-span-3 rounded-lg border-1 border-dnd-ink/20 p-5 w-full">
+              <p>Points to Spend: {pointsToSpend}</p>
+              <ul className="mt-4 flex flex-col gap-4">
+                <li>General</li>
+                <li>Race</li>
+                <li>Classes</li>
+                <li>Perks</li>
+                <li>Equipment</li>
+              </ul>
+            </aside>
 
-        <div className="col-span-9 col-start-4 grid grid-cols-9 gap-4">
-          <CharacterGeneralSection
-            character={character}
-            setCharacter={setCharacter}
-          />
+            {/* Main content */}
+            <section className="col-span-12 xl:col-span-9">
+              <div className="flex flex-col gap-4">
+                <CharacterGeneralSection
+                  character={character}
+                  setCharacter={setCharacter}
+                />
 
-          <div className="col-span-9 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full gap-4">
-            <label htmlFor="race-select">Race:</label>
-            <select
-              id="race-select"
-              value={races.find((r) => r.id === character.race)?.id || ""}
-              onChange={(event) =>
-                setCharacter((prev) => ({
-                  ...prev!,
-                  race: event.target.value,
-                }))
-              }
-            >
-              {races.map((race) => (
-                <option key={race.id} value={race.id}>
-                  {race.name}
-                </option>
-              ))}
-            </select>
+                <div className="rounded-lg border-1 border-dnd-ink/20 p-5 w-full">
+                  <label htmlFor="race-select">Race:</label>
+
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {races.map((r) => (
+                      <RaceCard
+                        key={r.id}
+                        r={r}
+                        onChangeClass={(raceId) => {
+                          setCharacter((prev) =>
+                            prev ? { ...prev, race: raceId } : prev,
+                          );
+                        }}
+                        selected={character.race === r.id}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <CharacterClassesSection
+                  classes={classes}
+                  classLevels={classLevels}
+                  setClassLevels={setClassLevels}
+                  noMorePointsToSpend={pointsToSpend <= 0}
+                />
+
+                <div>
+                  <Button
+                    label="Save Changes"
+                    type="button"
+                    onClick={onSaveChanges}
+                  />
+                </div>
+              </div>
+            </section>
           </div>
-
-          <CharacterClassesSection
-            classes={classes}
-            classLevels={classLevels}
-            setClassLevels={setClassLevels}
-            noMorePointsToSpend={pointsToSpend <= 0}
-          />
-
-          <div className="col-span-9 col-start-1">
-            <Button
-              label="Save Changes"
-              type="button"
-              onClick={onSaveChanges}
-            />
-          </div>
-        </div>
+        </GridContent>
       </Grid>
     </Container>
   );
