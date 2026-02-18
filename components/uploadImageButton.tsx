@@ -4,7 +4,11 @@ import { supabaseBrowser } from "@/lib/supabase/browser";
 import type { SupabaseBucket } from "@/lib/storage/images";
 import { deleteImagePath, uploadImagePath } from "@/lib/storage/images";
 import { BsTrash3Fill } from "react-icons/bs";
-import Button from "./ui/button";
+import Button, {
+  buttonBasicStyles,
+  buttonInteractionStyles,
+  buttonModeStyles,
+} from "./ui/button";
 import { throwErrorToast } from "./ui/toast";
 
 interface UploadImageButtonProps {
@@ -31,7 +35,11 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
     <div className="flex flex-row items-center gap-2">
       <label
         htmlFor={inputId}
-        className={`bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif h-10 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer`}
+        className={[
+          buttonBasicStyles,
+          buttonInteractionStyles,
+          buttonModeStyles.default,
+        ].join(" ")}
       >
         {image ? "Change Image" : "Upload Image"}
       </label>

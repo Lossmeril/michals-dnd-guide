@@ -90,14 +90,29 @@ const AppHomePage = () => {
             </Table>
           </GridContent>
 
+          {/* ------- RACE TABLE ---------- */}
           <GridContent>
             <h3>Races</h3>
             <CreateRaceButton onCreate={createRace} />
-            <Table headings={["Race", "Actions"]}>
+            <Table headings={["Image", "Race", "Actions"]}>
               {races.map((r) => (
                 <TableRow key={r.id}>
+                  <TableCell>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={r.image ?? IMAGE_PLACEHOLDER}
+                      alt={`${r.name} image`}
+                      className="h-16 w-16 object-cover"
+                    />
+                  </TableCell>
                   <TableCell>{r.name}</TableCell>
                   <TableCell>
+                    <Button
+                      label={<BsPencilSquare className="text-base" />}
+                      type="button"
+                      href={`/admin/races/${r.id}`}
+                      mode="inverted"
+                    />
                     <DeleteButton
                       entityName={r.name ?? "Unknown Race"}
                       onDelete={() => removeRace(r.id)}
@@ -109,6 +124,7 @@ const AppHomePage = () => {
             </Table>
           </GridContent>
 
+          {/* ------- CLASSES TABLE ---------- */}
           <GridContent>
             <h3>Classes</h3>
             <CreateClassButton onCreate={createClass} />
@@ -120,6 +136,12 @@ const AppHomePage = () => {
                     <TableCell>{c.name}</TableCell>
                     <TableCell>{c.class_rank}</TableCell>
                     <TableCell>
+                      <Button
+                        label={<BsPencilSquare className="text-base" />}
+                        type="button"
+                        href={`/admin/classes/${c.id}`}
+                        mode="inverted"
+                      />
                       <DeleteButton
                         entityName={c.name ?? "Unknown Class"}
                         onDelete={() => removeClass(c.id)}

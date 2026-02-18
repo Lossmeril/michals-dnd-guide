@@ -144,15 +144,21 @@ export type Database = {
       }
       races: {
         Row: {
+          blurb: string | null
           id: string
+          image: string | null
           name: string | null
         }
         Insert: {
+          blurb?: string | null
           id: string
+          image?: string | null
           name?: string | null
         }
         Update: {
+          blurb?: string | null
           id?: string
+          image?: string | null
           name?: string | null
         }
         Relationships: []

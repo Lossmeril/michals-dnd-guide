@@ -12,8 +12,6 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
   character,
   setCharacter,
 }) => {
-  const [hasImageError, setImageError] = useState<boolean>(false);
-
   return (
     <>
       <div className="col-span-7 col-start-1 border-1 border-dnd-ink/20 rounded-lg p-5 w-full grid grid-cols-7 gap-4">
@@ -80,29 +78,7 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
         </div>
       </div>
 
-      <div className="col-span-2 col-start-8 border-1 border-dnd-ink/20 rounded-lg p-5 w-full">
-        <div
-          className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
-          <img
-            src={character.image ?? IMAGE_PLACEHOLDER}
-            alt={`${character.name} portrait`}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <UploadImageButton
-          id={character.id.toString()}
-          image={character.image}
-          onChange={(patch) =>
-            setCharacter((prev) => ({
-              ...prev!,
-              ...patch,
-            }))
-          }
-          setIsError={setImageError}
-        />
-      </div>
+      <div className="col-span-2 col-start-8 border-1 border-dnd-ink/20 rounded-lg p-5 w-full"></div>
     </>
   );
 };

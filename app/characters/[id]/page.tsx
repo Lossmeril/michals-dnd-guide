@@ -25,6 +25,8 @@ import CharacterClassesSection from "@/components/editors/character/CharacterCla
 import RaceCard from "@/components/editors/character/RaceCard";
 import { toast } from "@/components/ui/toast";
 import { TbConfetti } from "react-icons/tb";
+import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
+import { UploadImageButton } from "@/components/uploadImageButton";
 
 interface CharacterPageProps {
   params: Promise<{ id: string }>;
@@ -91,8 +93,6 @@ const PageMessage = ({ children }: { children: React.ReactNode }) => {
 // -------------------------------------
 
 const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
-  console.clear();
-
   const router = useRouter();
   const { id } = React.use(params);
 
@@ -112,6 +112,8 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
 
   const [loading, setLoading] = useState(true);
   const [character, setCharacter] = useState<Character | undefined>(undefined);
+
+  const [hasImageError, setImageError] = useState<boolean>(false);
 
   // local-only edits; saved on button press
   const [classLevels, setClassLevels] = useState<Record<string, number>>({});
@@ -199,7 +201,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
       mode: "success",
       icon: <TbConfetti />,
     });
-    router.refresh();
+    router.push("/");
   };
 
   // -------------------------------------
@@ -220,6 +222,28 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
                 <li>Perks</li>
                 <li>Equipment</li>
               </ul>
+
+              <div
+                className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
+                <img
+                  src={character.image ?? IMAGE_PLACEHOLDER}
+                  alt={`${character.name} portrait`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <UploadImageButton
+                id={character.id.toString()}
+                image={character.image}
+                onChange={(patch) =>
+                  setCharacter((prev) => ({
+                    ...prev!,
+                    ...patch,
+                  }))
+                }
+                setIsError={setImageError}
+              />
             </aside>
 
             {/* Main content */}
@@ -233,7 +257,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
                 <div className="rounded-lg border-1 border-dnd-ink/20 p-5 w-full">
                   <label htmlFor="race-select">Race:</label>
 
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
                     {races.map((r) => (
                       <RaceCard
                         key={r.id}

@@ -21,22 +21,26 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className={`border border-dnd-ink/20 rounded-lg p-4 ${className || ""}`}
+      className={`border border-dnd-ink/20 rounded-lg overflow-hidden ${className || ""}`}
       onClick={onClick}
     >
       {imageSrc && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={imageSrc}
-          alt={imageAlt || title}
-          className="w-full h-48 object-cover rounded-md mb-4"
-        />
+        <div className="w-full aspect-square overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imageSrc}
+            alt={imageAlt || title}
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
-      <h4 className="text-xl font-semibold mb-2">{title}</h4>
-      {description && (
-        <p className="text-sm text-gray-600 mb-4">{description}</p>
-      )}
-      {children}
+      <div className="p-4">
+        <h4 className="text-xl font-semibold mb-2">{title}</h4>
+        {description && (
+          <p className="text-sm text-gray-600 mb-4">{description}</p>
+        )}
+        {children}
+      </div>
     </div>
   );
 };
@@ -60,7 +64,7 @@ export const ClickableCard: React.FC<
   disabled,
 }) => {
   const disabledStyle = "cursor-not-allowed pointer-events-none opacity-20";
-  const deselectedStyle = "grayscale ";
+  const deselectedStyle = "grayscale scale-95";
 
   return (
     <Card

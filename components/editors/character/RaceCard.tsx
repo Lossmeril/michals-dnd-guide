@@ -1,4 +1,5 @@
 import { ClickableCard } from "@/components/ui/card";
+import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import { Race } from "@/types/races";
 
 interface RaceCardProps {
@@ -16,6 +17,8 @@ const RaceCard: React.FC<RaceCardProps> = ({ r, onChangeClass, selected }) => {
       onClick={() => onChangeClass(r.id)}
       selected={selected}
       disabled={false}
+      imageSrc={r.image ?? IMAGE_PLACEHOLDER}
+      imageAlt={`${r.name} image`}
     ></ClickableCard>
   );
 };

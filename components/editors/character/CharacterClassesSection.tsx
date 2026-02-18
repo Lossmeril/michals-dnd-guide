@@ -33,7 +33,7 @@ const CharacterClassesSection: React.FC<Props> = ({
   const { classPrerequisites } = useClassPrerequisites();
 
   const onChangeLevel = useCallback(
-    (classId: number, value: string) => {
+    (classId: string, value: string) => {
       const parsed = value.trim() === "" ? 0 : Number.parseInt(value, 10);
       const next = Number.isFinite(parsed)
         ? clamp(parsed, minLevel, maxLevel)
@@ -49,7 +49,7 @@ const CharacterClassesSection: React.FC<Props> = ({
 
   // Precompute metReqs per classId so it’s consistent everywhere
   const metReqsById = useMemo(() => {
-    const map: Record<number, boolean> = {};
+    const map: Record<string, boolean> = {};
     for (const c of classes) {
       map[c.id] = doesMeetClassPrerequisitesFromLevels(
         c,
@@ -64,7 +64,7 @@ const CharacterClassesSection: React.FC<Props> = ({
   useEffect(() => {
     setClassLevels((prev) => {
       let changed = false;
-      const next = { ...prev };
+      const next: Record<number, number> = { ...prev };
 
       for (const c of classes) {
         if (!metReqsById[c.id] && (next[c.id] ?? 0) > 0) {
