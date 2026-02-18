@@ -23,6 +23,8 @@ import { calculatePointsToSpend } from "@/lib/validators/pointsToSpend";
 import CharacterGeneralSection from "@/components/editors/character/CharacterGeneralSection";
 import CharacterClassesSection from "@/components/editors/character/CharacterClassesSection";
 import RaceCard from "@/components/editors/character/RaceCard";
+import { toast } from "@/components/ui/toast";
+import { TbConfetti } from "react-icons/tb";
 
 interface CharacterPageProps {
   params: Promise<{ id: string }>;
@@ -191,7 +193,13 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
     }
 
     await Promise.all(ops);
-    router.push("/");
+    toast({
+      description: "Changes to your character have been saved successfully!",
+      title: "Saved!",
+      mode: "success",
+      icon: <TbConfetti />,
+    });
+    router.refresh();
   };
 
   // -------------------------------------

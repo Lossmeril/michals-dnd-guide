@@ -7,6 +7,7 @@ import Button from "./ui/button";
 import Modal from "./ui/modal";
 import type { CharacterInsert } from "@/types/character";
 import { RaceInsert } from "@/types/races";
+import { ClassInsert } from "@/types/class";
 
 interface CreateModalProps {
   // -------------------------------------
@@ -331,6 +332,70 @@ export const CreateRaceButton: React.FC<CreateRaceButtonProps> = ({
               }))
             }
           />
+        </div>
+      )}
+    </CreateButton>
+  );
+};
+
+// -------------------------------------
+// -------------------------------------
+// -- CREATE NEW RACE BUTTON --
+// -------------------------------------
+// -------------------------------------
+
+interface CreateClassButtonProps {
+  onCreate: (payload: ClassInsert) => Promise<ClassInsert> | ClassInsert;
+}
+
+export const CreateClassButton: React.FC<CreateClassButtonProps> = ({
+  onCreate,
+}) => {
+  // -------------------------------------
+  // Initial form state
+  // -------------------------------------
+  const initialPayload: ClassInsert = {
+    id: "",
+    name: "",
+    class_rank: "basic",
+  };
+
+  return (
+    <CreateButton<ClassInsert, ClassInsert>
+      entityType="class"
+      onCreate={onCreate}
+      label="Create Class"
+      confirmTitle="Create new class"
+      confirmDescription="Enter the name of the new class to create it."
+      entityName="class"
+      initialPayload={initialPayload}
+    >
+      {(payload, setPayload) => (
+        <div className="mt-4 flex flex-col gap-3">
+          <input
+            placeholder="Class Name"
+            value={payload.name ?? ""}
+            onChange={(e) =>
+              setPayload((p) => ({
+                ...p,
+                name: e.target.value,
+                id: e.target.value.toLowerCase().replace(/\s+/g, "-"),
+              }))
+            }
+          />
+          <select
+            value={payload.class_rank}
+            onChange={(e) =>
+              setPayload((p) => ({
+                ...p,
+                class_rank: e.target.value as ClassInsert["class_rank"],
+              }))
+            }
+          >
+            <option value="basic">Basic</option>
+            <option value="advanced">Advanced</option>
+            <option value="mighty">Mighty</option>
+          </select>
         </div>
       )}
     </CreateButton>

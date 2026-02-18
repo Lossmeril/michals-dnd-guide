@@ -6,6 +6,7 @@ import { QueryProvider } from "./providers";
 import "./globals.scss";
 
 import { GridPreview } from "@/components/layout/previewGrid";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Toaster />
         <GridPreview />
         <QueryProvider>{children}</QueryProvider>
       </body>

@@ -19,14 +19,18 @@ import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import {
   CreateCharacterButton,
+  CreateClassButton,
   CreateRaceButton,
 } from "@/components/createModal";
 import { BsPencilSquare } from "react-icons/bs";
 
 const AppHomePage = () => {
+  // -------------------------------------
+  // Database hooks
+  // -------------------------------------
   const { characters, remove, create } = useCharacters();
   const { races, remove: removeRace, create: createRace } = useRaces();
-  const { classes } = useClasses();
+  const { classes, remove: removeClass, create: createClass } = useClasses();
   const { relCharacterClasses } = useRelCharacterClasses();
 
   return (
@@ -102,6 +106,28 @@ const AppHomePage = () => {
                   </TableCell>
                 </TableRow>
               ))}
+            </Table>
+          </GridContent>
+
+          <GridContent>
+            <h3>Classes</h3>
+            <CreateClassButton onCreate={createClass} />
+            <Table headings={["Class", "Rank", "Actions"]}>
+              {classes
+                .sort((a, b) => a.class_rank.localeCompare(b.class_rank))
+                .map((c) => (
+                  <TableRow key={c.id}>
+                    <TableCell>{c.name}</TableCell>
+                    <TableCell>{c.class_rank}</TableCell>
+                    <TableCell>
+                      <DeleteButton
+                        entityName={c.name ?? "Unknown Class"}
+                        onDelete={() => removeClass(c.id)}
+                        entityType="class"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
             </Table>
           </GridContent>
         </Grid>

@@ -12,7 +12,7 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
   character,
   setCharacter,
 }) => {
-  const [imageError, setImageError] = useState<string | null>(null);
+  const [hasImageError, setImageError] = useState<boolean>(false);
 
   return (
     <>
@@ -81,7 +81,9 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
       </div>
 
       <div className="col-span-2 col-start-8 border-1 border-dnd-ink/20 rounded-lg p-5 w-full">
-        <div className="border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2">
+        <div
+          className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
           <img
             src={character.image ?? IMAGE_PLACEHOLDER}
@@ -98,10 +100,8 @@ const CharacterGeneralSection: React.FC<CharacterGeneralSectionProps> = ({
               ...patch,
             }))
           }
-          setError={setImageError}
+          setIsError={setImageError}
         />
-
-        {imageError && <p className="text-red-500">{imageError}</p>}
       </div>
     </>
   );
