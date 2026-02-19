@@ -5,7 +5,7 @@ export const CLASS_PREREQUISITE_TOTAL_LEVELS = 6;
 
 export function doesMeetClassPrerequisitesFromLevels(
   queryClass: Class,
-  classLevels: Record<number, number>,
+  classLevels: Record<string, number>,
   classPrerequisites: ClassPrerequisite[],
 ) {
   const prerequisites = classPrerequisites.filter(

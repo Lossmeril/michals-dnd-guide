@@ -243,6 +243,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
                   }))
                 }
                 setIsError={setImageError}
+                mode="vertical"
               />
             </aside>
 

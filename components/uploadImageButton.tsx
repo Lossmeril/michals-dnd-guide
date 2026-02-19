@@ -3,13 +3,15 @@ import React from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import type { SupabaseBucket } from "@/lib/storage/images";
 import { deleteImagePath, uploadImagePath } from "@/lib/storage/images";
-import { BsTrash3Fill } from "react-icons/bs";
+
 import Button, {
   buttonBasicStyles,
   buttonInteractionStyles,
   buttonModeStyles,
 } from "./ui/button";
 import { throwErrorToast } from "./ui/toast";
+
+import { LuImageOff, LuImages, LuImageUp } from "react-icons/lu";
 
 interface UploadImageButtonProps {
   id: string;
@@ -19,6 +21,8 @@ interface UploadImageButtonProps {
 
   // Optional error state to visually indicate upload issues
   setIsError?: (isError: boolean) => void;
+
+  mode?: "horizontal" | "vertical";
 }
 
 export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
@@ -28,20 +32,35 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
   onChange,
 
   setIsError,
+
+  mode = "horizontal",
 }) => {
   const inputId = `imgUpload-${bucket}-${id}`;
 
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div
+      className={`flex ${mode === "horizontal" ? "flex-row items-center gap-2" : "flex-col items-start gap-2"}`}
+    >
       <label
         htmlFor={inputId}
         className={[
           buttonBasicStyles,
           buttonInteractionStyles,
           buttonModeStyles.default,
+          mode === "vertical" ? "w-full" : "",
         ].join(" ")}
       >
-        {image ? "Change Image" : "Upload Image"}
+        {image ? (
+          <span className="inline-flex items-center gap-2">
+            <LuImages className="text-base" />
+            Change Image
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-2">
+            <LuImageUp className="text-base" />
+            Upload Image
+          </span>
+        )}
       </label>
 
       <input
@@ -104,8 +123,10 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
 
       <Button
         label={
-          <span className="inline-flex items-center gap-2">
-            <BsTrash3Fill className="text-base" /> Remove Image
+          <span
+            className={`inline-flex items-center gap-2 ${!image ? "opacity-50 pointer-events-none" : ""} `}
+          >
+            <LuImageOff className="text-base" /> Remove Image
           </span>
         }
         mode="inverted"
@@ -113,6 +134,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
           await deleteImagePath(supabaseBrowser(), bucket, id);
           onChange({ image: null });
         }}
+        className={mode === "vertical" ? "w-full" : ""}
       />
     </div>
   );

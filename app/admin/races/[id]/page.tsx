@@ -12,9 +12,14 @@ import {
 import { Race } from "@/types/races";
 import { toast } from "@/components/ui/toast";
 import { TbConfetti } from "react-icons/tb";
-import Button from "@/components/ui/button";
+
+import { EditorShell } from "@/components/editors/editorShell";
+import EditorStack from "@/components/layout/editors/editorStack";
+import EditorSection from "@/components/layout/editors/editorSections";
+import Field from "@/components/layout/editors/editorField";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
-import { UploadImageButton } from "@/components/uploadImageButton";
+import Button from "@/components/ui/button";
+import ImageUploader from "@/components/layout/editors/editorImageUploader";
 
 interface RacePageProps {
   params: Promise<{ id: string }>;
@@ -29,7 +34,6 @@ const RacePage = ({ params }: RacePageProps) => {
   const [race, setRace] = useState<Race | undefined>(undefined);
 
   const [loading, setLoading] = useState(true);
-  const [hasImageError, setImageError] = useState<boolean>(false);
 
   // -------------------------------------
   // Fetch race data from DB
@@ -89,63 +93,52 @@ const RacePage = ({ params }: RacePageProps) => {
   // -------------------------------------
 
   return (
-    <Container>
-      <Grid className="pt-10">
-        <GridContent>
-          <label htmlFor="race-name">Race:</label>
-          <input
-            id="race-name"
-            type="text"
-            value={race?.name ?? ""}
-            onChange={(event) => {
-              const next = event.target.value;
-              setRace((prev) => ({
-                ...prev!,
-                name: next,
-              }));
-            }}
-          />
-
-          <label htmlFor="race-blurb">Short description:</label>
-          <textarea
-            id="race-blurb"
-            value={race?.blurb ?? ""}
-            onChange={(event) => {
-              const next = event.target.value;
-              setRace((prev) => ({
-                ...prev!,
-                blurb: next,
-              }));
-            }}
-          />
-
-          <div
-            className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
+    <EditorShell>
+      <EditorShell.Grid>
+        <EditorShell.Sidebar>
+          <h1 className="">Editing Race {race.name}</h1>
+          <div className="w-full aspect-square bg-dnd-ink/10 rounded-md mt-4 mb-6">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={race.image ?? IMAGE_PLACEHOLDER}
-              alt={`${race.name} image`}
-              className="w-full h-full object-cover"
+              src={race.image || IMAGE_PLACEHOLDER}
+              alt={race.name || ""}
+              className="w-full aspect-square object-cover rounded-md mt-4 mb-6"
             />
           </div>
-          <UploadImageButton
-            id={race.id.toString()}
-            image={race.image}
-            onChange={(patch) =>
-              setRace((prev) => ({
-                ...prev!,
-                ...patch,
-              }))
-            }
-            setIsError={setImageError}
-            bucket="rulebook/races"
-          />
+          <Button label="Save changes" onClick={onSaveChanges} mode="default" />
+        </EditorShell.Sidebar>
 
-          <Button label="Save Changes" type="button" onClick={onSaveChanges} />
-        </GridContent>
-      </Grid>
-    </Container>
+        <EditorShell.Main>
+          <EditorStack>
+            <EditorSection title="Basics">
+              <Field label="Race" htmlFor="race-name" span="half">
+                <input
+                  id="race-name"
+                  type="text"
+                  value={race.name || ""}
+                  onChange={(e) => setRace({ ...race, name: e.target.value })}
+                />
+              </Field>
+
+              <Field label="Short description" htmlFor="race-blurb" span="full">
+                <textarea
+                  id="race-blurb"
+                  value={race.blurb || ""}
+                  onChange={(e) => setRace({ ...race, blurb: e.target.value })}
+                />
+              </Field>
+            </EditorSection>
+
+            <EditorSection title="Image">
+              <ImageUploader
+                image={race.image}
+                onChange={(patch) => setRace({ ...race, image: patch.image })}
+              />
+            </EditorSection>
+          </EditorStack>
+        </EditorShell.Main>
+      </EditorShell.Grid>
+    </EditorShell>
   );
 };
 
