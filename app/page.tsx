@@ -17,6 +17,7 @@ import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
 import {
   getCharactersClasses,
+  getClassPrerequisiteClasses,
   getRaceById,
 } from "@/lib/helpers/relationGetters";
 import { useClasses } from "@/lib/hooks/useClasses";
@@ -28,6 +29,7 @@ import {
   CreateRaceButton,
 } from "@/components/createModal";
 import { BsPencilSquare } from "react-icons/bs";
+import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
 
 const AppHomePage = () => {
   // -------------------------------------
@@ -36,6 +38,7 @@ const AppHomePage = () => {
   const { characters, remove, create } = useCharacters();
   const { races, remove: removeRace, create: createRace } = useRaces();
   const { classes, remove: removeClass, create: createClass } = useClasses();
+  const { classPrerequisites } = useClassPrerequisites();
   const { relCharacterClasses } = useRelCharacterClasses();
 
   return (
@@ -125,13 +128,24 @@ const AppHomePage = () => {
               <h2>Classes</h2>
             </div>
             <CreateClassButton onCreate={createClass} />
-            <Table headings={["Image", "Class", "Rank", "Actions"]}>
+            <Table
+              headings={["Image", "Class", "Parent classes", "Rank", "Actions"]}
+            >
               {classes
                 .sort((a, b) => a.class_rank.localeCompare(b.class_rank))
                 .map((c) => (
                   <TableRow key={c.id}>
                     <ImageTableCell imgSrc={c.image} imgAlt={`${c.name}`} />
                     <TableCell>{c.name}</TableCell>
+                    <TableCell>
+                      {getClassPrerequisiteClasses(
+                        classes,
+                        classPrerequisites,
+                        c.id,
+                      )
+                        .map((cls) => cls.name)
+                        .join(", ") || "No classes"}{" "}
+                    </TableCell>
                     <TableCell>{c.class_rank}</TableCell>
                     <TableCell>
                       <Button

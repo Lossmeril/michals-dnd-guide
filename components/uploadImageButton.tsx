@@ -12,6 +12,7 @@ import Button, {
 import { throwErrorToast } from "./ui/toast";
 
 import { LuImageOff, LuImages, LuImageUp } from "react-icons/lu";
+import { FaSpinner } from "react-icons/fa";
 
 interface UploadImageButtonProps {
   id: string;
@@ -37,6 +38,8 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
 }) => {
   const inputId = `imgUpload-${bucket}-${id}`;
 
+  const [buttonLoading, setButtonLoading] = React.useState(false);
+
   return (
     <div
       className={`flex ${mode === "horizontal" ? "flex-row items-center gap-2" : "flex-col items-start gap-2"}`}
@@ -48,17 +51,27 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
           buttonInteractionStyles,
           buttonModeStyles.default,
           mode === "vertical" ? "w-full" : "",
+          buttonLoading
+            ? "cursor-not-allowed pointer-events-none opacity-50"
+            : "",
         ].join(" ")}
       >
-        {image ? (
-          <span className="inline-flex items-center gap-2">
-            <LuImages className="text-base" />
-            Change Image
-          </span>
+        {!buttonLoading ? (
+          image ? (
+            <span className="inline-flex items-center gap-2">
+              <LuImages className="text-base" />
+              Change Image
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-2">
+              <LuImageUp className="text-base" />
+              Upload Image
+            </span>
+          )
         ) : (
           <span className="inline-flex items-center gap-2">
-            <LuImageUp className="text-base" />
-            Upload Image
+            <FaSpinner className="animate-spin" />
+            Uploading...
           </span>
         )}
       </label>
@@ -73,6 +86,8 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
           const file = input.files?.[0];
           if (!file) return;
 
+          setButtonLoading(true);
+
           if (!file.type.startsWith("image/")) {
             setIsError?.(true);
             throwErrorToast(
@@ -80,6 +95,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
               "Invalid File Type",
             );
             input.value = "";
+            setButtonLoading(false);
             return;
           }
 
@@ -91,6 +107,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
               "File Too Large",
             );
             input.value = "";
+            setButtonLoading(false);
             return;
           }
 
@@ -117,6 +134,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
           } finally {
             // Always reset so the same file can be selected again
             input.value = "";
+            setButtonLoading(false);
           }
         }}
       />

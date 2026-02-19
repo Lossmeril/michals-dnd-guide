@@ -1,4 +1,5 @@
 import { Class } from "@/types/class";
+import { ClassPrerequisite } from "@/types/classPrerequisities";
 import { Race } from "@/types/races";
 import { RelCharacterClass } from "@/types/relCharacterClass";
 
@@ -37,10 +38,43 @@ export function getCharactersClasses(
       return {
         id: rel.class!,
         name: "Unknown Class",
+        image: "",
         level: rel.level,
         class_rank: "basic",
       };
     }
     return { ...foundClass, level: rel.level };
   });
+}
+
+// -------------------------------------
+// Get all assigned prerequisites for a class, as defined it the relation table
+// -------------------------------------
+
+export function getRelevantClassPrerequisites(
+  classPrerequisites: ClassPrerequisite[],
+  forClass: string,
+) {
+  return classPrerequisites.filter(
+    (cPreq) => cPreq.for_class === forClass && cPreq.class_required != null,
+  );
+}
+
+// -------------------------------------
+// Get all assigned prerequisite classes for a class, returned as full class array
+// -------------------------------------
+
+export function getClassPrerequisiteClasses(
+  classes: Class[],
+  classPrerequisites: ClassPrerequisite[],
+  forClass: string,
+) {
+  const relevantPrerequisites = getRelevantClassPrerequisites(
+    classPrerequisites,
+    forClass,
+  );
+
+  return relevantPrerequisites
+    .map((cp) => getClassById(classes, cp.class_required!))
+    .filter((c): c is Class => c !== undefined);
 }
