@@ -128,16 +128,19 @@ export type Database = {
         Row: {
           class_rank: Database["public"]["Enums"]["class_rank"]
           id: string
+          image: string | null
           name: string
         }
         Insert: {
           class_rank?: Database["public"]["Enums"]["class_rank"]
           id: string
+          image?: string | null
           name: string
         }
         Update: {
           class_rank?: Database["public"]["Enums"]["class_rank"]
           id?: string
+          image?: string | null
           name?: string
         }
         Relationships: []

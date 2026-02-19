@@ -123,9 +123,7 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
 
       <Button
         label={
-          <span
-            className={`inline-flex items-center gap-2 ${!image ? "opacity-50 pointer-events-none" : ""} `}
-          >
+          <span className={`inline-flex items-center gap-2 `}>
             <LuImageOff className="text-base" /> Remove Image
           </span>
         }
@@ -134,7 +132,10 @@ export const UploadImageButton: React.FC<UploadImageButtonProps> = ({
           await deleteImagePath(supabaseBrowser(), bucket, id);
           onChange({ image: null });
         }}
-        className={mode === "vertical" ? "w-full" : ""}
+        className={[
+          mode === "vertical" ? "w-full" : "",
+          `${!image ? "opacity-50 pointer-events-none" : ""}`,
+        ].join(" ")}
       />
     </div>
   );

@@ -125,11 +125,12 @@ const AppHomePage = () => {
               <h2>Classes</h2>
             </div>
             <CreateClassButton onCreate={createClass} />
-            <Table headings={["Class", "Rank", "Actions"]}>
+            <Table headings={["Image", "Class", "Rank", "Actions"]}>
               {classes
                 .sort((a, b) => a.class_rank.localeCompare(b.class_rank))
                 .map((c) => (
                   <TableRow key={c.id}>
+                    <ImageTableCell imgSrc={c.image} imgAlt={`${c.name}`} />
                     <TableCell>{c.name}</TableCell>
                     <TableCell>{c.class_rank}</TableCell>
                     <TableCell>

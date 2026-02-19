@@ -106,6 +106,11 @@ const RacePage = ({ params }: RacePageProps) => {
             />
           </div>
           <Button label="Save changes" onClick={onSaveChanges} mode="default" />
+          <Button
+            label="Go back"
+            onClick={() => router.push("/")}
+            mode="inverted"
+          />
         </EditorShell.Sidebar>
 
         <EditorShell.Main>
@@ -133,6 +138,7 @@ const RacePage = ({ params }: RacePageProps) => {
               <ImageUploader
                 image={race.image}
                 onChange={(patch) => setRace({ ...race, image: patch.image })}
+                bucket="rulebook/races"
               />
             </EditorSection>
           </EditorStack>

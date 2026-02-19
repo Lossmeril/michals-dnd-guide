@@ -1,6 +1,12 @@
 import { Class } from "@/types/class";
 import { ClassPrerequisite } from "@/types/classPrerequisities";
 
+export const CLASS_RANKS_NUMBER_OF_PREREQUISITES: Record<string, number> = {
+  basic: 0,
+  advanced: 2,
+  mighty: 5,
+};
+
 export const CLASS_PREREQUISITE_TOTAL_LEVELS = 6;
 
 export function doesMeetClassPrerequisitesFromLevels(

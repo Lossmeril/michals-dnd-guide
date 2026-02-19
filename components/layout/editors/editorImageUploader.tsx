@@ -5,6 +5,7 @@
 "use client";
 
 import { UploadImageButton } from "@/components/uploadImageButton";
+import { SupabaseBucket } from "@/lib/storage/images";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import React from "react";
 
@@ -12,6 +13,9 @@ type ImageUploaderProps = {
   image: string | null;
   className?: string;
   onChange: (patch: { image: string | null }) => void;
+
+  entityId: string;
+  bucket?: SupabaseBucket;
 };
 
 function cx(...parts: Array<string | undefined | false | null>) {
@@ -26,6 +30,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   image,
   className,
   onChange,
+  bucket,
+  entityId,
 }) => {
   const [hasError, setError] = React.useState(false);
 
@@ -42,10 +48,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         />
       </div>
       <UploadImageButton
-        id={""}
+        id={entityId}
         image={image}
         onChange={onChange}
         setIsError={setError}
+        bucket={bucket}
         mode="vertical"
       />
     </div>
