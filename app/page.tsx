@@ -7,7 +7,12 @@ import {
   GridContent,
 } from "@/components/layout/layoutPrimitives";
 import Button from "@/components/ui/button";
-import { Table, TableCell, TableRow } from "@/components/ui/table";
+import {
+  ImageTableCell,
+  Table,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
 import {
@@ -16,7 +21,7 @@ import {
 } from "@/lib/helpers/relationGetters";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
-import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
+
 import {
   CreateCharacterButton,
   CreateClassButton,
@@ -38,7 +43,9 @@ const AppHomePage = () => {
       <Container>
         <Grid>
           <GridContent>
-            <h3>Characters</h3>
+            <div className="prose">
+              <h2>Characters</h2>
+            </div>
             <CreateCharacterButton onCreate={create} />
 
             <Table
@@ -53,14 +60,7 @@ const AppHomePage = () => {
             >
               {characters?.map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={c.image ?? IMAGE_PLACEHOLDER}
-                      alt={`${c.name} portrait`}
-                      className="h-16 w-16 object-cover"
-                    />
-                  </TableCell>
+                  <ImageTableCell imgSrc={c.image} imgAlt={`${c.name}`} />
                   <TableCell>{c.name}</TableCell>
                   <TableCell>{c.level}</TableCell>
                   <TableCell>
@@ -92,19 +92,14 @@ const AppHomePage = () => {
 
           {/* ------- RACE TABLE ---------- */}
           <GridContent>
-            <h3>Races</h3>
+            <div className="prose">
+              <h2>Races</h2>
+            </div>
             <CreateRaceButton onCreate={createRace} />
             <Table headings={["Image", "Race", "Actions"]}>
               {races.map((r) => (
                 <TableRow key={r.id}>
-                  <TableCell>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={r.image ?? IMAGE_PLACEHOLDER}
-                      alt={`${r.name} image`}
-                      className="h-16 w-16 object-cover"
-                    />
-                  </TableCell>
+                  <ImageTableCell imgSrc={r.image} imgAlt={`${r.name}`} />
                   <TableCell>{r.name}</TableCell>
                   <TableCell>
                     <Button
@@ -126,7 +121,9 @@ const AppHomePage = () => {
 
           {/* ------- CLASSES TABLE ---------- */}
           <GridContent>
-            <h3>Classes</h3>
+            <div className="prose">
+              <h2>Classes</h2>
+            </div>
             <CreateClassButton onCreate={createClass} />
             <Table headings={["Class", "Rank", "Actions"]}>
               {classes

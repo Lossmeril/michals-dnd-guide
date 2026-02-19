@@ -1,3 +1,5 @@
+import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
+
 interface TableProps {
   headings: string[];
   children: React.ReactNode;
@@ -47,4 +49,25 @@ interface TableCellProps {
 
 export const TableCell: React.FC<TableCellProps> = ({ children }) => {
   return <td className="px-3 py-1 text-sm space-x-2">{children}</td>;
+};
+
+interface ImageTableCellProps {
+  imgSrc?: string | null;
+  imgAlt?: string;
+}
+
+export const ImageTableCell: React.FC<ImageTableCellProps> = ({
+  imgSrc,
+  imgAlt,
+}) => {
+  return (
+    <td className="">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imgSrc || IMAGE_PLACEHOLDER}
+        alt={imgAlt || "Character image"}
+        className="w-16 h-16 object-cover border-r border-dnd-ink/20"
+      />
+    </td>
+  );
 };
