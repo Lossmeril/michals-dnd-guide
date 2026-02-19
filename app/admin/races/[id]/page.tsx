@@ -136,6 +136,7 @@ const RacePage = ({ params }: RacePageProps) => {
 
             <EditorSection title="Image">
               <ImageUploader
+                entityId={race.id}
                 image={race.image}
                 onChange={(patch) => setRace({ ...race, image: patch.image })}
                 bucket="rulebook/races"

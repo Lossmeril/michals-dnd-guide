@@ -2,21 +2,21 @@ import Link from "next/link";
 import React from "react";
 
 export const buttonBasicStyles =
-  "h-8 inline-flex items-center justify-center rounded-2xl border-2 px-4 py-2 text-sm transition";
+  "h-8 inline-flex items-center justify-center rounded-2xl border-2 py-2 text-sm transition";
 export const buttonInteractionStyles =
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dnd-ink hover:cursor-pointer";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outsline-dnd-ink hover:cursor-pointer";
 export const buttonDisabledStyle =
   "cursor-not-allowed pointer-events-none opacity-20";
 
 export const buttonModeStyles: Record<string, string> = {
   default:
-    "bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif shadow-xs",
+    "bg-dnd-red border-dnd-red text-dnd-bg hover:bg-dnd-red-dark hover:border-dnd-red-dark font-serif shadow-xs px-4 ",
   inverted:
-    "bg-transparent border-dnd-red-dark/30 text-dnd-red-dark hover:text-dnd-bg hover:border-dnd-red-dark hover:bg-dnd-red-dark font-serif shadow-xs",
+    "bg-transparent border-dnd-red-dark/30 text-dnd-red-dark hover:text-dnd-bg hover:border-dnd-red-dark hover:bg-dnd-red-dark font-serif shadow-xs px-4 ",
   transparent:
-    "bg-transparent border-transparent text-dnd-red-dark hover:-translate-y-0.25 font-serif",
+    "bg-transparent border-transparent text-dnd-red-dark hover:-translate-y-0.25 font-serif px-0",
   monochrome:
-    "bg-transparent border-dnd-ink/30 text-dnd-ink hover:bg-dnd-ink/10 font-serif shadow-xs",
+    "bg-transparent border-dnd-ink/30 text-dnd-ink hover:bg-dnd-ink/10 font-serif shadow-xs px-4 ",
 };
 
 interface ButtonProps {

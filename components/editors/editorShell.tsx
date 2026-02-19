@@ -11,16 +11,20 @@ import {
   GridContent,
 } from "@/components/layout/layoutPrimitives";
 
-type EditorShellProps = {
+interface EditorShellProps {
   children: React.ReactNode;
   className?: string;
   contentClassName?: string;
-};
+}
 
-type RegionProps = {
+interface RegionProps {
   children: React.ReactNode;
   className?: string;
-};
+}
+
+interface EditorSidebarProps extends RegionProps {
+  imageUrl?: string;
+}
 
 function cx(...parts: Array<string | undefined | false | null>) {
   return parts.filter(Boolean).join(" ");
@@ -56,15 +60,25 @@ const EditorShellGrid: React.FC<RegionProps> = ({ children, className }) => {
   );
 };
 
-const EditorShellSidebar: React.FC<RegionProps> = ({ children, className }) => {
+const EditorShellSidebar: React.FC<EditorSidebarProps> = ({
+  children,
+  className,
+  imageUrl,
+}) => {
   return (
     <aside
       className={cx(
-        "col-span-12 xl:col-span-3 rounded-lg border-1 border-dnd-ink/20 p-5 w-full",
+        "col-span-12 xl:col-span-3 rounded-lg overflow-hidden border-1 border-dnd-ink/20 w-full",
         className,
       )}
     >
-      {children}
+      {imageUrl && (
+        <div
+          className="w-full h-48 bg-cover bg-center mb-4"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
+      )}
+      <div className="p-4">{children}</div>
     </aside>
   );
 };
