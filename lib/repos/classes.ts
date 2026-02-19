@@ -1,4 +1,4 @@
-import type { Class, ClassInsert, ClassUpdate } from "@/types/class";
+import type { Class, ClassInsert, ClassUpdate } from "@/types/classes";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
 type ListOptions = {

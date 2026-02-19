@@ -2,9 +2,9 @@
 
 import React, { useCallback, useEffect, useMemo } from "react";
 import ClassCard from "./ClassCard";
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
-import { doesMeetClassPrerequisitesFromLevels } from "@/lib/validators/classRequirements";
+import { doesMeetClassPrerequisitesFromLevels } from "@/lib/functions/validators/classRequirements";
 
 type Props = {
   classes: Class[];

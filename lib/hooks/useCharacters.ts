@@ -6,7 +6,7 @@ import type {
   Character,
   CharacterInsert,
   CharacterUpdate,
-} from "@/types/character";
+} from "@/types/characters";
 
 export function useCharacters() {
   const [characters, setCharacters] = useState<Character[]>([]);

@@ -19,6 +19,7 @@ export const SUPABASE_BUCKETS = [
   "characters",
   "rulebook/classes",
   "rulebook/races",
+  "avatars",
 ] as const;
 
 export type SupabaseBucket = (typeof SUPABASE_BUCKETS)[number];

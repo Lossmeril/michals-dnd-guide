@@ -1,9 +1,11 @@
 "use client";
 
+import { GridPreview } from "@/components/layout/previewGrid";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
+import { Toaster } from "sonner";
 
-export function QueryProvider({ children }: { children: ReactNode }) {
+export function Providers({ children }: { children: ReactNode }) {
   // useState ensures the client is created once per browser session
   const [queryClient] = useState(
     () =>
@@ -18,6 +20,11 @@ export function QueryProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      {/* PROVIDERS  */}
+      <Toaster />
+      <GridPreview />
+      {children}
+    </QueryClientProvider>
   );
 }

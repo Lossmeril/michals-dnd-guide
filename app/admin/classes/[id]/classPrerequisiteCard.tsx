@@ -1,6 +1,6 @@
 import { ClickableCard } from "@/components/ui/card";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 
 interface ClassPrerequisiteCardProps {
   c: Class;

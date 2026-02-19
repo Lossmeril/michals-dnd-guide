@@ -1,12 +1,12 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 
-import { QueryProvider } from "./providers";
+import { Providers } from "./providers";
 
 import "./globals.scss";
 
-import { GridPreview } from "@/components/layout/previewGrid";
-import { Toaster } from "sonner";
+import Navbar from "@/components/layout/navbar";
+import { AuthProvider } from "@/lib/functions/auth/authContext";
 
 export const metadata: Metadata = {
   title: "Michal's D&D Ruleset",
@@ -21,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster />
-        <GridPreview />
-        <QueryProvider>{children}</QueryProvider>
+        <AuthProvider>
+          <Navbar />
+          <Providers>{children}</Providers>
+        </AuthProvider>
       </body>
     </html>
   );

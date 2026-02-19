@@ -47,6 +47,11 @@ const LoginPage = () => {
     }
 
     router.replace(next);
+    toast({
+      title: "You are in!",
+      description: "You have successfully logged in.",
+      mode: "success",
+    });
     router.refresh();
   };
 

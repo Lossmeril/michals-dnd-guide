@@ -1,6 +1,6 @@
 import { UploadImageButton } from "@/components/uploadImageButton";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
-import { Character } from "@/types/character";
+import { Character } from "@/types/characters";
 import { useState } from "react";
 
 interface CharacterGeneralSectionProps {

@@ -145,6 +145,27 @@ export type Database = {
         }
         Relationships: []
       }
+      players: {
+        Row: {
+          avatar: string | null
+          display_name: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          avatar?: string | null
+          display_name?: string | null
+          id: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          avatar?: string | null
+          display_name?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
       races: {
         Row: {
           blurb: string | null

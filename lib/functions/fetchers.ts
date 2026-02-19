@@ -1,5 +1,6 @@
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 import { ClassPrerequisite } from "@/types/classPrerequisities";
+import { Player } from "@/types/players";
 import { Race } from "@/types/races";
 import { RelCharacterClass } from "@/types/relCharacterClass";
 
@@ -77,4 +78,16 @@ export function getClassPrerequisiteClasses(
   return relevantPrerequisites
     .map((cp) => getClassById(classes, cp.class_required!))
     .filter((c): c is Class => c !== undefined);
+}
+
+// -------------------------------------
+// Get a player profile based off a Supabase user ID
+// -------------------------------------
+
+export function getPlayerProfileByUserId(
+  userId: string,
+  players: Player[],
+): Player | null {
+  const player = players.find((p) => p.id === userId);
+  return player ?? null;
 }

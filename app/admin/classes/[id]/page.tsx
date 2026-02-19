@@ -20,12 +20,12 @@ import Field from "@/components/layout/editors/editorField";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import Button from "@/components/ui/button";
 import ImageUploader from "@/components/layout/editors/editorImageUploader";
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 
 import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
 import { ClassPrerequisite } from "@/types/classPrerequisities";
 import ClassPrerequisiteCard from "./classPrerequisiteCard";
-import { CLASS_RANKS_NUMBER_OF_PREREQUISITES } from "@/lib/validators/classRequirements";
+import { CLASS_RANKS_NUMBER_OF_PREREQUISITES } from "@/lib/functions/validators/classRequirements";
 
 interface ClassPageProps {
   params: Promise<{ id: string }>;

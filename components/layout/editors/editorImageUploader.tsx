@@ -5,7 +5,7 @@
 "use client";
 
 import { UploadImageButton } from "@/components/uploadImageButton";
-import { SupabaseBucket } from "@/lib/storage/images";
+import { SupabaseBucket } from "@/lib/functions/upload/images";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import React from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Class, ClassInsert, ClassUpdate } from "@/types/class";
+import { Class, ClassInsert, ClassUpdate } from "@/types/classes";
 import { classesRepo } from "../repos/classes";
 
 export function useClasses() {

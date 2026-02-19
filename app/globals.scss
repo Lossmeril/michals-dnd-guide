@@ -208,6 +208,10 @@
   // Typography (Tailwind prose only)
   // -------------------------------------
 
+  .serif {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+
   .prose {
     :where(h1, h2, h3, h4) {
       font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;

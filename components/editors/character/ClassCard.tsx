@@ -1,4 +1,4 @@
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 
 interface ClassCardProps {
   c: Class;

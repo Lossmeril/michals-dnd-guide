@@ -5,9 +5,9 @@ import { BsPlusSquareFill } from "react-icons/bs";
 
 import Button from "./ui/button";
 import Modal from "./ui/modal";
-import type { CharacterInsert } from "@/types/character";
+import type { CharacterInsert } from "@/types/characters";
 import { RaceInsert } from "@/types/races";
-import { ClassInsert } from "@/types/class";
+import { ClassInsert } from "@/types/classes";
 
 interface CreateModalProps {
   // -------------------------------------

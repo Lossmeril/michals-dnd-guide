@@ -10,7 +10,7 @@ import {
 } from "@/components/layout/layoutPrimitives";
 import Button from "@/components/ui/button";
 
-import type { Character } from "@/types/character";
+import type { Character } from "@/types/characters";
 import type { RelCharacterClass } from "@/types/relCharacterClass";
 
 import { useCharacters } from "@/lib/hooks/useCharacters";
@@ -18,7 +18,7 @@ import { useRaces } from "@/lib/hooks/useRaces";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
 
-import { calculatePointsToSpend } from "@/lib/validators/pointsToSpend";
+import { calculatePointsToSpend } from "@/lib/functions/validators/pointsToSpend";
 
 import CharacterGeneralSection from "@/components/editors/character/CharacterGeneralSection";
 import CharacterClassesSection from "@/components/editors/character/CharacterClassesSection";

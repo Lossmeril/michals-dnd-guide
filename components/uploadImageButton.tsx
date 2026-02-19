@@ -1,8 +1,11 @@
 import React from "react";
 
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import type { SupabaseBucket } from "@/lib/storage/images";
-import { deleteImagePath, uploadImagePath } from "@/lib/storage/images";
+import type { SupabaseBucket } from "@/lib/functions/upload/images";
+import {
+  deleteImagePath,
+  uploadImagePath,
+} from "@/lib/functions/upload/images";
 
 import Button, {
   buttonBasicStyles,

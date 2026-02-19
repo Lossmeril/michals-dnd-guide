@@ -1,4 +1,4 @@
-import { Class } from "@/types/class";
+import { Class } from "@/types/classes";
 import { ClassPrerequisite } from "@/types/classPrerequisities";
 
 export const CLASS_RANKS_NUMBER_OF_PREREQUISITES: Record<string, number> = {
