@@ -38,8 +38,14 @@ const AppHomePage = () => {
   const { characters, remove, create } = useCharacters();
   const { races, remove: removeRace, create: createRace } = useRaces();
   const { classes, remove: removeClass, create: createClass } = useClasses();
-  const { classPrerequisites } = useClassPrerequisites();
-  const { relCharacterClasses } = useRelCharacterClasses();
+  const { classPrerequisites, reload: reloadClassPrerequisites } = useClassPrerequisites();
+  const { relCharacterClasses, reload: reloadRelCharacterClasses } = useRelCharacterClasses();
+
+  const handleDeleteClass = async (classId: string) => {
+    await removeClass(classId);
+    // DB CASCADE deletes related rows; reload hooks to sync local state
+    await Promise.all([reloadClassPrerequisites(), reloadRelCharacterClasses()]);
+  };
 
   return (
     <main className="min-h-screen py-40">
@@ -156,7 +162,7 @@ const AppHomePage = () => {
                       />
                       <DeleteButton
                         entityName={c.name ?? "Unknown Class"}
-                        onDelete={() => removeClass(c.id)}
+                        onDelete={() => handleDeleteClass(c.id)}
                         entityType="class"
                       />
                     </TableCell>

@@ -79,8 +79,8 @@ const CharacterClassesSection: React.FC<CharacterClassesSectionProps> = ({
 
   const renderRank = (rank: "basic" | "advanced" | "mighty", label: string) => (
     <>
-      <h3>{label}</h3>
-      <div className="col-span-9 grid grid-cols-5 gap-4">
+      <h3 className="font-bold col-span-9">{label}</h3>
+      <div className="col-span-9 flex flex-col">
         {classes
           .filter((c) => c.class_rank === rank)
           .map((c) => (

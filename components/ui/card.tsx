@@ -4,6 +4,7 @@ interface CardProps {
 
   imageSrc?: string;
   imageAlt?: string;
+  imageHeight?: string;
 
   children?: React.ReactNode;
   className?: string;
@@ -15,6 +16,7 @@ const Card: React.FC<CardProps> = ({
   description,
   imageSrc,
   imageAlt,
+  imageHeight,
   children,
   className,
   onClick,
@@ -25,7 +27,13 @@ const Card: React.FC<CardProps> = ({
       onClick={onClick}
     >
       {imageSrc && (
-        <div className="w-full aspect-square overflow-hidden">
+        <div
+          className="w-full aspect-square overflow-hidden"
+          style={{
+            aspectRatio: !imageHeight ? "1/1" : "unset",
+            height: imageHeight ?? "unset",
+          }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageSrc}
@@ -58,6 +66,7 @@ export const ClickableCard: React.FC<
   description,
   imageSrc,
   imageAlt,
+  imageHeight,
   children,
   onClick,
   selected,
@@ -74,6 +83,7 @@ export const ClickableCard: React.FC<
       imageAlt={imageAlt}
       className={`z-10 cursor-pointer hover:scale-[1.02] transition-transform relative ${disabled ? disabledStyle : ""} ${selected ? "" : deselectedStyle} `}
       onClick={disabled ? undefined : onClick}
+      imageHeight={imageHeight}
     >
       {children}
     </Card>
