@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { EditorShell } from "@/components/editors/editorShell";
 import Field from "@/components/layout/editors/editorField";
 import EditorSection from "@/components/layout/editors/editorSections";
 import { toast } from "@/components/ui/toast";
+import { useAuth } from "@/lib/functions/auth/authContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,15 @@ const LoginPage = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const next = searchParams.get("next") ?? "/app";
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push(next);
+    }
+  }, [user, router, next]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +67,7 @@ const LoginPage = () => {
   return (
     <EditorShell>
       <EditorShell.Grid>
-        <EditorShell.Sidebar imageUrl="https://www.artofmtg.com/wp-content/uploads/2022/05/Baldurs-Gate-Battle-for-Baldurs-Gate-MtG-Art.jpg">
+        <EditorShell.Sidebar imageUrl="/img/auth/gate.jpg">
           <h1 className="text-2xl font-bold mb-4">
             A guard is standing in your way!
           </h1>

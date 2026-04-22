@@ -85,7 +85,7 @@ const RacePage = ({ params }: RacePageProps) => {
       mode: "success",
       icon: <TbConfetti />,
     });
-    router.push("/");
+    router.push("/app");
   };
 
   // -------------------------------------
@@ -108,7 +108,7 @@ const RacePage = ({ params }: RacePageProps) => {
           <Button label="Save changes" onClick={onSaveChanges} mode="default" />
           <Button
             label="Go back"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/app")}
             mode="inverted"
           />
         </EditorShell.Sidebar>

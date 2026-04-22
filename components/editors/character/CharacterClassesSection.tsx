@@ -8,8 +8,8 @@ import { doesMeetClassPrerequisitesFromLevels } from "@/lib/functions/validators
 
 type Props = {
   classes: Class[];
-  classLevels: Record<number, number>;
-  setClassLevels: React.Dispatch<React.SetStateAction<Record<number, number>>>;
+  classLevels: Record<string, number>;
+  setClassLevels: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 
   minLevel?: number;
   maxLevel?: number;
@@ -64,7 +64,7 @@ const CharacterClassesSection: React.FC<Props> = ({
   useEffect(() => {
     setClassLevels((prev) => {
       let changed = false;
-      const next: Record<number, number> = { ...prev };
+      const next: Record<string, number> = { ...prev };
 
       for (const c of classes) {
         if (!metReqsById[c.id] && (next[c.id] ?? 0) > 0) {

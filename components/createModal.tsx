@@ -59,52 +59,35 @@ const CreateModal: React.FC<CreateModalProps> = ({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onCancel]);
 
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center">
-      {/* ------------------------------------- */}
-      {/* Backdrop */}
-      {/* ------------------------------------- */}
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/40"
-        onClick={onCancel}
-        aria-label="Close modal"
-      />
+    <Modal open={open} onClose={onCancel} title={title}>
+      {description ? <p>{description}</p> : null}
 
-      {/* ------------------------------------- */}
-      {/* Modal */}
-      {/* ------------------------------------- */}
-      <Modal open={open} onClose={onCancel} title={title}>
-        {description ? <p>{description}</p> : null}
-
-        {error && (
-          <div className="mt-3 rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
-            {error}
-          </div>
-        )}
-
-        {children}
-
-        <div className="mt-5 flex items-center justify-end gap-3">
-          <Button
-            label={cancelLabel}
-            type="button"
-            onClick={onCancel}
-            mode="inverted"
-          />
-
-          <Button
-            label={confirming ? "Creating…" : confirmLabel}
-            type="button"
-            onClick={onConfirm}
-            disabled={confirming}
-            mode="default"
-          />
+      {error && (
+        <div className="mt-3 rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
+          {error}
         </div>
-      </Modal>
-    </div>
+      )}
+
+      {children}
+
+      <div className="mt-5 flex items-center justify-end gap-3">
+        <Button
+          label={cancelLabel}
+          type="button"
+          onClick={onCancel}
+          mode="inverted"
+        />
+
+        <Button
+          label={confirming ? "Creating…" : confirmLabel}
+          type="button"
+          onClick={onConfirm}
+          disabled={confirming}
+          mode="default"
+        />
+      </div>
+    </Modal>
   );
 };
 
@@ -340,7 +323,7 @@ export const CreateRaceButton: React.FC<CreateRaceButtonProps> = ({
 
 // -------------------------------------
 // -------------------------------------
-// -- CREATE NEW RACE BUTTON --
+// -- CREATE NEW CLASS BUTTON --
 // -------------------------------------
 // -------------------------------------
 

@@ -78,7 +78,7 @@ const AppHomePage = () => {
                     <Button
                       label={<BsPencilSquare className="text-base" />}
                       type="button"
-                      href={`/characters/${c.id}`}
+                      href={`/app/characters/${c.id}`}
                       mode="inverted"
                     />
                     <DeleteButton

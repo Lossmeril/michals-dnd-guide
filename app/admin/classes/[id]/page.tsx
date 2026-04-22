@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRouter } from "next/navigation";
 
@@ -44,10 +44,7 @@ const ClassPage = ({ params }: ClassPageProps) => {
   } = useClassPrerequisites();
 
   const [classData, setClassData] = useState<Class | undefined>(undefined);
-  // Candidate classes that can be added as prerequisites to the currently edited class
-  const [potentialPrerequisites, setPotentialPrerequisites] = useState<Class[]>(
-    [],
-  );
+
   // Already assigned prerequisite classes for the currently edited class
   const [classPrerequisitesList, setClassPrerequisitesList] = useState<
     ClassPrerequisite[]
@@ -90,20 +87,20 @@ const ClassPage = ({ params }: ClassPageProps) => {
       setNewClassPrerequisites(selectedIds);
       didInitPrerequisites.current = true;
     }
-
-    // 3) find candidate prerequisites for the class we are editing
-    const prerequisiteRank =
-      found && found.class_rank !== "basic"
-        ? found.class_rank === "mighty"
-          ? "advanced"
-          : "basic"
-        : null;
-
-    const candidatePrerequisites = prerequisiteRank
-      ? classes.filter((c) => c.class_rank === prerequisiteRank)
-      : [];
-    setPotentialPrerequisites(candidatePrerequisites);
   }, [classes, id, classPrerequisites]);
+
+  // Derived from local classData.class_rank so it updates immediately when the rank dropdown changes
+  const potentialPrerequisites = useMemo(() => {
+    if (!classData) return [];
+    const prerequisiteRank =
+      classData.class_rank === "mighty"
+        ? "advanced"
+        : classData.class_rank === "advanced"
+          ? "basic"
+          : null;
+    if (!prerequisiteRank) return [];
+    return classes.filter((c) => c.class_rank === prerequisiteRank);
+  }, [classData, classes]);
 
   // -------------------------------------
   // Error handling
@@ -136,10 +133,7 @@ const ClassPage = ({ params }: ClassPageProps) => {
   // -------------------------------------
 
   const onSaveChanges = async () => {
-    // 1) save class
-    await update(id, classData);
-
-    // 2) save prerequisites
+    // 1) check and save prerequisites
 
     const ops: Promise<unknown>[] = [];
 
@@ -175,6 +169,9 @@ const ClassPage = ({ params }: ClassPageProps) => {
       }
     }
 
+    // 2) save class
+    await update(id, classData);
+
     await Promise.all(ops);
 
     toast({
@@ -183,7 +180,7 @@ const ClassPage = ({ params }: ClassPageProps) => {
       mode: "success",
       icon: <TbConfetti />,
     });
-    router.push("/");
+    router.push("/app");
   };
 
   // -------------------------------------
@@ -205,13 +202,13 @@ const ClassPage = ({ params }: ClassPageProps) => {
           </div>
           <Button
             label="Save changes"
-            onClick={onSaveChanges}
+            onClick={() => onSaveChanges()}
             mode="default"
             className="w-full mb-4"
           />
           <Button
             label="Go back"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/app")}
             mode="inverted"
             className="w-full"
           />
@@ -229,6 +226,23 @@ const ClassPage = ({ params }: ClassPageProps) => {
                     setClassData({ ...classData, name: e.target.value })
                   }
                 />
+              </Field>
+              <Field label="Rank" htmlFor="class-rank" span="half">
+                <select
+                  id="class-rank"
+                  value={classData.class_rank}
+                  onChange={(e) => {
+                    setClassData({
+                      ...classData,
+                      class_rank: e.target.value as Class["class_rank"],
+                    });
+                    setNewClassPrerequisites([]);
+                  }}
+                >
+                  <option value="basic">Basic</option>
+                  <option value="advanced">Advanced</option>
+                  <option value="mighty">Mighty</option>
+                </select>
               </Field>
             </EditorSection>
 

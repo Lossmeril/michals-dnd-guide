@@ -25,9 +25,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ headings }) => {
         {headings.map((heading) => (
           <th
             key={heading}
-            className="px-3 py-1 text-sm border-b-2 border-dnd-ink text-left"
+            className={`px-3 py-1 text-sm border-b-2 border-dnd-ink text-left ${heading === "Image" ? "w-16" : ""}`}
           >
-            {heading}
+            {heading === "Image" ? "" : heading}
           </th>
         ))}
       </tr>

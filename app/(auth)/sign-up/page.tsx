@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { playersRepo } from "@/lib/repos/players";
 import { EditorShell } from "@/components/editors/editorShell";
 import Button from "@/components/ui/button";
 import EditorSection from "@/components/layout/editors/editorSections";
 import Field from "@/components/layout/editors/editorField";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "@/components/ui/toast";
+import { useAuth } from "@/lib/functions/auth/authContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -19,13 +22,25 @@ const SignupPage = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const next = searchParams.get("next") ?? "/app";
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push(next);
+    }
+  }, [user, router, next]);
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     const supabase = supabaseBrowser();
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -35,9 +50,8 @@ const SignupPage = () => {
       },
     });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       toast({
         title: "Signup failed",
         description: error.message,
@@ -46,7 +60,15 @@ const SignupPage = () => {
       return;
     }
 
-    // optional: redirect or show "check your email"
+    if (data.user) {
+      try {
+        await playersRepo.insert({ id: data.user.id, display_name: displayName });
+      } catch {
+        // Non-fatal: auth succeeded, profile creation failed. User can still log in.
+      }
+    }
+
+    setLoading(false);
     toast({
       title: "Signup successful",
       description: "Please check your email to verify your account.",
@@ -65,7 +87,7 @@ const SignupPage = () => {
   return (
     <EditorShell>
       <EditorShell.Grid>
-        <EditorShell.Sidebar>
+        <EditorShell.Sidebar imageUrl="/img/auth/gate.jpg">
           <h1 className="text-2xl font-bold mb-4">
             A guard is standing in your way!
           </h1>
