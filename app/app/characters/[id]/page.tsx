@@ -27,6 +27,7 @@ import { toast } from "@/components/ui/toast";
 import { TbConfetti } from "react-icons/tb";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import { UploadImageButton } from "@/components/uploadImageButton";
+import DecorativeBorder from "@/components/ui/decorativeBorder";
 
 interface CharacterPageProps {
   params: Promise<{ id: string }>;
@@ -201,7 +202,7 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
       mode: "success",
       icon: <TbConfetti />,
     });
-    router.push("/");
+    router.push("/app");
   };
 
   // -------------------------------------
@@ -213,38 +214,52 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
       <Grid className="pt-10">
         <GridContent>
           <div className="grid grid-cols-12 gap-4 items-start">
-            <aside className="col-span-12 xl:col-span-3 rounded-lg border-1 border-dnd-ink/20 p-5 w-full">
-              <p>Points to Spend: {pointsToSpend}</p>
-              <ul className="mt-4 flex flex-col gap-4">
-                <li>General</li>
-                <li>Race</li>
-                <li>Classes</li>
-                <li>Perks</li>
-                <li>Equipment</li>
-              </ul>
+            <aside className="col-span-12 xl:col-span-3 w-full">
+              <div className="w-full rounded-lg border-1 border-dnd-ink/20 p-5 ">
+                <ul className="mt-4 flex flex-col gap-4">
+                  <li>General</li>
+                  <li>Race</li>
+                  <li>Classes</li>
+                  <li>Perks</li>
+                  <li>Equipment</li>
+                </ul>
 
-              <div
-                className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
-                <img
-                  src={character.image ?? IMAGE_PLACEHOLDER}
-                  alt={`${character.name} portrait`}
-                  className="w-full h-full object-cover"
+                <div
+                  className={`border-1 border-dnd-ink/20 rounded-lg aspect-square overflow-hidden mb-2 ${hasImageError ? "border-dnd-red border-2" : ""}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}{" "}
+                  <img
+                    src={character.image ?? IMAGE_PLACEHOLDER}
+                    alt={`${character.name} portrait`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <UploadImageButton
+                  id={character.id.toString()}
+                  image={character.image}
+                  onChange={(patch) =>
+                    setCharacter((prev) => ({
+                      ...prev!,
+                      ...patch,
+                    }))
+                  }
+                  setIsError={setImageError}
+                  mode="vertical"
                 />
               </div>
-              <UploadImageButton
-                id={character.id.toString()}
-                image={character.image}
-                onChange={(patch) =>
-                  setCharacter((prev) => ({
-                    ...prev!,
-                    ...patch,
-                  }))
-                }
-                setIsError={setImageError}
-                mode="vertical"
-              />
+              <div
+                className="border-y-2 border-dnd-ink bg-dnd-accent-red px-5 py-1.5 mt-4 flex flex-row flex-nowrap gap-4 justify-center items-center relative"
+                style={{
+                  whiteSpace: "nowrap",
+                  backgroundColor: pointsToSpend > 0 ? "#d1e2b6" : "#edabab",
+                }}
+              >
+                <p className="text-sm">Points available to spend:</p>
+                <p className="block w-10 h-10 rounded-full border border-dnd-ink grid place-content-center text-dnd-ink serif">
+                  {pointsToSpend}
+                </p>
+                <DecorativeBorder />
+              </div>
             </aside>
 
             {/* Main content */}

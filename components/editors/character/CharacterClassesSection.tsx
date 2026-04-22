@@ -6,7 +6,7 @@ import { Class } from "@/types/classes";
 import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
 import { doesMeetClassPrerequisitesFromLevels } from "@/lib/functions/validators/classRequirements";
 
-type Props = {
+type CharacterClassesSectionProps = {
   classes: Class[];
   classLevels: Record<string, number>;
   setClassLevels: React.Dispatch<React.SetStateAction<Record<string, number>>>;
@@ -21,7 +21,7 @@ type Props = {
 const clamp = (n: number, min: number, max: number) =>
   Math.max(min, Math.min(max, n));
 
-const CharacterClassesSection: React.FC<Props> = ({
+const CharacterClassesSection: React.FC<CharacterClassesSectionProps> = ({
   classes,
   classLevels,
   setClassLevels,
