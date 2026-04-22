@@ -31,7 +31,11 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, title, children }) => {
           <div className="relative w-full border-y-2 border-dnd-ink bg-dnd-bg shadow-lg col-span-6 col-start-4">
             <DecorativeBorder />
             <div className="book p-6">
-              {title && <h2 className="">{title}</h2>}
+              {title && (
+                <h2 className="serif text-dnd-red-dark font-bold text-xl">
+                  {title}
+                </h2>
+              )}
               {children}
             </div>
           </div>

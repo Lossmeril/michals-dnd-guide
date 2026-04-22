@@ -8,6 +8,7 @@ import Modal from "./ui/modal";
 import type { CharacterInsert } from "@/types/characters";
 import { RaceInsert } from "@/types/races";
 import { ClassInsert } from "@/types/classes";
+import { TextInput, NumberInput, SelectInput } from "@/components/ui/inputs";
 
 interface CreateModalProps {
   // -------------------------------------
@@ -249,21 +250,16 @@ export const CreateCharacterButton: React.FC<CreateCharacterButtonProps> = ({
     >
       {(payload, setPayload) => (
         <div className="mt-4 flex flex-col gap-3">
-          <input
+          <TextInput
             placeholder="Character Name"
             value={payload.name ?? ""}
-            onChange={(e) =>
-              setPayload((p) => ({ ...p, name: e.target.value }))
-            }
+            onChange={(v) => setPayload((p) => ({ ...p, name: v }))}
           />
-
-          <input
-            type="number"
+          <NumberInput
             placeholder="Level"
             value={payload.level ?? 7}
-            onChange={(e) =>
-              setPayload((p) => ({ ...p, level: Number(e.target.value) }))
-            }
+            min={1}
+            onChange={(v) => setPayload((p) => ({ ...p, level: v }))}
           />
         </div>
       )}
@@ -304,14 +300,14 @@ export const CreateRaceButton: React.FC<CreateRaceButtonProps> = ({
     >
       {(payload, setPayload) => (
         <div className="mt-4 flex flex-col gap-3">
-          <input
+          <TextInput
             placeholder="Race Name"
             value={payload.name ?? ""}
-            onChange={(e) =>
+            onChange={(v) =>
               setPayload((p) => ({
                 ...p,
-                name: e.target.value,
-                id: e.target.value.toLowerCase().replace(/\s+/g, "-"),
+                name: v,
+                id: v.toLowerCase().replace(/\s+/g, "-"),
               }))
             }
           />
@@ -355,30 +351,31 @@ export const CreateClassButton: React.FC<CreateClassButtonProps> = ({
     >
       {(payload, setPayload) => (
         <div className="mt-4 flex flex-col gap-3">
-          <input
+          <TextInput
             placeholder="Class Name"
             value={payload.name ?? ""}
-            onChange={(e) =>
+            onChange={(v) =>
               setPayload((p) => ({
                 ...p,
-                name: e.target.value,
-                id: e.target.value.toLowerCase().replace(/\s+/g, "-"),
+                name: v,
+                id: v.toLowerCase().replace(/\s+/g, "-"),
               }))
             }
           />
-          <select
-            value={payload.class_rank}
-            onChange={(e) =>
+          <SelectInput
+            value={payload.class_rank ?? "basic"}
+            options={[
+              { value: "basic", label: "Basic" },
+              { value: "advanced", label: "Advanced" },
+              { value: "mighty", label: "Mighty" },
+            ]}
+            onChange={(v) =>
               setPayload((p) => ({
                 ...p,
-                class_rank: e.target.value as ClassInsert["class_rank"],
+                class_rank: v as ClassInsert["class_rank"],
               }))
             }
-          >
-            <option value="basic">Basic</option>
-            <option value="advanced">Advanced</option>
-            <option value="mighty">Mighty</option>
-          </select>
+          />
         </div>
       )}
     </CreateButton>

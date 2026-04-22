@@ -20,6 +20,7 @@ import Field from "@/components/layout/editors/editorField";
 import { IMAGE_PLACEHOLDER } from "@/lib/webGlobals";
 import Button from "@/components/ui/button";
 import ImageUploader from "@/components/layout/editors/editorImageUploader";
+import { TextInput, TextArea } from "@/components/ui/inputs";
 
 interface RacePageProps {
   params: Promise<{ id: string }>;
@@ -117,19 +118,19 @@ const RacePage = ({ params }: RacePageProps) => {
           <EditorStack>
             <EditorSection title="Basics">
               <Field label="Race" htmlFor="race-name" span="half">
-                <input
+                <TextInput
                   id="race-name"
-                  type="text"
                   value={race.name || ""}
-                  onChange={(e) => setRace({ ...race, name: e.target.value })}
+                  onChange={(v) => setRace({ ...race, name: v })}
                 />
               </Field>
 
               <Field label="Short description" htmlFor="race-blurb" span="full">
-                <textarea
+                <TextArea
                   id="race-blurb"
                   value={race.blurb || ""}
-                  onChange={(e) => setRace({ ...race, blurb: e.target.value })}
+                  rows={6}
+                  onChange={(v) => setRace({ ...race, blurb: v })}
                 />
               </Field>
             </EditorSection>

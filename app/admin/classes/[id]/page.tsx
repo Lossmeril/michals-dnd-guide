@@ -26,6 +26,7 @@ import { useClassPrerequisites } from "@/lib/hooks/useClassPrerequisites";
 import { ClassPrerequisite } from "@/types/classPrerequisities";
 import ClassPrerequisiteCard from "./classPrerequisiteCard";
 import { CLASS_RANKS_NUMBER_OF_PREREQUISITES } from "@/lib/functions/validators/classRequirements";
+import { TextInput, SelectInput } from "@/components/ui/inputs";
 
 interface ClassPageProps {
   params: Promise<{ id: string }>;
@@ -218,31 +219,26 @@ const ClassPage = ({ params }: ClassPageProps) => {
           <EditorStack>
             <EditorSection title="Basics">
               <Field label="Class" htmlFor="class-name" span="half">
-                <input
+                <TextInput
                   id="class-name"
-                  type="text"
                   value={classData.name || ""}
-                  onChange={(e) =>
-                    setClassData({ ...classData, name: e.target.value })
-                  }
+                  onChange={(v) => setClassData({ ...classData, name: v })}
                 />
               </Field>
               <Field label="Rank" htmlFor="class-rank" span="half">
-                <select
+                <SelectInput
                   id="class-rank"
                   value={classData.class_rank}
-                  onChange={(e) => {
-                    setClassData({
-                      ...classData,
-                      class_rank: e.target.value as Class["class_rank"],
-                    });
+                  options={[
+                    { value: "basic", label: "Basic" },
+                    { value: "advanced", label: "Advanced" },
+                    { value: "mighty", label: "Mighty" },
+                  ]}
+                  onChange={(v) => {
+                    setClassData({ ...classData, class_rank: v as Class["class_rank"] });
                     setNewClassPrerequisites([]);
                   }}
-                >
-                  <option value="basic">Basic</option>
-                  <option value="advanced">Advanced</option>
-                  <option value="mighty">Mighty</option>
-                </select>
+                />
               </Field>
             </EditorSection>
 
