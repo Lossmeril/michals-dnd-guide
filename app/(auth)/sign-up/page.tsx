@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { playersRepo } from "@/lib/repos/players";
 import { EditorShell } from "@/components/editors/editorShell";
@@ -12,7 +12,10 @@ import { toast } from "@/components/ui/toast";
 import { useAuth } from "@/lib/functions/auth/authContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const SignupPage = () => {
+// `useSearchParams()` opts a route out of static prerendering unless it sits
+// inside a Suspense boundary (Next 15). The page body lives in this inner
+// component; the default export wraps it.
+const SignupPageInner = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -185,5 +188,11 @@ const SignupPage = () => {
     </EditorShell>
   );
 };
+
+const SignupPage = () => (
+  <Suspense>
+    <SignupPageInner />
+  </Suspense>
+);
 
 export default SignupPage;

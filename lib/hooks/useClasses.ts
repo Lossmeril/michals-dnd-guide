@@ -1,56 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Class, ClassInsert, ClassUpdate } from "@/types/classes";
-import { classesRepo } from "../repos/classes";
+import { classesRepo } from "@/lib/repos/classes";
+import { queryKeys } from "./queryKeys";
+import { useEntityById } from "./useEntityById";
+import { useEntityCollection } from "./useEntityCollection";
 
+/**
+ * All classes, cached under `queryKeys.classes` and shared by every caller.
+ * Same shape as before: `{ classes, loading, error, reload, create, update, remove }`.
+ */
 export function useClasses() {
-  const [classes, setClasses] = useState<Class[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const { items, ...rest } = useEntityCollection(queryKeys.classes, classesRepo);
+  return { classes: items, ...rest };
+}
 
-  async function reload() {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await classesRepo.list();
-      setClasses(data);
-    } catch (e) {
-      setError(e as Error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    void reload();
-  }, []);
-
-  async function create(payload: ClassInsert) {
-    const created = await classesRepo.insert(payload);
-    setClasses((prev) => [...prev, created]);
-    return created;
-  }
-
-  async function update(id: Class["id"], patch: ClassUpdate) {
-    const updated = await classesRepo.update(id, patch);
-    setClasses((prev) => prev.map((c) => (c.id === id ? updated : c)));
-    return updated;
-  }
-
-  async function remove(id: Class["id"]) {
-    await classesRepo.delete(id);
-    setClasses((prev) => prev.filter((c) => c.id !== id));
-  }
-
-  return {
-    classes,
-    setClasses,
-    loading,
-    error,
-    reload,
-    create,
-    update,
-    remove,
-  };
+/**
+ * One class by id, cached under `queryKeys.class(id)`.
+ * `class_` is `null` while loading and also if the id doesn't exist — check
+ * `loading` first to tell the two apart.
+ */
+export function useClass(id: string) {
+  const { data, ...rest } = useEntityById(queryKeys.class(id), classesRepo, id);
+  return { class_: data, ...rest };
 }

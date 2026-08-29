@@ -1,42 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { PerkClass } from "@/types/perks";
 import { perkClassesRepo } from "@/lib/repos/perkClasses";
+import { queryKeys } from "./queryKeys";
+import { useRelationQuery } from "./useRelationQuery";
 
+/**
+ * Which classes can learn a given perk. Cached per perk id.
+ * Shape: `{ perkClasses, loading, error, reload, add, remove }`.
+ */
 export function usePerkClasses(perkId: string) {
-  const [perkClasses, setPerkClasses] = useState<PerkClass[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const { data, loading, error, reload, invalidate } =
+    useRelationQuery<PerkClass>(queryKeys.perkClasses(perkId), () =>
+      perkClassesRepo.list(perkId),
+    );
 
-  async function reload() {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await perkClassesRepo.list(perkId);
-      setPerkClasses(data);
-    } catch (e) {
-      setError(e as Error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    void reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [perkId]);
-
-  async function add(classId: string) {
-    const created = await perkClassesRepo.insert({ perk_id: perkId, class_id: classId });
-    setPerkClasses((prev) => [...prev, created]);
-    return created;
-  }
-
-  async function remove(classId: string) {
-    await perkClassesRepo.delete(perkId, classId);
-    setPerkClasses((prev) => prev.filter((pc) => pc.class_id !== classId));
-  }
-
-  return { perkClasses, loading, error, reload, add, remove };
+  return {
+    perkClasses: data,
+    loading,
+    error,
+    reload,
+    add: async (classId: string) => {
+      const created = await perkClassesRepo.insert({
+        perk_id: perkId,
+        class_id: classId,
+      });
+      await invalidate();
+      return created;
+    },
+    remove: async (classId: string) => {
+      await perkClassesRepo.delete(perkId, classId);
+      await invalidate();
+    },
+  };
 }

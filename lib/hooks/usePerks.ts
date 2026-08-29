@@ -1,59 +1,87 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { Perk, PerkInsert, PerkUpdate, PerkWithDetails } from "@/types/perks";
-import { perksRepo } from "../repos/perks";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Perk, PerkInsert, PerkUpdate } from "@/types/perks";
+import { perksRepo } from "@/lib/repos/perks";
+import { queryKeys } from "./queryKeys";
 
 type UsePerksOptions = {
   perkType?: Perk["perk_type"];
 };
 
-const EMPTY_DETAILS: Pick<PerkWithDetails, "perk_classes" | "spell_details" | "racial_perk_details" | "perk_prerequisites"> = {
-  perk_classes: [],
-  spell_details: null,
-  racial_perk_details: null,
-  perk_prerequisites: [],
-};
-
+/**
+ * Perks, each with its joined classes / spell / racial / prerequisite rows,
+ * optionally filtered by type.
+ *
+ * Bespoke rather than `useEntityCollection` because the read shape
+ * (`PerkWithDetails`) differs from the write shape (`Perk`) and the query key
+ * depends on `perkType`.
+ *
+ * Mutations invalidate every `["perks", ...]` query, so the list refetches
+ * with fully-joined rows — no need to stitch placeholder detail arrays onto a
+ * freshly-created perk the way the hand-rolled hook did.
+ */
 export function usePerks(opts: UsePerksOptions = {}) {
-  const [perks, setPerks] = useState<PerkWithDetails[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const queryClient = useQueryClient();
 
-  async function reload() {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await perksRepo.list(opts);
-      setPerks(data);
-    } catch (e) {
-      setError(e as Error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const query = useQuery({
+    queryKey: queryKeys.perks(opts.perkType),
+    queryFn: () => perksRepo.list(opts),
+  });
 
-  useEffect(() => {
-    void reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opts.perkType]);
+  // Prefix match: clears this filtered list, the unfiltered list, and any
+  // single-perk ["perks", id] entry.
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: queryKeys.perks() });
 
-  async function create(payload: PerkInsert) {
-    const created = await perksRepo.insert(payload);
-    setPerks((prev) => [...prev, { ...EMPTY_DETAILS, ...created }]);
-    return created;
-  }
+  return {
+    perks: query.data ?? [],
+    loading: query.isLoading,
+    error: (query.error as Error) ?? null,
 
-  async function update(id: Perk["id"], patch: PerkUpdate) {
-    const updated = await perksRepo.update(id, patch);
-    setPerks((prev) => prev.map((p) => (p.id === id ? { ...p, ...updated } : p)));
-    return updated;
-  }
+    reload: async () => {
+      await query.refetch();
+    },
 
-  async function remove(id: Perk["id"]) {
-    await perksRepo.delete(id);
-    setPerks((prev) => prev.filter((p) => p.id !== id));
-  }
+    create: async (payload: PerkInsert) => {
+      const created = await perksRepo.insert(payload);
+      await invalidate();
+      return created;
+    },
 
-  return { perks, setPerks, loading, error, reload, create, update, remove };
+    update: async (id: Perk["id"], patch: PerkUpdate) => {
+      const updated = await perksRepo.update(id, patch);
+      await invalidate();
+      return updated;
+    },
+
+    remove: async (id: Perk["id"]) => {
+      await perksRepo.delete(id);
+      await invalidate();
+    },
+  };
+}
+
+/**
+ * One perk by id, with its joined detail rows, cached under `queryKeys.perk(id)`.
+ * `perk` is `null` while loading and also if the id doesn't exist — check
+ * `loading` first to tell the two apart.
+ *
+ * Bespoke (not `useEntityById`) because `perksRepo.getById` returns the joined
+ * `PerkWithDetails`, not a plain `Perk`.
+ */
+export function usePerk(id: string) {
+  const query = useQuery({
+    queryKey: queryKeys.perk(id),
+    queryFn: () => perksRepo.getById(id),
+  });
+
+  return {
+    perk: query.data ?? null,
+    loading: query.isLoading,
+    error: (query.error as Error) ?? null,
+    reload: async () => {
+      await query.refetch();
+    },
+  };
 }

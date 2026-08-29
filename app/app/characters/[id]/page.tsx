@@ -13,7 +13,7 @@ import Button from "@/components/ui/button";
 import type { Character } from "@/types/characters";
 import type { RelCharacterClass } from "@/types/relCharacterClass";
 
-import { useCharacters } from "@/lib/hooks/useCharacters";
+import { useCharacter, useCharacters } from "@/lib/hooks/useCharacters";
 import { useRaces } from "@/lib/hooks/useRaces";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRelCharacterClasses } from "@/lib/hooks/useRelCharacterClasses";
@@ -97,7 +97,11 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   const router = useRouter();
   const { id } = React.use(params);
 
-  const { characters, update: updateCharacter } = useCharacters();
+  // The edited character, fetched by id (cached). `characters.id` is numeric,
+  // the route param is a string. `update` comes from the collection hook so a
+  // save also refreshes the list on /app.
+  const { character: fetchedCharacter, loading } = useCharacter(Number(id));
+  const { update: updateCharacter } = useCharacters();
   const { races } = useRaces();
   const { classes } = useClasses();
   const {
@@ -111,23 +115,16 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   // Local state
   // -------------------------------------
 
-  const [loading, setLoading] = useState(true);
+  // Local, editable copy of the character; edits live here until "Save Changes".
   const [character, setCharacter] = useState<Character | undefined>(undefined);
+  useEffect(() => {
+    if (fetchedCharacter) setCharacter(fetchedCharacter);
+  }, [fetchedCharacter]);
 
   const [hasImageError, setImageError] = useState<boolean>(false);
 
   // local-only edits; saved on button press
   const [classLevels, setClassLevels] = useState<Record<string, number>>({});
-
-  // -------------------------------------
-  // Data lookups
-  // -------------------------------------
-
-  useEffect(() => {
-    const found = characters.find((c) => c.id.toString() === id);
-    setCharacter(found);
-    setLoading(false);
-  }, [characters, id]);
 
   const existingByClass = useMemo(() => {
     if (!character) return new Map<string, RelCharacterClass>();
@@ -155,7 +152,10 @@ const CharacterPage: React.FC<CharacterPageProps> = ({ params }) => {
   // -------------------------------------
 
   if (loading) return <PageMessage>Loading…</PageMessage>;
-  if (!character) return <PageMessage>Character not found.</PageMessage>;
+  if (!fetchedCharacter)
+    return <PageMessage>Character not found.</PageMessage>;
+  // Fetched row is here but the hydrate effect hasn't run yet (one frame).
+  if (!character) return <PageMessage>Loading…</PageMessage>;
 
   // -------------------------------------
   // Actions

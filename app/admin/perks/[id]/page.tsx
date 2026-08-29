@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { usePerks } from "@/lib/hooks/usePerks";
+import { usePerk, usePerks } from "@/lib/hooks/usePerks";
 import { useClasses } from "@/lib/hooks/useClasses";
 import { useRaces } from "@/lib/hooks/useRaces";
 import { useRouter } from "next/navigation";
@@ -66,10 +66,15 @@ const PerkPage = ({ params }: PerkPageProps) => {
   const router = useRouter();
   const { id } = React.use(params);
 
+  // The edited perk, fetched by id with its joined detail rows (cached).
+  // `perks` (whole list) is still read below to resolve prerequisite perk
+  // names; `update` comes from the collection hook so a save refreshes it.
+  const { perk: fetchedPerk, loading: perkLoading } = usePerk(id);
   const { perks, update } = usePerks();
   const { classes } = useClasses();
   const { races } = useRaces();
 
+  // Local, editable copy of the perk; edits live here until "Save changes".
   const [perkData, setPerkData] = useState<PerkWithDetails | undefined>(
     undefined,
   );
@@ -79,35 +84,29 @@ const PerkPage = ({ params }: PerkPageProps) => {
   const [deletedPrereqIds, setDeletedPrereqIds] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
 
-  const didInit = useRef(false);
-  const [didHydrate, setDidHydrate] = useState(false);
-
   const [hasImageError, setImageError] = useState<boolean>(false);
 
+  // Track the fetched row into the editable copy; seed the related sub-state
+  // (class picker, spell fields, racial race) exactly once.
+  const didInit = useRef(false);
   useEffect(() => {
-    setDidHydrate(true);
-  }, []);
+    if (!fetchedPerk) return;
+    setPerkData(fetchedPerk);
 
-  const dataReady = didHydrate && perks.length > 0;
-
-  useEffect(() => {
-    const found = perks.find((p) => p.id === id);
-    setPerkData(found);
-
-    if (!didInit.current && found) {
-      setSelectedClassIds(found.perk_classes.map((pc) => pc.class_id));
-      if (found.spell_details) setSpellData(found.spell_details);
-      if (found.racial_perk_details)
-        setRacialRaceId(found.racial_perk_details.race_id);
+    if (!didInit.current) {
+      setSelectedClassIds(fetchedPerk.perk_classes.map((pc) => pc.class_id));
+      if (fetchedPerk.spell_details) setSpellData(fetchedPerk.spell_details);
+      if (fetchedPerk.racial_perk_details)
+        setRacialRaceId(fetchedPerk.racial_perk_details.race_id);
       didInit.current = true;
     }
-  }, [perks, id]);
+  }, [fetchedPerk]);
 
   // -------------------------------------
   // Loading / not found guards
   // -------------------------------------
 
-  if (!dataReady) {
+  if (perkLoading) {
     return (
       <Container>
         <Grid className="pt-10">
@@ -117,13 +116,24 @@ const PerkPage = ({ params }: PerkPageProps) => {
     );
   }
 
-  if (!perkData) {
+  if (!fetchedPerk) {
     return (
       <Container>
         <Grid className="pt-10">
           <GridContent>
             <p>Perk not found.</p>
           </GridContent>
+        </Grid>
+      </Container>
+    );
+  }
+
+  // Fetched row is here but the hydrate effect hasn't run yet (one frame).
+  if (!perkData) {
+    return (
+      <Container>
+        <Grid className="pt-10">
+          <GridContent>Loading...</GridContent>
         </Grid>
       </Container>
     );

@@ -1,47 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { racesRepo } from "@/lib/repos/races";
-import type { Race, RaceInsert, RaceUpdate } from "@/types/races";
+import { queryKeys } from "./queryKeys";
+import { useEntityById } from "./useEntityById";
+import { useEntityCollection } from "./useEntityCollection";
 
+/**
+ * All races, cached under `queryKeys.races` and shared by every caller.
+ * Returns the same shape the hand-rolled hook did:
+ * `{ races, loading, error, reload, create, update, remove }`.
+ */
 export function useRaces() {
-  const [races, setRaces] = useState<Race[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const { items, ...rest } = useEntityCollection(queryKeys.races, racesRepo);
+  return { races: items, ...rest };
+}
 
-  async function reload() {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await racesRepo.list();
-      setRaces(data);
-    } catch (e) {
-      setError(e as Error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    void reload();
-  }, []);
-
-  async function create(payload: RaceInsert) {
-    const created = await racesRepo.insert(payload);
-    setRaces((prev) => [...prev, created]);
-    return created;
-  }
-
-  async function update(id: Race["id"], patch: RaceUpdate) {
-    const updated = await racesRepo.update(id, patch);
-    setRaces((prev) => prev.map((r) => (r.id === id ? updated : r)));
-    return updated;
-  }
-
-  async function remove(id: Race["id"]) {
-    await racesRepo.delete(id);
-    setRaces((prev) => prev.filter((r) => r.id !== id));
-  }
-
-  return { races, setRaces, loading, error, reload, create, update, remove };
+/**
+ * One race by id, cached under `queryKeys.race(id)`.
+ * `race` is `null` while loading and also if the id doesn't exist — check
+ * `loading` first to tell the two apart.
+ */
+export function useRace(id: string) {
+  const { data, ...rest } = useEntityById(queryKeys.race(id), racesRepo, id);
+  return { race: data, ...rest };
 }

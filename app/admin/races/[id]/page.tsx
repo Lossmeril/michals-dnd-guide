@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRaces } from "@/lib/hooks/useRaces";
+import { useRace, useRaces } from "@/lib/hooks/useRaces";
 import { useRouter } from "next/navigation";
 
 import {
@@ -30,24 +30,20 @@ const RacePage = ({ params }: RacePageProps) => {
   const router = useRouter();
   const { id } = React.use(params);
 
-  const { races, update } = useRaces();
+  // Fetch just this race (cached by id); `update` still comes from the
+  // collection hook so a save also refreshes the list.
+  const { race: fetchedRace, loading } = useRace(id);
+  const { update } = useRaces();
 
+  // Local, editable copy. Hydrated once the fetched row arrives; edits live
+  // here until "Save changes".
   const [race, setRace] = useState<Race | undefined>(undefined);
-
-  const [loading, setLoading] = useState(true);
-
-  // -------------------------------------
-  // Fetch race data from DB
-  // -------------------------------------
-
   useEffect(() => {
-    const found = races.find((r) => r.id === id);
-    setRace(found);
-    setLoading(false);
-  }, [races, id]);
+    if (fetchedRace) setRace(fetchedRace);
+  }, [fetchedRace]);
 
   // -------------------------------------
-  // Error handling
+  // Loading / not found
   // -------------------------------------
 
   if (loading) {
@@ -60,13 +56,24 @@ const RacePage = ({ params }: RacePageProps) => {
     );
   }
 
-  if (!race) {
+  if (!fetchedRace) {
     return (
       <Container>
         <Grid className="pt-10">
           <GridContent>
             <p>Race not found.</p>
           </GridContent>
+        </Grid>
+      </Container>
+    );
+  }
+
+  // Fetched row is here but the hydrate effect hasn't run yet (one frame).
+  if (!race) {
+    return (
+      <Container>
+        <Grid className="pt-10">
+          <GridContent>Loading...</GridContent>
         </Grid>
       </Container>
     );

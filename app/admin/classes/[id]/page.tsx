@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { useClasses } from "@/lib/hooks/useClasses";
+import { useClass, useClasses } from "@/lib/hooks/useClasses";
 import { useRouter } from "next/navigation";
 
 import {
@@ -36,59 +36,44 @@ const ClassPage = ({ params }: ClassPageProps) => {
   const router = useRouter();
   const { id } = React.use(params);
 
+  // The edited class, fetched by id (cached). `classes` (whole list) is still
+  // needed below to build the list of candidate prerequisite classes.
+  const { class_: fetchedClass, loading: classLoading } = useClass(id);
   const { classes, update } = useClasses();
   const {
     classPrerequisites,
     create: createClassPrerequisites,
-
     remove: removeClassPrerequisite,
   } = useClassPrerequisites();
 
+  // Local, editable copy of the class; edits live here until "Save changes".
   const [classData, setClassData] = useState<Class | undefined>(undefined);
+  useEffect(() => {
+    if (fetchedClass) setClassData(fetchedClass);
+  }, [fetchedClass]);
 
-  // Already assigned prerequisite classes for the currently edited class
-  const [classPrerequisitesList, setClassPrerequisitesList] = useState<
-    ClassPrerequisite[]
-  >([]);
+  // Prerequisite rows already stored for this class — a pure derivation of the
+  // cached collection, no local state needed.
+  const assignedPrerequisites = useMemo<ClassPrerequisite[]>(
+    () => classPrerequisites.filter((cp) => cp.for_class === id),
+    [classPrerequisites, id],
+  );
 
-  // local-only edits; saved on button press
+  // Local selection of prerequisite class ids, seeded once from the stored
+  // rows. After that it's driven purely by the UI (and reset on rank change).
   const [newClassPrerequisites, setNewClassPrerequisites] = useState<string[]>(
     [],
   );
-
-  // state logic
-  const [didHydrate, setDidHydrate] = useState(false);
+  const didSeedPrerequisites = React.useRef(false);
   useEffect(() => {
-    setDidHydrate(true);
-  }, []);
-
-  const dataReady = didHydrate && classes.length > 0;
-
-  const didInitPrerequisites = React.useRef(false);
-
-  // -------------------------------------
-  // Fetch class data from DB
-  // -------------------------------------
-
-  useEffect(() => {
-    // 1) find the class we are editing
-    const found = classes.find((c) => c.id === id);
-    setClassData(found);
-
-    // 2) find assigned prerequisites for the class we are editing
-    const assignedPrerequisites = classPrerequisites.filter(
-      (cp) => cp.for_class === id,
-    );
-    setClassPrerequisitesList(assignedPrerequisites);
-
-    // 2.5 Map assigned prerequisites to a select list of IDs to easily manage local state of edits before saving
-    if (!didInitPrerequisites.current && assignedPrerequisites.length > 0) {
-      const selectedIds = assignedPrerequisites.map((cp) => cp.class_required);
-
-      setNewClassPrerequisites(selectedIds);
-      didInitPrerequisites.current = true;
+    if (didSeedPrerequisites.current || assignedPrerequisites.length === 0) {
+      return;
     }
-  }, [classes, id, classPrerequisites]);
+    setNewClassPrerequisites(
+      assignedPrerequisites.map((cp) => cp.class_required),
+    );
+    didSeedPrerequisites.current = true;
+  }, [assignedPrerequisites]);
 
   // Derived from local classData.class_rank so it updates immediately when the rank dropdown changes
   const potentialPrerequisites = useMemo(() => {
@@ -104,10 +89,10 @@ const ClassPage = ({ params }: ClassPageProps) => {
   }, [classData, classes]);
 
   // -------------------------------------
-  // Error handling
+  // Loading / not found
   // -------------------------------------
 
-  if (!dataReady) {
+  if (classLoading) {
     return (
       <Container>
         <Grid className="pt-10">
@@ -117,13 +102,24 @@ const ClassPage = ({ params }: ClassPageProps) => {
     );
   }
 
-  if (!classData) {
+  if (!fetchedClass) {
     return (
       <Container>
         <Grid className="pt-10">
           <GridContent>
             <p>Class not found.</p>
           </GridContent>
+        </Grid>
+      </Container>
+    );
+  }
+
+  // Fetched row is here but the hydrate effect hasn't run yet (one frame).
+  if (!classData) {
+    return (
+      <Container>
+        <Grid className="pt-10">
+          <GridContent>Loading...</GridContent>
         </Grid>
       </Container>
     );
@@ -155,7 +151,7 @@ const ClassPage = ({ params }: ClassPageProps) => {
     // which is filtered to the current rank's candidate classes) so that
     // prerequisites left behind by an earlier rank — e.g. after demoting
     // mighty → advanced, or anything → basic — also get cleaned up.
-    for (const existing of classPrerequisitesList) {
+    for (const existing of assignedPrerequisites) {
       if (!newClassPrerequisites.includes(existing.class_required)) {
         ops.push(removeClassPrerequisite(existing.id));
       }
@@ -163,7 +159,7 @@ const ClassPage = ({ params }: ClassPageProps) => {
 
     // Insertions: every UI-selected class that isn't stored yet.
     const storedRequiredIds = new Set(
-      classPrerequisitesList.map((cp) => cp.class_required),
+      assignedPrerequisites.map((cp) => cp.class_required),
     );
     for (const classId of newClassPrerequisites) {
       if (!storedRequiredIds.has(classId)) {
