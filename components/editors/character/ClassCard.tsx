@@ -22,7 +22,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
 
   return (
     <div
-      className="relative flex flex-row items-center justify-start gap-2 h-16 border-b border-dnd-ink/20 overflow-hidden transition-all"
+      className="relative flex flex-row items-center justify-start h-12 border-b border-dnd-ink/20 overflow-hidden transition-all"
       style={{
         opacity: metReqs ? (classLevels[c.id] !== 0 ? 1 : 0.65) : 0.2,
         filter: !metReqs ? "grayscale(100%)" : "none",
@@ -38,7 +38,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
         }
         value={classLevels[c.id] ?? 0}
         onChange={(e) => onChangeLevel(c.id, e.target.value)}
-        className="text-center p-0.5 rounded-none border-0 w-20 bg-dnd-bg h-16"
+        className="text-center p-0.5 rounded-none border-0 w-12 bg-dnd-bg h-12 serif"
         aria-label={`${c.name} level`}
         disabled={!metReqs}
       />
@@ -46,7 +46,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
       <img
         src={c.image ?? IMAGE_PLACEHOLDER}
         alt={`${c.name} image`}
-        className="w-16 aspect-square object-cover object-top"
+        className="w-12 aspect-square object-cover object-top mr-4"
       />
       <p className="font-bold text-base ">{c.name}</p>
     </div>

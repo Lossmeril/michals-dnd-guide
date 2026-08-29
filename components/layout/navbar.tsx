@@ -11,6 +11,7 @@ import {
 import { useAuth } from "@/lib/functions/auth/authContext";
 import { usePlayers } from "@/lib/hooks/usePlayers";
 import { getPlayerProfileByUserId } from "@/lib/functions/fetchers";
+import Link from "next/link";
 
 // =============================================================================
 // UI pieces
@@ -126,9 +127,14 @@ const Navbar: React.FC = () => {
         <Grid>
           <GridContent>
             <GridContentFull className="w-full flex flex-row flex-nowrap justify-between items-center">
-              <p className="text-dnd-red-dark serif font-bold text-xl uppercase">
-                Michal&apos;s D&amp;D Ruleset
-              </p>
+              <Link
+                href="/"
+                className="text-dnd-red-dark serif font-bold text-xl uppercase"
+              >
+                <p className="text-dnd-red-dark serif font-bold text-xl uppercase">
+                  Michal&apos;s D&amp;D Ruleset
+                </p>
+              </Link>
 
               {/* Right side */}
               {!ready ? (

@@ -9,6 +9,10 @@ import type { CharacterInsert } from "@/types/characters";
 import { RaceInsert } from "@/types/races";
 import { ClassInsert } from "@/types/classes";
 import { TextInput, NumberInput, SelectInput } from "@/components/ui/inputs";
+import { PerkInsert } from "@/types/perks";
+import { useAuth } from "@/lib/functions/auth/authContext";
+import { usePlayers } from "@/lib/hooks/usePlayers";
+import { getPlayerProfileByUserId } from "@/lib/functions/fetchers";
 
 interface CreateModalProps {
   // -------------------------------------
@@ -177,7 +181,13 @@ function CreateButton<TPayload, TResult = unknown>(
       onCreated?.(result);
     } catch (e) {
       setConfirming(false);
-      setError(e instanceof Error ? e.message : "Creating new entity failed.");
+      setError(
+        e instanceof Error
+          ? e.message
+          : typeof e === "object" && e !== null && "message" in e
+            ? String((e as { message: unknown }).message)
+            : "Creating new entity failed.",
+      );
     }
   };
 
@@ -230,12 +240,30 @@ interface CreateCharacterButtonProps {
 export const CreateCharacterButton: React.FC<CreateCharacterButtonProps> = ({
   onCreate,
 }) => {
+  const { ready, user } = useAuth();
+  const { players } = usePlayers();
+
+  const player = useMemo(() => {
+    if (!user) return null;
+    return getPlayerProfileByUserId(user.id, players);
+  }, [user, players]);
+
   // -------------------------------------
   // Initial form state
   // -------------------------------------
+
+  if (!ready) {
+    return (
+      <div className="flex items-center space-x-2">
+        <span className="w-32 h-8 bg-dnd-ink/50 animate-pulse rounded-full mb-10"></span>
+      </div>
+    );
+  }
+
   const initialPayload: CharacterInsert = {
     name: "",
     level: 7,
+    character_creator: player?.id,
   };
 
   return (
@@ -373,6 +401,65 @@ export const CreateClassButton: React.FC<CreateClassButtonProps> = ({
               setPayload((p) => ({
                 ...p,
                 class_rank: v as ClassInsert["class_rank"],
+              }))
+            }
+          />
+        </div>
+      )}
+    </CreateButton>
+  );
+};
+
+// -------------------------------------
+// -------------------------------------
+// -- CREATE NEW PERK BUTTON --
+// -------------------------------------
+// -------------------------------------
+
+interface CreatePerkButtonProps {
+  onCreate: (payload: PerkInsert) => Promise<PerkInsert> | PerkInsert;
+}
+
+export const CreatePerkButton: React.FC<CreatePerkButtonProps> = ({
+  onCreate,
+}) => {
+  // -------------------------------------
+  // Initial form state
+  // -------------------------------------
+  const initialPayload: PerkInsert = {
+    name: "",
+    perk_type: "class_perk",
+  };
+
+  return (
+    <CreateButton<PerkInsert, PerkInsert>
+      entityType="perk"
+      onCreate={onCreate}
+      label="Create Perk"
+      confirmTitle="Create new perk"
+      confirmDescription="Enter the name of the new perk and its type to create it."
+      entityName="perk"
+      initialPayload={initialPayload}
+    >
+      {(payload, setPayload) => (
+        <div className="mt-4 flex flex-col gap-3">
+          <TextInput
+            placeholder="Perk Name"
+            value={payload.name ?? ""}
+            onChange={(v) => setPayload((p) => ({ ...p, name: v }))}
+          />
+          <SelectInput
+            value={payload.perk_type ?? "class_perk"}
+            options={[
+              { value: "class_perk", label: "Class Perk" },
+              { value: "racial_perk", label: "Racial Perk" },
+              { value: "spell", label: "Spell" },
+              { value: "aspect", label: "Aspect" },
+            ]}
+            onChange={(v) =>
+              setPayload((p) => ({
+                ...p,
+                perk_type: v as PerkInsert["perk_type"],
               }))
             }
           />

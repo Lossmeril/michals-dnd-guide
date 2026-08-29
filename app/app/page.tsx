@@ -38,13 +38,18 @@ const AppHomePage = () => {
   const { characters, remove, create } = useCharacters();
   const { races, remove: removeRace, create: createRace } = useRaces();
   const { classes, remove: removeClass, create: createClass } = useClasses();
-  const { classPrerequisites, reload: reloadClassPrerequisites } = useClassPrerequisites();
-  const { relCharacterClasses, reload: reloadRelCharacterClasses } = useRelCharacterClasses();
+  const { classPrerequisites, reload: reloadClassPrerequisites } =
+    useClassPrerequisites();
+  const { relCharacterClasses, reload: reloadRelCharacterClasses } =
+    useRelCharacterClasses();
 
   const handleDeleteClass = async (classId: string) => {
     await removeClass(classId);
-    // DB CASCADE deletes related rows; reload hooks to sync local state
-    await Promise.all([reloadClassPrerequisites(), reloadRelCharacterClasses()]);
+    // Deleted by a cascade; reload prereqs and relCharacterClasses to reflect changes
+    await Promise.all([
+      reloadClassPrerequisites(),
+      reloadRelCharacterClasses(),
+    ]);
   };
 
   return (

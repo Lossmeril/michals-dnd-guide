@@ -19,6 +19,7 @@ export const SUPABASE_BUCKETS = [
   "characters",
   "rulebook/classes",
   "rulebook/races",
+  "rulebook/perks",
   "avatars",
 ] as const;
 
