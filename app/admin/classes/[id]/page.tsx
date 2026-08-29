@@ -150,21 +150,27 @@ const ClassPage = ({ params }: ClassPageProps) => {
       return;
     }
 
-    for (const c of potentialPrerequisites) {
-      // Is selected in the database
-      const existing = classPrerequisitesList.find(
-        (cp) => cp.class_required === c.id,
-      );
-      // Is selected in the UI
-      const newSelected = newClassPrerequisites.includes(c.id);
-
-      if (existing && !newSelected) {
+    // Deletions: every stored prerequisite that is no longer selected in the
+    // UI. We iterate the stored rows themselves (not `potentialPrerequisites`,
+    // which is filtered to the current rank's candidate classes) so that
+    // prerequisites left behind by an earlier rank — e.g. after demoting
+    // mighty → advanced, or anything → basic — also get cleaned up.
+    for (const existing of classPrerequisitesList) {
+      if (!newClassPrerequisites.includes(existing.class_required)) {
         ops.push(removeClassPrerequisite(existing.id));
-      } else if (!existing && newSelected) {
+      }
+    }
+
+    // Insertions: every UI-selected class that isn't stored yet.
+    const storedRequiredIds = new Set(
+      classPrerequisitesList.map((cp) => cp.class_required),
+    );
+    for (const classId of newClassPrerequisites) {
+      if (!storedRequiredIds.has(classId)) {
         ops.push(
           createClassPrerequisites({
             for_class: id,
-            class_required: c.id,
+            class_required: classId,
           }),
         );
       }

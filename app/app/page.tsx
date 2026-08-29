@@ -142,7 +142,9 @@ const AppHomePage = () => {
             <Table
               headings={["Image", "Class", "Parent classes", "Rank", "Actions"]}
             >
-              {classes
+              {/* copy before sort: Array.sort mutates in place, and `classes`
+                  is the array held by useClasses' state */}
+              {[...classes]
                 .sort((a, b) => a.class_rank.localeCompare(b.class_rank))
                 .map((c) => (
                   <TableRow key={c.id}>

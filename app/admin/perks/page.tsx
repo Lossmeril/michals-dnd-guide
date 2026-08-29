@@ -12,20 +12,36 @@ import Button from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { usePerks } from "@/lib/hooks/usePerks";
 import { BsPencilSquare } from "react-icons/bs";
+import { useEffect } from "react";
 
 const PerksPage = () => {
   const { perks, create, remove, loading, error } = usePerks();
 
-  const racialPerks = perks.filter((perk) => perk.perk_type === "racial_perk");
-  const classPerks = perks.filter((perk) => perk.perk_type === "class_perk");
-  const aspectPerks = perks.filter((perk) => perk.perk_type === "aspect");
-  const spellPerks = perks.filter((perk) => perk.perk_type === "spell");
+  // Surface fetch errors as a toast. This must live in an effect — calling
+  // toast() straight from the render body fires a state update mid-render
+  // (React warns) and re-toasts on every re-render while `error` is set.
+  useEffect(() => {
+    if (!error) return;
+    toast({
+      description: error.message || "An error occurred while fetching perks.",
+      title: "Error!",
+      mode: "error",
+      icon: <p>X</p>,
+    });
+  }, [error]);
 
+  const byType = (type: string) =>
+    perks
+      .filter((perk) => perk.perk_type === type)
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+  // `.filter()` returns a fresh array, so sorting it here is safe (we are not
+  // mutating the `perks` state array).
   const sortedPerks = [
-    ...racialPerks.sort((a, b) => a.name.localeCompare(b.name)),
-    ...classPerks.sort((a, b) => a.name.localeCompare(b.name)),
-    ...spellPerks.sort((a, b) => a.name.localeCompare(b.name)),
-    ...aspectPerks.sort((a, b) => a.name.localeCompare(b.name)),
+    ...byType("racial_perk"),
+    ...byType("class_perk"),
+    ...byType("spell"),
+    ...byType("aspect"),
   ];
 
   return (
@@ -39,15 +55,6 @@ const PerksPage = () => {
             </div>
 
             {loading && <p className="text-sm text-gray-500">Loading…</p>}
-
-            {error &&
-              toast({
-                description:
-                  error.message || "An error occurred while fetching perks.",
-                title: "Error!",
-                mode: "error",
-                icon: <p>X</p>,
-              })}
 
             {!loading && !error && perks.length === 0 && (
               <p className="text-sm text-gray-500">No perks found.</p>

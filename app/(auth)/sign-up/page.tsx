@@ -118,6 +118,7 @@ const SignupPage = () => {
               </Field>
               <Field label="Email" htmlFor="email" span="full">
                 <input
+                  id="email"
                   type="email"
                   placeholder="Email"
                   value={email}

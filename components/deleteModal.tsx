@@ -68,67 +68,53 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   // -------------------------------------
   const canConfirm = inputValue === confirmPhrase && !confirming;
 
+  // `Modal` already renders the full-screen wrapper + click-away backdrop, so
+  // this component just supplies the contents (previously it wrapped `Modal` in
+  // a second identical overlay + backdrop).
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center">
-      {/* ------------------------------------- */}
-      {/* Backdrop */}
-      {/* ------------------------------------- */}
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/40"
-        onClick={onCancel}
-        aria-label="Close modal"
+    <Modal open={open} onClose={onCancel} title={title}>
+      <p className="mt-4">
+        <strong>Warning:</strong> This action cannot be undone. To confirm
+        deletion, please type the confirmation phrase below.
+      </p>
+      <p>{description}</p>
+
+      <Alert type="danger" className="mb-3">
+        Type{" "}
+        <span className="font-semibold text-dnd-red-dark">{confirmPhrase}</span>{" "}
+        to confirm.
+      </Alert>
+
+      <input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder={confirmPhrase}
+        autoFocus
       />
 
-      {/* ------------------------------------- */}
-      {/* Modal */}
-      {/* ------------------------------------- */}
-      <Modal open={open} onClose={onCancel} title={title}>
-        <p className="mt-4">
-          <strong>Warning:</strong> This action cannot be undone. To confirm
-          deletion, please type the confirmation phrase below.
-        </p>
-        <p>{description}</p>
+      {error && (
+        <div className="mt-3 rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
+          {error}
+        </div>
+      )}
 
-        <Alert type="danger" className="mb-3">
-          Type{" "}
-          <span className="font-semibold text-dnd-red-dark">
-            {confirmPhrase}
-          </span>{" "}
-          to confirm.
-        </Alert>
-
-        <input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder={confirmPhrase}
-          autoFocus
+      <div className="mt-5 flex items-center justify-end gap-3">
+        <Button
+          label={cancelLabel}
+          type="button"
+          onClick={onCancel}
+          mode="inverted"
         />
 
-        {error && (
-          <div className="mt-3 rounded-xl border-2 border-red-900/30 bg-white/60 p-3 text-sm text-red-900">
-            {error}
-          </div>
-        )}
-
-        <div className="mt-5 flex items-center justify-end gap-3">
-          <Button
-            label={cancelLabel}
-            type="button"
-            onClick={onCancel}
-            mode="inverted"
-          />
-
-          <Button
-            label={confirming ? "Deleting…" : confirmLabel}
-            type="button"
-            onClick={onConfirm}
-            disabled={!canConfirm}
-            mode="default"
-          />
-        </div>
-      </Modal>
-    </div>
+        <Button
+          label={confirming ? "Deleting…" : confirmLabel}
+          type="button"
+          onClick={onConfirm}
+          disabled={!canConfirm}
+          mode="default"
+        />
+      </div>
+    </Modal>
   );
 };
 
