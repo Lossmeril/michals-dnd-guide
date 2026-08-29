@@ -1,40 +1,31 @@
-import type { PerkPrerequisite, PerkPrerequisiteInsert } from "@/types/perks";
+import type {
+  PerkPrerequisite,
+  PerkPrerequisiteInsert,
+  PerkPrerequisiteUpdate,
+} from "@/types/perks";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { createCrudRepo } from "./createCrudRepo";
+
+// `perk_prerequisites.id` is a uuid string — `insert` and `delete` from the
+// factory are exactly what the old file did. `list` is the only custom bit:
+// it filters to one perk rather than returning the whole table.
+const base = createCrudRepo<
+  PerkPrerequisite,
+  PerkPrerequisiteInsert,
+  PerkPrerequisiteUpdate
+>("perk_prerequisites");
 
 export const perkPrerequisitesRepo = {
-  async list(forPerkId: string) {
-    const supabase = supabaseBrowser();
+  insert: base.insert,
+  delete: base.delete,
 
-    const { data, error } = await supabase
+  async list(forPerkId: string): Promise<PerkPrerequisite[]> {
+    const { data, error } = await supabaseBrowser()
       .from("perk_prerequisites")
       .select("*")
       .eq("for_perk_id", forPerkId);
 
     if (error) throw error;
     return data as PerkPrerequisite[];
-  },
-
-  async insert(payload: PerkPrerequisiteInsert) {
-    const supabase = supabaseBrowser();
-
-    const { data, error } = await supabase
-      .from("perk_prerequisites")
-      .insert(payload)
-      .select("*")
-      .single();
-
-    if (error) throw error;
-    return data as PerkPrerequisite;
-  },
-
-  async delete(id: PerkPrerequisite["id"]) {
-    const supabase = supabaseBrowser();
-
-    const { error } = await supabase
-      .from("perk_prerequisites")
-      .delete()
-      .eq("id", id);
-
-    if (error) throw error;
   },
 };

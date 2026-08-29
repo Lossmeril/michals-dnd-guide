@@ -9,6 +9,8 @@ export type SpellDetailsInsert = Database["public"]["Tables"]["spell_details"]["
 export type SpellDetailsUpdate = Database["public"]["Tables"]["spell_details"]["Update"];
 
 export type PerkClass = Database["public"]["Tables"]["perk_classes"]["Row"];
+export type PerkClassInsert =
+  Database["public"]["Tables"]["perk_classes"]["Insert"];
 
 export type RacialPerkDetails = Database["public"]["Tables"]["racial_perk_details"]["Row"];
 export type RacialPerkDetailsInsert = Database["public"]["Tables"]["racial_perk_details"]["Insert"];

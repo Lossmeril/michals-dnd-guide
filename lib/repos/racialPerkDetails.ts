@@ -1,11 +1,17 @@
 import type { RacialPerkDetails, RacialPerkDetailsInsert } from "@/types/perks";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
-export const racialPerkDetailsRepo = {
-  async insert(payload: RacialPerkDetailsInsert) {
-    const supabase = supabaseBrowser();
+// -----------------------------------------------------------------------------
+// Not a `createCrudRepo` client: `racial_perk_details` is a 1:1 extension of
+// `perks` keyed by `perk_id` (no own `id`). `perk_id` is the whole primary key,
+// so "change the race" is done as delete + insert by the caller, not update.
+// -----------------------------------------------------------------------------
 
-    const { data, error } = await supabase
+export const racialPerkDetailsRepo = {
+  async insert(
+    payload: RacialPerkDetailsInsert,
+  ): Promise<RacialPerkDetails> {
+    const { data, error } = await supabaseBrowser()
       .from("racial_perk_details")
       .insert(payload)
       .select("*")
@@ -15,10 +21,8 @@ export const racialPerkDetailsRepo = {
     return data as RacialPerkDetails;
   },
 
-  async delete(perkId: string) {
-    const supabase = supabaseBrowser();
-
-    const { error } = await supabase
+  async delete(perkId: string): Promise<void> {
+    const { error } = await supabaseBrowser()
       .from("racial_perk_details")
       .delete()
       .eq("perk_id", perkId);

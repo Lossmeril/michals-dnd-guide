@@ -1,11 +1,16 @@
 import type { AspectPerk, AspectPerkInsert } from "@/types/perks";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 
-export const aspectPerksRepo = {
-  async list(aspectId?: string) {
-    const supabase = supabaseBrowser();
+// -----------------------------------------------------------------------------
+// Not a `createCrudRepo` client: `aspect_perks` is a join table keyed by
+// (aspect_id, perk_id), no `id` column — the factory doesn't fit.
+// -----------------------------------------------------------------------------
 
-    let query = supabase.from("aspect_perks").select("*");
+export const aspectPerksRepo = {
+  // `aspectId` optional: passing it filters to one aspect, omitting it returns
+  // every aspect/perk link.
+  async list(aspectId?: string): Promise<AspectPerk[]> {
+    let query = supabaseBrowser().from("aspect_perks").select("*");
     if (aspectId) query = query.eq("aspect_id", aspectId);
 
     const { data, error } = await query;
@@ -13,10 +18,8 @@ export const aspectPerksRepo = {
     return data as AspectPerk[];
   },
 
-  async insert(payload: AspectPerkInsert) {
-    const supabase = supabaseBrowser();
-
-    const { data, error } = await supabase
+  async insert(payload: AspectPerkInsert): Promise<AspectPerk> {
+    const { data, error } = await supabaseBrowser()
       .from("aspect_perks")
       .insert(payload)
       .select("*")
@@ -26,10 +29,9 @@ export const aspectPerksRepo = {
     return data as AspectPerk;
   },
 
-  async delete(aspectId: string, perkId: string) {
-    const supabase = supabaseBrowser();
-
-    const { error } = await supabase
+  // Composite key, so both parts are needed to identify the row.
+  async delete(aspectId: string, perkId: string): Promise<void> {
+    const { error } = await supabaseBrowser()
       .from("aspect_perks")
       .delete()
       .eq("aspect_id", aspectId)
