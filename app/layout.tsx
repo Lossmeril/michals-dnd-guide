@@ -1,5 +1,19 @@
 import type { Metadata } from "next";
+import { Libre_Baskerville, Merriweather } from "next/font/google";
+
 import "./globals.css";
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-libre-baskerville",
+});
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-merriweather",
+});
 
 export const metadata: Metadata = {
   title: "",
@@ -8,8 +22,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`h-full antialiased scroll-smooth`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html
+      lang="en"
+      className={`h-full antialiased scroll-smooth ${libreBaskerville.variable} ${merriweather.variable}`}
+    >
+      <body className="min-h-full flex flex-col justify-center items-center">
+        {children}
+      </body>
     </html>
   );
 }
