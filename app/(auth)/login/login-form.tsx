@@ -8,20 +8,8 @@ export const LoginForm = () => {
 
   return (
     <form action={formAction}>
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        required
-        className=""
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        required
-        className=""
-      />
+      <input name="email" type="email" placeholder="Email" required />
+      <input name="password" type="password" placeholder="Password" required />
       {state.error && <p role="alert">{state.error}</p>}
       <button type="submit" disabled={pending}>
         {pending ? "Logging in…" : "Log in"}

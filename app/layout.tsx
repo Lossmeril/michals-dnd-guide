@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Libre_Baskerville, Merriweather } from "next/font/google";
 
 import "./globals.css";
+import Navbar from "@/components/navbar";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -26,7 +27,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`h-full antialiased scroll-smooth ${libreBaskerville.variable} ${merriweather.variable}`}
     >
-      <body className="min-h-full flex flex-col justify-center items-center">
+      <body className="min-h-full flex flex-col">
+        <Navbar />
         {children}
       </body>
     </html>
