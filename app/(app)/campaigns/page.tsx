@@ -44,6 +44,10 @@ const CampaignCard: React.FC<{
       title={campaign.name || "Unnamed Campaign"}
       imageUrl={campaign.image_url?.trim() || IMG_DEFAULTS.campaign_image}
       imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
+      eyeBrow={[
+        <Eyebrow key="eyebrow" text={"Novinka"} color="green" />,
+        <Eyebrow key="eyebrow2" text={"New"} color="blue" />,
+      ]}
     >
       <p className="text-xs text-dnd-ink/75 mb-4">
         DMed by {dm || <SkeletonInlineText />}

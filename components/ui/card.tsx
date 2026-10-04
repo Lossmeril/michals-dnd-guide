@@ -7,7 +7,7 @@ interface CardProps {
   imageUrl?: string | "empty";
   imageClassName?: string;
 
-  eyeBrow?: React.ReactNode;
+  eyeBrow?: React.ReactNode[];
 
   link?: string;
   onClick?: () => void;
@@ -43,7 +43,11 @@ const CardComponent: React.FC<CardProps> = ({
           </div>
         ))}
       <div className="p-4">
-        {eyeBrow && <div className="mb-2">{eyeBrow}</div>}
+        {eyeBrow && (
+          <div className="mb-2 flex flex-row gap-2">
+            {eyeBrow.map((item) => item)}
+          </div>
+        )}
         <p className="text-xl font-bold mb-2 text-dnd-red libre">{title}</p>
         {children}
       </div>
