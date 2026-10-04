@@ -15,6 +15,7 @@ const HomePage = async () => {
           imageUrl="https://www.dndbeyond.com/attachments/12/891/laying-the-spread.jpg"
           imageClassName="object-center"
           link="/ruleset"
+          disabled
         >
           <p>
             Explore my custom ruleset for D&D, reference materials, and house
@@ -36,7 +37,6 @@ const HomePage = async () => {
           imageUrl="https://www.dndbeyond.com/attachments/13/81/alvaro-calvo-escudero-341257.jpg"
           imageClassName="object-bottom"
           link="/campaigns"
-          disabled
         >
           <p>
             Manage your campaigns, have track of your adventures, and learn
