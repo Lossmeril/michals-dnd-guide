@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LoginForm } from "./login-form";
-import { Heading } from "@/components/layout/typography";
+import { Heading } from "@/components/ui/typography";
 
 const LoginPage = async ({ searchParams }: PageProps<"/login">) => {
   const { error } = await searchParams;

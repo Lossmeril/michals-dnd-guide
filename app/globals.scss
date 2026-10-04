@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+// =============================================================================
+// Theme tokens
+// =============================================================================
+
+@theme {
+  --color-dnd-red: oklch(44.4% 0.177 26.899);
+  --color-dnd-red-dark: #68211b;
+  --color-dnd-gold: #cdb37a;
+  --color-dnd-ink: #4a4138;
+
+  --color-dnd-bg: #fff7df;
+  --color-skeleton: #cbc8bc;
+
+  --color-dnd-accent-red: #edabab;
+  --color-dnd-accent-yellow: #f5ebd1;
+  --color-dnd-accent-green: #d1e2b6;
+
+  --color-body: palevioletred;
+  --color-soul: mediumslateblue;
+  --color-charisma: goldenrod;
+
+  --color-coin: khaki;
+  --color-material: lightgray;
+
+  --color-red: #f87171;
+  --color-blue: #60a5fa;
+  --color-green: #34d399;
+  --color-yellow: #fbbf24;
+  --color-purple: #a78bfa;
+
+  --font-libre-baskerville: "Libre Baskerville", serif;
+  --font-merriweather: "Merriweather", serif;
+}
+
+// =============================================================================
+// Base styles
+// =============================================================================
+
+@layer base {
+  // -------------------------------------
+  // Global element behavior
+  // -------------------------------------
+
+  ::selection,
+  ::-moz-selection {
+    background: var(--color-dnd-accent-red);
+    color: black;
+    text-shadow: none;
+  }
+
+  .libre {
+    font-family: var(--font-libre-baskerville);
+  }
+
+  .merriweather {
+    font-family: var(--font-merriweather);
+  }
+
+  html {
+    scroll-behavior: smooth;
+
+    background-color: white;
+  }
+
+  body {
+    @apply bg-white text-dnd-ink font-merriweather text-sm;
+    background: url("../public/img/bg.webp") no-repeat center center fixed;
+  }
+
+  // -------------------------------------
+  // Initial letter for headings
+  // -------------------------------------
+
+  .caps {
+    text-transform: uppercase;
+  }
+  .caps::first-letter {
+    font-size: larger;
+  }
+}
+
+// =============================================================================
+// Component
+// =============================================================================
+
+@layer components {
+  // -------------------------------------
+  // Loading skeleton base styles
+  // -------------------------------------
+  .skeleton {
+    @apply bg-skeleton animate-pulse;
+  }
+
+  // -------------------------------------
+  // In-text links
+  // -------------------------------------
+  .link {
+    @apply text-dnd-red hover:text-dnd-red/80 underline decoration-dotted transition-colors duration-200;
+  }
+
+  input {
+    @apply bg-white/80 rounded-none border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-dnd-red focus:border-dnd-red;
+  }
+
+  button,
+  a.button {
+    @apply bg-dnd-red text-white px-4 py-2 hover:bg-dnd-red/80 transition-colors duration-200 hover:cursor-pointer;
+  }
+
+  // -------------------------------------
+  // Decorative utilities
+  // -------------------------------------
+
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+
+    clip-path: polygon(0 0, 100% 0, 0 50%);
+    background-color: var(--color-dnd-ink);
+    z-index: 10;
+
+    &.corner1 {
+      top: -22px;
+      left: 0;
+      transform: rotate(180deg);
+    }
+
+    &.corner2 {
+      bottom: -22px;
+      right: 0;
+      transform: rotate(0deg);
+    }
+
+    &.corner3 {
+      top: -22px;
+      right: 0;
+      transform: rotate(180deg) scaleX(-100%);
+    }
+
+    &.corner4 {
+      bottom: -22px;
+      left: 0;
+      transform: rotate(0deg) scaleX(-100%);
+    }
+  }
+}

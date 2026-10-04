@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 const avatarCommonClasses =
-  "relative flex items-center justify-center w-10 h-10 rounded-full border-3 border-dnd-light select-none";
+  "relative flex items-center justify-center w-10 h-10 rounded-full border-3 border-dnd-bg select-none";
 
 interface AvatarProps {
   imgSrc?: string;
@@ -49,7 +49,7 @@ export const Avatar: React.FC<AvatarProps> = ({
 
       {indicatorColor && (
         <div
-          className={`absolute -bottom-0.5 -left-0.5 w-3 h-3 rounded-full ${indicatorColorClass} border-2 border-dnd-light`}
+          className={`absolute -bottom-0.5 -left-0.5 w-3 h-3 rounded-full ${indicatorColorClass} border-2 border-dnd-bg`}
         ></div>
       )}
     </div>

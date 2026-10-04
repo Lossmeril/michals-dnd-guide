@@ -1,5 +1,5 @@
-import Card from "@/components/card";
-import { Heading } from "@/components/layout/typography";
+import Card from "@/components/ui/card";
+import { Heading } from "@/components/ui/typography";
 import { requireUser } from "@/lib/auth";
 
 const HomePage = async () => {

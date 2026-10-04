@@ -1,8 +1,8 @@
 "use client";
 
-import { AvatarGroup, SkeletonAvatarGroup } from "@/components/avatar";
-import Card, { SkeletonCard } from "@/components/card";
-import { Heading, SkeletonInlineText } from "@/components/layout/typography";
+import { AvatarGroup, SkeletonAvatarGroup } from "@/components/ui/avatar";
+import Card, { SkeletonCard } from "@/components/ui/card";
+import { Heading, SkeletonInlineText } from "@/components/ui/typography";
 import { IMG_DEFAULTS } from "@/data/constants";
 import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
@@ -44,7 +44,7 @@ const CampaignCard: React.FC<{
       imageUrl={campaign.image_url?.trim() || IMG_DEFAULTS.campaign_image}
       imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
     >
-      <p className="text-xs text-dnd-dark/75 mb-4">
+      <p className="text-xs text-dnd-ink/75 mb-4">
         DMed by {dm || <SkeletonInlineText />}
       </p>
 

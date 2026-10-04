@@ -5,8 +5,8 @@ import { fetchProfile } from "@/lib/endpoints/profiles";
 import { Tables } from "@/lib/types/database.types";
 
 import Link from "next/link";
-import { Heading } from "./layout/typography";
-import { Avatar } from "./avatar";
+import { Heading } from "./ui/typography";
+import { Avatar } from "./ui/avatar";
 
 const Navbar = async () => {
   const user = await getUser();
@@ -17,7 +17,7 @@ const Navbar = async () => {
   }
 
   return (
-    <nav className="h-16 w-full bg-dnd-light border-b-2 border-dnd-red flex items-center justify-between px-4">
+    <nav className="h-16 w-full bg-dnd-bg border-b border-dnd-red-dark flex items-center justify-between px-4">
       <div>
         <Link href="/">
           <Heading level={2} className="mb-0" justStyle>

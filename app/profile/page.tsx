@@ -1,4 +1,4 @@
-import { Heading } from "@/components/layout/typography";
+import { Heading } from "@/components/ui/typography";
 import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
 import { Tables } from "@/lib/types/database.types";

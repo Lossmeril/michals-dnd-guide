@@ -14,14 +14,14 @@ interface CardProps {
   children?: React.ReactNode;
 }
 
-const CardInside: React.FC<CardProps> = ({
+const CardComponent: React.FC<CardProps> = ({
   title,
   imageUrl,
   imageClassName,
   children,
 }) => {
   return (
-    <div className="w-full h-full bg-dnd-light border border-dnd-red rounded-lg shadow-md overflow-hidden">
+    <div className="w-full h-full bg-dnd-bg border border-dnd-red-dark rounded-lg shadow-md overflow-hidden">
       {imageUrl && imageUrl !== "empty" && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -63,37 +63,37 @@ const Card: React.FC<CardProps> = ({
   if (link && !disabled) {
     return (
       <Link href={link} className={twMerge(baseClasses, linkClasses)}>
-        <CardInside
+        <CardComponent
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
         >
           {children}
-        </CardInside>
+        </CardComponent>
       </Link>
     );
   } else if (onClick && !disabled) {
     return (
       <div className={twMerge(baseClasses, linkClasses)} onClick={onClick}>
-        <CardInside
+        <CardComponent
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
         >
           {children}
-        </CardInside>
+        </CardComponent>
       </div>
     );
   } else {
     return (
       <div className={twMerge(baseClasses, disabled && disabledClasses)}>
-        <CardInside
+        <CardComponent
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
         >
           {children}
-        </CardInside>
+        </CardComponent>
       </div>
     );
   }
