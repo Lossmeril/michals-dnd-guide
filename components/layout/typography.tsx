@@ -37,3 +37,18 @@ export const Heading: React.FC<HeadingProps> = ({
   const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
   return <HeadingTag className={combinedClassName}>{children}</HeadingTag>;
 };
+
+export const SkeletonInlineText: React.FC<{
+  width?: string;
+  height?: string;
+}> = ({ width = "w-20", height = "h-4" }) => {
+  return (
+    <span
+      className={twMerge(
+        `skeleton translate-y-1/6 rounded-full inline-block `,
+        width,
+        height,
+      )}
+    />
+  );
+};

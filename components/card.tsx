@@ -100,3 +100,17 @@ const Card: React.FC<CardProps> = ({
 };
 
 export default Card;
+
+export const SkeletonCard = () => {
+  return (
+    <div className="w-full h-full bg-skeleton/50 border border-skeleton rounded-lg shadow-md overflow-hidden animate-pulse">
+      <div className="w-full h-48 bg-skeleton border-b border-b-skeleton" />
+      <div className="p-4">
+        <div className="h-6 bg-skeleton rounded-full w-3/4 mb-4" />
+        <div className="h-4 bg-skeleton rounded-full w-full mb-2" />
+        <div className="h-4 bg-skeleton rounded-full w-full mb-2" />
+        <div className="h-4 bg-skeleton rounded-full w-full" />
+      </div>
+    </div>
+  );
+};

@@ -71,11 +71,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ avatars }) => {
 };
 
 export const SkeletonAvatar: React.FC = () => {
-  return (
-    <div
-      className={twMerge("bg-gray-300 animate-pulse", avatarCommonClasses)}
-    ></div>
-  );
+  return <div className={twMerge("skeleton", avatarCommonClasses)}></div>;
 };
 
 export const SkeletonAvatarGroup: React.FC<{ count: number }> = ({ count }) => {

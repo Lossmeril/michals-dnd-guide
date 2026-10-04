@@ -6,6 +6,8 @@
   --color-dnd-dark: #49433b;
   --color-dnd-light: #f6efdd;
 
+  --color-skeleton: #cbc8bc;
+
   --font-libre-baskerville: "Libre Baskerville", serif;
   --font-merriweather: "Merriweather", serif;
 }
@@ -28,6 +30,10 @@ body {
 }
 .caps::first-letter {
   font-size: larger;
+}
+
+.skeleton {
+  @apply bg-skeleton animate-pulse;
 }
 
 .link {

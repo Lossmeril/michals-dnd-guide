@@ -1,8 +1,9 @@
 "use client";
 
 import { AvatarGroup, SkeletonAvatarGroup } from "@/components/avatar";
-import Card from "@/components/card";
-import { Heading } from "@/components/layout/typography";
+import Card, { SkeletonCard } from "@/components/card";
+import { Heading, SkeletonInlineText } from "@/components/layout/typography";
+import { IMG_DEFAULTS } from "@/data/constants";
 import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
 import {
@@ -40,14 +41,11 @@ const CampaignCard: React.FC<{
     <Card
       key={campaign.id}
       title={campaign.name || "Unnamed Campaign"}
-      imageUrl={
-        campaign.image_url?.trim() ||
-        "https://www.dndbeyond.com/attachments/13/81/alvaro-calvo-escudero-341257.jpg"
-      }
+      imageUrl={campaign.image_url?.trim() || IMG_DEFAULTS.campaign_image}
       imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
     >
       <p className="text-xs text-dnd-dark/75 mb-4">
-        DMed by: {dm || "Unknown"}
+        DMed by {dm || <SkeletonInlineText />}
       </p>
 
       {avatarsLoading ? (
@@ -105,12 +103,15 @@ const CampaignsPage = () => {
   return (
     <>
       <Heading level={1}>Campaigns</Heading>
-      <Heading level={2}>Campaigns you are a player in</Heading>
+
+      <Heading level={2}>
+        Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
+      </Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
         {loading ? (
-          <p>Loading campaigns...</p>
-        ) : playerCampaigns && playerCampaigns.length > 0 ? (
-          playerCampaigns.map((campaign) => (
+          <SkeletonCard />
+        ) : DMcampaigns && DMcampaigns.length > 0 ? (
+          DMcampaigns.map((campaign) => (
             <CampaignCard key={campaign.id} campaign={campaign} />
           ))
         ) : (
@@ -118,14 +119,12 @@ const CampaignsPage = () => {
         )}
       </div>
 
-      <Heading level={2}>
-        Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
-      </Heading>
+      <Heading level={2}>Campaigns you are a player in</Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
         {loading ? (
-          <p>Loading campaigns...</p>
-        ) : DMcampaigns && DMcampaigns.length > 0 ? (
-          DMcampaigns.map((campaign) => (
+          <SkeletonCard />
+        ) : playerCampaigns && playerCampaigns.length > 0 ? (
+          playerCampaigns.map((campaign) => (
             <CampaignCard key={campaign.id} campaign={campaign} />
           ))
         ) : (
