@@ -1,5 +1,6 @@
 "use client";
 
+import { Heading } from "@/components/ui/typography";
 import { fetchCharacters } from "@/lib/endpoints/characters";
 import { Tables } from "@/lib/types/database.types";
 import { useEffect, useState } from "react";
@@ -28,7 +29,7 @@ const CharactersPage = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-10">Characters</h1>
+      <Heading level={1}>Characters</Heading>
       {loading ? (
         <p>Loading...</p>
       ) : !characters ? (

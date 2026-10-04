@@ -2,6 +2,7 @@
 
 import { AvatarGroup, SkeletonAvatarGroup } from "@/components/ui/avatar";
 import Card, { SkeletonCard } from "@/components/ui/card";
+import Eyebrow from "@/components/ui/eyebrow";
 import { Heading, SkeletonInlineText } from "@/components/ui/typography";
 import { IMG_DEFAULTS } from "@/data/constants";
 import { requireUser } from "@/lib/auth";

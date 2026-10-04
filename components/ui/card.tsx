@@ -7,6 +7,8 @@ interface CardProps {
   imageUrl?: string | "empty";
   imageClassName?: string;
 
+  eyeBrow?: React.ReactNode;
+
   link?: string;
   onClick?: () => void;
   disabled?: boolean;
@@ -18,6 +20,7 @@ const CardComponent: React.FC<CardProps> = ({
   title,
   imageUrl,
   imageClassName,
+  eyeBrow,
   children,
 }) => {
   return (
@@ -40,6 +43,7 @@ const CardComponent: React.FC<CardProps> = ({
           </div>
         ))}
       <div className="p-4">
+        {eyeBrow && <div className="mb-2">{eyeBrow}</div>}
         <p className="text-xl font-bold mb-2 text-dnd-red libre">{title}</p>
         {children}
       </div>
@@ -51,6 +55,7 @@ const Card: React.FC<CardProps> = ({
   title,
   imageUrl,
   imageClassName,
+  eyeBrow,
   link,
   onClick,
   disabled,
@@ -67,6 +72,7 @@ const Card: React.FC<CardProps> = ({
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
+          eyeBrow={eyeBrow}
         >
           {children}
         </CardComponent>
@@ -79,6 +85,7 @@ const Card: React.FC<CardProps> = ({
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
+          eyeBrow={eyeBrow}
         >
           {children}
         </CardComponent>
@@ -91,6 +98,7 @@ const Card: React.FC<CardProps> = ({
           title={title}
           imageUrl={imageUrl}
           imageClassName={imageClassName}
+          eyeBrow={eyeBrow}
         >
           {children}
         </CardComponent>

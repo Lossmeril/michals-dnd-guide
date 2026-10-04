@@ -16,12 +16,12 @@ export const Heading: React.FC<HeadingProps> = ({
 }) => {
   const baseStyles = "libre text-dnd-red";
   const headingStyles: Record<number, string> = {
-    1: "text-2xl mb-10 caps font-bold",
+    1: "text-3xl text-dnd-red-dark mb-10 caps font-bold border-b-2 border-dnd-gold pb-2",
     2: "text-xl mb-8 caps font-bold",
     3: "text-lg mb-6 caps border-b-2 border-dnd-gold pb-2",
     4: "text-base caps",
     5: "text-sm caps",
-    6: "text-sm caps text-black",
+    6: "text-sm caps text-dnd-ink",
   };
 
   const combinedClassName = twMerge(

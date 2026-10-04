@@ -24,11 +24,11 @@
   --color-coin: khaki;
   --color-material: lightgray;
 
-  --color-red: #f87171;
-  --color-blue: #60a5fa;
-  --color-green: #34d399;
-  --color-yellow: #fbbf24;
-  --color-purple: #a78bfa;
+  --color-accent-red: #f87171;
+  --color-accent-blue: #60a5fa;
+  --color-accent-green: #34d399;
+  --color-accent-yellow: #fbbf24;
+  --color-accent-purple: #a78bfa;
 
   --font-libre-baskerville: "Libre Baskerville", serif;
   --font-merriweather: "Merriweather", serif;
@@ -106,7 +106,7 @@
 
   button,
   a.button {
-    @apply bg-dnd-red text-white px-4 py-2 hover:bg-dnd-red/80 transition-colors duration-200 hover:cursor-pointer;
+    @apply bg-dnd-red text-white px-4 py-2 hover:bg-dnd-red/80 transition-colors duration-200 hover:cursor-pointer rounded-full;
   }
 
   // -------------------------------------

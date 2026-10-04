@@ -25,14 +25,16 @@ const Navbar = async () => {
           </Heading>
         </Link>
       </div>
-      <div className="flex flex-row gap-5 items-center">
+      <div className="flex flex-row gap-10 items-center">
         {user && profile && (
           <>
-            <Avatar
-              name={profile.display_name || user.email!}
-              imgSrc={profile.avatar_url ? profile.avatar_url : undefined}
-            />
-            <Link href="/profile">
+            {" "}
+            <Link href="/profile" className="flex flex-row gap-2 items-center">
+              <Avatar
+                name={profile.display_name || user.email!}
+                imgSrc={profile.avatar_url ? profile.avatar_url : undefined}
+              />
+
               <p>{profile.display_name || user.email}</p>
             </Link>
             <form action={logout}>
