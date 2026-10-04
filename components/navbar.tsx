@@ -36,9 +36,6 @@ const Navbar = async () => {
     profile = (await fetchProfile(user.id)) as Tables<"profiles"> | null;
   }
 
-  console.log("Navbar user:", user);
-  console.log("Navbar profile:", profile);
-
   return (
     <nav className="h-16 w-full border-b-2 border-dnd-red flex items-center justify-between px-4">
       <div></div>{" "}
