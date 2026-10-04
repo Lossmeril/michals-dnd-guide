@@ -1,7 +1,5 @@
-import { UserRole } from "../enums/enums";
+import type { Tables, TablesInsert, TablesUpdate } from "./database.types";
 
-export type Profile = {
-  id: string;
-  display_name: string;
-  role: UserRole;
-};
+export type Profile = Tables<"profiles">;
+export type ProfileInsert = TablesInsert<"profiles">;
+export type ProfileUpdate = TablesUpdate<"profiles">;

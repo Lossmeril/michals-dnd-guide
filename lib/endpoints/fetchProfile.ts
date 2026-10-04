@@ -1,43 +1,15 @@
-import { createClient } from "@/utils/supabase/server";
+import "server-only";
 import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
-import { Profile } from "@/lib/types/profile";
+const db = async () => createClient(await cookies());
 
-const fetchProfile = async (userId: string) => {
-  const supabase = createClient(await cookies());
-  const { data, error } = await supabase
+export const fetchProfile = async (userId: string) => {
+  const { data, error } = await (await db())
     .from("profiles")
     .select()
     .eq("id", userId)
     .maybeSingle();
-
-  const profile = data as Profile | null;
-
-  if (error) {
-    console.error("Error fetching profile:", error);
-  }
-
-  return profile;
+  if (error) throw error;
+  return data;
 };
-
-export default fetchProfile;
-
-const updateProfile = async (userId: string, profileData: Partial<Profile>) => {
-  const supabase = createClient(await cookies());
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(profileData)
-    .eq("id", userId)
-    .select()
-    .maybeSingle();
-
-  const updatedProfile = data as Profile | null;
-
-  if (error) {
-    console.error("Error updating profile:", error);
-  }
-
-  return updatedProfile;
-};
-
-export { updateProfile };

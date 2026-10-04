@@ -1,7 +1,8 @@
 import { logout } from "@/app/(auth)/actions";
 import { getUser } from "@/lib/auth";
-import fetchProfile from "@/lib/endpoints/fetchProfile";
-import { Profile } from "@/lib/types/profile";
+import { fetchProfile } from "@/lib/endpoints/fetchProfile";
+
+import { Tables } from "@/lib/types/database.types";
 
 interface AvatarProps {
   imgSrc?: string;
@@ -29,10 +30,10 @@ const Avatar: React.FC<AvatarProps> = ({ imgSrc, name }) => {
 
 const Navbar = async () => {
   const user = await getUser();
-  let profile: Profile | null = null;
+  let profile: Tables<"profiles"> | null = null;
 
   if (user) {
-    profile = (await fetchProfile(user.id)) as Profile | null;
+    profile = (await fetchProfile(user.id)) as Tables<"profiles"> | null;
   }
 
   console.log("Navbar user:", user);
