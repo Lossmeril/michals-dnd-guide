@@ -1,6 +1,7 @@
 import { fetchCampaign_Players } from "../endpoints/campaign_players";
 import { fetchCampaigns } from "../endpoints/campaigns";
 import { fetchCharacters } from "../endpoints/characters";
+import { fetchProfiles } from "../endpoints/profiles";
 
 export const fetchCampaignsPlayerIsPartOf = async (
   playerId: string,
@@ -41,10 +42,40 @@ export const fetchCampaignsPlayerIsPartOf = async (
     ),
   );
 
-  console.log("Campaigns player is part of:", campaignsPlayerIsPartOf);
-
   return {
     campaignsPlayerIsPartOf: campaignsPlayerIsPartOf,
     campaignsPlayerDMs: campaignsPlayerDMs,
   };
+};
+
+export const fetchPlayersInCampaign = async (
+  campaignId: number,
+): Promise<import("../types/database.types").Tables<"profiles">[] | null> => {
+  const campaignPlayers = await fetchCampaign_Players();
+  const characters = await fetchCharacters();
+  const profiles = await fetchProfiles();
+
+  console.log(profiles);
+  console.log(profiles.map((p) => p.id));
+
+  // Get character IDs for the given campaign
+  const charactersInCampaign = campaignPlayers
+    .filter((cp) => cp.campaign_id === campaignId)
+    .map((cp) => cp.character_id);
+
+  // Get player IDs for those characters
+  const playerIdsInCampaign = charactersInCampaign.map((charId) => {
+    const character = characters.find((char) => char.id === charId);
+    return character ? character.owner : null;
+  });
+
+  // Get profiles for those player IDs
+  const playersInCampaign = profiles.filter((profile) => {
+    console.log("Checking profile:", profile.id);
+    return playerIdsInCampaign.includes(profile.id);
+  });
+
+  console.log("Players in campaign:", playersInCampaign);
+
+  return playersInCampaign.length > 0 ? playersInCampaign : null;
 };

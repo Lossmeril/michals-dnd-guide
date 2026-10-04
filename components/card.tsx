@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 interface CardProps {
   title: string;
 
-  imageUrl?: string;
+  imageUrl?: string | "empty";
   imageClassName?: string;
 
   link?: string;
@@ -21,8 +21,8 @@ const CardInside: React.FC<CardProps> = ({
   children,
 }) => {
   return (
-    <div className="border border-dnd-red rounded-lg shadow-md overflow-hidden">
-      {imageUrl && (
+    <div className="w-full h-full bg-dnd-light border border-dnd-red rounded-lg shadow-md overflow-hidden">
+      {imageUrl && imageUrl !== "empty" && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageUrl}
@@ -33,8 +33,14 @@ const CardInside: React.FC<CardProps> = ({
           )}
         />
       )}
+      {!imageUrl ||
+        (imageUrl === "empty" && (
+          <div className="w-full h-48 bg-gray-200 border-b border-b-gray-300 flex items-center justify-center">
+            <span className="text-gray-500">No Image</span>
+          </div>
+        ))}
       <div className="p-4">
-        <p className="text-xl font-bold mb-2">{title}</p>
+        <p className="text-xl font-bold mb-2 text-dnd-red libre">{title}</p>
         {children}
       </div>
     </div>

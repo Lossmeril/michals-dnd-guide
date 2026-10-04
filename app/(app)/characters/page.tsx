@@ -27,7 +27,7 @@ const CharactersPage = () => {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto">
+    <>
       <h1 className="text-2xl font-bold mb-10">Characters</h1>
       {loading ? (
         <p>Loading...</p>
@@ -40,7 +40,7 @@ const CharactersPage = () => {
           ))}
         </ul>
       )}
-    </main>
+    </>
   );
 };
 

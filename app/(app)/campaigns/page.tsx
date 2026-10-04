@@ -1,10 +1,70 @@
 "use client";
 
+import { AvatarGroup, SkeletonAvatarGroup } from "@/components/avatar";
+import Card from "@/components/card";
+import { Heading } from "@/components/layout/typography";
 import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
-import { fetchCampaignsPlayerIsPartOf } from "@/lib/specialFecthers.ts/playerCampaigns";
+import {
+  fetchCampaignsPlayerIsPartOf,
+  fetchPlayersInCampaign,
+} from "@/lib/specialFecthers/playerCampaigns";
 import { Tables } from "@/lib/types/database.types";
 import { useEffect, useState } from "react";
+
+const CampaignCard: React.FC<{
+  campaign: Tables<"campaigns">;
+}> = ({ campaign }) => {
+  const [avatarsLoading, setAvatarsLoading] = useState(true);
+  const [players, setPlayers] = useState<Tables<"profiles">[] | null>(null);
+  const [dm, setDm] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadPlayers = async () => {
+      try {
+        const data = await fetchPlayersInCampaign(campaign.id);
+        const dm = await fetchProfile(campaign.dm!);
+        setPlayers(data ? data : null);
+        setDm(dm ? dm.display_name : null);
+      } catch (error) {
+        console.error("Error fetching players:", error);
+      } finally {
+        setAvatarsLoading(false);
+      }
+    };
+
+    loadPlayers();
+  }, [campaign.id, campaign.dm]);
+
+  return (
+    <Card
+      key={campaign.id}
+      title={campaign.name || "Unnamed Campaign"}
+      imageUrl={
+        campaign.image_url?.trim() ||
+        "https://www.dndbeyond.com/attachments/13/81/alvaro-calvo-escudero-341257.jpg"
+      }
+      imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
+    >
+      <p className="text-xs text-dnd-dark/75 mb-4">
+        DMed by: {dm || "Unknown"}
+      </p>
+
+      {avatarsLoading ? (
+        <SkeletonAvatarGroup count={3} />
+      ) : players && players.length > 0 ? (
+        <AvatarGroup
+          avatars={players.map((player) => ({
+            name: player.display_name || "Unknown",
+            imgSrc: player.avatar_url || undefined,
+          }))}
+        />
+      ) : (
+        <></>
+      )}
+    </Card>
+  );
+};
 
 const CampaignsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,19 +79,19 @@ const CampaignsPage = () => {
   useEffect(() => {
     const loadCampaigns = async () => {
       try {
+        // Fetch the user and their profile
         const user = await requireUser();
         const player = await fetchProfile(user.id);
 
         const data = await fetchCampaignsPlayerIsPartOf(player?.id || "");
+
+        // Set the campaigns where the user is a DM and where they are a player
         setDMcampaigns(
           data.campaignsPlayerDMs ? data.campaignsPlayerDMs : null,
         );
         setPlayerCampaigns(
           data.campaignsPlayerIsPartOf ? data.campaignsPlayerIsPartOf : null,
         );
-
-        console.log("DM campaigns:", data.campaignsPlayerDMs);
-        console.log("Player campaigns:", data.campaignsPlayerIsPartOf);
       } catch (error) {
         console.error("Error fetching campaigns:", error);
       } finally {
@@ -43,36 +103,36 @@ const CampaignsPage = () => {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-10">Campaigns</h1>
-      {loading ? (
-        <p>Loading campaigns...</p>
-      ) : DMcampaigns ? (
-        <>
-          <h2>Campaigns you are DM of</h2>
-          <ul>
-            {DMcampaigns.map((campaign) => (
-              <li key={campaign.id}>{campaign.name}</li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <p>No campaigns found.</p>
-      )}
-      {playerCampaigns && (
-        <>
-          <h2>Campaigns you are a player in</h2>
-          <ul>
-            {playerCampaigns.map((campaign) => (
-              <li key={campaign.id}>{campaign.name}</li>
-            ))}
-          </ul>
-        </>
-      )}
-      {!loading && !DMcampaigns && !playerCampaigns && (
-        <p>You are not part of any campaigns.</p>
-      )}
-    </main>
+    <>
+      <Heading level={1}>Campaigns</Heading>
+      <Heading level={2}>Campaigns you are a player in</Heading>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+        {loading ? (
+          <p>Loading campaigns...</p>
+        ) : playerCampaigns && playerCampaigns.length > 0 ? (
+          playerCampaigns.map((campaign) => (
+            <CampaignCard key={campaign.id} campaign={campaign} />
+          ))
+        ) : (
+          <p>No campaigns found.</p>
+        )}
+      </div>
+
+      <Heading level={2}>
+        Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
+      </Heading>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+        {loading ? (
+          <p>Loading campaigns...</p>
+        ) : DMcampaigns && DMcampaigns.length > 0 ? (
+          DMcampaigns.map((campaign) => (
+            <CampaignCard key={campaign.id} campaign={campaign} />
+          ))
+        ) : (
+          <p>No campaigns found.</p>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -51,16 +51,19 @@ export type Database = {
         Row: {
           dm: string | null
           id: number
+          image_url: string | null
           name: string | null
         }
         Insert: {
           dm?: string | null
           id?: number
+          image_url?: string | null
           name?: string | null
         }
         Update: {
           dm?: string | null
           id?: number
+          image_url?: string | null
           name?: string | null
         }
         Relationships: [
@@ -77,6 +80,7 @@ export type Database = {
         Row: {
           backstory: string | null
           id: number
+          image_url: string | null
           level: number
           name: string
           owner: string
@@ -85,6 +89,7 @@ export type Database = {
         Insert: {
           backstory?: string | null
           id?: number
+          image_url?: string | null
           level?: number
           name: string
           owner: string
@@ -93,6 +98,7 @@ export type Database = {
         Update: {
           backstory?: string | null
           id?: number
+          image_url?: string | null
           level?: number
           name?: string
           owner?: string
@@ -110,18 +116,21 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           display_name: string | null
           id: string
           role: Database["public"]["Enums"]["user_role"] | null
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           id: string
           role?: Database["public"]["Enums"]["user_role"] | null
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           id?: string

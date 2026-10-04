@@ -3,6 +3,8 @@ import { Libre_Baskerville, Merriweather } from "next/font/google";
 
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import MainBox from "@/components/layout/mainBox";
+import { Toaster } from "sonner";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -28,8 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`h-full antialiased scroll-smooth ${libreBaskerville.variable} ${merriweather.variable}`}
     >
       <body className="min-h-full flex flex-col">
+        <Toaster />
         <Navbar />
-        {children}
+        <MainBox>{children}</MainBox>
       </body>
     </html>
   );

@@ -1,14 +1,15 @@
 import Card from "@/components/card";
+import { Heading } from "@/components/layout/typography";
 import { requireUser } from "@/lib/auth";
 
 const HomePage = async () => {
   await requireUser();
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-10">
+    <>
+      <Heading level={1} className="mb-10">
         Welcome to Michal&apos;s D&D Guide!
-      </h1>
+      </Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card
           title="Ruleset"
@@ -44,7 +45,7 @@ const HomePage = async () => {
           </p>
         </Card>
       </div>
-    </main>
+    </>
   );
 };
 

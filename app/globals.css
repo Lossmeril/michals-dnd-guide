@@ -2,23 +2,36 @@
 
 @theme {
   --color-dnd-red: #922610;
+  --color-dnd-gold: #c6b371;
+  --color-dnd-dark: #49433b;
+  --color-dnd-light: #f6efdd;
 
   --font-libre-baskerville: "Libre Baskerville", serif;
   --font-merriweather: "Merriweather", serif;
 }
 
+.libre {
+  font-family: var(--font-libre-baskerville);
+}
+
+.merriweather {
+  font-family: var(--font-merriweather);
+}
+
 body {
-  @apply bg-white text-gray-900 font-merriweather text-sm;
+  @apply bg-white text-dnd-dark font-merriweather text-sm;
   background: url("../public/bg.jpg") center center;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply font-bold font-libre-baskerville text-dnd-red;
+.caps {
+  text-transform: uppercase;
+}
+.caps::first-letter {
+  font-size: larger;
+}
+
+.link {
+  @apply text-dnd-red hover:text-dnd-red/80 underline decoration-dotted transition-colors duration-200;
 }
 
 input {
