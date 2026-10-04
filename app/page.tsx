@@ -2,7 +2,7 @@ import Card from "@/components/card";
 import { requireUser } from "@/lib/auth";
 
 const HomePage = async () => {
-  const user = await requireUser();
+  await requireUser();
 
   return (
     <main className="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto">

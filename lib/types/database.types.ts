@@ -14,24 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaign_players: {
+        Row: {
+          campaign_id: number
+          character_id: number
+          id: number
+        }
+        Insert: {
+          campaign_id: number
+          character_id: number
+          id?: number
+        }
+        Update: {
+          campaign_id?: number
+          character_id?: number
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_players_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_players_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          dm: string | null
+          id: number
+          name: string | null
+        }
+        Insert: {
+          dm?: string | null
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          dm?: string | null
+          id?: number
+          name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_dm_fkey"
+            columns: ["dm"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       characters: {
         Row: {
           backstory: string | null
           id: number
+          level: number
           name: string
-          owner: string | null
+          owner: string
+          start_level: number
         }
         Insert: {
           backstory?: string | null
           id?: number
+          level?: number
           name: string
-          owner?: string | null
+          owner: string
+          start_level?: number
         }
         Update: {
           backstory?: string | null
           id?: number
+          level?: number
           name?: string
-          owner?: string | null
+          owner?: string
+          start_level?: number
         }
         Relationships: [
           {
@@ -76,10 +141,8 @@ export type Database = {
       }
     }
     Enums: {
-      character_start_type: "rags" | "normal" | "stronger"
       class_magic: "none" | "full" | "pseudo"
       class_rank: "basic" | "advanced" | "mighty"
-      class_ranks: "basic" | "advanced" | "mighty"
       cost_resource: "body" | "soul" | "charisma" | "material" | "coin"
       requirement_kind:
         | "class_level"
@@ -88,7 +151,6 @@ export type Database = {
         | "has_perk"
         | "has_aspect"
       resource_pool: "body" | "soul" | "charisma"
-      roles: "admin" | "dm" | "player"
       spell_component_type: "verbal" | "somatic" | "material"
       spell_duration:
         | "instantaneous"
@@ -225,10 +287,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      character_start_type: ["rags", "normal", "stronger"],
       class_magic: ["none", "full", "pseudo"],
       class_rank: ["basic", "advanced", "mighty"],
-      class_ranks: ["basic", "advanced", "mighty"],
       cost_resource: ["body", "soul", "charisma", "material", "coin"],
       requirement_kind: [
         "class_level",
@@ -238,7 +298,6 @@ export const Constants = {
         "has_aspect",
       ],
       resource_pool: ["body", "soul", "charisma"],
-      roles: ["admin", "dm", "player"],
       spell_component_type: ["verbal", "somatic", "material"],
       spell_duration: [
         "instantaneous",

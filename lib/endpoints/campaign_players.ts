@@ -6,28 +6,30 @@ import type { TablesInsert, TablesUpdate } from "@/lib/types/database.types";
 
 const db = async () => createClient(await cookies());
 
-export const fetchCharacters = async () => {
+export const fetchCampaign_Players = async () => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaign_players")
     .select()
     .order("id", { ascending: true });
   if (error) throw error;
-  return data; // inferred as Tables<"characters">[]
+  return data;
 };
 
-export const fetchCharacter = async (id: number) => {
+export const fetchCampaign_Player = async (id: number) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaign_players")
     .select()
     .eq("id", id)
     .maybeSingle();
   if (error) throw error;
-  return data; // Tables<"characters"> | null
+  return data;
 };
 
-export const createCharacter = async (input: TablesInsert<"characters">) => {
+export const createCampaign_Player = async (
+  input: TablesInsert<"campaign_players">,
+) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaign_players")
     .insert(input)
     .select()
     .single();
@@ -35,12 +37,12 @@ export const createCharacter = async (input: TablesInsert<"characters">) => {
   return data;
 };
 
-export const updateCharacter = async (
+export const updateCampaign_Player = async (
   id: number,
-  patch: TablesUpdate<"characters">,
+  patch: TablesUpdate<"campaign_players">,
 ) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaign_players")
     .update(patch)
     .eq("id", id)
     .select()
@@ -49,7 +51,10 @@ export const updateCharacter = async (
   return data;
 };
 
-export const deleteCharacter = async (id: number) => {
-  const { error } = await (await db()).from("characters").delete().eq("id", id);
+export const deleteCampaign_Player = async (id: number) => {
+  const { error } = await (await db())
+    .from("campaign_players")
+    .delete()
+    .eq("id", id);
   if (error) throw error;
 };

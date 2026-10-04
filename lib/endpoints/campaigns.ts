@@ -6,28 +6,28 @@ import type { TablesInsert, TablesUpdate } from "@/lib/types/database.types";
 
 const db = async () => createClient(await cookies());
 
-export const fetchCharacters = async () => {
+export const fetchCampaigns = async () => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaigns")
     .select()
     .order("id", { ascending: true });
   if (error) throw error;
-  return data; // inferred as Tables<"characters">[]
+  return data;
 };
 
-export const fetchCharacter = async (id: number) => {
+export const fetchCampaign = async (id: number) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaigns")
     .select()
     .eq("id", id)
     .maybeSingle();
   if (error) throw error;
-  return data; // Tables<"characters"> | null
+  return data;
 };
 
-export const createCharacter = async (input: TablesInsert<"characters">) => {
+export const createCampaign = async (input: TablesInsert<"campaigns">) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaigns")
     .insert(input)
     .select()
     .single();
@@ -35,12 +35,12 @@ export const createCharacter = async (input: TablesInsert<"characters">) => {
   return data;
 };
 
-export const updateCharacter = async (
+export const updateCampaign = async (
   id: number,
-  patch: TablesUpdate<"characters">,
+  patch: TablesUpdate<"campaigns">,
 ) => {
   const { data, error } = await (await db())
-    .from("characters")
+    .from("campaigns")
     .update(patch)
     .eq("id", id)
     .select()
@@ -49,7 +49,7 @@ export const updateCharacter = async (
   return data;
 };
 
-export const deleteCharacter = async (id: number) => {
-  const { error } = await (await db()).from("characters").delete().eq("id", id);
+export const deleteCampaign = async (id: number) => {
+  const { error } = await (await db()).from("campaigns").delete().eq("id", id);
   if (error) throw error;
 };

@@ -1,6 +1,6 @@
 import { logout } from "@/app/(auth)/actions";
 import { getUser } from "@/lib/auth";
-import { fetchProfile } from "@/lib/endpoints/fetchProfile";
+import { fetchProfile } from "@/lib/endpoints/profiles";
 
 import { Tables } from "@/lib/types/database.types";
 
