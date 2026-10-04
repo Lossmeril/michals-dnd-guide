@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 
 import type { Database } from "@/lib/types/database.types";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_PUBLISHABLE_KEY;
 
 export const createClient = (
   cookieStore: Awaited<ReturnType<typeof cookies>>,
