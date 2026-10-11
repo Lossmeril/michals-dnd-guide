@@ -5,6 +5,8 @@ import { requireUser } from "@/lib/auth";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { validateBuild, type Build } from "@/lib/rules/character";
+import { uploadImage } from "@/lib/uploadImage";
+import type { Tables } from "@/lib/types/database.types";
 
 type Result<T> = { data: T; error: null } | { data: null; error: string };
 
@@ -46,6 +48,9 @@ export async function saveCharacter(
       p_name: name,
       p_backstory: input.backstory.trim() || undefined,
       p_race_id: build.raceId ?? undefined,
+      p_background_id: build.backgroundId ?? undefined,
+      p_languages: build.languages,
+      p_traits: build.traitIds,
       p_level: level,
       p_start_level: input.startLevel,
       p_body: build.body,
@@ -62,6 +67,66 @@ export async function saveCharacter(
     });
     if (error) throw error;
     return { data, error: null };
+  } catch (e) {
+    return { data: null, error: (e as Error).message };
+  }
+}
+
+/** A player-written trait; it waits for the campaign DM's approval */
+export async function createCustomTrait(input: {
+  name: string;
+  upside: string;
+  downside: string;
+}): Promise<Result<Tables<"traits">>> {
+  await requireUser();
+  try {
+    const [name, upside, downside] = [
+      input.name,
+      input.upside,
+      input.downside,
+    ].map((v) => v.trim());
+    if (!name || !upside || !downside)
+      throw new Error("A trait needs a name, an upside and a downside.");
+
+    const supabase = createClient(await cookies());
+    const { data, error } = await supabase
+      .from("traits")
+      .insert({ name, upside, downside, is_custom: true })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: (e as Error).message };
+  }
+}
+
+export async function uploadCharacterPortrait(
+  characterId: number,
+  formData: FormData,
+): Promise<Result<string>> {
+  const user = await requireUser();
+  try {
+    const file = formData.get("file");
+    if (!(file instanceof File) || file.size === 0) throw new Error("No file");
+
+    const existing = await fetchCharacterBuild(characterId);
+    if (existing?.character.owner !== user.id)
+      throw new Error("Character not found.");
+
+    const supabase = createClient(await cookies());
+    const { publicUrl } = await uploadImage(
+      supabase,
+      "characters",
+      file,
+      String(characterId),
+    );
+    const { error } = await supabase
+      .from("characters")
+      .update({ image_url: publicUrl })
+      .eq("id", characterId);
+    if (error) throw error;
+    return { data: publicUrl, error: null };
   } catch (e) {
     return { data: null, error: (e as Error).message };
   }

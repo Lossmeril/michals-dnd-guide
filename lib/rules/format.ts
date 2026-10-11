@@ -15,9 +15,6 @@ export const costOf = (perk: Tables<"perks">) =>
     ? `Costs ${perk.cost_amount} ${RESOURCE_NAMES[perk.cost_resource!]}${perk.cost_unit ? ` per ${perk.cost_unit}` : ""}`
     : null;
 
-export const magicLabel = (magic: Tables<"classes">["magic"]) =>
-  ({ none: null, full: "magic", pseudo: "pseudo-magic" })[magic];
-
 export const DURATION_NAMES: Record<string, string> = {
   instantaneous: "Instant",
   concentration: "Until concentration breaks",
@@ -40,3 +37,14 @@ export const spellLine = (perk: Tables<"perks">) =>
   ]
     .filter(Boolean)
     .join(" · ");
+
+/** 1 gold = 100 silver = 1000 copper */
+export const formatCoins = (copper: number) =>
+  [
+    [Math.floor(copper / 1000), "gold"],
+    [Math.floor((copper % 1000) / 10), "silver"],
+    [copper % 10, "copper"],
+  ]
+    .filter(([n]) => n)
+    .map(([n, unit]) => `${n} ${unit}`)
+    .join(", ") || "No coins";

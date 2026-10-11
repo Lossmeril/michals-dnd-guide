@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+import MagicBadge from "@/components/ui/magicBadge";
 import NumberStepper from "@/components/ui/numberStepper";
 import StatBlock from "@/components/ui/statBlock";
 import { Heading } from "@/components/ui/typography";
@@ -12,6 +15,8 @@ import {
   coreSpells,
   describeRequirement,
   findClass,
+  freeLanguages,
+  languageSlots,
   heldAspects,
   heldPerkIds,
   isClassUnlocked,
@@ -26,8 +31,11 @@ import {
   UNLOCK_LEVELS,
   withClassLevel,
 } from "@/lib/rules/character";
-import { costOf, magicLabel, RESOURCE_NAMES } from "@/lib/rules/format";
-import { ChoiceCard } from "./choiceCard";
+import { costOf, formatCoins, RESOURCE_NAMES } from "@/lib/rules/format";
+import type { Tables } from "@/lib/types/database.types";
+import { createCustomTrait } from "./actions";
+import { PerkImage } from "@/components/ui/perkCard";
+import { ChoiceCard, Thumb } from "./choiceCard";
 
 export interface StepProps {
   rb: Rulebook;
@@ -69,6 +77,7 @@ export const RaceStep: React.FC<StepProps> = ({ rb, build, setBuild }) => {
         {rb.races.map((race) => (
           <ChoiceCard
             key={race.id}
+            image={<Thumb src={race.image_url} />}
             title={race.name}
             description={race.blurb}
             checked={build.raceId === race.id}
@@ -87,7 +96,7 @@ export const RaceStep: React.FC<StepProps> = ({ rb, build, setBuild }) => {
             {racialPerks(rb, build.raceId).map((perk) => (
               <ChoiceCard
                 key={perk.id}
-                perk={perk}
+                image={<PerkImage perk={perk} className="w-16" />}
                 title={perk.name}
                 note={costOf(perk)}
                 description={perk.description}
@@ -141,14 +150,10 @@ export const ClassesStep: React.FC<StepProps> = ({
                   key={cls.id}
                   className="flex items-center justify-between gap-4 border-b border-dnd-gold/50 pb-3"
                 >
-                  <div className="min-w-0">
+                  <Thumb src={cls.image_url} />
+                  <div className="min-w-0 flex-1">
                     <p className="font-bold text-dnd-red libre">
-                      {cls.name}
-                      {magicLabel(cls.magic) && (
-                        <span className="ml-2 text-xs font-normal text-dnd-ink/60">
-                          {magicLabel(cls.magic)}
-                        </span>
-                      )}
+                      {cls.name} <MagicBadge magic={cls.magic} />
                     </p>
                     {!unlocked && (
                       <p
@@ -205,7 +210,7 @@ export const PerksStep: React.FC<StepProps> = ({
         return (
           <section key={cls.id} className="mb-12">
             <Heading level={3}>
-              {cls.name} {level}{" "}
+              {cls.name} {level} <MagicBadge magic={cls.magic} />{" "}
               <span className="text-sm normal-case font-normal text-dnd-ink/60">
                 {chosen.length} of {level} perks picked
               </span>
@@ -252,7 +257,7 @@ export const PerksStep: React.FC<StepProps> = ({
                 return (
                   <ChoiceCard
                     key={perk.id}
-                    perk={perk}
+                    image={<PerkImage perk={perk} className="w-16" />}
                     type="checkbox"
                     title={perk.name}
                     note={note}
@@ -318,6 +323,169 @@ export const ResourcesStep: React.FC<StepProps> = ({
           </li>
         ))}
       </ul>
+    </>
+  );
+};
+
+// ----- Background and languages -----
+
+export const BackgroundStep: React.FC<StepProps> = ({
+  rb,
+  build,
+  setBuild,
+}) => {
+  const free = freeLanguages(rb, build);
+  const slots = languageSlots(rb, build);
+  const full = build.languages.length >= slots;
+
+  return (
+    <>
+      <div className={`${grid} mb-10`}>
+        {rb.backgrounds.map((bg) => (
+          <ChoiceCard
+            key={bg.id}
+            title={bg.name}
+            note={`${formatCoins(bg.coins_copper)} · ${bg.material} Material · ${bg.extra_languages} extra language(s)`}
+            description={[
+              bg.equipment,
+              bg.known_settings && `Knows: ${bg.known_settings}`,
+            ]
+              .filter(Boolean)
+              .join(". ")}
+            checked={build.backgroundId === bg.id}
+            // Fewer language slots may leave too many picked; start the list over
+            onSelect={() =>
+              setBuild({ ...build, backgroundId: bg.id, languages: [] })
+            }
+          />
+        ))}
+      </div>
+
+      <Heading level={3}>
+        Languages{" "}
+        <span className="text-sm normal-case font-normal text-dnd-ink/60">
+          {build.languages.length} of {slots} extra picked
+        </span>
+      </Heading>
+      <p className="text-sm mb-4">
+        You speak{" "}
+        {free
+          .map((id) => rb.languages.find((l) => l.id === id)?.name)
+          .join(" and ")}{" "}
+        already.
+      </p>
+      <div className={grid}>
+        {rb.languages
+          .filter((l) => !free.includes(l.id))
+          .map((lang) => {
+            const checked = build.languages.includes(lang.id);
+            return (
+              <ChoiceCard
+                key={lang.id}
+                type="checkbox"
+                title={lang.name}
+                description={lang.description}
+                checked={checked}
+                disabled={!checked && full}
+                onSelect={() =>
+                  setBuild({
+                    ...build,
+                    languages: checked
+                      ? build.languages.filter((l) => l !== lang.id)
+                      : [...build.languages, lang.id],
+                  })
+                }
+              />
+            );
+          })}
+      </div>
+    </>
+  );
+};
+
+// ----- Traits -----
+
+export const TraitsStep: React.FC<
+  StepProps & { onTraitCreated: (trait: Tables<"traits">) => void }
+> = ({ rb, build, setBuild, onTraitCreated }) => {
+  const [draft, setDraft] = useState({ name: "", upside: "", downside: "" });
+  const [saving, setSaving] = useState(false);
+
+  const toggle = (id: number) =>
+    setBuild({
+      ...build,
+      traitIds: build.traitIds.includes(id)
+        ? build.traitIds.filter((t) => t !== id)
+        : [...build.traitIds, id],
+    });
+
+  const addCustom = async () => {
+    setSaving(true);
+    const { data, error } = await createCustomTrait(draft);
+    setSaving(false);
+    if (error !== null) return toast.error(error);
+    onTraitCreated(data);
+    setBuild({ ...build, traitIds: [...build.traitIds, data.id] });
+    setDraft({ name: "", upside: "", downside: "" });
+  };
+
+  return (
+    <>
+      <p className="mb-6">
+        Traits are optional challenges with an upside and a downside. Take as
+        many as you like.
+      </p>
+      <div className={`${grid} mb-10`}>
+        {rb.traits.map((trait) => (
+          <ChoiceCard
+            key={trait.id}
+            type="checkbox"
+            title={trait.name}
+            note={
+              trait.is_custom && !trait.approved_by
+                ? "Custom · awaiting DM approval"
+                : trait.is_custom
+                  ? "Custom"
+                  : null
+            }
+            description={`+ ${trait.upside}  − ${trait.downside}`}
+            checked={build.traitIds.includes(trait.id)}
+            onSelect={() => toggle(trait.id)}
+          />
+        ))}
+      </div>
+
+      <Heading level={3}>Write your own</Heading>
+      <div className="flex flex-col gap-3 max-w-xl">
+        <input
+          placeholder="Name"
+          value={draft.name}
+          onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+        />
+        <input
+          placeholder="Upside"
+          value={draft.upside}
+          onChange={(e) => setDraft({ ...draft, upside: e.target.value })}
+        />
+        <input
+          placeholder="Downside"
+          value={draft.downside}
+          onChange={(e) => setDraft({ ...draft, downside: e.target.value })}
+        />
+        <button
+          type="button"
+          onClick={addCustom}
+          disabled={
+            saving ||
+            !draft.name.trim() ||
+            !draft.upside.trim() ||
+            !draft.downside.trim()
+          }
+          className="self-start disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {saving ? "Adding…" : "Add trait"}
+        </button>
+      </div>
     </>
   );
 };

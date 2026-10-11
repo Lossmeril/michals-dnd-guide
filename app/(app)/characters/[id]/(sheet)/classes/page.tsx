@@ -3,8 +3,8 @@
 import { use } from "react";
 import Card, { SkeletonCard } from "@/components/ui/card";
 import Eyebrow from "@/components/ui/eyebrow";
+import MagicBadge from "@/components/ui/magicBadge";
 import { Heading } from "@/components/ui/typography";
-import { magicLabel } from "@/lib/rules/format";
 import { useCharacterSheet } from "../useCharacterSheet";
 
 const CharacterClassesPage = ({
@@ -32,15 +32,7 @@ const CharacterClassesPage = ({
             link={`/characters/${characterId}/classes/${cls.id}`}
             eyeBrow={[
               <Eyebrow key="rank" text={cls.rank} />,
-              ...(magicLabel(cls.magic)
-                ? [
-                    <Eyebrow
-                      key="magic"
-                      text={magicLabel(cls.magic)!}
-                      color="purple"
-                    />,
-                  ]
-                : []),
+              <MagicBadge key="magic" magic={cls.magic} />,
             ]}
           >
             <p className="text-xs text-dnd-ink/75 line-clamp-3">

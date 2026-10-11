@@ -9,9 +9,24 @@ const db = async () => createClient(await cookies());
 // The whole rulebook in one go; it's small and every editor step needs it
 export const fetchRulebook = async (): Promise<Rulebook> => {
   const supabase = await db();
-  const [races, classes, skills, classParents, perks, classPerks, requirements] =
+  const [
+    races,
+    backgrounds,
+    languages,
+    traits,
+    classes,
+    skills,
+    classParents,
+    perks,
+    classPerks,
+    requirements,
+  ] =
     await Promise.all([
       supabase.from("races").select().order("sort"),
+      supabase.from("backgrounds").select().order("sort"),
+      supabase.from("languages").select().order("sort"),
+      // RLS returns premade, approved and the viewer's own custom traits
+      supabase.from("traits").select().order("name"),
       supabase.from("classes").select().order("sort"),
       supabase.from("skills").select().order("sort"),
       supabase.from("class_parents").select(),
@@ -20,12 +35,22 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
       supabase.from("perk_requirements").select("*, perk_requirement_classes(class_id)"),
     ]);
 
-  for (const r of [races, classes, skills, classParents, perks, classPerks, requirements]) {
+  for (const r of [
+    races,
+    backgrounds,
+    languages,
+    traits,
+    classes,
+    skills,
+    classParents, perks, classPerks, requirements]) {
     if (r.error) throw r.error;
   }
 
   return {
     races: races.data!,
+    backgrounds: backgrounds.data!,
+    languages: languages.data!,
+    traits: traits.data!,
     classes: classes.data!,
     skills: skills.data!,
     classParents: classParents.data!,

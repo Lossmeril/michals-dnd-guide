@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      backgrounds: {
+        Row: {
+          coins_copper: number
+          description: string | null
+          equipment: string | null
+          extra_languages: number
+          id: string
+          known_settings: string | null
+          material: number
+          name: string
+          sort: number
+        }
+        Insert: {
+          coins_copper?: number
+          description?: string | null
+          equipment?: string | null
+          extra_languages?: number
+          id: string
+          known_settings?: string | null
+          material?: number
+          name: string
+          sort?: number
+        }
+        Update: {
+          coins_copper?: number
+          description?: string | null
+          equipment?: string | null
+          extra_languages?: number
+          id?: string
+          known_settings?: string | null
+          material?: number
+          name?: string
+          sort?: number
+        }
+        Relationships: []
+      }
       campaign_players: {
         Row: {
           campaign_id: number
@@ -151,6 +187,36 @@ export type Database = {
           },
         ]
       }
+      character_languages: {
+        Row: {
+          character_id: number
+          language_id: string
+        }
+        Insert: {
+          character_id: number
+          language_id: string
+        }
+        Update: {
+          character_id?: number
+          language_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_languages_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_languages_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       character_perks: {
         Row: {
           acquired_at: string
@@ -197,8 +263,39 @@ export type Database = {
           },
         ]
       }
+      character_traits: {
+        Row: {
+          character_id: number
+          trait_id: number
+        }
+        Insert: {
+          character_id: number
+          trait_id: number
+        }
+        Update: {
+          character_id?: number
+          trait_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_traits_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_traits_trait_id_fkey"
+            columns: ["trait_id"]
+            isOneToOne: false
+            referencedRelation: "traits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       characters: {
         Row: {
+          background_id: string | null
           backstory: string | null
           body: number
           charisma: number
@@ -212,6 +309,7 @@ export type Database = {
           start_level: number
         }
         Insert: {
+          background_id?: string | null
           backstory?: string | null
           body?: number
           charisma?: number
@@ -225,6 +323,7 @@ export type Database = {
           start_level?: number
         }
         Update: {
+          background_id?: string | null
           backstory?: string | null
           body?: number
           charisma?: number
@@ -238,6 +337,13 @@ export type Database = {
           start_level?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "characters_background_id_fkey"
+            columns: ["background_id"]
+            isOneToOne: false
+            referencedRelation: "backgrounds"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "characters_owner_fkey"
             columns: ["owner"]
@@ -349,6 +455,27 @@ export type Database = {
           magic?: Database["public"]["Enums"]["class_magic"]
           name?: string
           rank?: Database["public"]["Enums"]["class_rank"]
+          sort?: number
+        }
+        Relationships: []
+      }
+      languages: {
+        Row: {
+          description: string | null
+          id: string
+          name: string
+          sort: number
+        }
+        Insert: {
+          description?: string | null
+          id: string
+          name: string
+          sort?: number
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          name?: string
           sort?: number
         }
         Relationships: []
@@ -523,6 +650,7 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          language_id: string | null
           name: string
           plural: string | null
           sort: number
@@ -532,6 +660,7 @@ export type Database = {
           description?: string | null
           id: string
           image_url?: string | null
+          language_id?: string | null
           name: string
           plural?: string | null
           sort?: number
@@ -541,11 +670,20 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          language_id?: string | null
           name?: string
           plural?: string | null
           sort?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "races_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       skills: {
         Row: {
@@ -585,6 +723,54 @@ export type Database = {
           },
         ]
       }
+      traits: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          downside: string
+          id: number
+          is_custom: boolean
+          name: string
+          upside: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          downside: string
+          id?: number
+          is_custom?: boolean
+          name: string
+          upside: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          downside?: string
+          id?: number
+          is_custom?: boolean
+          name?: string
+          upside?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "traits_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "traits_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -598,17 +784,20 @@ export type Database = {
       }
       save_character_build: {
         Args: {
+          p_background_id?: string
           p_backstory?: string
           p_body: number
           p_character_id?: number
           p_charisma: number
           p_classes: Json
+          p_languages: Json
           p_level: number
           p_name: string
           p_perks: Json
           p_race_id?: string
           p_soul: number
           p_start_level: number
+          p_traits: Json
         }
         Returns: number
       }

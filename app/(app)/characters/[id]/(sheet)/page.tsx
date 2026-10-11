@@ -6,6 +6,8 @@ import { SkeletonCard } from "@/components/ui/card";
 import Eyebrow from "@/components/ui/eyebrow";
 import StatBlock from "@/components/ui/statBlock";
 import { Heading } from "@/components/ui/typography";
+import { freeLanguages } from "@/lib/rules/character";
+import { formatCoins } from "@/lib/rules/format";
 import { useCharacterSheet } from "./useCharacterSheet";
 
 const POOLS = ["body", "soul", "charisma"] as const;
@@ -19,6 +21,11 @@ const CharacterOverviewPage = ({ params }: PageProps<"/characters/[id]">) => {
   const { rb, character, build, ownerName, isOwner } = sheet;
   const race = rb.races.find((r) => r.id === build.raceId);
   const classes = rb.classes.filter((c) => build.classes[c.id]);
+  const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  const languages = [...freeLanguages(rb, build), ...build.languages]
+    .map((id) => rb.languages.find((l) => l.id === id)?.name)
+    .filter(Boolean);
+  const traits = rb.traits.filter((t) => build.traitIds.includes(t.id));
 
   return (
     <>
@@ -65,6 +72,73 @@ const CharacterOverviewPage = ({ params }: PageProps<"/characters/[id]">) => {
           )}
         </div>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+        <section>
+          <Heading level={2}>Background</Heading>
+          {background ? (
+            <dl className="text-sm flex flex-col gap-2">
+              <div>
+                <dt className="font-bold libre text-dnd-red">
+                  {background.name}
+                </dt>
+                {background.description && <dd>{background.description}</dd>}
+              </div>
+              {background.equipment && (
+                <div>
+                  <dt className="font-bold">Starting gear</dt>
+                  <dd>{background.equipment}</dd>
+                </div>
+              )}
+              <div>
+                <dt className="font-bold">Starting purse</dt>
+                <dd>
+                  {formatCoins(background.coins_copper)} · {background.material}{" "}
+                  Material
+                </dd>
+              </div>
+              {background.known_settings && (
+                <div>
+                  <dt className="font-bold">Knows their way around</dt>
+                  <dd>{background.known_settings}</dd>
+                </div>
+              )}
+            </dl>
+          ) : (
+            <p>No background picked yet.</p>
+          )}
+        </section>
+
+        <section>
+          <Heading level={2}>Languages</Heading>
+          <p className="text-sm">{languages.join(", ")}</p>
+        </section>
+      </div>
+
+      {traits.length > 0 && (
+        <section className="mb-12">
+          <Heading level={2}>Traits</Heading>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {traits.map((t) => (
+              <li
+                key={t.id}
+                className="p-4 bg-dnd-bg border border-dnd-gold rounded-lg text-sm"
+              >
+                <p className="font-bold libre text-dnd-red">
+                  {t.name}
+                  {t.is_custom && !t.approved_by && (
+                    <span className="ml-2 text-xs font-normal text-dnd-ink/60">
+                      awaiting DM approval
+                    </span>
+                  )}
+                </p>
+                <p>+ {t.upside}</p>
+                <p>− {t.downside}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {character.backstory && (
         <section className="mb-12">

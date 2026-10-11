@@ -7,6 +7,7 @@ import { SkeletonCard } from "@/components/ui/card";
 import { Heading } from "@/components/ui/typography";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
+import { convertToWebp } from "@/lib/convertToWebp";
 import {
   type Build,
   characterLevel,
@@ -15,14 +16,18 @@ import {
   STARTS,
   validateBuild,
 } from "@/lib/rules/character";
-import { saveCharacter } from "./actions";
+import { saveCharacter, uploadCharacterPortrait } from "./actions";
 import {
+  BackgroundStep,
   ClassesStep,
   PerksStep,
   RaceStep,
   ResourcesStep,
   StartStep,
+  TraitsStep,
 } from "./steps";
+
+const MAX_PORTRAIT_SIZE = 2 * 1024 * 1024; // the characters bucket's limit
 
 interface CharacterEditorProps {
   /** Omit to create a new character */
@@ -38,6 +43,9 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   const [level, setLevel] = useState<number>(STARTS[1].level);
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
+  // Uploaded after saving, since a new character has no id before that
+  const [portrait, setPortrait] = useState<File | null>(null);
+  const [portraitUrl, setPortraitUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -51,6 +59,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           setName(existing.character.name);
           setBackstory(existing.character.backstory ?? "");
           setLevel(existing.character.level);
+          setPortraitUrl(existing.character.image_url);
         }
         setRb(rulebook);
       } catch (error) {
@@ -78,9 +87,21 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           },
         ]),
     { title: "Race", body: <RaceStep {...stepProps} /> },
+    { title: "Background", body: <BackgroundStep {...stepProps} /> },
     { title: "Classes", body: <ClassesStep {...stepProps} /> },
     { title: "Perks", body: <PerksStep {...stepProps} /> },
     { title: "Resources", body: <ResourcesStep {...stepProps} /> },
+    {
+      title: "Traits",
+      body: (
+        <TraitsStep
+          {...stepProps}
+          onTraitCreated={(trait) =>
+            setRb({ ...rb, traits: [...rb.traits, trait] })
+          }
+        />
+      ),
+    },
     { title: "Details", body: null },
   ];
   const isLast = step === steps.length - 1;
@@ -94,8 +115,18 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       startLevel: level,
       build,
     });
+    if (error !== null) {
+      setSaving(false);
+      return toast.error(error);
+    }
+
+    if (portrait) {
+      const fd = new FormData();
+      fd.append("file", portrait);
+      const upload = await uploadCharacterPortrait(data, fd);
+      if (upload.error !== null) toast.error(`Portrait: ${upload.error}`);
+    }
     setSaving(false);
-    if (error !== null) return toast.error(error);
     toast.success("Character saved");
     router.push(`/characters/${data}`);
   };
@@ -144,6 +175,45 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <div className="flex items-center gap-4">
+            {portraitUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={portraitUrl}
+                alt="Portrait"
+                className="w-24 h-24 rounded-lg object-cover border border-dnd-gold"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-lg bg-gray-200 flex items-center justify-center text-xs text-gray-500">
+                No portrait
+              </div>
+            )}
+            <label className="button cursor-pointer">
+              {portraitUrl ? "Change portrait" : "Add portrait"}
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={async (e) => {
+                  const original = e.target.files?.[0];
+                  if (!original) return;
+                  let file: File;
+                  try {
+                    file = await convertToWebp(original, {
+                      maxDimension: 1024,
+                    });
+                  } catch {
+                    return toast.error("Couldn't read that image.");
+                  }
+                  if (file.size > MAX_PORTRAIT_SIZE) {
+                    return toast.error("Image must be smaller than 2MB.");
+                  }
+                  setPortrait(file);
+                  setPortraitUrl(URL.createObjectURL(file));
+                }}
+              />
+            </label>
+          </div>
           <textarea
             rows={6}
             placeholder="Backstory"

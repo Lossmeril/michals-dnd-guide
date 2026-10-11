@@ -9,15 +9,24 @@ const db = async () => createClient(await cookies());
 export const fetchCharacterBuild = async (characterId: number) => {
   const { data, error } = await (await db())
     .from("characters")
-    .select("*, character_classes(class_id, level), character_perks(perk_id, class_id)")
+    .select("*, character_classes(class_id, level), character_perks(perk_id, class_id), character_languages(language_id), character_traits(trait_id)")
     .eq("id", characterId)
     .maybeSingle();
   if (error) throw error;
   if (!data) return null;
 
-  const { character_classes, character_perks, ...character } = data;
+  const {
+    character_classes,
+    character_perks,
+    character_languages,
+    character_traits,
+    ...character
+  } = data;
   const build: Build = {
     raceId: character.race_id,
+    backgroundId: character.background_id,
+    languages: character_languages.map((l) => l.language_id),
+    traitIds: character_traits.map((t) => t.trait_id),
     classes: Object.fromEntries(character_classes.map((c) => [c.class_id, c.level])),
     perks: character_perks.map((p) => ({ perkId: p.perk_id, classId: p.class_id })),
     body: character.body,

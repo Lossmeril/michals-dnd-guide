@@ -18,6 +18,10 @@ export type Requirement = Tables<"perk_requirements"> & { class_ids: string[] };
 
 export type Rulebook = {
   races: Tables<"races">[];
+  backgrounds: Tables<"backgrounds">[];
+  languages: Tables<"languages">[];
+  /** Premade traits, approved custom ones, and the viewer's own */
+  traits: Tables<"traits">[];
   classes: Tables<"classes">[];
   skills: Tables<"skills">[];
   classParents: Tables<"class_parents">[];
@@ -30,6 +34,10 @@ export type ChosenPerk = { perkId: string; classId: string | null };
 
 export type Build = {
   raceId: string | null;
+  backgroundId: string | null;
+  /** Extra languages the player picked; Common and the racial language are free */
+  languages: string[];
+  traitIds: number[];
   /** Class id -> level (1–5); classes not taken are absent */
   classes: Record<string, number>;
   /** Perks the player picked; classId is null for the racial perk */
@@ -41,6 +49,9 @@ export type Build = {
 
 export const emptyBuild = (): Build => ({
   raceId: null,
+  backgroundId: null,
+  languages: [],
+  traitIds: [],
   classes: {},
   perks: [],
   body: 5,
@@ -55,6 +66,25 @@ export const findClass = (rb: Rulebook, id: string) =>
 
 export const findPerk = (rb: Rulebook, id: string) =>
   rb.perks.find((p) => p.id === id);
+
+// ----- Languages -----
+
+export const COMMON_LANGUAGE = "common";
+
+/** Languages every character of this race speaks without picking them */
+export const freeLanguages = (rb: Rulebook, build: Build) => {
+  const race = rb.races.find((r) => r.id === build.raceId);
+  return [COMMON_LANGUAGE, ...(race?.language_id ? [race.language_id] : [])];
+};
+
+/** Races without their own language pick one extra; backgrounds add more */
+export const languageSlots = (rb: Rulebook, build: Build) => {
+  const race = rb.races.find((r) => r.id === build.raceId);
+  const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  return (
+    (race && !race.language_id ? 1 : 0) + (background?.extra_languages ?? 0)
+  );
+};
 
 // ----- Classes -----
 
@@ -199,6 +229,21 @@ export const validateBuild = (rb: Rulebook, build: Build, level: number) => {
   const held = heldPerkIds(rb, build);
 
   if (!build.raceId) errors.push("Pick a race.");
+  if (!build.backgroundId) errors.push("Pick a background.");
+
+  const slots = languageSlots(rb, build);
+  const free = freeLanguages(rb, build);
+  if (build.languages.some((l) => free.includes(l))) {
+    errors.push("You already speak that language for free.");
+  }
+  if (build.languages.length < slots) {
+    errors.push(`Pick ${slots - build.languages.length} more language(s).`);
+  } else if (build.languages.length > slots) {
+    errors.push(`You can only pick ${slots} extra language(s).`);
+  }
+  for (const id of build.traitIds) {
+    if (!rb.traits.some((t) => t.id === id)) errors.push("Unknown trait.");
+  }
   const racial = build.perks.filter((p) => p.classId === null);
   if (build.raceId && racial.length !== 1) errors.push("Pick one racial perk.");
   for (const p of racial) {

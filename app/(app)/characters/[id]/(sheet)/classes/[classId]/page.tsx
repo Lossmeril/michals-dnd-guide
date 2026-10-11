@@ -4,6 +4,7 @@ import { use } from "react";
 import { SkeletonCard } from "@/components/ui/card";
 import CoverImage from "@/components/ui/coverImage";
 import Eyebrow from "@/components/ui/eyebrow";
+import MagicBadge from "@/components/ui/magicBadge";
 import PerkCard from "@/components/ui/perkCard";
 import { Heading } from "@/components/ui/typography";
 import {
@@ -16,7 +17,7 @@ import {
   heldAspects,
   requirementsOf,
 } from "@/lib/rules/character";
-import { magicLabel, RESOURCE_NAMES } from "@/lib/rules/format";
+import { RESOURCE_NAMES } from "@/lib/rules/format";
 import { useCharacterSheet } from "../../useCharacterSheet";
 
 const CharacterClassPage = ({
@@ -45,9 +46,7 @@ const CharacterClassPage = ({
       {cls.image_url && <CoverImage src={cls.image_url} alt={cls.name} />}
       <div className="flex flex-wrap gap-2 mb-2">
         <Eyebrow text={cls.rank} />
-        {magicLabel(cls.magic) && (
-          <Eyebrow text={magicLabel(cls.magic)!} color="purple" />
-        )}
+        <MagicBadge magic={cls.magic} />
       </div>
       <Heading level={1}>
         {cls.name} {level}

@@ -1,6 +1,4 @@
 import { twMerge } from "tailwind-merge";
-import { PerkImage } from "@/components/ui/perkCard";
-import type { Tables } from "@/lib/types/database.types";
 
 interface ChoiceCardProps {
   title: string;
@@ -11,8 +9,8 @@ interface ChoiceCardProps {
   disabled?: boolean;
   /** radio picks one of a group, checkbox toggles */
   type?: "radio" | "checkbox";
-  /** Shows the perk picture next to the text */
-  perk?: Tables<"perks">;
+  /** Picture shown left of the text, e.g. a perk image or a <Thumb /> */
+  image?: React.ReactNode;
   onSelect: () => void;
 }
 
@@ -23,7 +21,7 @@ export const ChoiceCard: React.FC<ChoiceCardProps> = ({
   checked,
   disabled = false,
   type = "radio",
-  perk,
+  image,
   onSelect,
 }) => (
   <label
@@ -43,7 +41,7 @@ export const ChoiceCard: React.FC<ChoiceCardProps> = ({
       className="sr-only"
     />
     <div className="flex gap-3">
-      {perk && <PerkImage perk={perk} className="w-16" />}
+      {image}
       <div className="min-w-0">
         <p className="font-bold text-dnd-red libre">{title}</p>
         {note && <p className="text-xs text-dnd-ink/60 mb-1">{note}</p>}
@@ -54,3 +52,17 @@ export const ChoiceCard: React.FC<ChoiceCardProps> = ({
     </div>
   </label>
 );
+
+/** Small rounded picture for rows and choice cards */
+export const Thumb: React.FC<{ src: string | null; className?: string }> = ({
+  src,
+  className,
+}) =>
+  src ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className={twMerge("w-16 h-16 rounded object-cover shrink-0", className)}
+    />
+  ) : null;

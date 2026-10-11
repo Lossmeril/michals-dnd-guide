@@ -424,6 +424,7 @@ Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also spe
 - **How many:** no limit; a player can take as many as they like.
 - **Custom traits need approval** from the campaign DM, who checks that the downside balances the upside.
 - **Later:** the DM can grant traits as a **story event**, and a trait can be **removed**, e.g. by overcoming it in the story.
+- *(Draft.)* Eight premade traits are in the database as a starting point: Hothead, Light sleeper, Glutton, Pious, Coward, Show-off, Bookworm, Superstitious. Rewrite or replace them freely.
 - Traits are flavour and challenge. They don't count towards level (see [Validating a character's level](#validating-a-characters-level)).
 
 ## Roles in the app
