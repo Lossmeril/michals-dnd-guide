@@ -1,5 +1,6 @@
+import { requireUser } from "../auth";
 import { fetchCampaign_Players } from "../endpoints/campaign_players";
-import { fetchCampaigns } from "../endpoints/campaigns";
+import { fetchCampaign, fetchCampaigns } from "../endpoints/campaigns";
 import { fetchCharacters } from "../endpoints/characters";
 import { fetchProfiles } from "../endpoints/profiles";
 
@@ -79,3 +80,46 @@ export const fetchPlayersInCampaign = async (
 
   return playersInCampaign.length > 0 ? playersInCampaign : null;
 };
+
+export const fetchCampaignDetails = async (campaignId: number) => {
+  const [user, campaign, campaignPlayers, characters, profiles] =
+    await Promise.all([
+      requireUser(),
+      fetchCampaign(campaignId),
+      fetchCampaign_Players(),
+      fetchCharacters(),
+      fetchProfiles(),
+    ]);
+
+  if (!campaign) return null;
+
+  const memberIds = campaignPlayers
+    .filter((cp) => cp.campaign_id === campaignId)
+    .map((cp) => cp.character_id);
+
+  const playerName = (profileId: string) =>
+    profiles.find((p) => p.id === profileId)?.display_name || "Unknown";
+
+  return {
+    campaign,
+    isDm: campaign.dm === user.id,
+    dmName: campaign.dm ? playerName(campaign.dm) : null,
+    members: characters
+      .filter((c) => memberIds.includes(c.id))
+      .map((character) => ({
+        character,
+        playerName: playerName(character.owner),
+      })),
+    // Characters the DM can still add to the campaign
+    availableCharacters: characters
+      .filter((c) => !memberIds.includes(c.id))
+      .map((character) => ({
+        character,
+        playerName: playerName(character.owner),
+      })),
+  };
+};
+
+export type CampaignDetails = NonNullable<
+  Awaited<ReturnType<typeof fetchCampaignDetails>>
+>;

@@ -42,6 +42,7 @@ const CampaignCard: React.FC<{
     <Card
       key={campaign.id}
       title={campaign.name || "Unnamed Campaign"}
+      link={`/campaigns/${campaign.id}`}
       imageUrl={campaign.image_url?.trim() || IMG_DEFAULTS.campaign_image}
       imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
       eyeBrow={[

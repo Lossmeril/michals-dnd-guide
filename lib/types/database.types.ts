@@ -47,20 +47,62 @@ export type Database = {
           },
         ]
       }
+      campaign_updates: {
+        Row: {
+          author: string
+          body: string
+          campaign_id: number
+          created_at: string
+          id: number
+        }
+        Insert: {
+          author?: string
+          body: string
+          campaign_id: number
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          author?: string
+          body?: string
+          campaign_id?: number
+          created_at?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_updates_author_fkey"
+            columns: ["author"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_updates_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
+          description: string | null
           dm: string | null
           id: number
           image_url: string | null
           name: string | null
         }
         Insert: {
+          description?: string | null
           dm?: string | null
           id?: number
           image_url?: string | null
           name?: string | null
         }
         Update: {
+          description?: string | null
           dm?: string | null
           id?: number
           image_url?: string | null
@@ -76,32 +118,123 @@ export type Database = {
           },
         ]
       }
+      character_classes: {
+        Row: {
+          character_id: number
+          class_id: string
+          level: number
+        }
+        Insert: {
+          character_id: number
+          class_id: string
+          level: number
+        }
+        Update: {
+          character_id?: number
+          class_id?: string
+          level?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_classes_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_classes_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      character_perks: {
+        Row: {
+          acquired_at: string
+          character_id: number
+          class_id: string | null
+          id: number
+          perk_id: string
+        }
+        Insert: {
+          acquired_at?: string
+          character_id: number
+          class_id?: string | null
+          id?: number
+          perk_id: string
+        }
+        Update: {
+          acquired_at?: string
+          character_id?: number
+          class_id?: string | null
+          id?: number
+          perk_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_perks_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_perks_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_perks_perk_id_fkey"
+            columns: ["perk_id"]
+            isOneToOne: false
+            referencedRelation: "perks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       characters: {
         Row: {
           backstory: string | null
+          body: number
+          charisma: number
           id: number
           image_url: string | null
           level: number
           name: string
           owner: string
+          race_id: string | null
+          soul: number
           start_level: number
         }
         Insert: {
           backstory?: string | null
+          body?: number
+          charisma?: number
           id?: number
           image_url?: string | null
           level?: number
           name: string
           owner: string
+          race_id?: string | null
+          soul?: number
           start_level?: number
         }
         Update: {
           backstory?: string | null
+          body?: number
+          charisma?: number
           id?: number
           image_url?: string | null
           level?: number
           name?: string
           owner?: string
+          race_id?: string | null
+          soul?: number
           start_level?: number
         }
         Relationships: [
@@ -110,6 +243,252 @@ export type Database = {
             columns: ["owner"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "characters_race_id_fkey"
+            columns: ["race_id"]
+            isOneToOne: false
+            referencedRelation: "races"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_parents: {
+        Row: {
+          class_id: string
+          parent_id: string
+        }
+        Insert: {
+          class_id: string
+          parent_id: string
+        }
+        Update: {
+          class_id?: string
+          parent_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_parents_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_parents_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_perks: {
+        Row: {
+          class_id: string
+          is_core: boolean
+          perk_id: string
+          sort: number
+        }
+        Insert: {
+          class_id: string
+          is_core?: boolean
+          perk_id: string
+          sort?: number
+        }
+        Update: {
+          class_id?: string
+          is_core?: boolean
+          perk_id?: string
+          sort?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_perks_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_perks_perk_id_fkey"
+            columns: ["perk_id"]
+            isOneToOne: false
+            referencedRelation: "perks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      classes: {
+        Row: {
+          color: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          magic: Database["public"]["Enums"]["class_magic"]
+          name: string
+          rank: Database["public"]["Enums"]["class_rank"]
+          sort: number
+        }
+        Insert: {
+          color?: string | null
+          description?: string | null
+          id: string
+          image_url?: string | null
+          magic?: Database["public"]["Enums"]["class_magic"]
+          name: string
+          rank: Database["public"]["Enums"]["class_rank"]
+          sort?: number
+        }
+        Update: {
+          color?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          magic?: Database["public"]["Enums"]["class_magic"]
+          name?: string
+          rank?: Database["public"]["Enums"]["class_rank"]
+          sort?: number
+        }
+        Relationships: []
+      }
+      perk_requirement_classes: {
+        Row: {
+          class_id: string
+          requirement_id: number
+        }
+        Insert: {
+          class_id: string
+          requirement_id: number
+        }
+        Update: {
+          class_id?: string
+          requirement_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "perk_requirement_classes_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "perk_requirement_classes_requirement_id_fkey"
+            columns: ["requirement_id"]
+            isOneToOne: false
+            referencedRelation: "perk_requirements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      perk_requirements: {
+        Row: {
+          id: number
+          kind: Database["public"]["Enums"]["requirement_kind"]
+          level: number | null
+          perk_id: string
+          required_perk_id: string | null
+        }
+        Insert: {
+          id?: number
+          kind: Database["public"]["Enums"]["requirement_kind"]
+          level?: number | null
+          perk_id: string
+          required_perk_id?: string | null
+        }
+        Update: {
+          id?: number
+          kind?: Database["public"]["Enums"]["requirement_kind"]
+          level?: number | null
+          perk_id?: string
+          required_perk_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "perk_requirements_perk_id_fkey"
+            columns: ["perk_id"]
+            isOneToOne: false
+            referencedRelation: "perks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "perk_requirements_required_perk_id_fkey"
+            columns: ["required_perk_id"]
+            isOneToOne: false
+            referencedRelation: "perks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      perks: {
+        Row: {
+          area: string | null
+          components:
+            | Database["public"]["Enums"]["spell_component_type"][]
+            | null
+          cost_amount: number | null
+          cost_resource: Database["public"]["Enums"]["cost_resource"] | null
+          cost_unit: string | null
+          damage: string | null
+          damage_types: Database["public"]["Enums"]["damage_type"][] | null
+          description: string | null
+          duration: Database["public"]["Enums"]["spell_duration"] | null
+          id: string
+          image_url: string | null
+          kind: Database["public"]["Enums"]["perk_kind"]
+          material_note: string | null
+          name: string
+          race_id: string | null
+          range: string | null
+        }
+        Insert: {
+          area?: string | null
+          components?:
+            | Database["public"]["Enums"]["spell_component_type"][]
+            | null
+          cost_amount?: number | null
+          cost_resource?: Database["public"]["Enums"]["cost_resource"] | null
+          cost_unit?: string | null
+          damage?: string | null
+          damage_types?: Database["public"]["Enums"]["damage_type"][] | null
+          description?: string | null
+          duration?: Database["public"]["Enums"]["spell_duration"] | null
+          id: string
+          image_url?: string | null
+          kind?: Database["public"]["Enums"]["perk_kind"]
+          material_note?: string | null
+          name: string
+          race_id?: string | null
+          range?: string | null
+        }
+        Update: {
+          area?: string | null
+          components?:
+            | Database["public"]["Enums"]["spell_component_type"][]
+            | null
+          cost_amount?: number | null
+          cost_resource?: Database["public"]["Enums"]["cost_resource"] | null
+          cost_unit?: string | null
+          damage?: string | null
+          damage_types?: Database["public"]["Enums"]["damage_type"][] | null
+          description?: string | null
+          duration?: Database["public"]["Enums"]["spell_duration"] | null
+          id?: string
+          image_url?: string | null
+          kind?: Database["public"]["Enums"]["perk_kind"]
+          material_note?: string | null
+          name?: string
+          race_id?: string | null
+          range?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "perks_race_id_fkey"
+            columns: ["race_id"]
+            isOneToOne: false
+            referencedRelation: "races"
             referencedColumns: ["id"]
           },
         ]
@@ -138,21 +517,121 @@ export type Database = {
         }
         Relationships: []
       }
+      races: {
+        Row: {
+          blurb: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          plural: string | null
+          sort: number
+        }
+        Insert: {
+          blurb?: string | null
+          description?: string | null
+          id: string
+          image_url?: string | null
+          name: string
+          plural?: string | null
+          sort?: number
+        }
+        Update: {
+          blurb?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          plural?: string | null
+          sort?: number
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          class_id: string
+          description: string | null
+          id: number
+          is_unique: boolean
+          name: string
+          resource: Database["public"]["Enums"]["resource_pool"]
+          sort: number
+        }
+        Insert: {
+          class_id: string
+          description?: string | null
+          id?: number
+          is_unique?: boolean
+          name: string
+          resource: Database["public"]["Enums"]["resource_pool"]
+          sort?: number
+        }
+        Update: {
+          class_id?: string
+          description?: string | null
+          id?: number
+          is_unique?: boolean
+          name?: string
+          resource?: Database["public"]["Enums"]["resource_pool"]
+          sort?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skills_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      is_campaign_member: { Args: { cid: number }; Returns: boolean }
       my_role: {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]
+      }
+      save_character_build: {
+        Args: {
+          p_backstory?: string
+          p_body: number
+          p_character_id?: number
+          p_charisma: number
+          p_classes: Json
+          p_level: number
+          p_name: string
+          p_perks: Json
+          p_race_id?: string
+          p_soul: number
+          p_start_level: number
+        }
+        Returns: number
       }
     }
     Enums: {
       class_magic: "none" | "full" | "pseudo"
       class_rank: "basic" | "advanced" | "mighty"
       cost_resource: "body" | "soul" | "charisma" | "material" | "coin"
+      damage_type:
+        | "fire"
+        | "ice"
+        | "lightning"
+        | "poison"
+        | "psychic"
+        | "necrotic"
+        | "radiant"
+        | "force"
+        | "thunder"
+        | "acid"
+        | "piercing"
+        | "slashing"
+        | "bludgeoning"
+      perk_kind: "perk" | "spell" | "racial" | "aspect"
       requirement_kind:
         | "class_level"
         | "class_levels_all"
@@ -299,6 +778,22 @@ export const Constants = {
       class_magic: ["none", "full", "pseudo"],
       class_rank: ["basic", "advanced", "mighty"],
       cost_resource: ["body", "soul", "charisma", "material", "coin"],
+      damage_type: [
+        "fire",
+        "ice",
+        "lightning",
+        "poison",
+        "psychic",
+        "necrotic",
+        "radiant",
+        "force",
+        "thunder",
+        "acid",
+        "piercing",
+        "slashing",
+        "bludgeoning",
+      ],
+      perk_kind: ["perk", "spell", "racial", "aspect"],
       requirement_kind: [
         "class_level",
         "class_levels_all",
