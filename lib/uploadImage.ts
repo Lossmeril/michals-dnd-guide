@@ -11,6 +11,7 @@ export const imageTargets = {
   classes: { bucket: "ruleset", folder: "classes" },
   races: { bucket: "ruleset", folder: "races" },
   perks: { bucket: "ruleset", folder: "perks" },
+  traits: { bucket: "ruleset", folder: "traits" },
 } as const;
 
 export type ImageTarget = keyof typeof imageTargets;

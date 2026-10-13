@@ -7,6 +7,7 @@ import { Tables } from "@/lib/types/database.types";
 import Link from "next/link";
 import { Heading } from "./ui/typography";
 import { Avatar } from "./ui/avatar";
+import AdminBar from "./adminBar";
 
 const Navbar = async () => {
   const user = await getUser();
@@ -17,38 +18,44 @@ const Navbar = async () => {
   }
 
   return (
-    <nav className="h-16 w-full bg-dnd-bg border-b border-dnd-red-dark flex items-center justify-between px-4">
-      <div>
-        <Link href="/">
-          <Heading level={2} className="mb-0" justStyle>
-            Michal&apos;s D&D Guide
-          </Heading>
-        </Link>
-      </div>
-      <div className="flex flex-row gap-10 items-center">
-        {user && profile && (
-          <>
-            {" "}
-            <Link href="/profile" className="flex flex-row gap-2 items-center">
-              <Avatar
-                name={profile.display_name || user.email!}
-                imgSrc={profile.avatar_url ? profile.avatar_url : undefined}
-              />
+    <>
+      <nav className="h-16 w-full bg-dnd-bg border-b border-dnd-red-dark flex items-center justify-between px-4">
+        <div>
+          <Link href="/">
+            <Heading level={2} className="mb-0" justStyle>
+              Michal&apos;s D&D Guide
+            </Heading>
+          </Link>
+        </div>
+        <div className="flex flex-row gap-10 items-center">
+          {user && profile && (
+            <>
+              {" "}
+              <Link
+                href="/profile"
+                className="flex flex-row gap-2 items-center"
+              >
+                <Avatar
+                  name={profile.display_name || user.email!}
+                  imgSrc={profile.avatar_url ? profile.avatar_url : undefined}
+                />
 
-              <p>{profile.display_name || user.email}</p>
-            </Link>
-            <form action={logout}>
-              <button type="submit">Log out</button>
-            </form>
-          </>
-        )}
-        {!user && (
-          <a href="/login" className="text-dnd-red button">
-            Log in
-          </a>
-        )}
-      </div>
-    </nav>
+                <p>{profile.display_name || user.email}</p>
+              </Link>
+              <form action={logout}>
+                <button type="submit">Log out</button>
+              </form>
+            </>
+          )}
+          {!user && (
+            <a href="/login" className="text-dnd-red button">
+              Log in
+            </a>
+          )}
+        </div>
+      </nav>
+      {profile?.role === "admin" && <AdminBar />}
+    </>
   );
 };
 

@@ -16,3 +16,16 @@ export const requireUser = async () => {
   if (!user) redirect("/login");
   return user;
 };
+
+/** Sends anyone but admins home; the database enforces the same with RLS */
+export const requireAdmin = async () => {
+  const user = await requireUser();
+  const supabase = createClient(await cookies());
+  const { data } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (data?.role !== "admin") redirect("/");
+  return user;
+};
