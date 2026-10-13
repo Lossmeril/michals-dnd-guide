@@ -1,6 +1,7 @@
 "use client";
 
 import { AvatarGroup, SkeletonAvatarGroup } from "@/components/ui/avatar";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Card, { SkeletonCard } from "@/components/ui/card";
 import Eyebrow from "@/components/ui/eyebrow";
 import { Heading, SkeletonInlineText } from "@/components/ui/typography";
@@ -108,6 +109,7 @@ const CampaignsPage = () => {
 
   return (
     <>
+      <Breadcrumbs items={[{ label: "Campaigns" }]} />
       <Heading level={1}>Campaigns</Heading>
 
       <Heading level={2}>
