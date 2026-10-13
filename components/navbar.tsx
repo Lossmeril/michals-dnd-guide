@@ -28,6 +28,12 @@ const Navbar = async () => {
           </Link>
         </div>
         <div className="flex flex-row gap-10 items-center">
+          <Link
+            href="/rulebook"
+            className="libre font-bold text-dnd-red hover:text-dnd-red-dark"
+          >
+            Rulebook
+          </Link>
           {user && profile && (
             <>
               {" "}

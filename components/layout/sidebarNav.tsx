@@ -6,7 +6,8 @@ import { twMerge } from "tailwind-merge";
 
 export interface SidebarNavItem {
   label: string;
-  href: string;
+  /** Omit for a heading that only groups its items */
+  href?: string;
   /** Nested links, e.g. sections of a rulebook chapter */
   items?: SidebarNavItem[];
 }
@@ -17,17 +18,23 @@ const NavList: React.FC<{ items: SidebarNavItem[] }> = ({ items }) => {
   return (
     <ul className="flex flex-col gap-1">
       {items.map((item) => (
-        <li key={item.href}>
-          <Link
-            href={item.href}
-            className={twMerge(
-              "block border-l-2 border-transparent px-3 py-1 text-dnd-ink/75 hover:text-dnd-red hover:border-dnd-gold transition-colors",
-              pathname === item.href &&
-                "border-dnd-red text-dnd-red font-bold hover:border-dnd-red",
-            )}
-          >
-            {item.label}
-          </Link>
+        <li key={item.href ?? item.label}>
+          {!item.href ? (
+            <p className="px-3 pt-3 pb-1 text-xs font-bold uppercase tracking-wider text-dnd-ink/50">
+              {item.label}
+            </p>
+          ) : (
+            <Link
+              href={item.href}
+              className={twMerge(
+                "block border-l-2 border-transparent px-3 py-1 text-dnd-ink/75 hover:text-dnd-red hover:border-dnd-gold transition-colors",
+                pathname === item.href &&
+                  "border-dnd-red text-dnd-red font-bold hover:border-dnd-red",
+              )}
+            >
+              {item.label}
+            </Link>
+          )}
           {item.items && (
             <div className="ml-3">
               <NavList items={item.items} />

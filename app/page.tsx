@@ -12,15 +12,14 @@ const HomePage = async () => {
       </Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card
-          title="Ruleset"
+          title="Rulebook"
           imageUrl="https://www.dndbeyond.com/attachments/12/891/laying-the-spread.jpg"
           imageClassName="object-center"
-          link="/ruleset"
-          disabled
+          link="/rulebook"
         >
           <p>
-            Explore my custom ruleset for D&D, reference materials, and house
-            rules.
+            The rules: dice, resources, Scars, combat, classes and everything
+            in between.
           </p>
         </Card>
         <Card
