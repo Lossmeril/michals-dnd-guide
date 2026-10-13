@@ -52,3 +52,14 @@ export const SkeletonInlineText: React.FC<{
     />
   );
 };
+
+/** A perk's or trait's one-line gist, shown in bold italics before its rules */
+export const Flavour: React.FC<{
+  text: string | null | undefined;
+  className?: string;
+}> = ({ text, className }) =>
+  text?.trim() ? (
+    <p className={twMerge("font-bold italic libre leading-snug", className)}>
+      {text.trim()}
+    </p>
+  ) : null;

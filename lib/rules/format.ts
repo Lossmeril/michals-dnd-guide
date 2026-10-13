@@ -10,10 +10,28 @@ export const RESOURCE_NAMES: Record<string, string> = {
   coin: "coins",
 };
 
-export const costOf = (perk: Tables<"perks">) =>
-  perk.cost_amount
-    ? `Costs ${perk.cost_amount} ${RESOURCE_NAMES[perk.cost_resource!]}${perk.cost_unit ? ` per ${perk.cost_unit}` : ""}`
-    : null;
+// Pools are exhausted, Material is used up, coins are paid
+const COST_VERBS: Record<string, string> = {
+  body: "Exhaust",
+  soul: "Exhaust",
+  charisma: "Exhaust",
+  material: "Spend",
+  coin: "Pay",
+};
+
+/** e.g. "Exhaust 1 Soul per group member"; null for passive perks */
+export const costOf = (perk: Tables<"perks">) => {
+  if (!perk.cost_resource) return null;
+  const unit = perk.cost_unit?.trim();
+  return [
+    COST_VERBS[perk.cost_resource],
+    perk.cost_amount ?? "a variable amount of",
+    RESOURCE_NAMES[perk.cost_resource],
+    unit && (unit.startsWith("per ") ? unit : `per ${unit}`),
+  ]
+    .filter(Boolean)
+    .join(" ");
+};
 
 export const DURATION_NAMES: Record<string, string> = {
   instantaneous: "Instant",
@@ -23,20 +41,6 @@ export const DURATION_NAMES: Record<string, string> = {
   long: "Until the next solstice or equinox",
   will: "Until dismissed",
 };
-
-/** One line of spell details, e.g. "Somatic · 10 metres · 1d6 fire" */
-export const spellLine = (perk: Tables<"perks">) =>
-  [
-    perk.components?.join(", "),
-    perk.material_note,
-    perk.range,
-    perk.area,
-    perk.damage &&
-      `${perk.damage}${perk.damage_types ? ` ${perk.damage_types.join("/")}` : ""}`,
-    perk.duration && DURATION_NAMES[perk.duration],
-  ]
-    .filter(Boolean)
-    .join(" · ");
 
 /** 1 gold = 100 silver = 1000 copper */
 export const formatCoins = (copper: number) =>

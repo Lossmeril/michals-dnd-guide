@@ -112,6 +112,47 @@
     @apply bg-dnd-red text-white px-4 py-2 hover:bg-dnd-red/80 transition-colors duration-200 hover:cursor-pointer rounded-full;
   }
 
+  // Outlined, for the less important of two buttons
+  button.button-secondary,
+  a.button-secondary,
+  label.button-secondary {
+    @apply bg-transparent text-dnd-red border border-dnd-red hover:bg-dnd-red/10;
+  }
+
+  // A text link with an arrow, e.g. "Create an account →"
+  .button-link {
+    @apply inline-block font-bold text-dnd-red-dark transition-transform hover:translate-x-0.5;
+    font-family: var(--font-libre-baskerville);
+  }
+
+  // -------------------------------------
+  // Rulebook text
+  // -------------------------------------
+  .rules {
+    > p,
+    > ul,
+    > ol {
+      @apply mb-4 leading-relaxed;
+    }
+    > ul {
+      @apply list-disc pl-5;
+    }
+    > ol {
+      @apply list-decimal pl-5;
+    }
+    li + li {
+      @apply mt-1;
+    }
+    > h2 {
+      @apply text-xl font-bold text-dnd-red mt-12 mb-4 pb-1 border-b-2 border-dnd-gold uppercase;
+      font-family: var(--font-libre-baskerville);
+    }
+    > h3 {
+      @apply text-lg font-bold text-dnd-red-dark mt-8 mb-3;
+      font-family: var(--font-libre-baskerville);
+    }
+  }
+
   // -------------------------------------
   // Decorative utilities
   // -------------------------------------

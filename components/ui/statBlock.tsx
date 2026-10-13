@@ -100,7 +100,7 @@ const StatBlock: React.FC<StatBlockProps> = ({
             <span
               key={i}
               className={twMerge(
-                "relative w-4 h-8 rounded-sm border-2 bg-white/60",
+                "relative w-5 h-8 rounded-sm border-2 bg-white/60",
                 i < base ? "border-dnd-ink/40" : color,
                 state === "scarred" && "opacity-40",
               )}
