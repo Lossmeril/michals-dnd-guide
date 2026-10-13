@@ -1,30 +1,39 @@
-import Link from "next/link";
+import StoryBox from "@/components/ui/storyBox";
+import AuthShell from "../authShell";
 import { LoginForm } from "./login-form";
-import { Heading } from "@/components/ui/typography";
 
 const LoginPage = async ({ searchParams }: PageProps<"/login">) => {
   const { error } = await searchParams;
 
   return (
-    <div>
-      <Heading level={1}>Login Page</Heading>
-      <p>
-        Don&apos;t have an account?{" "}
-        <Link className="link" href="/signup">
-          Sign up
-        </Link>
-        .
-      </p>
+    <AuthShell
+      title="Log in"
+      switchText="New around here?"
+      switchLabel="Create an account"
+      switchHref="/signup"
+      story={
+        <StoryBox>
+          <p>
+            A guard steps out of the gatehouse and plants a spear in the dirt
+            in front of you.
+          </p>
+          <p>
+            &ldquo;Halt. Nobody gets in without papers. Seen you before, have
+            I? Let&apos;s have them, then.&rdquo;
+          </p>
+        </StoryBox>
+      }
+    >
       {error === "confirm" && (
-        <p role="alert">
-          The confirmation link is invalid or has expired. Please try again.
+        <p
+          role="alert"
+          className="mb-6 p-3 text-sm bg-dnd-accent-red/40 border-l-4 border-dnd-red"
+        >
+          That link is invalid or has expired. Log in to get a new one sent.
         </p>
       )}
-
-      <div className="mt-4">
-        <LoginForm />
-      </div>
-    </div>
+      <LoginForm />
+    </AuthShell>
   );
 };
 
