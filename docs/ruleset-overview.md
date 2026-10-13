@@ -228,8 +228,10 @@ From the old rulebook's order (still to be confirmed and completed, **Q1**, **Q3
 2. **Pick classes.** Levels are spread across basic classes, and advanced classes unlock from them.
 3. Pick **class perks**: up to one per level in each class.
 4. Split **15 points** between Body, Soul and Charisma.
+   - **All starting levels go into classes.** A new character can't spend them on extra resource points or extra perks; those options open only for levels gained in play.
 5. Pick a **background**: starting equipment, coins, Material, languages and known settings (planned).
 6. Pick any number of **traits**, premade or custom (planned).
+7. Write a short **personality**: a few words to roleplay from (how they talk, what they want). Free text, no mechanical effect.
 
 ## Races
 
@@ -337,7 +339,11 @@ Characters can start above level 1. There are three typical starts:
 | **Seasoned** *(suggested name)* | 7 | Two basic classes and one advanced class |
 | **Veteran** *(suggested name)* | 9 | Two basic classes and one advanced class, at higher levels |
 
-**`level` vs `start_level`:** a character's `start_level` is kept separately from their current `level`. It's used to validate how the character's points were spent.
+**`level` vs `start_level`:** a character's `start_level` is kept separately from their current `level`. It's used to validate how the character's points were spent: the starting levels all go into classes, so
+
+```
+resource points above 15 + extra perks ≤ level − start_level
+```
 
 ### Validating a character's level
 
@@ -360,7 +366,9 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 
 - There are about **137** perks and spells, defined in the old `data/perks/perks.tsx`.
 - Each belongs to a race (racial perks) or a class (class perks, core spells, spells).
-- **Perk:** a name, a description, and optionally an **activation price**. A price is an amount (or "Variable") of a resource (Body, Soul, Charisma, Material, Coins), sometimes with a unit, e.g. "per unit of strength" or "per group member".
+- **Perk:** a name, a one-line **flavour** text with the gist, a description, and either **passive** or an **activation price**. A price is an amount (or "Variable") of a resource (Body, Soul, Charisma, Material, Coins), sometimes with a unit, e.g. "per unit of strength" or "per group member".
+  - A Body, Soul or Charisma price is paid by **exhausting** that many points of the pool.
+  - A Material price is **spent** Material, e.g. Material per unit when crafting a healing substance.
 - **Typical effects:**
   - Advantage on certain activities.
   - Free manoeuvres.
@@ -380,7 +388,8 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 
 - **Starting inventory:** equipment, **coins** and **Material**.
 - **Non-class abilities**, such as the number of **languages** spoken.
-- **Known settings**, such as the criminal underbelly or noble courts. These are roleplay background only: rolls in those settings still add the relevant class level as usual.
+- **Known settings**, such as the criminal underbelly or noble courts: places to navigate or groups of people to deal with. A roll there gets **+1** on top of the class level, e.g. a Criminal haggling with a fence, or a Sailor finding a ship in port.
+  - The DM decides whether a roll falls inside the setting.
 
 ### Languages
 
@@ -418,7 +427,7 @@ Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also spe
 
 ## Traits
 
-*(Planned.)* A perk-like entity tied to a character. A trait is a **challenge perk** with both a **positive and a negative effect**, similar to the negative perks in Kingdom Come: Deliverance II's hardcore mode.
+*(Planned.)* A perk-like entity tied to a character. A trait is a **challenge perk** with both a **positive and a negative effect**, similar to the negative perks in Kingdom Come: Deliverance II's hardcore mode. It has a one-line **flavour** text, a short description of what it does, and its upside and downside.
 
 - **Source:** players pick from a list of **premade traits**, or **create their own** to help with roleplay.
 - **How many:** no limit; a player can take as many as they like.
@@ -451,6 +460,14 @@ The database's user roles are **player**, **dm** and **admin**.
 A user's role is account-wide. A user with the `dm` role is the DM of the campaigns they create, and can still play characters in other people's campaigns.
 
 ## Rulebook pages
+
+**Built** at `/rulebook` (public, no login needed), following the structure below. Chapter and page order live in `app/rulebook/nav.ts`. Races, backgrounds, languages, traits, classes, skills and perks are read from the database, so the admin pages update the rulebook directly.
+
+Drafted while writing the pages, to confirm:
+- **Conditions:** "automatically fails Strength/Dexterity saving throws" became "automatically loses Body defense rolls"; Restrained's "disadvantage on Dexterity saving throws" became "disadvantage on Body defense rolls".
+- **Conditions:** 5E's "a hit within 5 feet is a critical hit" (Paralyzed, Unconscious) became "a hit from within 1 m adds an extra damage die", since there are no critical hits.
+- **NPC damage dice:** d4 weak, d6 normal, **d8 or more for big threats** (ogres, trolls), and anything the DM likes for gargantuan ones.
+- **Bows and crossbows** in the weapon table use the 5E ranges converted at 5 ft = 1 m (shortbow 16/64 m, longbow 30/120 m).
 
 **Writing guidelines**
 - **Short, focused pages:** each page covers one part of the rules.
@@ -522,6 +539,7 @@ Built so far: a campaign overview (cover, name, description, DM, characters) and
 10. ~~Characters in several campaigns~~: answered (shared ghost; build and levels shared, Scars and exhaustion per campaign; guest appearances; simultaneous campaigns use separate characters).
     - ~~Q10a~~: answered (inventory is shared across ghosts).
 11. ~~Backgrounds~~: answered (inventory, coins, Material, languages and known settings; no proficiencies).
+    - Known settings give +1 to rolls inside them. **Q11b:** which rolls does the +1 apply to (skill checks only, or challenges and defense rolls too), and does it work for a skill the character has no class for?
     - **Q11a:** A draft list of 10 backgrounds and 8 languages is in the doc; the background kits and coins still need review. Racial languages are answered.
 12. ~~Traits~~: answered (premade or custom; any number; the DM can grant more later).
     - ~~Q12a~~: answered (custom traits need the campaign DM's approval; traits can be removed).
