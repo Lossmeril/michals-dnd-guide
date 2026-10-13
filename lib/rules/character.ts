@@ -175,17 +175,177 @@ export const describeRequirement = (rb: Rulebook, req: Requirement) => {
   switch (req.kind) {
     case "class_level":
     case "class_levels_all":
-      return names.map((n) => `${n} ${req.level}`).join(" and ");
+      return names.map((n) => `${n} ${req.level}`).join(" + ");
     case "class_levels_sum":
       return `${names.join(" + ")} total ${req.level}`;
     case "has_perk":
-    case "has_aspect":
       return findPerk(rb, req.required_perk_id!)?.name ?? req.required_perk_id!;
+    case "has_aspect":
+      return `${findPerk(rb, req.required_perk_id!)?.name ?? req.required_perk_id!} aspect`;
   }
+};
+
+/** e.g. "Fighter 5, Brute aspect"; empty when the perk has no requirements */
+export const describeRequirements = (rb: Rulebook, perkId: string) =>
+  requirementsOf(rb, perkId)
+    .map((r) => describeRequirement(rb, r))
+    .join(", ");
+
+const unmetRequirements = (rb: Rulebook, build: Build, perkId: string) => {
+  const held = heldPerkIds(rb, build);
+  return requirementsOf(rb, perkId)
+    .filter((r) => !requirementMet(r, build, held))
+    .map((r) => describeRequirement(rb, r))
+    .join(", ");
 };
 
 export const chosenIn = (build: Build, classId: string) =>
   build.perks.filter((p) => p.classId === classId);
+
+// ----- Perk states and trees -----
+
+/**
+ * held: the character has it (picked, core spell or unlocked aspect)
+ * available: can be picked now
+ * full: requirements met, but no perk slot or level-up point is free
+ * elsewhere: already picked through another class
+ * locked: requirements not met, or the character doesn't have the class
+ */
+export type PerkState = "held" | "available" | "full" | "elsewhere" | "locked";
+
+export const perkStateIn = (
+  rb: Rulebook,
+  build: Build,
+  classId: string,
+  perkId: string,
+  /** Level-up points that may still buy an extra perk */
+  extraPoints: number,
+): { state: PerkState; note: string | null } => {
+  const perk = findPerk(rb, perkId);
+  const level = levelIn(build, classId);
+  const className = findClass(rb, classId)?.name ?? classId;
+
+  if (perk?.kind === "aspect") {
+    return heldAspects(rb, build).some((a) => a.id === perkId)
+      ? { state: "held", note: "Unlocked" }
+      : {
+          state: "locked",
+          note: level
+            ? `Unlocks at ${describeRequirements(rb, perkId)}`
+            : `Needs ${className} 1 and ${describeRequirements(rb, perkId)}`,
+        };
+  }
+  if (coreSpells(rb, classId).some((p) => p.id === perkId)) {
+    return level
+      ? { state: "held", note: "Comes with the class" }
+      : { state: "locked", note: `Comes with ${className}` };
+  }
+  if (chosenIn(build, classId).some((p) => p.perkId === perkId)) {
+    return { state: "held", note: "Picked" };
+  }
+  const elsewhere = build.perks.find((p) => p.perkId === perkId);
+  if (elsewhere) {
+    const other = elsewhere.classId && findClass(rb, elsewhere.classId)?.name;
+    return { state: "elsewhere", note: `Picked as a ${other} perk` };
+  }
+  if (!level) return { state: "locked", note: `Needs ${className} 1` };
+  const unmet = unmetRequirements(rb, build, perkId);
+  if (unmet) return { state: "locked", note: `Needs ${unmet}` };
+
+  const slotsFull = chosenIn(build, classId).length >= level;
+  if (!slotsFull) return { state: "available", note: null };
+  // At level 5, extra perks cost a level-up point each
+  return level === MAX_CLASS_LEVEL && extraPoints > 0
+    ? { state: "available", note: "Extra perk: costs 1 level-up point" }
+    : {
+        state: "full",
+        note:
+          level === MAX_CLASS_LEVEL
+            ? "No level-up points left for extra perks"
+            : `All ${level} ${className} perk slots are used`,
+      };
+};
+
+/** The level of this class a perk needs; 1 when it only needs the class */
+export const ownLevelNeeded = (rb: Rulebook, perkId: string, classId: string) =>
+  Math.max(
+    1,
+    ...requirementsOf(rb, perkId)
+      .filter(
+        (r) =>
+          (r.kind === "class_level" || r.kind === "class_levels_all") &&
+          r.class_ids.includes(classId),
+      )
+      .map((r) => r.level ?? 1),
+  );
+
+export type PerkNode = { perk: Tables<"perks">; children: PerkNode[] };
+
+/**
+ * A class's perks as a tree. Aspects are roots; a perk hangs under the
+ * aspect or perk of this class it requires. Perks needing neither are
+ * "general" roots, sorted by the class level they need.
+ */
+export const perkTree = (rb: Rulebook, classId: string) => {
+  const choosable = choosablePerks(rb, classId);
+  const aspects = aspectsOf(rb, classId);
+  const inClass = new Set([...choosable, ...aspects].map((p) => p.id));
+
+  const parentOf = (perkId: string) =>
+    requirementsOf(rb, perkId).find(
+      (r) =>
+        (r.kind === "has_perk" || r.kind === "has_aspect") &&
+        inClass.has(r.required_perk_id!),
+    )?.required_perk_id ?? null;
+
+  // seen guards against requirement cycles in the data
+  const seen = new Set<string>();
+  const childrenOf = (id: string | null): PerkNode[] =>
+    choosable
+      .filter((p) => parentOf(p.id) === id && !seen.has(p.id))
+      .map((p) => {
+        seen.add(p.id);
+        return { perk: p, children: childrenOf(p.id) };
+      });
+
+  const general = childrenOf(null).sort(
+    (a, b) =>
+      ownLevelNeeded(rb, a.perk.id, classId) -
+      ownLevelNeeded(rb, b.perk.id, classId),
+  );
+  return {
+    core: coreSpells(rb, classId),
+    general,
+    aspects: aspects.map((a) => ({ perk: a, children: childrenOf(a.id) })),
+  };
+};
+
+/** Picks or drops a class perk */
+export const withPerkToggled = (
+  build: Build,
+  classId: string,
+  perkId: string,
+): Build => ({
+  ...build,
+  perks: build.perks.some((p) => p.perkId === perkId && p.classId === classId)
+    ? build.perks.filter((p) => !(p.perkId === perkId && p.classId === classId))
+    : [...build.perks, { perkId, classId }],
+});
+
+/** A new race clears the old racial perk */
+export const withRace = (build: Build, raceId: string): Build => ({
+  ...build,
+  raceId,
+  perks: build.perks.filter((p) => p.classId !== null),
+});
+
+export const withRacialPerk = (build: Build, perkId: string): Build => ({
+  ...build,
+  perks: [
+    ...build.perks.filter((p) => p.classId !== null),
+    { perkId, classId: null },
+  ],
+});
 
 /** Sets a class level; drops the class at 0 and any perks it no longer has slots for */
 export const withClassLevel = (
@@ -210,6 +370,27 @@ export const withClassLevel = (
 export const resourcePoints = (build: Build) =>
   build.body + build.soul + build.charisma - BASE_RESOURCES;
 
+/** Perks beyond one per class level; only a level-5 class can have them */
+export const extraPerks = (build: Build) =>
+  Object.entries(build.classes).reduce(
+    (sum, [id, level]) => sum + Math.max(0, chosenIn(build, id).length - level),
+    0,
+  );
+
+/**
+ * Points still free for resources or extra perks. The starting levels all go
+ * into classes, so only levels gained after creation can buy these.
+ */
+export const freePointsLeft = (
+  build: Build,
+  level: number,
+  startLevel: number,
+) =>
+  level -
+  startLevel -
+  Math.max(0, resourcePoints(build)) -
+  extraPerks(build);
+
 /**
  * level = chosen class perks + resource points above 15.
  * A class level whose perk slot is still empty counts too, so the total
@@ -223,7 +404,13 @@ export const characterLevel = (build: Build) =>
 
 // ----- Validation -----
 
-export const validateBuild = (rb: Rulebook, build: Build, level: number) => {
+export const validateBuild = (
+  rb: Rulebook,
+  build: Build,
+  level: number,
+  /** Defaults to `level`: a new character, all of whose levels are starting ones */
+  startLevel = level,
+) => {
   const errors: string[] = [];
   const warnings: string[] = [];
   const held = heldPerkIds(rb, build);
@@ -312,6 +499,14 @@ export const validateBuild = (rb: Rulebook, build: Build, level: number) => {
   }
   if (resourcePoints(build) < 0) {
     errors.push(`Spread all ${BASE_RESOURCES} starting resource points.`);
+  }
+
+  if (freePointsLeft(build, level, startLevel) < 0) {
+    errors.push(
+      level === startLevel
+        ? `Starting levels all go into classes: spread exactly ${BASE_RESOURCES} resource points and take one perk per class level.`
+        : `Only the ${level - startLevel} level(s) gained after creation can go into resources or extra perks.`,
+    );
   }
 
   const diff = level - characterLevel(build);

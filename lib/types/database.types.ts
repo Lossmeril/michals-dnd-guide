@@ -304,6 +304,7 @@ export type Database = {
           level: number
           name: string
           owner: string
+          personality: string | null
           race_id: string | null
           soul: number
           start_level: number
@@ -318,6 +319,7 @@ export type Database = {
           level?: number
           name: string
           owner: string
+          personality?: string | null
           race_id?: string | null
           soul?: number
           start_level?: number
@@ -332,6 +334,7 @@ export type Database = {
           level?: number
           name?: string
           owner?: string
+          personality?: string | null
           race_id?: string | null
           soul?: number
           start_level?: number
@@ -561,6 +564,7 @@ export type Database = {
           damage: string | null
           damage_types: Database["public"]["Enums"]["damage_type"][] | null
           description: string | null
+          flavour: string | null
           duration: Database["public"]["Enums"]["spell_duration"] | null
           id: string
           image_url: string | null
@@ -581,6 +585,7 @@ export type Database = {
           damage?: string | null
           damage_types?: Database["public"]["Enums"]["damage_type"][] | null
           description?: string | null
+          flavour?: string | null
           duration?: Database["public"]["Enums"]["spell_duration"] | null
           id: string
           image_url?: string | null
@@ -601,6 +606,7 @@ export type Database = {
           damage?: string | null
           damage_types?: Database["public"]["Enums"]["damage_type"][] | null
           description?: string | null
+          flavour?: string | null
           duration?: Database["public"]["Enums"]["spell_duration"] | null
           id?: string
           image_url?: string | null
@@ -728,8 +734,11 @@ export type Database = {
           approved_by: string | null
           created_at: string
           created_by: string | null
+          description: string | null
           downside: string
+          flavour: string | null
           id: number
+          image_url: string | null
           is_custom: boolean
           name: string
           upside: string
@@ -738,8 +747,11 @@ export type Database = {
           approved_by?: string | null
           created_at?: string
           created_by?: string | null
+          description?: string | null
           downside: string
+          flavour?: string | null
           id?: number
+          image_url?: string | null
           is_custom?: boolean
           name: string
           upside: string
@@ -748,8 +760,11 @@ export type Database = {
           approved_by?: string | null
           created_at?: string
           created_by?: string | null
+          description?: string | null
           downside?: string
+          flavour?: string | null
           id?: number
+          image_url?: string | null
           is_custom?: boolean
           name?: string
           upside?: string
