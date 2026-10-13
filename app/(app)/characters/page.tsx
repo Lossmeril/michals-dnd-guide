@@ -1,6 +1,7 @@
 "use client";
 
 import { SkeletonCard } from "@/components/ui/card";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { Heading } from "@/components/ui/typography";
 import { fetchCharacterSummaries } from "@/lib/endpoints/character_build";
 import { fetchCharactersPlayerSees } from "@/lib/specialFecthers/playerCharacters";
@@ -42,6 +43,7 @@ const CharactersPage = () => {
 
   return (
     <>
+      <Breadcrumbs items={[{ label: "Characters" }]} />
       <Heading level={1}>Characters</Heading>
 
       <Link href="/characters/new" className="button inline-block mb-10">

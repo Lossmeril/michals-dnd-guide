@@ -1,4 +1,4 @@
-import CharacterEditor from "../_editor/characterEditor";
+import CharacterEditor from "../_character/characterEditor";
 
 const NewCharacterPage = () => <CharacterEditor />;
 

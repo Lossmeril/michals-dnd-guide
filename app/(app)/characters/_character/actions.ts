@@ -15,6 +15,7 @@ interface SaveCharacterInput {
   characterId?: number;
   name: string;
   backstory: string;
+  personality: string;
   /** Only used when creating; an existing character keeps its levels */
   startLevel: number;
   build: Build;
@@ -30,15 +31,22 @@ export async function saveCharacter(
 
     // Levels come from the stored character, never from the browser
     let level = input.startLevel;
+    let startLevel = input.startLevel;
     if (input.characterId) {
       const existing = await fetchCharacterBuild(input.characterId);
       if (existing?.character.owner !== user.id) {
         throw new Error("Character not found.");
       }
       level = existing.character.level;
+      startLevel = existing.character.start_level;
     }
 
-    const { errors } = validateBuild(await fetchRulebook(), input.build, level);
+    const { errors } = validateBuild(
+      await fetchRulebook(),
+      input.build,
+      level,
+      startLevel,
+    );
     if (errors.length) throw new Error(errors[0]);
 
     const { build } = input;
@@ -52,7 +60,7 @@ export async function saveCharacter(
       p_languages: build.languages,
       p_traits: build.traitIds,
       p_level: level,
-      p_start_level: input.startLevel,
+      p_start_level: startLevel,
       p_body: build.body,
       p_soul: build.soul,
       p_charisma: build.charisma,
@@ -66,6 +74,13 @@ export async function saveCharacter(
       })),
     });
     if (error) throw error;
+
+    // Not part of the build function; the owner can update it directly
+    const { error: personalityError } = await supabase
+      .from("characters")
+      .update({ personality: input.personality.trim() || null })
+      .eq("id", data);
+    if (personalityError) throw personalityError;
     return { data, error: null };
   } catch (e) {
     return { data: null, error: (e as Error).message };
@@ -75,13 +90,17 @@ export async function saveCharacter(
 /** A player-written trait; it waits for the campaign DM's approval */
 export async function createCustomTrait(input: {
   name: string;
+  flavour: string;
+  description: string;
   upside: string;
   downside: string;
 }): Promise<Result<Tables<"traits">>> {
   await requireUser();
   try {
-    const [name, upside, downside] = [
+    const [name, flavour, description, upside, downside] = [
       input.name,
+      input.flavour,
+      input.description,
       input.upside,
       input.downside,
     ].map((v) => v.trim());
@@ -91,7 +110,14 @@ export async function createCustomTrait(input: {
     const supabase = createClient(await cookies());
     const { data, error } = await supabase
       .from("traits")
-      .insert({ name, upside, downside, is_custom: true })
+      .insert({
+        name,
+        flavour: flavour || null,
+        description: description || null,
+        upside,
+        downside,
+        is_custom: true,
+      })
       .select()
       .single();
     if (error) throw error;
