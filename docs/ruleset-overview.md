@@ -387,6 +387,11 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 *(Planned.)* Like 5E backgrounds, but **without skill proficiencies**, because those come from classes. A background gives:
 
 - **Starting inventory:** equipment, **coins** and **Material**.
+  - Equipment is made of **individual items** from the item catalogue (`/admin/items`: weapons, armour, shields, clothing, tools, gear, each with an optional picture).
+  - A background's gear is a list of **groups**. A group with one option is simply given; with several, the player **takes one**, e.g. Soldier: *two weapons, or a weapon and a shield*.
+  - A line inside an option can be a **choice list** ("any martial weapon", "spear or longsword"); the player picks the item when creating the character.
+  - The picks become rows in the character's **inventory** (`character_items`): quantity, carried or left behind, broken, a note. Inventory is shared across campaigns; the owner and the DM of any campaign the character is in can change it. Managing it in play isn't built yet; the sheet shows it read-only.
+  - Changing the background or the picks later replaces the background's items; saving the build otherwise leaves the inventory alone.
 - **Non-class abilities**, such as the number of **languages** spoken.
 - **Known settings**, such as the criminal underbelly or noble courts: places to navigate or groups of people to deal with. A roll there gets **+1** on top of the class level, e.g. a Criminal haggling with a fence, or a Sailor finding a ship in port.
   - The DM decides whether a roll falls inside the setting.
@@ -405,6 +410,8 @@ Kept deliberately vague for now. A starting list:
 | **Dwarven** | Dwarves, and dwarven runes and holds |
 | **Kroll tongue** | Krolls; primitive and mostly spoken |
 | **Old tongues** | Dead languages of fallen empires; written only, read by scholars |
+
+Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages; it has no rules effect yet.
 
 Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also speak their **racial language**. Humans and Halflings, who have none, instead pick **one extra language** of their choice. A background then adds the number of extra languages shown below.
 
@@ -464,7 +471,7 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 **Built** at `/rulebook` (public, no login needed), following the structure below.
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
-- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars and pictures. The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
 - **Data blocks:** races, backgrounds, languages, traits and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
@@ -495,6 +502,7 @@ Built so far: a campaign overview (cover, name, description, DM, characters) and
 
 - **Creating:** users with the `dm` or `admin` role start campaigns at `/campaigns/new` and become their DM.
 - **Characters:** the DM adds and removes characters; a player can take their own character out ("Leave campaign").
+- **Updates:** the DM and players post to the campaign's feed with a rich text editor (bold, italics, headings, lists, quotes, links, pictures). Posts are stored as Markdown; pictures go to the `campaigns` bucket under `<campaign id>/updates/`.
 - The database enforces the same: only the DM edits or deletes a campaign or changes its character list.
 
 **Priority:** campaign tools come after the character editor and the rulebook. Ideas parked for later:

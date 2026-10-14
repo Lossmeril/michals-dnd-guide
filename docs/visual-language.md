@@ -42,6 +42,10 @@ The page background is the parchment texture `public/img/bg.webp`, fixed behind 
 
 ## Components
 
+**Where they live:** `components/ui` holds generic pieces with no game rules in them (panels, cards, tables, form controls, alerts). `components/game` holds rules-aware ones (perk card and tree, class portrait card, trait card, stat block, magic badge, resource colours). `components/rulebook` holds the Markdown renderer and its elements. Reach for these before writing new markup; a style repeated in two places becomes a component.
+
+Shared hooks live in `lib/hooks`: `useLoad` (browser data loading with `reload`) and `useImageUpload` / `prepareImage` (shrink to WebP, size check, send to an action). Server actions return `Result` from `lib/result.ts` (`toResult`, `check`, `fileFrom`).
+
 ### Story box (`components/ui/storyBox.tsx`)
 
 The DM's voice. In guide2.0 this was the `.rulebox` style with `DecorativeBorder`.
@@ -79,13 +83,23 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 ### Forms
 
 - `Field` (`components/ui/field.tsx`) wraps every control: bold label, control, then a grey hint or a red error. guide2.0's `Field` laid fields out on a 12-column grid (`full`, `half`, `third`); here use a CSS grid on the form.
-- Group forms in a parchment **panel**: `bg-dnd-bg border border-dnd-gold rounded-lg shadow-md p-6`.
+- Group forms in a parchment **panel**: `Panel` (`components/ui/panel.tsx`; `panelClass` for elements it can't be).
+- Controlled inputs: `TextField`, `NumberField`, `SelectField`, `Select`, `Checkbox`, `CheckboxGroup` in `components/ui/formControls.tsx`.
+- Forms posting to a server action: `FormMessage`, `SubmitButton`, `EmailField`, `DisplayNameField`, and `PasswordFields` with `usePasswordPair` in `components/ui/form.tsx`.
+- Rich text: `RichTextEditor` (`components/ui/richTextEditor.tsx`, TipTap, writes Markdown, optional picture upload) and `MarkdownText` to show it; both use the `.rich-text` styles.
+- Buttons fade out on their own when disabled; no `disabled:opacity-*` classes needed. `FileButton` opens a file picker.
 - Check as the user types where it helps (password confirmation), and validate again on the server.
 
 ### Cards
 
 - **Portrait card** (`components/ui/portraitCard.tsx`): a large 3:4 image cropped from the top, the title over a dark gradient, controls in a footer. States: selected (red ring), dimmed, locked (greyscale and a lock).
-- **Perk card** (`components/ui/perkCard.tsx`): square image (the art carries its own frame), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
+- **Card** and **CardGrid** (`components/ui/card.tsx`): picture on top, title and a few lines under it; the grid shows a skeleton while loading and a note when empty.
+- **Class portrait card** (`components/game/classPortraitCard.tsx`): a portrait card with the magic badge over the picture.
+- **Data table** (`components/ui/dataTable.tsx`): admin lists and rulebook tables; rows can link to a page. `SimpleTable` takes a header row and plain arrays.
+- **Media object** (`components/ui/mediaObject.tsx`): a 3:4 portrait beside its text, e.g. a class's or race's details.
+- **Card rows** in the rulebook (`::::cards{cols="3"}`): one column on phones, two on tablets, three on extra-wide screens. Cards in a row of three put their picture on top.
+- **Items** (`components/game/itemIcon.tsx`): a small square picture, or an ink icon of the item's kind (crossed swords, armour, shield, shirt, toolbox, knapsack). Broken items are greyed out and struck through.
+- **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
 - Clicking a picture or card opens the details; the actions sit in the footer.
 
 ### Page layouts
@@ -98,7 +112,11 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 
 ### Alerts
 
-guide2.0's `Alert`: a 4px ink left border, rounded, coloured by kind: info green, warning yellow, danger red. The auth and profile notices use the same idea with a red border.
+`Alert` (`components/ui/alert.tsx`), from guide2.0: a 4px left border, coloured by kind: info green, warning yellow, danger red (red border). Use it for notices above a form, like an expired link.
+
+### Toasts
+
+Sonner toasts look like small story boxes: pale green, ink lines on top and bottom, decorative corners. Errors use the same shape in the error red. Styles: `.story-toast` in `app/globals.scss`; the Toaster is set up in `app/layout.tsx`.
 
 ### Assets from guide2.0
 
