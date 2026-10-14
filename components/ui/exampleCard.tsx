@@ -7,8 +7,8 @@ interface ExampleCardProps {
   eyebrow?: string;
   /** Portrait on the side (on top on phones) */
   image?: string;
-  /** Which side the image sits on */
-  imageSide?: "left" | "right";
+  /** Where the image sits; "top" keeps it there on wide screens too */
+  imageSide?: "left" | "right" | "top";
   children: React.ReactNode;
   className?: string;
 }
@@ -28,13 +28,20 @@ const ExampleCard: React.FC<ExampleCardProps> = ({
   <aside
     className={twMerge(
       "clear-both my-10 flex flex-col overflow-hidden rounded-lg border border-dnd-gold bg-dnd-accent-green/40 shadow-md",
-      image && (imageSide === "right" ? "lg:flex-row-reverse" : "lg:flex-row"),
+      image &&
+        imageSide !== "top" &&
+        (imageSide === "right" ? "lg:flex-row-reverse" : "lg:flex-row"),
       className,
     )}
   >
     {image && (
       // The text sets the card's height; the picture fills its side
-      <div className="relative h-64 shrink-0 lg:h-auto lg:min-h-56 lg:w-56">
+      <div
+        className={twMerge(
+          "relative h-64 shrink-0",
+          imageSide !== "top" && "lg:h-auto lg:min-h-56 lg:w-56",
+        )}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image}

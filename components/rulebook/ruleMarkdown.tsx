@@ -6,18 +6,20 @@ import Markdown, { type Components } from "react-markdown";
 import remarkDirective from "remark-directive";
 import remarkGfm from "remark-gfm";
 import { DiceNotation, parseRoll, RolledDice } from "@/components/ui/dice";
+import { twMerge } from "tailwind-merge";
 import ExampleCard from "@/components/ui/exampleCard";
-import StatBlock from "@/components/ui/statBlock";
+import { ResourceName, type ResourceKey } from "@/components/game/resources";
+import StatBlock from "@/components/game/statBlock";
+import { tableClasses } from "@/components/ui/dataTable";
+import { panelClass } from "@/components/ui/panel";
+import { Overline } from "@/components/ui/typography";
 import { hrefOf, slugify } from "@/lib/rulebookNav";
 import {
   Formula,
   type ImageLayout,
   Note,
-  Res,
-  type ResourceKey,
   RuleCard,
   RuleImage,
-  tableClasses,
 } from "./elements";
 import remarkRulebook from "./remarkRulebook";
 
@@ -51,7 +53,7 @@ const hastText = (n?: HastNode): string =>
 
 const resource = (r: ResourceKey) =>
   function Resource({ children }: P) {
-    return <Res r={r}>{children || undefined}</Res>;
+    return <ResourceName r={r}>{children || undefined}</ResourceName>;
   };
 
 const buildComponents = (renderBlock?: RenderBlock): Components => {
@@ -75,7 +77,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
     "rb-body": resource("body"),
     "rb-soul": resource("soul"),
     "rb-charisma": resource("charisma"),
-    "rb-coins": resource("coins"),
+    "rb-coins": resource("coin"),
     "rb-material": resource("material"),
     "rb-dice": ({ notation }) => <DiceNotation text={notation ?? ""} />,
     "rb-roll": ({ roll }) => {
@@ -107,21 +109,20 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
         />
       ) : null,
     "rb-stats": ({ title, children }) => (
-      <div className="clear-both flex flex-col gap-2 my-6 p-4 bg-dnd-bg border border-dnd-gold rounded-lg">
-        {title && (
-          <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60">
-            {title}
-          </p>
-        )}
+      <div
+        className={`${panelClass} clear-both flex flex-col gap-2 my-6 p-4 shadow-none`}
+      >
+        {title && <Overline className="mb-0">{title}</Overline>}
         {children}
       </div>
     ),
-    "rb-example": ({ title, image, side, eyebrow, children }) => (
+    "rb-example": ({ title, image, side, eyebrow, stacked, children }) => (
       <ExampleCard
         title={title}
         image={image}
-        imageSide={side === "right" ? "right" : "left"}
+        imageSide={stacked ? "top" : side === "right" ? "right" : "left"}
         eyebrow={eyebrow}
+        className={stacked ? "my-0" : undefined}
       >
         {children}
       </ExampleCard>
@@ -129,13 +130,23 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
     "rb-note": ({ title, children }) => <Note title={title}>{children}</Note>,
     "rb-cards": ({ children, cols }) => (
       <div
-        className={`clear-both grid grid-cols-1 gap-4 my-6 ${cols === "2" ? "md:grid-cols-2" : ""}`}
+        className={twMerge(
+          "clear-both grid grid-cols-1 gap-4 my-6 items-start",
+          cols === "2" && "md:grid-cols-2",
+          cols === "3" && "md:grid-cols-2 xl:grid-cols-3",
+        )}
       >
         {children}
       </div>
     ),
-    "rb-card": ({ title, subtitle, image, id, children }) => (
-      <RuleCard title={title} subtitle={subtitle} image={image} id={id}>
+    "rb-card": ({ title, subtitle, image, id, stacked, children }) => (
+      <RuleCard
+        title={title}
+        subtitle={subtitle}
+        image={image}
+        id={id}
+        stacked={!!stacked}
+      >
         {children}
       </RuleCard>
     ),
@@ -173,7 +184,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
       </Link>
     ),
     table: ({ children }) => (
-      <div className={tableClasses.wrap}>
+      <div className={`${tableClasses.wrap} my-6 shadow-none`}>
         <table className={tableClasses.table}>{children}</table>
       </div>
     ),

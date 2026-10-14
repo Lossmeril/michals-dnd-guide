@@ -3,19 +3,20 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeferredValue, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import RuleMarkdown from "@/components/rulebook/ruleMarkdown";
-import { convertToWebp } from "@/lib/convertToWebp";
-import { hrefOf, INDEX_SLUG, slugify } from "@/lib/rulebookNav";
+import FileButton from "@/components/ui/fileButton";
+import { Select, SelectField, TextField } from "@/components/ui/formControls";
+import Panel from "@/components/ui/panel";
+import { Overline } from "@/components/ui/typography";
+import { useImageUpload } from "@/lib/hooks/useImageUpload";
+import { hrefOf, INDEX_SLUG } from "@/lib/rulebookNav";
+import { slugify } from "@/lib/slugify";
 import type { Tables } from "@/lib/types/database.types";
 import { uploadRulebookImage } from "../../actions";
 import {
   AdminHeader,
   formGrid,
-  panel,
   SaveBar,
-  SelectField,
-  TextField,
   useAdminAction,
 } from "../../_components";
 import { deleteRulebookPage, saveRulebookPage } from "../actions";
@@ -37,6 +38,7 @@ const SNIPPETS: { label: string; text: string; block?: boolean }[] = [
   { label: "Resource bars", block: true, text: ':::stats[|Michal\'s Charisma, before and after]\n::stat{r="charisma" base="5"}\n::stat{r="charisma" base="5" exhausted="3"}\n:::' },
   { label: "Table", block: true, text: "| Column | Column |\n|---|---|\n| | |" },
   { label: "Cards", block: true, text: "::::cards\n:::card[|Title]{subtitle=\"\"}\nText.\n:::\n::::" },
+  { label: "Cards, 3 in a row", block: true, text: "::::cards{cols=\"3\"}\n:::card[|Title]{image=\"\"}\nText.\n:::\n:::card[Title]\nText.\n:::\n:::card[Title]\nText.\n:::\n::::" },
 ];
 
 const DATA_BLOCKS = [
@@ -77,7 +79,9 @@ const PageEditor: React.FC<{
   const [slugTouched, setSlugTouched] = useState(!isNew);
   const [dirty, setDirty] = useState(false);
   const [layout, setLayout] = useState("side");
-  const [uploading, setUploading] = useState(false);
+  const { uploading, upload: uploadImage } = useImageUpload((fd) =>
+    uploadRulebookImage("rulebook", fd),
+  );
   const preview = useDeferredValue(row.content);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const { pending, runAction } = useAdminAction();
@@ -121,21 +125,11 @@ const PageEditor: React.FC<{
     });
   };
 
-  const upload = async (original: File) => {
-    setUploading(true);
-    try {
-      const file = await convertToWebp(original, { maxDimension: 1600 });
-      const fd = new FormData();
-      fd.append("file", file);
-      const { data, error } = await uploadRulebookImage("rulebook", fd);
-      if (error !== null) toast.error(error);
-      else if (layout === "url") insert(data);
-      else insert(`::image{src="${data}" alt="|" layout="${layout}"}`, true);
-    } catch {
-      toast.error("Couldn't read that image.");
-    } finally {
-      setUploading(false);
-    }
+  const upload = async (file: File) => {
+    const url = await uploadImage(file);
+    if (!url) return;
+    if (layout === "url") insert(url);
+    else insert(`::image{src="${url}" alt="|" layout="${layout}"}`, true);
   };
 
   const save = () =>
@@ -172,7 +166,7 @@ const PageEditor: React.FC<{
         }
       />
 
-      <section className={`${panel} ${formGrid}`}>
+      <Panel as="section" className={formGrid}>
         <TextField label="Title" id="title" value={row.title} onChange={(title) => set({ title })} />
         <TextField
           label="Slug"
@@ -203,10 +197,10 @@ const PageEditor: React.FC<{
           onChange={(v) => set({ intro: v || null })}
           hint="Optional line under the title."
         />
-      </section>
+      </Panel>
 
       <section className="mt-6 grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-        <div className={`${panel} flex flex-col gap-3 xl:sticky xl:top-4`}>
+        <Panel className="flex flex-col gap-3 xl:sticky xl:top-4">
           <div className="flex flex-wrap gap-1.5">
             {SNIPPETS.map((s) => (
               <button
@@ -218,47 +212,31 @@ const PageEditor: React.FC<{
                 {s.label}
               </button>
             ))}
-            <select
+            <Select
               aria-label="Insert data from the database"
               className="w-auto text-xs py-1"
               value=""
-              onChange={(e) => e.target.value && insert(e.target.value, true)}
-            >
-              <option value="">Insert data…</option>
-              {DATA_BLOCKS.map((b) => (
-                <option key={b.value} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
+              onChange={(v) => v && insert(v, true)}
+              none="Insert data…"
+              options={DATA_BLOCKS}
+            />
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <select
+            <Select
               aria-label="Image layout"
               className="w-auto text-xs py-1"
               value={layout}
-              onChange={(e) => setLayout(e.target.value)}
+              onChange={(v) => v && setLayout(v)}
+              options={IMAGE_LAYOUTS}
+            />
+            <FileButton
+              secondary
+              disabled={uploading}
+              className="text-xs px-2.5 py-1"
+              onFile={upload}
             >
-              {IMAGE_LAYOUTS.map((l) => (
-                <option key={l.value} value={l.value}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
-            <label className="button button-secondary text-xs px-2.5 py-1 cursor-pointer">
               {uploading ? "Uploading…" : "Upload image"}
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                disabled={uploading}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) upload(file);
-                  e.target.value = "";
-                }}
-              />
-            </label>
+            </FileButton>
           </div>
           <textarea
             ref={textarea}
@@ -269,14 +247,12 @@ const PageEditor: React.FC<{
             className="w-full min-h-[60vh] font-mono text-xs leading-relaxed"
           />
           <ShortcodeHelp />
-        </div>
+        </Panel>
 
-        <div className={panel}>
-          <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60 mb-4">
-            Preview
-          </p>
+        <Panel>
+          <Overline className="mb-4">Preview</Overline>
           <RuleMarkdown content={preview} />
-        </div>
+        </Panel>
       </section>
 
       <SaveBar
