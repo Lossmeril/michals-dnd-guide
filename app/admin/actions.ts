@@ -1,47 +1,17 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import type { Enums, TablesInsert } from "@/lib/types/database.types";
 import { type ImageTarget, uploadImage } from "@/lib/uploadImage";
-import { createClient } from "@/utils/supabase/server";
-
-// Every action checks the admin role here; RLS checks it again in the database
-
-type Result<T = null> = { data: T; error: null } | { data: null; error: string };
-
-const db = async () => createClient(await cookies());
-
-/** Postgres error codes worth a friendlier message */
-const explain = (e: { code?: string; message: string }) =>
-  e.code === "23503"
-    ? "It's still in use (e.g. by a character), so it can't be removed."
-    : e.code === "23505"
-      ? "Something with that id already exists."
-      : e.message;
-
-const run = async <T>(work: () => Promise<T>): Promise<Result<T>> => {
-  await requireAdmin();
-  try {
-    const data = await work();
-    revalidatePath("/admin", "layout");
-    return { data, error: null };
-  } catch (e) {
-    return { data: null, error: explain(e as { code?: string; message: string }) };
-  }
-};
-
-/** Throws the Supabase error, so `run` can turn it into a message */
-const check = <T extends { error: unknown }>(res: T) => {
-  if (res.error) throw res.error;
-  return res;
-};
+import { check, db, run } from "./_run";
 
 // ----- Images -----
 
 export async function uploadRulebookImage(
-  target: Extract<ImageTarget, "classes" | "races" | "perks" | "traits">,
+  target: Extract<
+    ImageTarget,
+    "classes" | "races" | "perks" | "traits" | "rulebook"
+  >,
   formData: FormData,
 ) {
   return run(async () => {

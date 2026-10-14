@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 export const ADMIN_LINKS = [
   { label: "Dashboard", href: "/admin" },
+  { label: "Rulebook pages", href: "/admin/rulebook" },
   { label: "Races", href: "/admin/races" },
   { label: "Classes", href: "/admin/classes" },
   { label: "Perks", href: "/admin/perks" },
