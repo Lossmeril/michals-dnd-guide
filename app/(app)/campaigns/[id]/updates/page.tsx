@@ -1,16 +1,14 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import { toast } from "sonner";
 import { Heading, SkeletonInlineText } from "@/components/ui/typography";
 import {
   createCampaign_Update,
   deleteCampaign_Update,
 } from "@/lib/endpoints/campaign_updates";
-import {
-  CampaignUpdates,
-  fetchCampaignUpdates,
-} from "@/lib/specialFecthers/campaignUpdates";
+import { useLoad } from "@/lib/hooks/useLoad";
+import { fetchCampaignUpdates } from "@/lib/specialFecthers/campaignUpdates";
 import { UpdateComposer } from "./updateComposer";
 import { UpdatePost } from "./updatePost";
 
@@ -19,30 +17,17 @@ const CampaignUpdatesPage = ({
 }: PageProps<"/campaigns/[id]/updates">) => {
   const campaignId = Number(use(params).id);
 
-  const [loading, setLoading] = useState(true);
-  const [feed, setFeed] = useState<CampaignUpdates | null>(null);
-  // Bumped to refetch after posting or deleting
-  const [version, setVersion] = useState(0);
-
-  useEffect(() => {
-    const loadUpdates = async () => {
-      try {
-        setFeed(await fetchCampaignUpdates(campaignId));
-      } catch (error) {
-        console.error("Error fetching updates:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUpdates();
-  }, [campaignId, version]);
+  const {
+    data: feed,
+    loading,
+    reload,
+  } = useLoad(() => fetchCampaignUpdates(campaignId), [campaignId]);
 
   // Database policies decide who may post and delete; errors land here
   const post = async (body: string) => {
     try {
       await createCampaign_Update({ campaign_id: campaignId, body });
-      setVersion((v) => v + 1);
+      reload();
       return true;
     } catch {
       toast.error("Couldn't post the update.");
@@ -53,7 +38,7 @@ const CampaignUpdatesPage = ({
   const remove = async (id: number) => {
     try {
       await deleteCampaign_Update(id);
-      setVersion((v) => v + 1);
+      reload();
     } catch {
       toast.error("Couldn't delete the update.");
     }
@@ -62,7 +47,7 @@ const CampaignUpdatesPage = ({
   return (
     <>
       <Heading level={1}>Campaign updates</Heading>
-      <UpdateComposer onPost={post} />
+      <UpdateComposer campaignId={campaignId} onPost={post} />
 
       {loading ? (
         <SkeletonInlineText width="w-full" height="h-16" />

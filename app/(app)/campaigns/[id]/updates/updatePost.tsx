@@ -1,5 +1,6 @@
 import { Avatar } from "@/components/ui/avatar";
 import Eyebrow from "@/components/ui/eyebrow";
+import MarkdownText from "@/components/ui/markdownText";
 import type { Campaign_Update } from "@/lib/types/campaign_update";
 import type { Profile } from "@/lib/types/profile";
 
@@ -38,7 +39,7 @@ export const UpdatePost: React.FC<UpdatePostProps> = ({
             </button>
           )}
         </div>
-        <p className="whitespace-pre-line">{update.body}</p>
+        <MarkdownText text={update.body} />
       </div>
     </article>
   );
