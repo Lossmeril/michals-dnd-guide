@@ -30,7 +30,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`h-full antialiased scroll-smooth ${libreBaskerville.variable} ${merriweather.variable}`}
     >
       <body className="min-h-full flex flex-col">
-        <Toaster />
+        {/* Toasts look like story boxes; styles: .story-toast in globals.scss */}
+        <Toaster
+          gap={36}
+          toastOptions={{
+            unstyled: true,
+            classNames: {
+              toast: "story-toast",
+              error: "story-toast-error",
+              content: "flex flex-1 flex-col gap-0.5",
+              title: "libre italic",
+              icon: "shrink-0",
+            },
+          }}
+        />
         <Navbar />
         <MainBox>{children}</MainBox>
       </body>

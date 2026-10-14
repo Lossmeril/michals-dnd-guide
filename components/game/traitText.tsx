@@ -1,5 +1,5 @@
 import type { Tables } from "@/lib/types/database.types";
-import { Flavour } from "./typography";
+import { Flavour } from "@/components/ui/typography";
 
 /** A trait's flavour, what it does, and its upside and downside */
 const TraitText: React.FC<{

@@ -16,14 +16,14 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
 }) => (
   <Card
     title={character.name}
-    imageUrl={character.image_url || "empty"}
+    imageUrl={character.image_url}
     link={`/characters/${character.id}`}
-    eyeBrow={[
-      <Eyebrow key="level" text={`Level ${character.level}`} color="yellow" />,
-      ...(raceName
-        ? [<Eyebrow key="race" text={raceName} color="green" />]
-        : []),
-    ]}
+    eyebrows={
+      <>
+        <Eyebrow text={`Level ${character.level}`} color="yellow" />
+        {raceName && <Eyebrow text={raceName} color="green" />}
+      </>
+    }
   >
     <p className="text-xs text-dnd-ink/75">
       {classes.join(" · ") || "No classes yet"}

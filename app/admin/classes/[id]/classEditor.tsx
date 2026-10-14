@@ -1,29 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import MagicBadge from "@/components/ui/magicBadge";
-import PortraitCard from "@/components/ui/portraitCard";
+import ClassPortraitCard from "@/components/game/classPortraitCard";
+import { DataTable } from "@/components/ui/dataTable";
+import {
+  Checkbox,
+  CheckboxGroup,
+  enumOptions,
+  NumberField,
+  SelectField,
+  TextField,
+} from "@/components/ui/formControls";
+import Panel from "@/components/ui/panel";
+import { useTableSort } from "@/components/ui/sortLink";
 import { Heading } from "@/components/ui/typography";
 import { findPerk, parentsOf, type Rulebook } from "@/lib/rules/character";
 import { Constants, type Tables } from "@/lib/types/database.types";
 import { deleteSkill, saveClass, saveSkill } from "../../actions";
 import {
   AdminHeader,
-  AdminTable,
-  CheckboxGroup,
-  enumOptions,
+  EditorWithPreview,
   formGrid,
+  IdField,
   ImageField,
-  NumberField,
-  panel,
   SaveBar,
-  SelectField,
-  slugify,
-  TextField,
+  SectionHeader,
   useAdminAction,
-  useDelete,
+  useRowEditor,
 } from "../../_components";
 import { perkColumns } from "../../perks/perksTable";
 
@@ -47,30 +51,25 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
   rb,
   cls,
 }) => {
-  const router = useRouter();
+  const sort = useTableSort();
   const isNew = !cls;
-  const [row, setRow] = useState(cls ?? { ...blank, sort: rb.classes.length });
   const [parents, setParents] = useState(cls ? parentsOf(rb, cls.id) : []);
-  const set = (patch: Partial<Tables<"classes">>) => setRow({ ...row, ...patch });
-  const { pending, runAction } = useAdminAction();
-  const { deleting, remove } = useDelete("classes", row.id, "/admin/classes");
-  const id = isNew ? slugify(row.name) : row.id;
-  const parentRank = PARENT_RANK[row.rank];
-
-  const save = () =>
-    runAction(
-      // Only parents of the right rank are kept, in case the rank changed
-      () =>
-        saveClass(
-          isNew,
-          { ...row, id },
-          parents.filter((p) => rb.classes.find((c) => c.id === p)?.rank === parentRank),
+  const { row, id, set, save, remove, pending } = useRowEditor({
+    initial: cls ?? { ...blank, sort: rb.classes.length },
+    isNew,
+    table: "classes",
+    listHref: "/admin/classes",
+    // Only parents of the right rank are kept, in case the rank changed
+    save: (r) =>
+      saveClass(
+        isNew,
+        r,
+        parents.filter(
+          (p) => rb.classes.find((c) => c.id === p)?.rank === PARENT_RANK[r.rank],
         ),
-      {
-        then: (savedId) =>
-          isNew ? router.push(`/admin/classes/${savedId}`) : router.refresh(),
-      },
-    );
+      ),
+  });
+  const parentRank = PARENT_RANK[row.rank];
 
   const links = rb.classPerks
     .filter((cp) => cp.class_id === row.id)
@@ -84,17 +83,19 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
         crumbs={[{ href: "/admin/classes", label: "Classes" }]}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_14rem] gap-8 items-start">
-        <section className={`${panel} ${formGrid}`}>
-          <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
-          <TextField
-            label="Id"
-            id="id"
-            value={id}
-            onChange={() => {}}
-            disabled
-            hint={isNew ? "Made from the name; can't change later." : "Can't change."}
+      <EditorWithPreview
+        preview={
+          <ClassPortraitCard
+            cls={row}
+            subtitle={parents
+              .map((p) => rb.classes.find((c) => c.id === p)?.name)
+              .join(" + ")}
           />
+        }
+      >
+        <Panel as="section" className={formGrid}>
+          <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+          <IdField id={id} isNew={isNew} />
           <SelectField
             label="Rank"
             id="rank"
@@ -119,10 +120,8 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
                   .map((c) => ({ value: c.id, label: c.name }))}
                 selected={parents}
                 onChange={setParents}
+                hint="The class unlocks once these total 6 levels."
               />
-              <p className="text-xs text-dnd-ink/60 mt-1">
-                The class unlocks once these total 6 levels.
-              </p>
             </div>
           )}
           <TextField
@@ -137,26 +136,9 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
             <ImageField target="classes" value={row.image_url} onChange={(image_url) => set({ image_url })} />
           </div>
           <NumberField label="Sort order" id="sort" value={row.sort} onChange={(sort) => set({ sort: sort ?? 0 })} />
-        </section>
+        </Panel>
 
-        <aside className="lg:sticky lg:top-8">
-          <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60 mb-2">Preview</p>
-          <PortraitCard
-            title={row.name || "Unnamed"}
-            imageUrl={row.image_url}
-            badges={
-              row.magic !== "none" && (
-                <span className="rounded-full bg-dnd-bg/90">
-                  <MagicBadge magic={row.magic} />
-                </span>
-              )
-            }
-            subtitle={parents
-              .map((p) => rb.classes.find((c) => c.id === p)?.name)
-              .join(" + ")}
-          />
-        </aside>
-      </div>
+      </EditorWithPreview>
 
       {!isNew && (
         <>
@@ -184,33 +166,34 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
           </section>
 
           <section className="mt-12">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-              <Heading level={3} className="mb-0 border-b-0">
-                Perks, core spells and aspects
-              </Heading>
-              <div className="flex flex-wrap gap-2">
-                <Link href={`/admin/perks/new?class=${row.id}`} className="button button-secondary text-sm">
-                  New perk
-                </Link>
-                <Link href={`/admin/perks/new?class=${row.id}&kind=spell&core=1`} className="button button-secondary text-sm">
-                  New core spell
-                </Link>
-                {row.rank !== "basic" && (
-                  <Link href={`/admin/perks/new?class=${row.id}&kind=aspect`} className="button button-secondary text-sm">
-                    New aspect
+            <SectionHeader
+              title="Perks, core spells and aspects"
+              actions={
+                <>
+                  <Link href={`/admin/perks/new?class=${row.id}`} className="button button-secondary text-sm">
+                    New perk
                   </Link>
-                )}
-              </div>
-            </div>
+                  <Link href={`/admin/perks/new?class=${row.id}&kind=spell&core=1`} className="button button-secondary text-sm">
+                    New core spell
+                  </Link>
+                  {row.rank !== "basic" && (
+                    <Link href={`/admin/perks/new?class=${row.id}&kind=aspect`} className="button button-secondary text-sm">
+                      New aspect
+                    </Link>
+                  )}
+                </>
+              }
+            />
             <p className="text-sm mb-4">
               To add an existing perk to this class, or change a perk&apos;s
               requirements, open the perk.
             </p>
-            <AdminTable
+            <DataTable
               rows={perks}
               rowKey={(p) => p.id}
               href={(p) => `/admin/perks/${p.id}`}
               columns={perkColumns(rb)}
+            sort={sort}
               empty="No perks in this class yet."
             />
           </section>
@@ -219,9 +202,9 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
 
       <SaveBar
         onSave={save}
-        pending={pending || deleting}
+        pending={pending}
         disabled={!row.name.trim() || !id}
-        onDelete={isNew ? undefined : remove}
+        onDelete={remove}
       />
     </>
   );
@@ -236,7 +219,7 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
   const changed = JSON.stringify(row) !== JSON.stringify(skill);
 
   return (
-    <div className={`${panel} p-4 grid grid-cols-1 md:grid-cols-[2fr_1fr_auto_5rem] gap-3 items-end`}>
+    <Panel tight className="grid grid-cols-1 md:grid-cols-[2fr_1fr_auto_5rem] gap-3 items-end">
       <TextField
         label={isNew ? "New skill" : "Skill"}
         id={`skill-${skill.id}`}
@@ -250,15 +233,12 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
         onChange={(resource) => set({ resource: resource as Tables<"skills">["resource"] })}
         options={enumOptions(Constants.public.Enums.resource_pool)}
       />
-      <label className="flex items-center gap-1.5 text-sm pb-2">
-        <input
-          type="checkbox"
-          className="w-auto"
-          checked={row.is_unique}
-          onChange={(e) => set({ is_unique: e.target.checked })}
-        />
-        Unique
-      </label>
+      <Checkbox
+        label="Unique"
+        className="pb-2"
+        checked={row.is_unique}
+        onChange={(is_unique) => set({ is_unique })}
+      />
       <NumberField label="Order" id={`skill-sort-${skill.id}`} value={row.sort} onChange={(sort) => set({ sort: sort ?? 0 })} />
       <div className="md:col-span-4">
         <TextField
@@ -278,7 +258,7 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
               return saveSkill(isNew ? rest : { id, ...rest });
             })
           }
-          className="text-xs py-1 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="text-xs py-1"
         >
           {isNew ? "Add skill" : "Save skill"}
         </button>
@@ -296,7 +276,7 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
           </button>
         )}
       </div>
-    </div>
+    </Panel>
   );
 };
 

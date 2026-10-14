@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import ClassPortraitCard from "@/components/game/classPortraitCard";
+import MagicBadge from "@/components/game/magicBadge";
 import Eyebrow from "@/components/ui/eyebrow";
-import MagicBadge from "@/components/ui/magicBadge";
+import MediaObject from "@/components/ui/mediaObject";
 import Modal from "@/components/ui/modal";
 import NumberStepper from "@/components/ui/numberStepper";
 import PortraitCard, { type PortraitState } from "@/components/ui/portraitCard";
@@ -12,7 +14,7 @@ import {
   isClassUnlocked,
   MAX_CLASS_LEVEL,
   parentLevels,
-  parentsOf,
+  parentNames,
   racialPerks,
   UNLOCK_LEVELS,
   withClassLevel,
@@ -25,20 +27,14 @@ import PerkTree, {
   pickButton,
   PerkTile,
   type SectionProps,
-} from "./perkTree";
+} from "@/components/game/perkTree";
 
 // ----- Classes -----
-
-/** "Fighter + Juggler"; null for basic classes */
-const parentNames = ({ rb, classId }: ClassProps) =>
-  parentsOf(rb, classId)
-    .map((id) => findClass(rb, id)?.name)
-    .join(" + ") || null;
 
 /** Parent names, plus progress towards the unlock while it's locked */
 const unlockLine = (props: ClassProps) => {
   const { rb, build, classId } = props;
-  const names = parentNames(props);
+  const names = parentNames(rb, classId);
   if (!names) return null;
   return isClassUnlocked(rb, build, classId)
     ? names
@@ -87,18 +83,10 @@ export const ClassCard: React.FC<ClassProps> = (props) => {
 
   return (
     <>
-      <PortraitCard
-        title={cls.name}
-        imageUrl={cls.image_url}
+      <ClassPortraitCard
+        cls={cls}
         state={state}
         counter={level}
-        badges={
-          cls.magic !== "none" && (
-            <span className="rounded-full bg-dnd-bg/90">
-              <MagicBadge magic={cls.magic} />
-            </span>
-          )
-        }
         subtitle={unlockLine(props)}
         onOpen={() => setOpen(true)}
         footer={props.edit && <ClassLevelStepper {...props} />}
@@ -119,64 +107,54 @@ const ClassDetails: React.FC<ClassProps> = (props) => {
   const cls = findClass(rb, classId)!;
   const level = build.classes[classId] ?? 0;
   const skills = rb.skills.filter((s) => s.class_id === classId);
-  const parents = parentNames(props);
+  const parents = parentNames(rb, classId);
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row gap-6 mb-10">
-        {cls.image_url && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={cls.image_url}
-            alt=""
-            className="w-full sm:w-56 aspect-[3/4] object-cover object-top rounded-lg border border-dnd-gold shrink-0"
-          />
-        )}
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap gap-2 mb-3">
-            <Eyebrow text={cls.rank} />
-            <MagicBadge magic={cls.magic} />
-          </div>
-          {parents && (
-            <p className="text-xs text-dnd-ink/70 mb-3">
-              Unlocks when {parents} total {UNLOCK_LEVELS} levels
-              {!isClassUnlocked(rb, build, classId) &&
-                ` (now ${parentLevels(rb, build, classId)})`}
-            </p>
-          )}
-          {cls.description && (
-            <p className="whitespace-pre-line mb-6">{cls.description}</p>
-          )}
-          {edit && (
-            <div className="flex items-center gap-3 mb-6">
-              <ClassLevelStepper {...props} />
-            </div>
-          )}
-
-          <Heading level={4} className="mb-2">
-            Skills{level > 0 && ` (+${level})`}
-          </Heading>
-          <ul>
-            {skills.map((s) => (
-              <li
-                key={s.id}
-                className="py-2 border-b border-dnd-gold/40 last:border-b-0"
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-bold text-dnd-red libre">
-                    {s.name}
-                  </span>
-                  <Eyebrow text={RESOURCE_NAMES[s.resource]} />
-                  {s.is_unique && <Eyebrow text="unique" color="red" />}
-                </div>
-                {s.description && (
-                  <p className="text-xs mt-1">{s.description}</p>
-                )}
-              </li>
-            ))}
-          </ul>
+      <MediaObject image={cls.image_url} className="mb-10">
+        <div className="flex flex-wrap gap-2 mb-3">
+          <Eyebrow text={cls.rank} />
+          <MagicBadge magic={cls.magic} />
         </div>
-      </div>
+        {parents && (
+          <p className="text-xs text-dnd-ink/70 mb-3">
+            Unlocks when {parents} total {UNLOCK_LEVELS} levels
+            {!isClassUnlocked(rb, build, classId) &&
+              ` (now ${parentLevels(rb, build, classId)})`}
+          </p>
+        )}
+        {cls.description && (
+          <p className="whitespace-pre-line mb-6">{cls.description}</p>
+        )}
+        {edit && (
+          <div className="flex items-center gap-3 mb-6">
+            <ClassLevelStepper {...props} />
+          </div>
+        )}
+
+        <Heading level={4} className="mb-2">
+          Skills{level > 0 && ` (+${level})`}
+        </Heading>
+        <ul>
+          {skills.map((s) => (
+            <li
+              key={s.id}
+              className="py-2 border-b border-dnd-gold/40 last:border-b-0"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-dnd-red libre">
+                  {s.name}
+                </span>
+                <Eyebrow text={RESOURCE_NAMES[s.resource]} />
+                {s.is_unique && <Eyebrow text="unique" color="red" />}
+              </div>
+              {s.description && (
+                <p className="text-xs mt-1">{s.description}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </MediaObject>
 
       <Heading level={3}>Perks</Heading>
       <PerkTree {...props} showAll />
@@ -237,27 +215,17 @@ const RaceDetails: React.FC<RaceProps> = (props) => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row gap-6 mb-10">
-        {race.image_url && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={race.image_url}
-            alt=""
-            className="w-full sm:w-56 aspect-[3/4] object-cover object-top rounded-lg border border-dnd-gold shrink-0"
-          />
+      <MediaObject image={race.image_url} className="mb-10">
+        {race.blurb && <p className="font-bold libre mb-3">{race.blurb}</p>}
+        {race.description && (
+          <p className="whitespace-pre-line mb-6">{race.description}</p>
         )}
-        <div className="flex-1 min-w-0">
-          {race.blurb && <p className="font-bold libre mb-3">{race.blurb}</p>}
-          {race.description && (
-            <p className="whitespace-pre-line mb-6">{race.description}</p>
-          )}
-          {edit && (
-            <div className="w-40">
-              <RaceChooseButton {...props} />
-            </div>
-          )}
-        </div>
-      </div>
+        {edit && (
+          <div className="w-40">
+            <RaceChooseButton {...props} />
+          </div>
+        )}
+      </MediaObject>
 
       <Heading level={3}>Racial perks (pick one)</Heading>
       <RacialPerks {...props} />

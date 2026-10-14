@@ -1,27 +1,9 @@
-import { GiBiceps, GiDramaMasks, GiSheikahEye } from "react-icons/gi";
 import { twMerge } from "tailwind-merge";
-
-type Resource = "body" | "soul" | "charisma";
-
-const RESOURCES: Record<
-  Resource,
-  { name: string; icon: React.ReactNode; color: string }
-> = {
-  body: { name: "Body", icon: <GiBiceps />, color: "text-body border-body" },
-  soul: {
-    name: "Soul",
-    icon: <GiSheikahEye />,
-    color: "text-soul border-soul",
-  },
-  charisma: {
-    name: "Charisma",
-    icon: <GiDramaMasks />,
-    color: "text-charisma border-charisma",
-  },
-};
+import { RESOURCE_NAMES } from "@/lib/rules/format";
+import { type Pool, RESOURCE_STYLES } from "./resources";
 
 interface StatBlockProps {
-  resource: Resource;
+  resource: Pool;
   /** Points from the starting 15 and level-ups */
   base: number;
   /** Points granted by perks; drawn after the base ones with a coloured border */
@@ -67,7 +49,8 @@ const StatBlock: React.FC<StatBlockProps> = ({
   exhausted = 0,
   scarred = 0,
 }) => {
-  const { name, icon, color } = RESOURCES[resource];
+  const { icon, text, border } = RESOURCE_STYLES[resource];
+  const name = RESOURCE_NAMES[resource];
   const total = base + bonus;
 
   // Scars take the last points first, exhaustion the ones just before them
@@ -86,8 +69,7 @@ const StatBlock: React.FC<StatBlockProps> = ({
       <span
         className={twMerge(
           "flex items-center gap-1 w-28 shrink-0 font-bold libre",
-          color,
-          "border-0",
+          text,
         )}
       >
         <span className="text-xl">{icon}</span>
@@ -101,7 +83,7 @@ const StatBlock: React.FC<StatBlockProps> = ({
               key={i}
               className={twMerge(
                 "relative w-5 h-8 rounded-sm border-2 bg-white/60",
-                i < base ? "border-dnd-ink/40" : color,
+                i < base ? "border-dnd-ink/40" : border,
                 state === "scarred" && "opacity-40",
               )}
             >

@@ -3,7 +3,8 @@ import { twMerge } from "tailwind-merge";
 import type { PerkState } from "@/lib/rules/character";
 import { costOf, DURATION_NAMES } from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
-import { Flavour } from "./typography";
+import { Flavour } from "@/components/ui/typography";
+import { RESOURCE_STYLES } from "./resources";
 
 const DEFAULT_IMAGE = "/img/perks/default.webp";
 
@@ -39,14 +40,6 @@ export const PerkImage: React.FC<{
   <SquareImage src={perk.image_url} className={className} />
 );
 
-const COST_COLORS: Record<string, string> = {
-  body: "text-body border-body bg-body/10",
-  soul: "text-soul border-soul bg-soul/10",
-  charisma: "text-charisma border-charisma bg-charisma/10",
-  material: "text-dnd-ink border-dnd-ink/40 bg-material/40",
-  coin: "text-dnd-ink border-charisma/60 bg-coin/40",
-};
-
 /** "Passive", "Granted automatically" or the activation price as a coloured pill */
 export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
   if (perk.kind === "aspect")
@@ -59,7 +52,7 @@ export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
     <p
       className={twMerge(
         "inline-block text-xs font-semibold rounded-full border px-2 py-0.5",
-        COST_COLORS[perk.cost_resource!],
+        RESOURCE_STYLES[perk.cost_resource!].pill,
       )}
     >
       {cost}
@@ -189,9 +182,9 @@ const PerkCard: React.FC<PerkCardProps> = ({
           <div className="mb-3">
             <PerkCost perk={perk} />
           </div>
-          <Flavour text={perk.flavour} className="text-sm mb-2" />
+          <Flavour text={perk.flavour} className="text-xs mb-2" />
           {perk.description && (
-            <p className="text-sm whitespace-pre-line mb-3">
+            <p className="text-xs whitespace-pre-line mb-3">
               {perk.description}
             </p>
           )}

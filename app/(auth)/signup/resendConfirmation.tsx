@@ -23,7 +23,7 @@ export const ResendConfirmation: React.FC<{ email: string }> = ({ email }) => {
           setState("idle");
         } else setState("sent");
       }}
-      className="button-secondary self-start text-sm py-1 disabled:opacity-50"
+      className="button-secondary self-start text-sm py-1"
     >
       {state === "sending" ? "Sending…" : "Send the confirmation email again"}
     </button>

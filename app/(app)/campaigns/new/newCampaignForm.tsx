@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import Field from "@/components/ui/field";
+import { FormMessage, SubmitButton } from "@/components/ui/form";
+import Panel from "@/components/ui/panel";
 import { newCampaign } from "./actions";
 
 export const NewCampaignForm = () => {
@@ -10,10 +12,7 @@ export const NewCampaignForm = () => {
   });
 
   return (
-    <form
-      action={formAction}
-      className="flex flex-col gap-4 max-w-xl bg-dnd-bg border border-dnd-gold rounded-lg shadow-md p-6"
-    >
+    <Panel as="form" action={formAction} className="flex flex-col gap-4 max-w-xl">
       <Field label="Name" htmlFor="name">
         <input id="name" name="name" defaultValue={state.name} required />
       </Field>
@@ -29,18 +28,10 @@ export const NewCampaignForm = () => {
           defaultValue={state.description}
         />
       </Field>
-      {state.error && (
-        <p role="alert" className="text-sm text-dnd-red">
-          {state.error}
-        </p>
-      )}
-      <button
-        type="submit"
-        disabled={pending}
-        className="self-start disabled:opacity-50"
-      >
-        {pending ? "Gathering the party…" : "Create campaign"}
-      </button>
-    </form>
+      <FormMessage state={state} />
+      <SubmitButton pending={pending} pendingLabel="Gathering the party…">
+        Create campaign
+      </SubmitButton>
+    </Panel>
   );
 };

@@ -25,11 +25,4 @@ export const locate = (nav: NavChapter[], slug: string) => {
   };
 };
 
-/** Lowercase words joined by dashes, e.g. "Item scars" → "item-scars" */
-export const slugify = (text: string) =>
-  text
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+export { slugify } from "./slugify";

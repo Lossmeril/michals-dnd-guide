@@ -53,6 +53,21 @@ export const SkeletonInlineText: React.FC<{
   );
 };
 
+/** A small grey label over a group: "Preview", "Racial perks", "Aspects" */
+export const Overline: React.FC<{
+  className?: string;
+  children: React.ReactNode;
+}> = ({ className, children }) => (
+  <p
+    className={twMerge(
+      "text-xs font-bold uppercase tracking-wider text-dnd-ink/60 mb-3",
+      className,
+    )}
+  >
+    {children}
+  </p>
+);
+
 /** A perk's or trait's one-line gist, shown in bold italics before its rules */
 export const Flavour: React.FC<{
   text: string | null | undefined;

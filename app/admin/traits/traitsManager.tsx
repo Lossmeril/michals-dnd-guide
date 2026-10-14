@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Eyebrow from "@/components/ui/eyebrow";
-import { SquareImage } from "@/components/ui/perkCard";
-import TraitText from "@/components/ui/traitText";
+import { SquareImage } from "@/components/game/perkCard";
+import TraitText from "@/components/game/traitText";
 import { Heading } from "@/components/ui/typography";
 import type { Tables } from "@/lib/types/database.types";
 import { deleteTrait, saveTrait, setTraitApproved } from "../actions";
-import { ImageField, panel, TextField, useAdminAction } from "../_components";
+import { TextField } from "@/components/ui/formControls";
+import Panel from "@/components/ui/panel";
+import { ImageField, useAdminAction } from "../_components";
 
 type Draft = {
   name: string;
@@ -78,7 +80,7 @@ const TraitForm: React.FC<{
           type="button"
           disabled={pending || !ready}
           onClick={() => onSubmit(draft)}
-          className="text-sm py-1 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="text-sm py-1"
         >
           {submitLabel}
         </button>
@@ -103,7 +105,7 @@ const TraitsManager: React.FC<{
 
   return (
     <>
-      <section className={`${panel} mb-10`}>
+      <Panel as="section" className="mb-10">
         <Heading level={3}>New premade trait</Heading>
         <TraitForm
           key={formKey}
@@ -118,13 +120,13 @@ const TraitsManager: React.FC<{
             })
           }
         />
-      </section>
+      </Panel>
 
       <ul className="flex flex-col gap-3">
         {traits.map((t) => {
           const waiting = t.is_custom && !t.approved_by;
           return (
-            <li key={t.id} className={`${panel} p-4 ${waiting ? "border-dnd-red" : ""}`}>
+            <Panel as="li" tight key={t.id} className={waiting ? "border-dnd-red" : ""}>
               {editing === t.id ? (
                 <TraitForm
                   idPrefix={`t${t.id}`}
@@ -199,7 +201,7 @@ const TraitsManager: React.FC<{
                   </div>
                 </div>
               )}
-            </li>
+            </Panel>
           );
         })}
       </ul>

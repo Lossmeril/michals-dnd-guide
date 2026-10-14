@@ -1,8 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import PerkCard from "@/components/ui/perkCard";
+import PerkCard from "@/components/game/perkCard";
+import {
+  Checkbox,
+  CheckboxGroup,
+  enumOptions,
+  NumberField,
+  SelectField,
+  TextField,
+} from "@/components/ui/formControls";
+import IssueList from "@/components/ui/issueList";
+import Panel, { panelClass } from "@/components/ui/panel";
 import { Heading } from "@/components/ui/typography";
 import {
   describeRequirement,
@@ -17,18 +26,12 @@ import {
 } from "../../actions";
 import {
   AdminHeader,
-  CheckboxGroup,
-  enumOptions,
+  EditorWithPreview,
   formGrid,
+  IdField,
   ImageField,
-  NumberField,
-  panel,
   SaveBar,
-  SelectField,
-  slugify,
-  TextField,
-  useAdminAction,
-  useDelete,
+  useRowEditor,
 } from "../../_components";
 
 const ENUMS = Constants.public.Enums;
@@ -74,17 +77,7 @@ interface PerkEditorProps {
 }
 
 const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
-  const router = useRouter();
   const isNew = !perk;
-  const [row, setRow] = useState<Tables<"perks">>(
-    perk ?? {
-      ...blank,
-      kind: (ENUMS.perk_kind as readonly string[]).includes(preset.kind ?? "")
-        ? (preset.kind as Tables<"perks">["kind"])
-        : "perk",
-      race_id: preset.raceId,
-    },
-  );
   const [links, setLinks] = useState<ClassLinkInput[]>(
     perk
       ? rb.classPerks
@@ -107,10 +100,31 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
       : [],
   );
 
-  const set = (patch: Partial<Tables<"perks">>) => setRow({ ...row, ...patch });
-  const { pending, runAction } = useAdminAction();
-  const { deleting, remove } = useDelete("perks", row.id, "/admin/perks");
-  const id = isNew ? slugify(row.name) : row.id;
+  const { row, id, set, save, remove, pending } = useRowEditor<Tables<"perks">>({
+    initial: perk ?? {
+      ...blank,
+      kind: (ENUMS.perk_kind as readonly string[]).includes(preset.kind ?? "")
+        ? (preset.kind as Tables<"perks">["kind"])
+        : "perk",
+      race_id: preset.raceId,
+    },
+    isNew,
+    table: "perks",
+    listHref: "/admin/perks",
+    save: (r) => {
+      const racial = r.kind === "racial";
+      return savePerk(
+        isNew,
+        { ...r, race_id: racial ? r.race_id : null },
+        racial ? [] : links,
+        requirements.map((req) =>
+          CLASS_KINDS.includes(req.kind)
+            ? { ...req, required_perk_id: null }
+            : { ...req, class_ids: [], level: null },
+        ),
+      );
+    },
+  });
   const racial = row.kind === "racial";
 
   const classOptions = rb.classes.map((c) => ({ value: c.id, label: c.name }));
@@ -134,25 +148,6 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
       "A class is listed twice.",
   ].filter(Boolean) as string[];
 
-  const save = () =>
-    runAction(
-      () =>
-        savePerk(
-          isNew,
-          { ...row, id, race_id: racial ? row.race_id : null },
-          racial ? [] : links,
-          requirements.map((r) =>
-            CLASS_KINDS.includes(r.kind)
-              ? { ...r, required_perk_id: null }
-              : { ...r, class_ids: [], level: null },
-          ),
-        ),
-      {
-        then: (savedId) =>
-          isNew ? router.push(`/admin/perks/${savedId}`) : router.refresh(),
-      },
-    );
-
   return (
     <>
       <AdminHeader
@@ -160,18 +155,23 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
         crumbs={[{ href: "/admin/perks", label: "Perks and spells" }]}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_20rem] gap-8 items-start">
-        <div className="flex flex-col gap-8 min-w-0">
-          <section className={`${panel} ${formGrid}`}>
-            <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
-            <TextField
-              label="Id"
-              id="id"
-              value={id}
-              onChange={() => {}}
-              disabled
-              hint={isNew ? "Made from the name; can't change later." : "Can't change."}
+      <EditorWithPreview
+        wide
+        preview={
+          <>
+            <PerkCard
+              perk={{ ...row, id, name: row.name || "Unnamed" }}
+              core={links.some((l) => l.is_core)}
+              requires={requirements.map(describe).join(", ")}
             />
+            <IssueList errors={problems} />
+          </>
+        }
+      >
+        <div className="flex flex-col gap-8 min-w-0">
+          <Panel as="section" className={formGrid}>
+            <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+            <IdField id={id} isNew={isNew} />
             <SelectField
               label="Kind"
               id="kind"
@@ -214,10 +214,10 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                 onChange={(image_url) => set({ image_url })}
               />
             </div>
-          </section>
+          </Panel>
 
           {row.kind !== "aspect" && (
-            <section className={panel}>
+            <Panel as="section">
               <Heading level={3}>Activation price</Heading>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <SelectField
@@ -254,10 +254,10 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                   </>
                 )}
               </div>
-            </section>
+            </Panel>
           )}
 
-          <details className={panel} open={row.kind === "spell" || !!row.components?.length}>
+          <details className={panelClass} open={row.kind === "spell" || !!row.components?.length}>
             <summary className="cursor-pointer libre caps text-dnd-red text-lg">
               Spell details
             </summary>
@@ -298,7 +298,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
           </details>
 
           {!racial && (
-            <section className={panel}>
+            <Panel as="section">
               <Heading level={3}>Classes</Heading>
               <p className="text-sm mb-4">
                 Which classes can pick it. A core spell comes free with the class.
@@ -316,15 +316,12 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                         options={classOptions}
                       />
                     </div>
-                    <label className="flex items-center gap-1.5 text-sm pb-2">
-                      <input
-                        type="checkbox"
-                        className="w-auto"
-                        checked={link.is_core}
-                        onChange={(e) => setLink(i, { is_core: e.target.checked })}
-                      />
-                      Core spell
-                    </label>
+                    <Checkbox
+                      label="Core spell"
+                      className="pb-2"
+                      checked={link.is_core}
+                      onChange={(is_core) => setLink(i, { is_core })}
+                    />
                     <div className="w-24">
                       <NumberField label="Order" id={`link-sort-${i}`} value={link.sort} onChange={(sort) => setLink(i, { sort: sort ?? 0 })} />
                     </div>
@@ -354,10 +351,10 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
               >
                 Add a class
               </button>
-            </section>
+            </Panel>
           )}
 
-          <section className={panel}>
+          <Panel as="section">
             <Heading level={3}>Requirements</Heading>
             <p className="text-sm mb-4">
               All of them must be met. A perk needing an aspect or another perk of
@@ -445,31 +442,15 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
             >
               Add a requirement
             </button>
-          </section>
+          </Panel>
         </div>
-
-        <aside className="lg:sticky lg:top-8 flex flex-col gap-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60">Preview</p>
-          <PerkCard
-            perk={{ ...row, id, name: row.name || "Unnamed" }}
-            core={links.some((l) => l.is_core)}
-            requires={requirements.map(describe).join(", ")}
-          />
-          {problems.length > 0 && (
-            <ul className="text-sm text-dnd-red list-disc pl-5">
-              {problems.map((p) => (
-                <li key={p}>{p}</li>
-              ))}
-            </ul>
-          )}
-        </aside>
-      </div>
+      </EditorWithPreview>
 
       <SaveBar
         onSave={save}
-        pending={pending || deleting}
+        pending={pending}
         disabled={problems.length > 0 || !id}
-        onDelete={isNew ? undefined : remove}
+        onDelete={remove}
       />
     </>
   );

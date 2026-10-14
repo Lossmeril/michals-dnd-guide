@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { SkeletonCard } from "@/components/ui/card";
-import { convertToWebp } from "@/lib/convertToWebp";
+import IssueList from "@/components/ui/issueList";
+import StickyBar from "@/components/ui/stickyBar";
+import { prepareImage } from "@/lib/hooks/useImageUpload";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import {
@@ -31,8 +33,6 @@ import {
   StartSection,
   TraitsSection,
 } from "./sections";
-
-const MAX_PORTRAIT_SIZE = 2 * 1024 * 1024; // the characters bucket's limit
 
 const SECTION_LINKS = [
   ["race", "Race"],
@@ -107,15 +107,8 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   };
 
   const changePortrait = async (original: File) => {
-    let file: File;
-    try {
-      file = await convertToWebp(original, { maxDimension: 1024 });
-    } catch {
-      return toast.error("Couldn't read that image.");
-    }
-    if (file.size > MAX_PORTRAIT_SIZE) {
-      return toast.error("Image must be smaller than 2MB.");
-    }
+    const file = await prepareImage(original, { maxDimension: 1024 });
+    if (!file) return;
     setPortrait(file);
     setPortraitUrl(URL.createObjectURL(file));
   };
@@ -162,7 +155,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             : [{ label: "New character" }]),
         ]}
       />
-      <div className="sticky top-0 z-30 -mx-4 px-4 py-3 mb-8 bg-dnd-bg/95 backdrop-blur border-b border-dnd-gold flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <StickyBar position="top">
         <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
           {[...(characterId ? [] : [["start", "Start"]]), ...SECTION_LINKS].map(
             ([id, label]) => (
@@ -191,7 +184,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           {characterId && (
             <Link
               href={`/characters/${characterId}`}
-              className="button bg-transparent text-dnd-red border border-dnd-red hover:bg-dnd-red/10"
+              className="button button-secondary"
             >
               Cancel
             </Link>
@@ -200,12 +193,11 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             type="button"
             onClick={save}
             disabled={saving || problems.length > 0}
-            className="disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? "Saving…" : "Save"}
           </button>
         </div>
-      </div>
+      </StickyBar>
 
       {!characterId && <StartSection level={level} onChange={setLevel} />}
 
@@ -234,22 +226,8 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       <BackstorySection backstory={backstory} onChange={setBackstory} />
 
       <Section id="checklist" title="Before saving">
-        {problems.length === 0 ? (
-          <p>All set.</p>
-        ) : (
-          <ul className="text-sm text-dnd-red list-disc pl-5">
-            {problems.map((e) => (
-              <li key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
-        {warnings.length > 0 && (
-          <ul className="text-sm text-dnd-ink/60 list-disc pl-5 mt-2">
-            {warnings.map((w) => (
-              <li key={w}>{w}</li>
-            ))}
-          </ul>
-        )}
+        {problems.length === 0 && <p>All set.</p>}
+        <IssueList errors={problems} warnings={warnings} />
       </Section>
     </>
   );

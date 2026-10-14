@@ -1,120 +1,87 @@
 "use client";
 
+import Link from "next/link";
 import { AvatarGroup, SkeletonAvatarGroup } from "@/components/ui/avatar";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Card, { SkeletonCard } from "@/components/ui/card";
+import Card, { CardGrid } from "@/components/ui/card";
 import Eyebrow from "@/components/ui/eyebrow";
 import { Heading, SkeletonInlineText } from "@/components/ui/typography";
-import { IMG_DEFAULTS } from "@/data/constants";
 import { canRunCampaigns, requireUser } from "@/lib/auth";
+import { campaignCover } from "@/lib/campaignCover";
 import { fetchProfile } from "@/lib/endpoints/profiles";
+import { useLoad } from "@/lib/hooks/useLoad";
 import {
   fetchCampaignsPlayerIsPartOf,
   fetchPlayersInCampaign,
 } from "@/lib/specialFecthers/playerCampaigns";
 import { Tables } from "@/lib/types/database.types";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const CampaignCard: React.FC<{
   campaign: Tables<"campaigns">;
 }> = ({ campaign }) => {
-  const [avatarsLoading, setAvatarsLoading] = useState(true);
-  const [players, setPlayers] = useState<Tables<"profiles">[] | null>(null);
-  const [dm, setDm] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadPlayers = async () => {
-      try {
-        const data = await fetchPlayersInCampaign(campaign.id);
-        const dm = await fetchProfile(campaign.dm!);
-        setPlayers(data ? data : null);
-        setDm(dm ? dm.display_name : null);
-      } catch (error) {
-        console.error("Error fetching players:", error);
-      } finally {
-        setAvatarsLoading(false);
-      }
-    };
-
-    loadPlayers();
+  const { data, loading } = useLoad(async () => {
+    const [players, dm] = await Promise.all([
+      fetchPlayersInCampaign(campaign.id),
+      fetchProfile(campaign.dm!),
+    ]);
+    return { players: players ?? [], dmName: dm?.display_name ?? null };
   }, [campaign.id, campaign.dm]);
+  const cover = campaignCover(campaign);
 
   return (
     <Card
-      key={campaign.id}
       title={campaign.name || "Unnamed Campaign"}
       link={`/campaigns/${campaign.id}`}
-      imageUrl={campaign.image_url?.trim() || IMG_DEFAULTS.campaign_image}
-      imageClassName={!campaign.image_url?.trim() ? "grayscale opacity-50" : ""}
-      eyeBrow={[
-        <Eyebrow key="eyebrow" text={"Novinka"} color="green" />,
-        <Eyebrow key="eyebrow2" text={"New"} color="blue" />,
-      ]}
+      imageUrl={cover.src}
+      imageClassName={cover.className}
+      eyebrows={
+        <>
+          <Eyebrow text="Novinka" color="green" />
+          <Eyebrow text="New" color="blue" />
+        </>
+      }
     >
       <p className="text-xs text-dnd-ink/75 mb-4">
-        DMed by {dm || <SkeletonInlineText />}
+        DMed by {data?.dmName || <SkeletonInlineText />}
       </p>
 
-      {avatarsLoading ? (
+      {loading ? (
         <SkeletonAvatarGroup count={3} />
-      ) : players && players.length > 0 ? (
-        <AvatarGroup
-          avatars={players.map((player) => ({
-            name: player.display_name || "Unknown",
-            imgSrc: player.avatar_url || undefined,
-          }))}
-        />
       ) : (
-        <></>
+        data &&
+        data.players.length > 0 && (
+          <AvatarGroup
+            avatars={data.players.map((player) => ({
+              name: player.display_name || "Unknown",
+              imgSrc: player.avatar_url || undefined,
+            }))}
+          />
+        )
       )}
     </Card>
   );
 };
 
 const CampaignsPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [canCreate, setCanCreate] = useState(false);
-
-  const [DMcampaigns, setDMcampaigns] = useState<Tables<"campaigns">[] | null>(
-    null,
-  );
-  const [playerCampaigns, setPlayerCampaigns] = useState<
-    Tables<"campaigns">[] | null
-  >(null);
-
-  useEffect(() => {
-    const loadCampaigns = async () => {
-      try {
-        // Fetch the user and their profile
-        const user = await requireUser();
-        const player = await fetchProfile(user.id);
-        setCanCreate(await canRunCampaigns());
-
-        const data = await fetchCampaignsPlayerIsPartOf(player?.id || "");
-
-        // Set the campaigns where the user is a DM and where they are a player
-        setDMcampaigns(
-          data.campaignsPlayerDMs ? data.campaignsPlayerDMs : null,
-        );
-        setPlayerCampaigns(
-          data.campaignsPlayerIsPartOf ? data.campaignsPlayerIsPartOf : null,
-        );
-      } catch (error) {
-        console.error("Error fetching campaigns:", error);
-      } finally {
-        setLoading(false);
-      }
+  const { data, loading } = useLoad(async () => {
+    const user = await requireUser();
+    const [player, canCreate] = await Promise.all([
+      fetchProfile(user.id),
+      canRunCampaigns(),
+    ]);
+    const campaigns = await fetchCampaignsPlayerIsPartOf(player?.id || "");
+    return {
+      canCreate,
+      dm: campaigns.campaignsPlayerDMs ?? [],
+      player: campaigns.campaignsPlayerIsPartOf ?? [],
     };
-
-    loadCampaigns();
   }, []);
 
   return (
     <>
       <Breadcrumbs items={[{ label: "Campaigns" }]} />
       <Heading level={1}>Campaigns</Heading>
-      {canCreate && (
+      {data?.canCreate && (
         <Link href="/campaigns/new" className="button inline-block mb-10">
           New campaign
         </Link>
@@ -123,30 +90,18 @@ const CampaignsPage = () => {
       <Heading level={2}>
         Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
       </Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
-        {loading ? (
-          <SkeletonCard />
-        ) : DMcampaigns && DMcampaigns.length > 0 ? (
-          DMcampaigns.map((campaign) => (
-            <CampaignCard key={campaign.id} campaign={campaign} />
-          ))
-        ) : (
-          <p>No campaigns found.</p>
-        )}
-      </div>
+      <CardGrid loading={loading} empty="No campaigns found." className="mb-20">
+        {data?.dm.map((campaign) => (
+          <CampaignCard key={campaign.id} campaign={campaign} />
+        ))}
+      </CardGrid>
 
       <Heading level={2}>Campaigns you are a player in</Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
-        {loading ? (
-          <SkeletonCard />
-        ) : playerCampaigns && playerCampaigns.length > 0 ? (
-          playerCampaigns.map((campaign) => (
-            <CampaignCard key={campaign.id} campaign={campaign} />
-          ))
-        ) : (
-          <p>No campaigns found.</p>
-        )}
-      </div>
+      <CardGrid loading={loading} empty="No campaigns found." className="mb-20">
+        {data?.player.map((campaign) => (
+          <CampaignCard key={campaign.id} campaign={campaign} />
+        ))}
+      </CardGrid>
     </>
   );
 };

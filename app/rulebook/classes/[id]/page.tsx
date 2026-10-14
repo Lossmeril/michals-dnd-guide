@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Eyebrow from "@/components/ui/eyebrow";
-import MagicBadge from "@/components/ui/magicBadge";
+import MagicBadge from "@/components/game/magicBadge";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { emptyBuild, findClass, parentsOf, UNLOCK_LEVELS } from "@/lib/rules/character";
 import { RESOURCE_NAMES } from "@/lib/rules/format";
-import PerkTree from "@/app/(app)/characters/_character/perkTree";
-import { RuleTable } from "@/components/rulebook/elements";
+import PerkTree from "@/components/game/perkTree";
+import { SimpleTable } from "@/components/ui/dataTable";
+import MediaObject from "@/components/ui/mediaObject";
 import { RulePage } from "../../_components";
 
 const RANK_PAGES = {
@@ -35,57 +36,51 @@ const ClassPage = async ({ params }: PageProps<"/rulebook/classes/[id]">) => {
       editHref={`/admin/classes/${cls.id}`}
     >
       <div className="rules">
-        <div className="flex flex-col sm:flex-row gap-6 mb-8">
-          {cls.image_url && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={cls.image_url}
-              alt=""
-              className="w-full sm:w-52 aspect-[3/4] object-cover object-top rounded-lg border border-dnd-gold shadow-md shrink-0"
-            />
-          )}
-          <div className="min-w-0">
-            <div className="flex flex-wrap gap-2 mb-3">
-              <Eyebrow text={cls.rank} />
-              <MagicBadge magic={cls.magic} />
-            </div>
-            {parents.length > 0 && (
-              <p className="text-sm mb-3">
-                <strong>Unlocks when</strong>{" "}
-                {parents.map((p, i) => (
-                  <span key={p.id}>
-                    {i > 0 && " + "}
-                    <Link href={`/rulebook/classes/${p.id}`} className="link">
-                      {p.name}
-                    </Link>
-                  </span>
-                ))}{" "}
-                total {UNLOCK_LEVELS} levels.
-              </p>
-            )}
-            {cls.description && <p className="whitespace-pre-line">{cls.description}</p>}
-            {children.length > 0 && (
-              <p className="text-sm mt-3">
-                <strong>Leads to</strong>{" "}
-                {children.map((c, i) => (
-                  <span key={c.id}>
-                    {i > 0 && ", "}
-                    <Link href={`/rulebook/classes/${c.id}`} className="link">
-                      {c.name}
-                    </Link>
-                  </span>
-                ))}
-                .
-              </p>
-            )}
+        <MediaObject
+          image={cls.image_url}
+          imageClassName="sm:w-52 shadow-md"
+          className="mb-8"
+        >
+          <div className="flex flex-wrap gap-2 mb-3">
+            <Eyebrow text={cls.rank} />
+            <MagicBadge magic={cls.magic} />
           </div>
-        </div>
+          {parents.length > 0 && (
+            <p className="text-sm mb-3">
+              <strong>Unlocks when</strong>{" "}
+              {parents.map((p, i) => (
+                <span key={p.id}>
+                  {i > 0 && " + "}
+                  <Link href={`/rulebook/classes/${p.id}`} className="link">
+                    {p.name}
+                  </Link>
+                </span>
+              ))}{" "}
+              total {UNLOCK_LEVELS} levels.
+            </p>
+          )}
+          {cls.description && <p className="whitespace-pre-line">{cls.description}</p>}
+          {children.length > 0 && (
+            <p className="text-sm mt-3">
+              <strong>Leads to</strong>{" "}
+              {children.map((c, i) => (
+                <span key={c.id}>
+                  {i > 0 && ", "}
+                  <Link href={`/rulebook/classes/${c.id}`} className="link">
+                    {c.name}
+                  </Link>
+                </span>
+              ))}
+              .
+            </p>
+          )}
+        </MediaObject>
 
         <h2>Skills</h2>
         {skills.length === 0 ? (
           <p>None written yet.</p>
         ) : (
-          <RuleTable
+          <SimpleTable
             head={["Skill", "Resource", ""]}
             rows={skills.map((s) => [
               <div key="n">

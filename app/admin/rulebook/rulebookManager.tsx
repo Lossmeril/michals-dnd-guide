@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp, FaPen, FaTrash } from "react-icons/fa6";
 import { hrefOf, INDEX_SLUG, type NavChapter } from "@/lib/rulebookNav";
-import { AdminHeader, panel, useAdminAction } from "../_components";
+import IconButton from "@/components/ui/iconButton";
+import Panel from "@/components/ui/panel";
+import { AdminHeader, useAdminAction } from "../_components";
 import {
   deleteRulebookChapter,
   deleteRulebookPage,
@@ -13,9 +15,6 @@ import {
   moveRulebookPage,
   saveRulebookChapter,
 } from "./actions";
-
-const iconButton =
-  "w-8 h-8 p-0 inline-flex items-center justify-center text-xs bg-transparent text-dnd-red border border-dnd-gold hover:bg-dnd-red/10 disabled:opacity-30 disabled:cursor-not-allowed";
 
 /** Chapters and their pages: order, names, and links to each page's editor */
 const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
@@ -43,42 +42,34 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
 
       <div className="flex flex-col gap-6">
         {nav.map((chapter, ci) => (
-          <section key={chapter.id} className={panel}>
+          <Panel as="section" key={chapter.id}>
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <h2 className="libre font-bold text-xl text-dnd-red-dark mr-auto">
                 {chapter.title}
               </h2>
-              <button
-                type="button"
-                className={iconButton}
-                title="Move chapter up"
+              <IconButton
+                label="Move chapter up"
                 disabled={pending || ci === 0}
                 onClick={() => runAction(() => moveRulebookChapter(chapter.id, -1))}
               >
                 <FaArrowUp />
-              </button>
-              <button
-                type="button"
-                className={iconButton}
-                title="Move chapter down"
+              </IconButton>
+              <IconButton
+                label="Move chapter down"
                 disabled={pending || ci === nav.length - 1}
                 onClick={() => runAction(() => moveRulebookChapter(chapter.id, 1))}
               >
                 <FaArrowDown />
-              </button>
-              <button
-                type="button"
-                className={iconButton}
-                title="Rename chapter"
+              </IconButton>
+              <IconButton
+                label="Rename chapter"
                 disabled={pending}
                 onClick={() => renameChapter(chapter)}
               >
                 <FaPen />
-              </button>
-              <button
-                type="button"
-                className={iconButton}
-                title="Delete chapter"
+              </IconButton>
+              <IconButton
+                label="Delete chapter"
                 disabled={pending || chapter.pages.length > 0}
                 onClick={() =>
                   window.confirm(`Delete the chapter “${chapter.title}”?`) &&
@@ -88,7 +79,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                 }
               >
                 <FaTrash />
-              </button>
+              </IconButton>
             </div>
 
             <ul className="flex flex-col divide-y divide-dnd-gold/40">
@@ -106,28 +97,22 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                   >
                     {hrefOf(page.slug)}
                   </Link>
-                  <button
-                    type="button"
-                    className={iconButton}
-                    title="Move page up"
+                  <IconButton
+                    label="Move page up"
                     disabled={pending || pi === 0}
                     onClick={() => runAction(() => moveRulebookPage(page.id, -1))}
                   >
                     <FaArrowUp />
-                  </button>
-                  <button
-                    type="button"
-                    className={iconButton}
-                    title="Move page down"
+                  </IconButton>
+                  <IconButton
+                    label="Move page down"
                     disabled={pending || pi === chapter.pages.length - 1}
                     onClick={() => runAction(() => moveRulebookPage(page.id, 1))}
                   >
                     <FaArrowDown />
-                  </button>
-                  <button
-                    type="button"
-                    className={iconButton}
-                    title="Delete page"
+                  </IconButton>
+                  <IconButton
+                    label="Delete page"
                     disabled={pending || page.slug === INDEX_SLUG}
                     onClick={() =>
                       window.confirm(`Delete the page “${page.title}” for good?`) &&
@@ -137,7 +122,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                     }
                   >
                     <FaTrash />
-                  </button>
+                  </IconButton>
                 </li>
               ))}
             </ul>
@@ -147,11 +132,12 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
             >
               Add a page →
             </Link>
-          </section>
+          </Panel>
         ))}
 
-        <form
-          className={`${panel} flex flex-wrap items-end gap-3`}
+        <Panel
+          as="form"
+          className="flex flex-wrap items-end gap-3"
           onSubmit={(e) => {
             e.preventDefault();
             const title = newChapter.trim();
@@ -176,7 +162,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
           <button type="submit" disabled={pending || !newChapter.trim()}>
             Add chapter
           </button>
-        </form>
+        </Panel>
       </div>
     </>
   );

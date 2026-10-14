@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Panel from "@/components/ui/panel";
 import { Heading } from "@/components/ui/typography";
 
 interface AuthShellProps {
@@ -42,9 +43,7 @@ const AuthShell: React.FC<AuthShellProps> = ({
         {title}
       </Heading>
       {story}
-      <div className="bg-dnd-bg border border-dnd-gold rounded-lg shadow-md p-6">
-        {children}
-      </div>
+      <Panel>{children}</Panel>
     </div>
   </div>
 );

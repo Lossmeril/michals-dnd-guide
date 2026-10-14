@@ -1,3 +1,4 @@
+import Alert from "@/components/ui/alert";
 import StoryBox from "@/components/ui/storyBox";
 import AuthShell from "../authShell";
 import { LoginForm } from "./login-form";
@@ -25,12 +26,9 @@ const LoginPage = async ({ searchParams }: PageProps<"/login">) => {
       }
     >
       {error === "confirm" && (
-        <p
-          role="alert"
-          className="mb-6 p-3 text-sm bg-dnd-accent-red/40 border-l-4 border-dnd-red"
-        >
+        <Alert kind="danger">
           That link is invalid or has expired. Log in to get a new one sent.
-        </p>
+        </Alert>
       )}
       <LoginForm />
     </AuthShell>

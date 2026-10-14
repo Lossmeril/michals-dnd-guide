@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 interface AddCharacterSelectProps {
@@ -13,7 +14,19 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
 }) => {
   const [selected, setSelected] = useState("");
 
-  if (options.length === 0) return null;
+  // Say why there's nothing to add, instead of showing nothing
+  if (options.length === 0) {
+    return (
+      <p className="text-sm text-dnd-ink/70 mb-8">
+        No characters to add yet. Players join a campaign with a character,
+        so someone has to{" "}
+        <Link href="/characters/new" className="link">
+          create one
+        </Link>{" "}
+        first.
+      </p>
+    );
+  }
 
   return (
     <div className="flex items-center gap-2 mb-8">
@@ -30,7 +43,6 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
       <button
         type="button"
         disabled={!selected}
-        className="disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={async () => {
           await onAdd(Number(selected));
           setSelected("");

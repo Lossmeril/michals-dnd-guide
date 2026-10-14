@@ -1,12 +1,12 @@
+import Alert from "@/components/ui/alert";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
+import Panel from "@/components/ui/panel";
 import StoryBox from "@/components/ui/storyBox";
 import { Heading } from "@/components/ui/typography";
 import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
 import { AvatarUpload } from "./avatarUpload";
 import { DisplayNameForm, EmailForm, PasswordForm } from "./profileForms";
-
-const panel = "bg-dnd-bg border border-dnd-gold rounded-lg shadow-md p-6";
 
 const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
   const user = await requireUser();
@@ -36,16 +36,13 @@ const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
         </StoryBox>
       )}
       {error === "confirm" && (
-        <p
-          role="alert"
-          className="mb-8 p-3 text-sm bg-dnd-accent-red/40 border-l-4 border-dnd-red"
-        >
+        <Alert kind="danger" className="mb-8">
           That link is invalid or has expired. Request the change again.
-        </p>
+        </Alert>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-10 items-start">
-        <aside className={`${panel} flex flex-col items-center gap-4`}>
+        <Panel as="aside" className="flex flex-col items-center gap-4">
           <div className="relative w-40 h-40 bg-skeleton rounded-full overflow-hidden border-2 border-dnd-red group">
             {profile?.avatar_url && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -67,21 +64,21 @@ const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
               {profile.role}
             </p>
           )}
-        </aside>
+        </Panel>
 
         <div className="flex flex-col gap-8 min-w-0">
-          <section className={panel}>
+          <Panel as="section">
             <Heading level={3}>Display name</Heading>
             <DisplayNameForm current={profile?.display_name ?? ""} />
-          </section>
-          <section className={panel}>
+          </Panel>
+          <Panel as="section">
             <Heading level={3}>Email</Heading>
             <EmailForm current={user.email!} pending={user.new_email ?? null} />
-          </section>
-          <section className={panel}>
+          </Panel>
+          <Panel as="section">
             <Heading level={3}>Password</Heading>
             <PasswordForm />
-          </section>
+          </Panel>
         </div>
       </div>
     </>

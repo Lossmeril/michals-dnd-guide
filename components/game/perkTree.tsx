@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Modal from "@/components/ui/modal";
-import PerkCard from "@/components/ui/perkCard";
+import { Overline } from "@/components/ui/typography";
+import PerkCard from "./perkCard";
 import {
   type Build,
   describeRequirements,
@@ -210,7 +211,7 @@ const PerkTree: React.FC<PerkTreeProps> = ({
 
       {aspects.length > 0 && (
         <section>
-          <TreeLabel>Aspects</TreeLabel>
+          <Overline>Aspects</Overline>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
             {aspects.map((node) => (
               <ul key={node.perk.id}>
@@ -224,18 +225,12 @@ const PerkTree: React.FC<PerkTreeProps> = ({
   );
 };
 
-const TreeLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60 mb-3">
-    {children}
-  </p>
-);
-
 const TreeGroup: React.FC<{ label: string; children: React.ReactNode }> = ({
   label,
   children,
 }) => (
   <section>
-    <TreeLabel>{label}</TreeLabel>
+    <Overline>{label}</Overline>
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
       {children}
     </div>

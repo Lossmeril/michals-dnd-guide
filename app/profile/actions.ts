@@ -5,21 +5,18 @@ import { createClient } from "@/utils/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { checkDisplayName, checkPassword } from "@/lib/accountRules";
 import { confirmUrl } from "@/lib/siteUrl";
+import type { FormState } from "@/components/ui/form";
+import { fileFrom, toResult } from "@/lib/result";
 import { uploadImage } from "@/lib/uploadImage";
-
-export type FormState = { error: string | null; message?: string };
 
 export async function uploadAvatar(formData: FormData) {
   const user = await requireUser();
-  const file = formData.get("file");
-  if (!(file instanceof File) || file.size === 0) return { error: "No file" };
-
-  const supabase = createClient(await cookies());
-  try {
+  return toResult(async () => {
+    const supabase = createClient(await cookies());
     const { publicUrl } = await uploadImage(
       supabase,
       "profiles",
-      file,
+      fileFrom(formData),
       user.id,
     );
     await supabase
@@ -27,10 +24,8 @@ export async function uploadAvatar(formData: FormData) {
       .update({ avatar_url: publicUrl })
       .eq("id", user.id);
     revalidatePath("/", "layout");
-    return { error: null };
-  } catch (e) {
-    return { error: (e as Error).message };
-  }
+    return publicUrl;
+  });
 }
 
 export async function updateDisplayName(

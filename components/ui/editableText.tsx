@@ -80,7 +80,7 @@ const EditableText = <T, K extends StringKeys<T>>({
   };
 
   const iconButtonClasses =
-    "shrink-0 p-1 rounded text-dnd-ink/50 hover:text-dnd-red hover:bg-dnd-gold/20 transition-colors disabled:opacity-50";
+    "shrink-0 p-1 rounded text-dnd-ink/50 hover:text-dnd-red hover:bg-dnd-gold/20 transition-colors";
 
   const fieldProps = {
     autoFocus: true,
