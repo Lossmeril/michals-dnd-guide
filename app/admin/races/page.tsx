@@ -1,28 +1,40 @@
-import Link from "next/link";
+import { DataTable } from "@/components/ui/dataTable";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { racialPerks } from "@/lib/rules/character";
-import { AdminHeader } from "../_components";
-import RacesTable from "./racesTable";
+import { parseSort } from "@/lib/sort";
+import { AdminHeader, Thumb } from "../_components";
 
-const AdminRacesPage = async () => {
+const AdminRacesPage = async ({ searchParams }: PageProps<"/admin/races">) => {
+  const { sort, dir } = await searchParams;
   const rb = await fetchRulebook();
-  const rows = rb.races.map((race) => ({
-    race,
-    language: rb.languages.find((l) => l.id === race.language_id)?.name ?? null,
-    perks: racialPerks(rb, race.id).map((p) => p.name),
-  }));
+  const languageOf = (id: string | null) =>
+    rb.languages.find((l) => l.id === id)?.name ?? "—";
 
   return (
     <>
       <AdminHeader
         title="Races"
-        actions={
-          <Link href="/admin/races/new" className="button">
-            New race
-          </Link>
-        }
+        newLink={{ href: "/admin/races/new", label: "New race" }}
       />
-      <RacesTable rows={rows} />
+      <DataTable
+        sort={parseSort(sort, dir)}
+        rows={rb.races}
+        rowKey={(r) => r.id}
+        href={(r) => `/admin/races/${r.id}`}
+        columns={[
+          { label: "Race", id: "name", render: (r) => r.name, sortValue: (r) => r.name },
+          { label: "", render: (r) => <Thumb src={r.image_url} />, className: "w-14" },
+          { label: "Blurb", render: (r) => r.blurb },
+          { label: "Language", render: (r) => languageOf(r.language_id), sortValue: (r) => r.language_id && languageOf(r.language_id) },
+          {
+            label: "Racial perks",
+            render: (r) =>
+              racialPerks(rb, r.id)
+                .map((p) => p.name)
+                .join(", ") || "—",
+          },
+        ]}
+      />
     </>
   );
 };

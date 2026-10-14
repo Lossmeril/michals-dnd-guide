@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PerkImage } from "@/components/ui/perkCard";
+import { PerkImage } from "@/components/game/perkCard";
 import {
   describeRequirements,
   findClass,
@@ -9,17 +9,40 @@ import {
 } from "@/lib/rules/character";
 import { costOf } from "@/lib/rules/format";
 import { Constants, type Tables } from "@/lib/types/database.types";
-import { AdminTable, type Column, enumOptions } from "../_components";
+import { type Column, DataTable } from "@/components/ui/dataTable";
+import { enumOptions, Select } from "@/components/ui/formControls";
+import { useTableSort } from "@/components/ui/sortLink";
+
+/**
+ * Where a perk sits in rulebook order: its first class in the class list
+ * (basic, advanced, mighty), then races in race order. Perks belonging to
+ * nothing get null and sort last.
+ */
+const ownerRank = (rb: Rulebook, p: Tables<"perks">) => {
+  if (p.race_id) {
+    return rb.classes.length + rb.races.findIndex((r) => r.id === p.race_id);
+  }
+  const ranks = rb.classPerks
+    .filter((cp) => cp.perk_id === p.id)
+    .map((cp) => rb.classes.findIndex((c) => c.id === cp.class_id));
+  return ranks.length ? Math.min(...ranks) : null;
+};
+
+const KIND_ORDER = Constants.public.Enums.perk_kind;
 
 /** Columns shared by every perk list (also on the race and class editors) */
 export const perkColumns = (rb: Rulebook): Column<Tables<"perks">>[] => [
-  { label: "Perk", render: (p) => p.name },
+  { label: "Perk", id: "name", render: (p) => p.name, sortValue: (p) => p.name },
   {
     label: "",
     render: (p) => <PerkImage perk={p} className="w-10" />,
     className: "w-14",
   },
-  { label: "Kind", render: (p) => p.kind },
+  {
+    label: "Kind",
+    render: (p) => p.kind,
+    sortValue: (p) => KIND_ORDER.indexOf(p.kind),
+  },
   {
     label: "Belongs to",
     render: (p) =>
@@ -32,9 +55,20 @@ export const perkColumns = (rb: Rulebook): Column<Tables<"perks">>[] => [
                 `${findClass(rb, cp.class_id)?.name}${cp.is_core ? " (core)" : ""}`,
             )
             .join(", ") || <span className="text-dnd-red">Nothing</span>,
+    sortValue: (p) => ownerRank(rb, p),
   },
-  { label: "Cost", render: (p) => costOf(p) ?? "Passive" },
-  { label: "Requires", render: (p) => describeRequirements(rb, p.id) || "—" },
+  {
+    label: "Cost",
+    render: (p) => costOf(p) ?? "Passive",
+    // Passive first, then by what's paid and how much
+    sortValue: (p) =>
+      p.cost_resource ? `${p.cost_resource} ${p.cost_amount ?? 99}` : "",
+  },
+  {
+    label: "Requires",
+    render: (p) => describeRequirements(rb, p.id) || "—",
+    sortValue: (p) => describeRequirements(rb, p.id),
+  },
 ];
 
 const PerksTable: React.FC<{ rb: Rulebook; initialKind: string | null }> = ({
@@ -44,6 +78,7 @@ const PerksTable: React.FC<{ rb: Rulebook; initialKind: string | null }> = ({
   const [search, setSearch] = useState("");
   const [kind, setKind] = useState(initialKind ?? "");
   const [classId, setClassId] = useState("");
+  const sort = useTableSort();
 
   const rows = rb.perks.filter(
     (p) =>
@@ -68,40 +103,35 @@ const PerksTable: React.FC<{ rb: Rulebook; initialKind: string | null }> = ({
           onChange={(e) => setSearch(e.target.value)}
           className="flex-1 min-w-48"
         />
-        <select
+        <Select
           aria-label="Kind"
+          className="w-auto"
           value={kind}
-          onChange={(e) => setKind(e.target.value)}
-        >
-          <option value="">Every kind</option>
-          {enumOptions(Constants.public.Enums.perk_kind).map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-        <select
+          onChange={(v) => setKind(v ?? "")}
+          none="Every kind"
+          options={enumOptions(Constants.public.Enums.perk_kind)}
+        />
+        <Select
           aria-label="Class"
+          className="w-auto"
           value={classId}
-          onChange={(e) => setClassId(e.target.value)}
-        >
-          <option value="">Every class</option>
-          <option value="none">No class or race</option>
-          {rb.classes.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+          onChange={(v) => setClassId(v ?? "")}
+          none="Every class"
+          options={[
+            { value: "none", label: "No class or race" },
+            ...rb.classes.map((c) => ({ value: c.id, label: c.name })),
+          ]}
+        />
       </div>
       <p className="text-xs text-dnd-ink/60 mb-2">
         {rows.length} of {rb.perks.length}
       </p>
-      <AdminTable
+      <DataTable
         rows={rows}
         rowKey={(p) => p.id}
         href={(p) => `/admin/perks/${p.id}`}
         columns={perkColumns(rb)}
+        sort={sort}
         empty="No perks match."
       />
     </>

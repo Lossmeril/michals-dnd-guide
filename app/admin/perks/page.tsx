@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { AdminHeader } from "../_components";
 import PerksTable from "./perksTable";
@@ -11,11 +10,7 @@ const AdminPerksPage = async ({ searchParams }: PageProps<"/admin/perks">) => {
     <>
       <AdminHeader
         title="Perks and spells"
-        actions={
-          <Link href="/admin/perks/new" className="button">
-            New perk
-          </Link>
-        }
+        newLink={{ href: "/admin/perks/new", label: "New perk" }}
       />
       <PerksTable rb={rb} initialKind={typeof kind === "string" ? kind : null} />
     </>
