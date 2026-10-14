@@ -13,6 +13,7 @@ const AdminBackgroundPage = async ({
   return (
     <BackgroundEditor
       background={background ?? null}
+      items={rb.items}
       nextSort={rb.backgrounds.length}
     />
   );

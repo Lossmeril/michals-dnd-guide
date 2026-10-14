@@ -5,27 +5,35 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import MagicBadge from "@/components/game/magicBadge";
+import { SquareImage } from "@/components/game/perkCard";
+import PerkTree, { type SectionProps } from "@/components/game/perkTree";
+import StatBlock from "@/components/game/statBlock";
+import { TraitList } from "@/components/game/traitCard";
+import TraitText from "@/components/game/traitText";
+import EquipmentList from "@/components/game/equipmentList";
+import EquipmentPicker from "@/components/game/equipmentPicker";
+import ItemIcon from "@/components/game/itemIcon";
+import { ChoiceCard } from "@/components/ui/choiceCard";
 import Eyebrow from "@/components/ui/eyebrow";
-import MagicBadge from "@/components/ui/magicBadge";
+import FileButton from "@/components/ui/fileButton";
 import NumberStepper from "@/components/ui/numberStepper";
-import StatBlock from "@/components/ui/statBlock";
-import { Heading } from "@/components/ui/typography";
+import { Heading, Overline } from "@/components/ui/typography";
 import {
+  backgroundEquipment,
   BASE_RESOURCES,
   chosenIn,
   characterLevel,
   freeLanguages,
   languageSlots,
+  relatedLanguageNames,
   STARTS,
 } from "@/lib/rules/character";
+import { defaultPicks, equipmentOf, itemName } from "@/lib/rules/equipment";
 import { formatCoins, RESOURCE_NAMES } from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
-import { SquareImage } from "@/components/ui/perkCard";
-import TraitText from "@/components/ui/traitText";
 import { createCustomTrait } from "./actions";
-import { ChoiceCard } from "./choiceCard";
 import { ClassCard, RaceCard, RacialPerks } from "./details";
-import PerkTree, { type SectionProps } from "./perkTree";
 
 const grid = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
 const POOLS = ["body", "soul", "charisma"] as const;
@@ -89,18 +97,12 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
           </div>
         )}
         {onPortraitChange && (
-          <label className="button absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs shadow">
+          <FileButton
+            onFile={onPortraitChange}
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs shadow"
+          >
             {imageUrl ? "Change portrait" : "Add portrait"}
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) onPortraitChange(file);
-              }}
-            />
-          </label>
+          </FileButton>
         )}
       </div>
 
@@ -215,9 +217,7 @@ export const RaceSection: React.FC<SectionProps> = (props) => {
         <div className="grid grid-cols-1 sm:grid-cols-[13rem_1fr] gap-6 items-start">
           <RaceCard {...props} raceId={build.raceId} />
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-dnd-ink/60 mb-3">
-              Racial perk
-            </p>
+            <Overline>Racial perk</Overline>
             <RacialPerks {...props} raceId={build.raceId} onlyHeld />
           </div>
         </div>
@@ -370,12 +370,6 @@ export const BackgroundSection: React.FC<SectionProps> = ({
                 </dt>
                 {background.description && <dd>{background.description}</dd>}
               </div>
-              {background.equipment && (
-                <div>
-                  <dt className="font-bold">Starting gear</dt>
-                  <dd>{background.equipment}</dd>
-                </div>
-              )}
               <div>
                 <dt className="font-bold">Starting purse</dt>
                 <dd>
@@ -415,20 +409,41 @@ export const BackgroundSection: React.FC<SectionProps> = ({
             key={bg.id}
             title={bg.name}
             note={`${formatCoins(bg.coins_copper)} · ${bg.material} Material · ${bg.extra_languages} extra language(s)`}
-            description={[
-              bg.equipment,
-              bg.known_settings && `+1 in: ${bg.known_settings}`,
-            ]
-              .filter(Boolean)
-              .join(". ")}
+            description={
+              <>
+                <EquipmentList items={rb.items} equipment={bg.equipment} className="mb-1" />
+                {bg.known_settings && `+1 in: ${bg.known_settings}`}
+              </>
+            }
             checked={build.backgroundId === bg.id}
-            // Fewer language slots may leave too many picked; start the list over
+            // Fewer language slots may leave too many picked, and the gear
+            // differs; start both over
             onSelect={() =>
-              edit.setBuild({ ...build, backgroundId: bg.id, languages: [] })
+              build.backgroundId !== bg.id &&
+              edit.setBuild({
+                ...build,
+                backgroundId: bg.id,
+                languages: [],
+                equipment: defaultPicks(equipmentOf(rb.items, bg.equipment)),
+              })
             }
           />
         ))}
       </div>
+
+      {background && (
+        <>
+          <Heading level={3}>Starting gear</Heading>
+          <div className="mb-10">
+            <EquipmentPicker
+              items={rb.items}
+              groups={backgroundEquipment(rb, build)}
+              picks={build.equipment}
+              onChange={(equipment) => edit.setBuild({ ...build, equipment })}
+            />
+          </div>
+        </>
+      )}
 
       <Heading level={3}>
         Languages{" "}
@@ -449,6 +464,10 @@ export const BackgroundSection: React.FC<SectionProps> = ({
                 key={lang.id}
                 type="checkbox"
                 title={lang.name}
+                note={
+                  relatedLanguageNames(rb, lang.id) &&
+                  `Related to ${relatedLanguageNames(rb, lang.id)}`
+                }
                 description={lang.description}
                 checked={checked}
                 disabled={!checked && full}
@@ -463,6 +482,51 @@ export const BackgroundSection: React.FC<SectionProps> = ({
               />
             );
           })}
+      </div>
+    </Section>
+  );
+};
+
+// ----- Inventory -----
+
+/** What the character owns; shared by every campaign they're in */
+export const InventorySection: React.FC<{
+  items: Tables<"items">[];
+  inventory: Tables<"character_items">[];
+}> = ({ items, inventory }) => {
+  const nameOf = (row: Tables<"character_items">) =>
+    row.name ?? (row.item_id ? itemName(items, row.item_id) : "Unknown item");
+  const groups = [
+    { label: "Carried", rows: inventory.filter((i) => i.carried) },
+    { label: "Left behind", rows: inventory.filter((i) => !i.carried) },
+  ].filter((g) => g.rows.length > 0);
+
+  return (
+    <Section id="inventory" title="Inventory">
+      {groups.length === 0 && <p className="text-sm">Nothing yet.</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        {groups.map((g) => (
+          <div key={g.label}>
+            <Overline>{g.label}</Overline>
+            <ul className="text-sm flex flex-col gap-2">
+              {g.rows.map((row) => (
+                <li
+                  key={row.id}
+                  className={`flex items-center gap-2 ${row.broken ? "text-dnd-ink/60" : ""}`}
+                >
+                  <ItemIcon
+                    item={items.find((i) => i.id === row.item_id)}
+                    className={row.broken ? "grayscale opacity-60" : ""}
+                  />
+                  {row.quantity > 1 && `${row.quantity}× `}
+                  <span className={row.broken ? "line-through" : ""}>{nameOf(row)}</span>
+                  {row.broken && " (broken)"}
+                  {row.note && <span className="text-dnd-ink/60"> · {row.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </Section>
   );
@@ -493,21 +557,6 @@ const TRAIT_FIELDS = [
   { field: "downside", placeholder: "Downside", required: true },
 ] as const;
 
-const TraitCard: React.FC<{ trait: Tables<"traits"> }> = ({ trait }) => (
-  <li className="p-4 bg-dnd-bg border border-dnd-gold rounded-lg text-sm">
-    <SquareImage src={trait.image_url} className="w-16 mb-2" />
-    <p className="font-bold libre text-dnd-red">
-      {trait.name}
-      {trait.is_custom && !trait.approved_by && (
-        <span className="ml-2 text-xs font-normal text-dnd-ink/60">
-          awaiting DM approval
-        </span>
-      )}
-    </p>
-    <TraitText trait={trait} />
-  </li>
-);
-
 export const TraitsSection: React.FC<
   SectionProps & { onTraitCreated?: (trait: Tables<"traits">) => void }
 > = ({ rb, build, edit, onTraitCreated }) => {
@@ -519,11 +568,7 @@ export const TraitsSection: React.FC<
     if (traits.length === 0) return null;
     return (
       <Section id="traits" title="Traits">
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {traits.map((t) => (
-            <TraitCard key={t.id} trait={t} />
-          ))}
-        </ul>
+        <TraitList traits={traits} showApproval />
       </Section>
     );
   }
@@ -599,7 +644,7 @@ export const TraitsSection: React.FC<
                 !draft.upside.trim() ||
                 !draft.downside.trim()
               }
-              className="self-start disabled:opacity-50 disabled:cursor-not-allowed"
+              className="self-start"
             >
               {saving ? "Adding…" : "Add trait"}
             </button>

@@ -12,6 +12,7 @@ export const imageTargets = {
   races: { bucket: "ruleset", folder: "races" },
   perks: { bucket: "ruleset", folder: "perks" },
   traits: { bucket: "ruleset", folder: "traits" },
+  items: { bucket: "ruleset", folder: "items" },
   rulebook: { bucket: "ruleset", folder: "rulebook" },
 } as const;
 

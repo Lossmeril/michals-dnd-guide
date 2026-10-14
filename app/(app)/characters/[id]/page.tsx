@@ -9,6 +9,7 @@ import {
   BackstorySection,
   CharacterHeader,
   ClassesSection,
+  InventorySection,
   PerksSection,
   PersonalitySection,
   RaceSection,
@@ -23,7 +24,7 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
   if (loading) return <SkeletonCard />;
   if (!sheet) return <p>Character not found.</p>;
 
-  const { rb, character, build, ownerName, isOwner } = sheet;
+  const { rb, character, build, inventory, ownerName, isOwner } = sheet;
   const sectionProps = { rb, build };
 
   return (
@@ -55,6 +56,7 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
       <ClassesSection {...sectionProps} />
       <PerksSection {...sectionProps} />
       <BackgroundSection {...sectionProps} />
+      <InventorySection items={rb.items} inventory={inventory} />
       <TraitsSection {...sectionProps} />
       <PersonalitySection personality={character.personality ?? ""} />
       <BackstorySection backstory={character.backstory ?? ""} />

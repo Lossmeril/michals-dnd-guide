@@ -11,6 +11,7 @@ export const ADMIN_LINKS = [
   { label: "Classes", href: "/admin/classes" },
   { label: "Perks", href: "/admin/perks" },
   { label: "Backgrounds", href: "/admin/backgrounds" },
+  { label: "Items", href: "/admin/items" },
   { label: "Languages", href: "/admin/languages" },
   { label: "Traits", href: "/admin/traits" },
 ] as const;

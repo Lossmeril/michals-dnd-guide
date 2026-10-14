@@ -4,11 +4,15 @@ import { createClient } from "@/utils/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
-import { validateBuild, type Build } from "@/lib/rules/character";
+import {
+  backgroundEquipment,
+  validateBuild,
+  type Build,
+} from "@/lib/rules/character";
+import { startingItems } from "@/lib/rules/equipment";
 import { uploadImage } from "@/lib/uploadImage";
+import { check, fileFrom, type Result, toResult } from "@/lib/result";
 import type { Tables } from "@/lib/types/database.types";
-
-type Result<T> = { data: T; error: null } | { data: null; error: string };
 
 interface SaveCharacterInput {
   /** Omit to create a new character */
@@ -25,7 +29,7 @@ export async function saveCharacter(
   input: SaveCharacterInput,
 ): Promise<Result<number>> {
   const user = await requireUser();
-  try {
+  return toResult(async () => {
     const name = input.name.trim();
     if (!name) throw new Error("Give your character a name.");
 
@@ -41,8 +45,9 @@ export async function saveCharacter(
       startLevel = existing.character.start_level;
     }
 
+    const rb = await fetchRulebook();
     const { errors } = validateBuild(
-      await fetchRulebook(),
+      rb,
       input.build,
       level,
       startLevel,
@@ -58,6 +63,9 @@ export async function saveCharacter(
       p_race_id: build.raceId ?? undefined,
       p_background_id: build.backgroundId ?? undefined,
       p_languages: build.languages,
+      p_equipment_picks: build.equipment,
+      // Resolved here from the checked picks, never sent by the browser
+      p_items: startingItems(backgroundEquipment(rb, build), build.equipment),
       p_traits: build.traitIds,
       p_level: level,
       p_start_level: startLevel,
@@ -81,10 +89,8 @@ export async function saveCharacter(
       .update({ personality: input.personality.trim() || null })
       .eq("id", data);
     if (personalityError) throw personalityError;
-    return { data, error: null };
-  } catch (e) {
-    return { data: null, error: (e as Error).message };
-  }
+    return data;
+  });
 }
 
 /** A player-written trait; it waits for the campaign DM's approval */
@@ -96,7 +102,7 @@ export async function createCustomTrait(input: {
   downside: string;
 }): Promise<Result<Tables<"traits">>> {
   await requireUser();
-  try {
+  return toResult(async () => {
     const [name, flavour, description, upside, downside] = [
       input.name,
       input.flavour,
@@ -121,10 +127,8 @@ export async function createCustomTrait(input: {
       .select()
       .single();
     if (error) throw error;
-    return { data, error: null };
-  } catch (e) {
-    return { data: null, error: (e as Error).message };
-  }
+    return data;
+  });
 }
 
 export async function uploadCharacterPortrait(
@@ -132,10 +136,8 @@ export async function uploadCharacterPortrait(
   formData: FormData,
 ): Promise<Result<string>> {
   const user = await requireUser();
-  try {
-    const file = formData.get("file");
-    if (!(file instanceof File) || file.size === 0) throw new Error("No file");
-
+  return toResult(async () => {
+    const file = fileFrom(formData);
     const existing = await fetchCharacterBuild(characterId);
     if (existing?.character.owner !== user.id)
       throw new Error("Character not found.");
@@ -147,13 +149,12 @@ export async function uploadCharacterPortrait(
       file,
       String(characterId),
     );
-    const { error } = await supabase
-      .from("characters")
-      .update({ image_url: publicUrl })
-      .eq("id", characterId);
-    if (error) throw error;
-    return { data: publicUrl, error: null };
-  } catch (e) {
-    return { data: null, error: (e as Error).message };
-  }
+    check(
+      await supabase
+        .from("characters")
+        .update({ image_url: publicUrl })
+        .eq("id", characterId),
+    );
+    return publicUrl;
+  });
 }

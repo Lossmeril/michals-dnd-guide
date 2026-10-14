@@ -1,46 +1,51 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
+import { Overline } from "@/components/ui/typography";
+import { NumberField, TextField } from "@/components/ui/formControls";
+import Panel from "@/components/ui/panel";
+import { equipmentOf, type Item } from "@/lib/rules/equipment";
 import { formatCoins } from "@/lib/rules/format";
-import type { Tables } from "@/lib/types/database.types";
+import type { Json, Tables } from "@/lib/types/database.types";
 import { saveBackground } from "../../actions";
 import {
   AdminHeader,
   formGrid,
-  NumberField,
-  panel,
+  IdField,
   SaveBar,
-  slugify,
-  TextField,
-  useAdminAction,
-  useDelete,
+  useRowEditor,
 } from "../../_components";
+import EquipmentBuilder from "./equipmentBuilder";
 
 const BackgroundEditor: React.FC<{
   background: Tables<"backgrounds"> | null;
+  items: Item[];
   nextSort: number;
-}> = ({ background, nextSort }) => {
-  const router = useRouter();
+}> = ({ background, items, nextSort }) => {
   const isNew = !background;
-  const [row, setRow] = useState<Tables<"backgrounds">>(
-    background ?? {
+  const { row, id, set, save, remove, pending } = useRowEditor<
+    Tables<"backgrounds">
+  >({
+    initial: background ?? {
       id: "",
       name: "",
       description: null,
-      equipment: null,
+      equipment: [],
       coins_copper: 0,
       material: 0,
       extra_languages: 0,
       known_settings: null,
       sort: nextSort,
     },
-  );
-  const set = (patch: Partial<Tables<"backgrounds">>) =>
-    setRow({ ...row, ...patch });
-  const { pending, runAction } = useAdminAction();
-  const { deleting, remove } = useDelete("backgrounds", row.id, "/admin/backgrounds");
-  const id = isNew ? slugify(row.name) : row.id;
+    isNew,
+    table: "backgrounds",
+    listHref: "/admin/backgrounds",
+    save: (r) => saveBackground(isNew, r),
+  });
+
+  // Kept apart from the row so lines without items yet stay on screen
+  const [groups, setGroups] = useState(() => equipmentOf(items, row.equipment));
 
   return (
     <>
@@ -48,22 +53,15 @@ const BackgroundEditor: React.FC<{
         title={isNew ? "New background" : row.name}
         crumbs={[{ href: "/admin/backgrounds", label: "Backgrounds" }]}
       />
-      <section className={`${panel} ${formGrid}`}>
+      <Panel as="section" className={formGrid}>
         <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
-        <TextField label="Id" id="id" value={id} onChange={() => {}} disabled hint="Made from the name; can't change later." />
+        <IdField id={id} isNew={isNew} />
         <TextField
           label="Description"
           id="description"
           value={row.description}
           onChange={(v) => set({ description: v || null })}
           multiline
-          className="md:col-span-2"
-        />
-        <TextField
-          label="Starting equipment"
-          id="equipment"
-          value={row.equipment}
-          onChange={(v) => set({ equipment: v || null })}
           className="md:col-span-2"
         />
         <NumberField
@@ -91,17 +89,28 @@ const BackgroundEditor: React.FC<{
           hint="Rolls inside these get +1, e.g. the criminal underbelly, fences and hideouts."
           className="md:col-span-2"
         />
+      </Panel>
+      <section className="mt-10">
+        <Overline>Starting gear</Overline>
+        <p className="text-sm mb-4">
+          Lines are given as they are; a line with several items lets the player pick one.
+          Add a choice for things like &ldquo;two weapons, or a weapon and a shield&rdquo;.
+          Items themselves are in <Link href="/admin/items" className="link">Items</Link>.
+        </p>
+        <EquipmentBuilder
+          items={items}
+          groups={groups}
+          onChange={(next) => {
+            setGroups(next);
+            set({ equipment: next as unknown as Json });
+          }}
+        />
       </section>
       <SaveBar
-        onSave={() =>
-          runAction(() => saveBackground(isNew, { ...row, id }), {
-            then: (savedId) =>
-              isNew ? router.push(`/admin/backgrounds/${savedId}`) : router.refresh(),
-          })
-        }
-        pending={pending || deleting}
+        onSave={save}
+        pending={pending}
         disabled={!row.name.trim() || !id}
-        onDelete={isNew ? undefined : remove}
+        onDelete={remove}
       />
     </>
   );

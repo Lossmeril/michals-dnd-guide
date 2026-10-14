@@ -4,11 +4,13 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import type { Result } from "@/lib/result";
+import type { TablesInsert } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/server";
 
-// Every action checks the admin role here; RLS checks it again in the database
+export { check } from "@/lib/result";
 
-export type Result<T = null> = { data: T; error: null } | { data: null; error: string };
+// Every action checks the admin role here; RLS checks it again in the database
 
 export const db = async () => createClient(await cookies());
 
@@ -33,8 +35,25 @@ export const run = async <T>(work: () => Promise<T>): Promise<Result<T>> => {
   }
 };
 
-/** Throws the Supabase error, so `run` can turn it into a message */
-export const check = <T extends { error: unknown }>(res: T) => {
-  if (res.error) throw res.error;
-  return res;
+/** Tables whose rows are keyed by a slug that never changes */
+export type SlugTable =
+  | "races"
+  | "classes"
+  | "perks"
+  | "backgrounds"
+  | "languages"
+  | "items";
+
+/** Inserts a new row, or updates an existing one by its id */
+export const saveBySlug = async <T extends SlugTable>(
+  table: T,
+  isNew: boolean,
+  row: TablesInsert<T> & { id: string },
+) => {
+  const t = (await db()).from(table as SlugTable);
+  const { error } = isNew
+    ? await t.insert(row as never)
+    : await t.update(row as never).eq("id", row.id);
+  if (error) throw error;
+  return row.id;
 };

@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Card from "@/components/ui/card";
+import Card, { CardGrid } from "@/components/ui/card";
 import { Heading } from "@/components/ui/typography";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { fetchRulebookNav } from "@/lib/endpoints/rulebookPages";
@@ -52,8 +52,15 @@ const AdminDashboard = async () => {
       title: "Backgrounds",
       href: "/admin/backgrounds",
       image: "/img/classes/scout.webp",
-      text: "Starting gear, coins, Material, languages and known settings.",
+      text: "Starting gear and its choices, coins, Material, languages and known settings.",
       stat: count(rb.backgrounds.length, "background"),
+    },
+    {
+      title: "Items",
+      href: "/admin/items",
+      image: "/img/classes/warrior.webp",
+      text: "Weapons, armour, tools and gear that backgrounds hand out.",
+      stat: count(rb.items.length, "item"),
     },
     {
       title: "Languages",
@@ -75,7 +82,7 @@ const AdminDashboard = async () => {
     <>
       <Breadcrumbs items={[{ label: "Admin" }]} />
       <Heading level={1}>Rulebook admin</Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CardGrid>
         {cards.map((c) => (
           <Card
             key={c.title}
@@ -88,7 +95,7 @@ const AdminDashboard = async () => {
             <p className="text-xs font-bold text-dnd-ink/60">{c.stat}</p>
           </Card>
         ))}
-      </div>
+      </CardGrid>
     </>
   );
 };

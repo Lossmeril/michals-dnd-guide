@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -18,7 +18,7 @@ export type Database = {
         Row: {
           coins_copper: number
           description: string | null
-          equipment: string | null
+          equipment: Json
           extra_languages: number
           id: string
           known_settings: string | null
@@ -29,7 +29,7 @@ export type Database = {
         Insert: {
           coins_copper?: number
           description?: string | null
-          equipment?: string | null
+          equipment?: Json
           extra_languages?: number
           id: string
           known_settings?: string | null
@@ -40,7 +40,7 @@ export type Database = {
         Update: {
           coins_copper?: number
           description?: string | null
-          equipment?: string | null
+          equipment?: Json
           extra_languages?: number
           id?: string
           known_settings?: string | null
@@ -187,6 +187,60 @@ export type Database = {
           },
         ]
       }
+      character_items: {
+        Row: {
+          broken: boolean
+          carried: boolean
+          character_id: number
+          created_at: string
+          from_background: boolean
+          id: number
+          item_id: string | null
+          name: string | null
+          note: string | null
+          quantity: number
+        }
+        Insert: {
+          broken?: boolean
+          carried?: boolean
+          character_id: number
+          created_at?: string
+          from_background?: boolean
+          id?: never
+          item_id?: string | null
+          name?: string | null
+          note?: string | null
+          quantity?: number
+        }
+        Update: {
+          broken?: boolean
+          carried?: boolean
+          character_id?: number
+          created_at?: string
+          from_background?: boolean
+          id?: never
+          item_id?: string | null
+          name?: string | null
+          note?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_items_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       character_languages: {
         Row: {
           character_id: number
@@ -299,6 +353,7 @@ export type Database = {
           backstory: string | null
           body: number
           charisma: number
+          equipment_picks: Json
           id: number
           image_url: string | null
           level: number
@@ -314,6 +369,7 @@ export type Database = {
           backstory?: string | null
           body?: number
           charisma?: number
+          equipment_picks?: Json
           id?: number
           image_url?: string | null
           level?: number
@@ -329,6 +385,7 @@ export type Database = {
           backstory?: string | null
           body?: number
           charisma?: number
+          equipment_picks?: Json
           id?: number
           image_url?: string | null
           level?: number
@@ -462,6 +519,78 @@ export type Database = {
         }
         Relationships: []
       }
+      items: {
+        Row: {
+          armour_rating: number | null
+          category: string | null
+          damage: string | null
+          damage_type: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          kind: Database["public"]["Enums"]["item_kind"]
+          name: string
+          properties: string | null
+          sort: number
+        }
+        Insert: {
+          armour_rating?: number | null
+          category?: string | null
+          damage?: string | null
+          damage_type?: string | null
+          description?: string | null
+          id: string
+          image_url?: string | null
+          kind?: Database["public"]["Enums"]["item_kind"]
+          name: string
+          properties?: string | null
+          sort?: number
+        }
+        Update: {
+          armour_rating?: number | null
+          category?: string | null
+          damage?: string | null
+          damage_type?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          kind?: Database["public"]["Enums"]["item_kind"]
+          name?: string
+          properties?: string | null
+          sort?: number
+        }
+        Relationships: []
+      }
+      language_relations: {
+        Row: {
+          language_id: string
+          related_id: string
+        }
+        Insert: {
+          language_id: string
+          related_id: string
+        }
+        Update: {
+          language_id?: string
+          related_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "language_relations_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "language_relations_related_id_fkey"
+            columns: ["related_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       languages: {
         Row: {
           description: string | null
@@ -564,8 +693,8 @@ export type Database = {
           damage: string | null
           damage_types: Database["public"]["Enums"]["damage_type"][] | null
           description: string | null
-          flavour: string | null
           duration: Database["public"]["Enums"]["spell_duration"] | null
+          flavour: string | null
           id: string
           image_url: string | null
           kind: Database["public"]["Enums"]["perk_kind"]
@@ -585,8 +714,8 @@ export type Database = {
           damage?: string | null
           damage_types?: Database["public"]["Enums"]["damage_type"][] | null
           description?: string | null
-          flavour?: string | null
           duration?: Database["public"]["Enums"]["spell_duration"] | null
+          flavour?: string | null
           id: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["perk_kind"]
@@ -606,8 +735,8 @@ export type Database = {
           damage?: string | null
           damage_types?: Database["public"]["Enums"]["damage_type"][] | null
           description?: string | null
-          flavour?: string | null
           duration?: Database["public"]["Enums"]["spell_duration"] | null
+          flavour?: string | null
           id?: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["perk_kind"]
@@ -877,6 +1006,8 @@ export type Database = {
           p_character_id?: number
           p_charisma: number
           p_classes: Json
+          p_equipment_picks: Json
+          p_items: Json
           p_languages: Json
           p_level: number
           p_name: string
@@ -907,6 +1038,7 @@ export type Database = {
         | "piercing"
         | "slashing"
         | "bludgeoning"
+      item_kind: "weapon" | "armour" | "shield" | "clothing" | "tool" | "gear"
       perk_kind: "perk" | "spell" | "racial" | "aspect"
       requirement_kind:
         | "class_level"
@@ -1069,6 +1201,7 @@ export const Constants = {
         "slashing",
         "bludgeoning",
       ],
+      item_kind: ["weapon", "armour", "shield", "clothing", "tool", "gear"],
       perk_kind: ["perk", "spell", "racial", "aspect"],
       requirement_kind: [
         "class_level",

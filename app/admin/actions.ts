@@ -1,56 +1,70 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth";
+import { fileFrom } from "@/lib/result";
 import type { Enums, TablesInsert } from "@/lib/types/database.types";
 import { type ImageTarget, uploadImage } from "@/lib/uploadImage";
-import { check, db, run } from "./_run";
+import { check, db, run, saveBySlug, type SlugTable } from "./_run";
 
 // ----- Images -----
 
 export async function uploadRulebookImage(
   target: Extract<
     ImageTarget,
-    "classes" | "races" | "perks" | "traits" | "rulebook"
+    "classes" | "races" | "perks" | "traits" | "items" | "rulebook"
   >,
   formData: FormData,
 ) {
   return run(async () => {
-    const file = formData.get("file");
-    if (!(file instanceof File)) throw new Error("No file");
-    const { publicUrl } = await uploadImage(await db(), target, file, "admin");
+    const { publicUrl } = await uploadImage(
+      await db(),
+      target,
+      fileFrom(formData),
+      "admin",
+    );
     return publicUrl;
   });
 }
 
-// ----- Races, backgrounds, languages -----
+// ----- Races, backgrounds, items, languages -----
 // A new row is inserted; an existing one is updated by its id, which never changes
 
 export async function saveRace(isNew: boolean, row: TablesInsert<"races">) {
-  return run(async () => {
-    const t = (await db()).from("races");
-    check(isNew ? await t.insert(row) : await t.update(row).eq("id", row.id));
-    return row.id;
-  });
+  return run(() => saveBySlug("races", isNew, row));
 }
 
 export async function saveBackground(
   isNew: boolean,
   row: TablesInsert<"backgrounds">,
 ) {
-  return run(async () => {
-    const t = (await db()).from("backgrounds");
-    check(isNew ? await t.insert(row) : await t.update(row).eq("id", row.id));
-    return row.id;
-  });
+  return run(() => saveBySlug("backgrounds", isNew, row));
+}
+
+export async function saveItem(isNew: boolean, row: TablesInsert<"items">) {
+  return run(() => saveBySlug("items", isNew, row));
 }
 
 export async function saveLanguage(
   isNew: boolean,
   row: TablesInsert<"languages">,
+  relatedIds: string[],
 ) {
   return run(async () => {
-    const t = (await db()).from("languages");
-    check(isNew ? await t.insert(row) : await t.update(row).eq("id", row.id));
+    await saveBySlug("languages", isNew, row);
+    // Links go both ways; each pair is stored once
+    const supabase = await db();
+    check(
+      await supabase
+        .from("language_relations")
+        .delete()
+        .or(`language_id.eq.${row.id},related_id.eq.${row.id}`),
+    );
+    const pairs = [...new Set(relatedIds)]
+      .filter((id) => id !== row.id)
+      .map((related_id) => ({ language_id: row.id, related_id }));
+    if (pairs.length) {
+      check(await supabase.from("language_relations").insert(pairs));
+    }
     return row.id;
   });
 }
@@ -63,9 +77,8 @@ export async function saveClass(
   parentIds: string[],
 ) {
   return run(async () => {
+    await saveBySlug("classes", isNew, row);
     const supabase = await db();
-    const t = supabase.from("classes");
-    check(isNew ? await t.insert(row) : await t.update(row).eq("id", row.id));
     check(await supabase.from("class_parents").delete().eq("class_id", row.id));
     if (parentIds.length) {
       check(
@@ -116,9 +129,8 @@ export async function savePerk(
   requirements: RequirementInput[],
 ) {
   return run(async () => {
+    await saveBySlug("perks", isNew, row);
     const supabase = await db();
-    const t = supabase.from("perks");
-    check(isNew ? await t.insert(row) : await t.update(row).eq("id", row.id));
 
     check(await supabase.from("class_perks").delete().eq("perk_id", row.id));
     if (links.length) {
@@ -189,18 +201,16 @@ export async function setTraitApproved(id: number, approved: boolean) {
 
 // ----- Deleting -----
 
-const DELETABLE = [
+const DELETABLE: SlugTable[] = [
   "races",
   "classes",
   "perks",
   "backgrounds",
   "languages",
-] as const;
+  "items",
+];
 
-export async function deleteRow(
-  table: (typeof DELETABLE)[number],
-  id: string,
-) {
+export async function deleteRow(table: SlugTable, id: string) {
   return run(async () => {
     if (!DELETABLE.includes(table)) throw new Error("Unknown table");
     check(await (await db()).from(table).delete().eq("id", id));

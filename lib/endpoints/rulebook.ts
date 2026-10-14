@@ -12,7 +12,9 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
   const [
     races,
     backgrounds,
+    items,
     languages,
+    languageRelations,
     traits,
     classes,
     skills,
@@ -24,7 +26,9 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
     await Promise.all([
       supabase.from("races").select().order("sort"),
       supabase.from("backgrounds").select().order("sort"),
+      supabase.from("items").select().order("sort"),
       supabase.from("languages").select().order("sort"),
+      supabase.from("language_relations").select(),
       // RLS returns premade, approved and the viewer's own custom traits
       supabase.from("traits").select().order("name"),
       supabase.from("classes").select().order("sort"),
@@ -38,7 +42,9 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
   for (const r of [
     races,
     backgrounds,
+    items,
     languages,
+    languageRelations,
     traits,
     classes,
     skills,
@@ -49,7 +55,9 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
   return {
     races: races.data!,
     backgrounds: backgrounds.data!,
+    items: items.data!,
     languages: languages.data!,
+    languageRelations: languageRelations.data!,
     traits: traits.data!,
     classes: classes.data!,
     skills: skills.data!,

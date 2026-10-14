@@ -3,13 +3,14 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 import type { Build } from "@/lib/rules/character";
+import { parsePicks } from "@/lib/rules/equipment";
 
 const db = async () => createClient(await cookies());
 
 export const fetchCharacterBuild = async (characterId: number) => {
   const { data, error } = await (await db())
     .from("characters")
-    .select("*, character_classes(class_id, level), character_perks(perk_id, class_id), character_languages(language_id), character_traits(trait_id)")
+    .select("*, character_classes(class_id, level), character_perks(perk_id, class_id), character_languages(language_id), character_traits(trait_id), character_items(*)")
     .eq("id", characterId)
     .maybeSingle();
   if (error) throw error;
@@ -20,11 +21,13 @@ export const fetchCharacterBuild = async (characterId: number) => {
     character_perks,
     character_languages,
     character_traits,
+    character_items,
     ...character
   } = data;
   const build: Build = {
     raceId: character.race_id,
     backgroundId: character.background_id,
+    equipment: parsePicks(character.equipment_picks),
     languages: character_languages.map((l) => l.language_id),
     traitIds: character_traits.map((t) => t.trait_id),
     classes: Object.fromEntries(character_classes.map((c) => [c.class_id, c.level])),
@@ -33,7 +36,9 @@ export const fetchCharacterBuild = async (characterId: number) => {
     soul: character.soul,
     charisma: character.charisma,
   };
-  return { character, build };
+  // Inventory isn't part of the build: it changes in play
+  const inventory = character_items.sort((a, b) => a.id - b.id);
+  return { character, build, inventory };
 };
 
 // Classes and race names for character cards, one query per table for any number of characters

@@ -2,6 +2,11 @@
 // Pure functions only, so the editor and the server share one source of truth.
 
 import type { Tables } from "@/lib/types/database.types";
+import {
+  type EquipmentPick,
+  equipmentErrors,
+  equipmentOf,
+} from "./equipment";
 
 export const MAX_CLASS_LEVEL = 5;
 // Parent classes' levels must total this to unlock an advanced or mighty class
@@ -19,7 +24,10 @@ export type Requirement = Tables<"perk_requirements"> & { class_ids: string[] };
 export type Rulebook = {
   races: Tables<"races">[];
   backgrounds: Tables<"backgrounds">[];
+  items: Tables<"items">[];
   languages: Tables<"languages">[];
+  /** Pairs of related languages (dialects, mixes); a link goes both ways */
+  languageRelations: Tables<"language_relations">[];
   /** Premade traits, approved custom ones, and the viewer's own */
   traits: Tables<"traits">[];
   classes: Tables<"classes">[];
@@ -35,6 +43,8 @@ export type ChosenPerk = { perkId: string; classId: string | null };
 export type Build = {
   raceId: string | null;
   backgroundId: string | null;
+  /** What the player took from the background's equipment, one pick per group */
+  equipment: EquipmentPick[];
   /** Extra languages the player picked; Common and the racial language are free */
   languages: string[];
   traitIds: number[];
@@ -50,6 +60,7 @@ export type Build = {
 export const emptyBuild = (): Build => ({
   raceId: null,
   backgroundId: null,
+  equipment: [],
   languages: [],
   traitIds: [],
   classes: {},
@@ -71,6 +82,25 @@ export const findPerk = (rb: Rulebook, id: string) =>
 
 export const COMMON_LANGUAGE = "common";
 
+/** Ids of the languages linked to this one, in either direction */
+export const relatedLanguageIds = (rb: Rulebook, languageId: string) =>
+  rb.languageRelations.flatMap((r) =>
+    r.language_id === languageId
+      ? [r.related_id]
+      : r.related_id === languageId
+        ? [r.language_id]
+        : [],
+  );
+
+/** "Elven, Old tongues", in the languages' own order */
+export const relatedLanguageNames = (rb: Rulebook, languageId: string) => {
+  const ids = relatedLanguageIds(rb, languageId);
+  return rb.languages
+    .filter((l) => ids.includes(l.id))
+    .map((l) => l.name)
+    .join(", ");
+};
+
 /** Languages every character of this race speaks without picking them */
 export const freeLanguages = (rb: Rulebook, build: Build) => {
   const race = rb.races.find((r) => r.id === build.raceId);
@@ -86,10 +116,25 @@ export const languageSlots = (rb: Rulebook, build: Build) => {
   );
 };
 
+// ----- Background equipment -----
+
+/** The equipment groups of the build's background */
+export const backgroundEquipment = (rb: Rulebook, build: Build) =>
+  equipmentOf(
+    rb.items,
+    rb.backgrounds.find((b) => b.id === build.backgroundId)?.equipment,
+  );
+
 // ----- Classes -----
 
 export const parentsOf = (rb: Rulebook, classId: string) =>
   rb.classParents.filter((p) => p.class_id === classId).map((p) => p.parent_id);
+
+/** "Fighter + Juggler"; empty for basic classes */
+export const parentNames = (rb: Rulebook, classId: string) =>
+  parentsOf(rb, classId)
+    .map((id) => findClass(rb, id)?.name)
+    .join(" + ");
 
 export const parentLevels = (rb: Rulebook, build: Build, classId: string) =>
   parentsOf(rb, classId).reduce((sum, id) => sum + levelIn(build, id), 0);
@@ -417,6 +462,7 @@ export const validateBuild = (
 
   if (!build.raceId) errors.push("Pick a race.");
   if (!build.backgroundId) errors.push("Pick a background.");
+  errors.push(...equipmentErrors(backgroundEquipment(rb, build), build.equipment));
 
   const slots = languageSlots(rb, build);
   const free = freeLanguages(rb, build);
