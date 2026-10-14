@@ -29,3 +29,25 @@ export const requireAdmin = async () => {
   if (data?.role !== "admin") redirect("/");
   return user;
 };
+
+/** The user's account-wide role; null for visitors without an account */
+export const getRole = cache(async () => {
+  const user = await getUser();
+  if (!user) return null;
+  const supabase = createClient(await cookies());
+  const { data } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+  return data?.role ?? null;
+});
+
+/** For showing admin-only controls; false for visitors without an account */
+export const isAdmin = async () => (await getRole()) === "admin";
+
+/** DMs run campaigns; admins can too */
+export const canRunCampaigns = async () => {
+  const role = await getRole();
+  return role === "dm" || role === "admin";
+};

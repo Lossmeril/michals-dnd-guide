@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { fetchCampaign, updateCampaign } from "@/lib/endpoints/campaigns";
 import { createCampaign_Player } from "@/lib/endpoints/campaign_players";
+import { fetchCharacter } from "@/lib/endpoints/characters";
 import { uploadImage } from "@/lib/uploadImage";
 import type { CampaignUpdate } from "@/lib/types/campaign";
 
@@ -63,4 +64,31 @@ export async function addCharacterToCampaign(
       character_id: characterId,
     }),
   );
+}
+
+/** The DM can take out any character; a player can take out their own */
+export async function removeCharacterFromCampaign(
+  campaignId: number,
+  characterId: number,
+): Promise<Result<null>> {
+  const user = await requireUser();
+  try {
+    const [campaign, character] = await Promise.all([
+      fetchCampaign(campaignId),
+      fetchCharacter(characterId),
+    ]);
+    if (campaign?.dm !== user.id && character?.owner !== user.id) {
+      throw new Error("Only the DM or the character's player can do that.");
+    }
+    const supabase = createClient(await cookies());
+    const { error } = await supabase
+      .from("campaign_players")
+      .delete()
+      .eq("campaign_id", campaignId)
+      .eq("character_id", characterId);
+    if (error) throw error;
+    return { data: null, error: null };
+  } catch (e) {
+    return { data: null, error: (e as Error).message };
+  }
 }

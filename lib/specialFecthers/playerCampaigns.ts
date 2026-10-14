@@ -102,6 +102,7 @@ export const fetchCampaignDetails = async (campaignId: number) => {
 
   return {
     campaign,
+    userId: user.id,
     isDm: campaign.dm === user.id,
     dmName: campaign.dm ? playerName(campaign.dm) : null,
     members: characters

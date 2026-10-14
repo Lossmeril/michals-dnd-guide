@@ -12,7 +12,11 @@ import {
   fetchCampaignDetails,
 } from "@/lib/specialFecthers/playerCampaigns";
 import type { Campaign } from "@/lib/types/campaign";
-import { addCharacterToCampaign, saveCampaign } from "./actions";
+import {
+  addCharacterToCampaign,
+  removeCharacterFromCampaign,
+  saveCampaign,
+} from "./actions";
 import { AddCharacterSelect } from "./addCharacterSelect";
 import { CoverUpload } from "./coverUpload";
 
@@ -49,7 +53,8 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
 
   if (!details) return <p>Campaign not found.</p>;
 
-  const { campaign, isDm, dmName, members, availableCharacters } = details;
+  const { campaign, userId, isDm, dmName, members, availableCharacters } =
+    details;
   const hasCover = !!campaign.image_url?.trim();
 
   const setCampaign = (updated: Campaign) =>
@@ -68,6 +73,16 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
     const { error } = await addCharacterToCampaign(campaign.id, characterId);
     if (error) toast.error(error);
     else setVersion((v) => v + 1);
+  };
+
+  const removeCharacter = async (characterId: number, name: string) => {
+    if (!window.confirm(`Take ${name} out of this campaign?`)) return;
+    const { error } = await removeCharacterFromCampaign(campaign.id, characterId);
+    if (error) toast.error(error);
+    else {
+      toast.success(`${name} left the campaign.`);
+      setVersion((v) => v + 1);
+    }
   };
 
   return (
@@ -124,6 +139,15 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
               <p className="text-xs text-dnd-ink/75">
                 Level {character.level} · played by {playerName}
               </p>
+              {(isDm || character.owner === userId) && (
+                <button
+                  type="button"
+                  className="button-secondary text-xs px-3 py-1 mt-3"
+                  onClick={() => removeCharacter(character.id, character.name)}
+                >
+                  {isDm ? "Remove from campaign" : "Leave campaign"}
+                </button>
+              )}
             </Card>
           ))
         ) : (

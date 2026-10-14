@@ -6,13 +6,14 @@ import Card, { SkeletonCard } from "@/components/ui/card";
 import Eyebrow from "@/components/ui/eyebrow";
 import { Heading, SkeletonInlineText } from "@/components/ui/typography";
 import { IMG_DEFAULTS } from "@/data/constants";
-import { requireUser } from "@/lib/auth";
+import { canRunCampaigns, requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
 import {
   fetchCampaignsPlayerIsPartOf,
   fetchPlayersInCampaign,
 } from "@/lib/specialFecthers/playerCampaigns";
 import { Tables } from "@/lib/types/database.types";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const CampaignCard: React.FC<{
@@ -73,6 +74,7 @@ const CampaignCard: React.FC<{
 
 const CampaignsPage = () => {
   const [loading, setLoading] = useState(true);
+  const [canCreate, setCanCreate] = useState(false);
 
   const [DMcampaigns, setDMcampaigns] = useState<Tables<"campaigns">[] | null>(
     null,
@@ -87,6 +89,7 @@ const CampaignsPage = () => {
         // Fetch the user and their profile
         const user = await requireUser();
         const player = await fetchProfile(user.id);
+        setCanCreate(await canRunCampaigns());
 
         const data = await fetchCampaignsPlayerIsPartOf(player?.id || "");
 
@@ -111,6 +114,11 @@ const CampaignsPage = () => {
     <>
       <Breadcrumbs items={[{ label: "Campaigns" }]} />
       <Heading level={1}>Campaigns</Heading>
+      {canCreate && (
+        <Link href="/campaigns/new" className="button inline-block mb-10">
+          New campaign
+        </Link>
+      )}
 
       <Heading level={2}>
         Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
