@@ -1,34 +1,40 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  CheckboxGroup,
+  NumberField,
+  TextField,
+} from "@/components/ui/formControls";
+import Panel from "@/components/ui/panel";
 import type { Tables } from "@/lib/types/database.types";
 import { saveLanguage } from "../../actions";
 import {
   AdminHeader,
   formGrid,
-  NumberField,
-  panel,
+  IdField,
   SaveBar,
-  slugify,
-  TextField,
-  useAdminAction,
-  useDelete,
+  useRowEditor,
 } from "../../_components";
 
 const LanguageEditor: React.FC<{
   language: Tables<"languages"> | null;
+  /** Every other language, to pick related ones from */
+  others: Tables<"languages">[];
+  related: string[];
   nextSort: number;
-}> = ({ language, nextSort }) => {
-  const router = useRouter();
+}> = ({ language, others, related: initialRelated, nextSort }) => {
   const isNew = !language;
-  const [row, setRow] = useState<Tables<"languages">>(
-    language ?? { id: "", name: "", description: null, sort: nextSort },
-  );
-  const set = (patch: Partial<Tables<"languages">>) => setRow({ ...row, ...patch });
-  const { pending, runAction } = useAdminAction();
-  const { deleting, remove } = useDelete("languages", row.id, "/admin/languages");
-  const id = isNew ? slugify(row.name) : row.id;
+  const [related, setRelated] = useState(initialRelated);
+  const { row, id, set, save, remove, pending } = useRowEditor<
+    Tables<"languages">
+  >({
+    initial: language ?? { id: "", name: "", description: null, sort: nextSort },
+    isNew,
+    table: "languages",
+    listHref: "/admin/languages",
+    save: (r) => saveLanguage(isNew, r, related),
+  });
 
   return (
     <>
@@ -36,9 +42,9 @@ const LanguageEditor: React.FC<{
         title={isNew ? "New language" : row.name}
         crumbs={[{ href: "/admin/languages", label: "Languages" }]}
       />
-      <section className={`${panel} ${formGrid}`}>
+      <Panel as="section" className={formGrid}>
         <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
-        <TextField label="Id" id="id" value={id} onChange={() => {}} disabled hint="Made from the name; can't change later." />
+        <IdField id={id} isNew={isNew} />
         <TextField
           label="Spoken by"
           id="description"
@@ -47,18 +53,22 @@ const LanguageEditor: React.FC<{
           multiline
           className="md:col-span-2"
         />
+        <div className="md:col-span-2">
+          <CheckboxGroup
+            label="Related languages"
+            options={others.map((l) => ({ value: l.id, label: l.name }))}
+            selected={related}
+            onChange={setRelated}
+            hint="Dialects, deviations and bastard mixes. The link shows on both languages."
+          />
+        </div>
         <NumberField label="Sort order" id="sort" value={row.sort} onChange={(v) => set({ sort: v ?? 0 })} />
-      </section>
+      </Panel>
       <SaveBar
-        onSave={() =>
-          runAction(() => saveLanguage(isNew, { ...row, id }), {
-            then: (savedId) =>
-              isNew ? router.push(`/admin/languages/${savedId}`) : router.refresh(),
-          })
-        }
-        pending={pending || deleting}
+        onSave={save}
+        pending={pending}
         disabled={!row.name.trim() || !id}
-        onDelete={isNew ? undefined : remove}
+        onDelete={remove}
       />
     </>
   );

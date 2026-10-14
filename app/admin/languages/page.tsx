@@ -1,25 +1,44 @@
-import Link from "next/link";
+import { DataTable } from "@/components/ui/dataTable";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
+import { relatedLanguageNames } from "@/lib/rules/character";
+import { parseSort } from "@/lib/sort";
 import { AdminHeader } from "../_components";
-import LanguagesTable from "./languagesTable";
 
-const AdminLanguagesPage = async () => {
+const AdminLanguagesPage = async ({ searchParams }: PageProps<"/admin/languages">) => {
+  const { sort, dir } = await searchParams;
   const rb = await fetchRulebook();
-  const rows = rb.languages.map((language) => ({
-    language,
-    races: rb.races.filter((r) => r.language_id === language.id).map((r) => r.name),
-  }));
+  const racesSpeaking = (id: string) =>
+    rb.races
+      .filter((r) => r.language_id === id)
+      .map((r) => r.name)
+      .join(", ") || "—";
+
   return (
     <>
       <AdminHeader
         title="Languages"
-        actions={
-          <Link href="/admin/languages/new" className="button">
-            New language
-          </Link>
-        }
+        newLink={{ href: "/admin/languages/new", label: "New language" }}
       />
-      <LanguagesTable rows={rows} />
+      <DataTable
+        sort={parseSort(sort, dir)}
+        rows={rb.languages}
+        rowKey={(l) => l.id}
+        href={(l) => `/admin/languages/${l.id}`}
+        columns={[
+          { label: "Language", id: "name", render: (l) => l.name, sortValue: (l) => l.name },
+          { label: "Description", render: (l) => l.description },
+          {
+            label: "Racial language of",
+            render: (l) => racesSpeaking(l.id),
+            sortValue: (l) => rb.races.find((r) => r.language_id === l.id)?.name,
+          },
+          {
+            label: "Related to",
+            render: (l) => relatedLanguageNames(rb, l.id),
+            sortValue: (l) => relatedLanguageNames(rb, l.id),
+          },
+        ]}
+      />
     </>
   );
 };
