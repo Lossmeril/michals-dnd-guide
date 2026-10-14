@@ -128,28 +128,44 @@
   // -------------------------------------
   // Rulebook text
   // -------------------------------------
+  // Lists written in Markdown have no class; data blocks style their own
   .rules {
     > p,
     > ul,
-    > ol {
+    > ol,
+    > blockquote {
       @apply mb-4 leading-relaxed;
     }
-    > ul {
+    ul:not([class]) {
       @apply list-disc pl-5;
     }
-    > ol {
+    ol:not([class]) {
       @apply list-decimal pl-5;
+    }
+    li > ul:not([class]),
+    li > ol:not([class]) {
+      @apply mt-1;
     }
     li + li {
       @apply mt-1;
     }
+    > blockquote {
+      @apply pl-4 border-l-4 border-dnd-gold italic;
+    }
+    > hr {
+      @apply clear-both my-10 border-t-2 border-dnd-gold;
+    }
+    // Headings start below a floated side picture
     > h2 {
-      @apply text-xl font-bold text-dnd-red mt-12 mb-4 pb-1 border-b-2 border-dnd-gold uppercase;
+      @apply clear-both text-xl font-bold text-dnd-red mt-12 mb-4 pb-1 border-b-2 border-dnd-gold uppercase;
       font-family: var(--font-libre-baskerville);
     }
     > h3 {
-      @apply text-lg font-bold text-dnd-red-dark mt-8 mb-3;
+      @apply clear-both text-lg font-bold text-dnd-red-dark mt-8 mb-3;
       font-family: var(--font-libre-baskerville);
+    }
+    > :first-child {
+      @apply mt-0;
     }
   }
 

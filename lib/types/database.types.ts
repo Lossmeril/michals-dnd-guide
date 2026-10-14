@@ -691,6 +691,78 @@ export type Database = {
           },
         ]
       }
+      rulebook_chapters: {
+        Row: {
+          created_at: string
+          id: string
+          position: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      rulebook_pages: {
+        Row: {
+          chapter_id: string
+          content: string
+          id: string
+          intro: string | null
+          position: number
+          slug: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          chapter_id: string
+          content?: string
+          id?: string
+          intro?: string | null
+          position?: number
+          slug: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          chapter_id?: string
+          content?: string
+          id?: string
+          intro?: string | null
+          position?: number
+          slug?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rulebook_pages_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "rulebook_chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rulebook_pages_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       skills: {
         Row: {
           class_id: string
