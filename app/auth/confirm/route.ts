@@ -8,7 +8,8 @@ const safeNext = (next: string | null) =>
   next?.startsWith("/") && !next.startsWith("//") ? next : "/";
 
 /**
- * Where links in auth emails land: sign-up confirmation and email change.
+ * Where links in auth emails land: sign-up confirmation, email change and
+ * password reset.
  * Handles both link styles Supabase can send:
  * - `?code=` from the default templates (PKCE); works in the browser that
  *   started the flow, since the code verifier lives in its cookies
@@ -31,6 +32,13 @@ export async function GET(request: NextRequest) {
   }
 
   if (ok) return NextResponse.redirect(new URL(next, request.url));
+
+  // A dead reset link goes back to asking for a new one
+  if (next === "/reset-password") {
+    return NextResponse.redirect(
+      new URL("/forgot-password?error=expired", request.url),
+    );
+  }
 
   // A logged-in user (e.g. changing their email) goes back with a notice;
   // anyone else to the login page, which explains the bad link

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import Field from "@/components/ui/field";
 import { ResendConfirmation } from "../signup/resendConfirmation";
@@ -20,7 +21,15 @@ export const LoginForm = () => {
           required
         />
       </Field>
-      <Field label="Password" htmlFor="password">
+      <Field
+        label="Password"
+        htmlFor="password"
+        hint={
+          <Link href="/forgot-password" className="link">
+            Forgot your password?
+          </Link>
+        }
+      >
         <input
           id="password"
           name="password"
