@@ -6,7 +6,7 @@ Claude loads this file every session (imported from `CLAUDE.md`), so keep it cur
 ## Principles
 
 1. **A printed rulebook, not a web app.** Warm parchment, ink-coloured text, serif headings, gold rules under headings. Think of a 5E Player's Handbook page, not a dashboard.
-2. **Story and rules look different.** The DM's voice (story beats, examples, flavour, the guard at the gate) goes in a **story box**. Rules, forms and numbers stay plain. A reader should be able to skim only the rules, or only the story.
+2. **Story and rules look different.** The DM's voice (story beats, examples, flavour, the guard at the gate) goes in a **story box** (in-character intros) or an **example card** (rulebook examples). Rules, forms and numbers stay plain. A reader should be able to skim only the rules, or only the story.
 3. **Red means "you can act".** Buttons, links and selected things are red. Ink is for reading, gold for structure (dividers, card borders).
 4. **Resources have fixed colours.** Body, Soul and Charisma keep their colours everywhere: stat blocks, perk costs, skill tags.
 5. **Pictures carry the fantasy.** Classes, races and characters get big portrait images; the UI around them stays quiet.
@@ -23,7 +23,7 @@ Defined in `app/globals.scss` under `@theme`; use them as Tailwind colours (`bg-
 | `dnd-red` | `oklch(44.4% 0.177 26.899)` | Buttons, links, selected states |
 | `dnd-red-dark` | `#68211b` | Page titles, card borders, hover on red |
 | `dnd-gold` | `#cdb37a` | Heading underlines, dividers, quiet card borders (guide2.0 called it `dnd-underline`) |
-| `dnd-accent-green` | `#d1e2b6` | Story box background; "info" alerts |
+| `dnd-accent-green` | `#d1e2b6` | Story box and example card background; "info" alerts |
 | `dnd-accent-yellow` | `#f5ebd1` | Aspect cards; "warning" alerts |
 | `dnd-accent-red` | `#edabab` | Text selection; error alerts and invalid fields |
 | `body` / `soul` / `charisma` | palevioletred / mediumslateblue / goldenrod | The three resource pools |
@@ -49,9 +49,22 @@ The DM's voice. In guide2.0 this was the `.rulebox` style with `DecorativeBorder
 - Pale green background, 2px ink border on top and bottom only, soft shadow.
 - **Decorative corners** (`components/ui/decorativeBorder.tsx`, CSS `.corner`): four small ink triangles hanging off the corners. The box needs `relative` and vertical margin (`my-8`) for them.
 - Italic serif text, optional small-caps title ("Example", a speaker's name).
-- Use it for: story examples next to rules, page intros in character (the guard on the login page), flavour on success screens. Not for: warnings, errors, instructions.
+- Use it for: page intros in character (the guard on the login page), flavour on success screens. Not for: rulebook examples (too busy there; use an example card), warnings, errors, instructions.
 
 guide2.0 also used the same ink top/bottom borders and corners on **modals**, making them look like a page torn from the book. The current modal (`components/ui/modal.tsx`) has a plain border; switch it if the book look is wanted there too.
+
+### Example card (`components/ui/exampleCard.tsx`)
+
+A story example in the rulebook, modelled on the old site's `HorizontalCard` (the Michal-and-the-burgmaster's-daughter examples).
+
+- Rounded card, gold border, pale green tint, soft shadow; no decorative corners.
+- Optional portrait on the side (on top on phones); the text sets the height and the picture fills its side.
+- A small italic "Example" eyebrow, a bold red serif title, then roomy plain text (`text-sm`, relaxed leading, gaps between paragraphs). It can hold resource bars and rolled dice.
+
+### Dice (`components/ui/dice.tsx`)
+
+- **Die icons:** dice notation in the rulebook (2d6, d20, 1d8) gets a red icon of that die's shape in front of it, automatically.
+- **Rolled faces:** the old site's die-face SVGs (`public/img/dice/D6_4.svg` …), drawn in ink with a CSS mask, show actual rolls in examples. A dropped die (e.g. from advantage) is faded.
 
 ### Buttons
 

@@ -461,7 +461,11 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 
 ## Rulebook pages
 
-**Built** at `/rulebook` (public, no login needed), following the structure below. Chapter and page order live in `app/rulebook/nav.ts`. Races, backgrounds, languages, traits, classes, skills and perks are read from the database, so the admin pages update the rulebook directly.
+**Built** at `/rulebook` (public, no login needed), following the structure below.
+
+- **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
+- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars and pictures. The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Data blocks:** races, backgrounds, languages, traits and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
 - **Conditions:** "automatically fails Strength/Dexterity saving throws" became "automatically loses Body defense rolls"; Restrained's "disadvantage on Dexterity saving throws" became "disadvantage on Body defense rolls".
@@ -488,6 +492,10 @@ Drafted while writing the pages, to confirm:
 ## Campaign management
 
 Built so far: a campaign overview (cover, name, description, DM, characters) and a campaign updates feed.
+
+- **Creating:** users with the `dm` or `admin` role start campaigns at `/campaigns/new` and become their DM.
+- **Characters:** the DM adds and removes characters; a player can take their own character out ("Leave campaign").
+- The database enforces the same: only the DM edits or deletes a campaign or changes its character list.
 
 **Priority:** campaign tools come after the character editor and the rulebook. Ideas parked for later:
 - A DM screen for setting each character's Danger Level, applying Scars and granting levels.
