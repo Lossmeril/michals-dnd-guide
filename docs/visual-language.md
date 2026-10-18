@@ -107,6 +107,7 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Breadcrumbs** (`components/ui/breadcrumbs.tsx`) open every page except home and the auth pages: `Home › Characters › Zara › Edit`. Pass the trail from the top down; Home is added for you and the last crumb is the current page. Admin pages start with `Admin` (`ADMIN_CRUMB`), via `AdminHeader`'s `crumbs`.
 
 - **Auth pages** (`app/(auth)/authShell.tsx`, from guide2.0's `EditorShell` with sidebar): an image card on the side (the city gate) with the link to the other auth page, and the title, story box and form panel in the main column.
+- **Footer** (`components/layout/footer.tsx`) on every page, linking the rulebook and the public **credits** page (`/credits`). Credits are listed in `lib/credits.ts`; add an entry for every borrowed picture, rule or library.
 - **Editors and sheets** share one layout; editing only adds controls (see the character sheet).
 - guide2.0 used a 12-column grid with the content in columns 2–11 on wide screens, and a navbar with the user's avatar and a dropdown whose arrow was an ink diamond.
 

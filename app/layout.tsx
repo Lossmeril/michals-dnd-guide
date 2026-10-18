@@ -4,6 +4,7 @@ import { Libre_Baskerville, Merriweather } from "next/font/google";
 import "./globals.scss";
 import Navbar from "@/components/navbar";
 import MainBox from "@/components/layout/mainBox";
+import Footer from "@/components/layout/footer";
 import { Toaster } from "sonner";
 
 const libreBaskerville = Libre_Baskerville({
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <Navbar />
         <MainBox>{children}</MainBox>
+        <Footer />
       </body>
     </html>
   );
