@@ -32,7 +32,9 @@ export const ITEM_SETS = [
   { label: "Any light armour", kind: "armour", category: "light" },
   { label: "Any medium armour", kind: "armour", category: "medium" },
   { label: "Any heavy armour", kind: "armour", category: "heavy" },
+  { label: "Any shield", kind: "shield", category: null },
   { label: "Any tool", kind: "tool", category: null },
+  { label: "Any musical instrument", kind: "tool", category: "instrument" },
 ] as const;
 
 export const itemsInSet = (items: Item[], set: (typeof ITEM_SETS)[number]) =>

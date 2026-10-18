@@ -21,6 +21,7 @@ import {
 const CATEGORIES: Partial<Record<Tables<"items">["kind"], string[]>> = {
   weapon: ["simple", "martial"],
   armour: ["light", "medium", "heavy"],
+  tool: ["instrument"],
 };
 
 const ItemEditor: React.FC<{
