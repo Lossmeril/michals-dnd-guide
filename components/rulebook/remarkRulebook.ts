@@ -7,6 +7,7 @@ import type {
   LeafDirective,
   TextDirective,
 } from "mdast-util-directive";
+import { isStatBlockKind } from "@/lib/rules/statBlocks";
 
 type Directive = ContainerDirective | LeafDirective | TextDirective;
 
@@ -22,6 +23,7 @@ export const KNOWN = {
     "backgrounds",
     "languages",
     "traits",
+    "weapons",
     "classes",
     "chapters",
     "travel-calculator",
@@ -73,6 +75,24 @@ const transform = (node: Nodes) => {
   for (const child of parent.children as Nodes[]) {
     if (child.type === "text") {
       out.push(...splitDice(child));
+      continue;
+    }
+    // ```npc … ``` and the other kinds become stat blocks
+    if (child.type === "code" && isStatBlockKind(child.lang)) {
+      out.push({
+        type: "leafDirective",
+        name: "statblock",
+        attributes: {},
+        children: [],
+        data: {
+          hName: "rb-statblock",
+          hProperties: {
+            kind: child.lang,
+            source: child.value,
+            wide: /\bwide\b/.test(child.meta ?? "") ? "true" : "",
+          },
+        },
+      });
       continue;
     }
     if (!isDirective(child)) {

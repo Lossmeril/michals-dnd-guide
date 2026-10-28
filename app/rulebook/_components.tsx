@@ -60,7 +60,7 @@ export const RulePage = async ({
       {!parent && (prev || next) && (
         <nav
           aria-label="Rulebook pages"
-          className="clear-both flex justify-between gap-4 mt-16 pt-4 border-t-2 border-dnd-gold text-sm"
+          className="print:hidden clear-both flex justify-between gap-4 mt-16 pt-4 border-t-2 border-dnd-gold text-sm"
         >
           {prev ? (
             <Link href={hrefOf(prev.slug)} className="button-link">

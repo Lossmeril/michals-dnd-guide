@@ -7,7 +7,7 @@ const RulebookLayout = async ({ children }: LayoutProps<"/rulebook">) => {
   const nav = await fetchRulebookNav();
   return (
     <div className="flex gap-10">
-      <div className="hidden md:block">
+      <div className="hidden md:block print:hidden">
         <SidebarNav
           items={nav.map((chapter) => ({
             label: chapter.title,

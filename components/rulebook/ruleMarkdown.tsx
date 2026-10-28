@@ -10,6 +10,8 @@ import { twMerge } from "tailwind-merge";
 import ExampleCard from "@/components/ui/exampleCard";
 import { ResourceName, type ResourceKey } from "@/components/game/resources";
 import StatBlock from "@/components/game/statBlock";
+import StatBlockCard from "@/components/game/statBlocks";
+import { isStatBlockKind, parseStatBlock } from "@/lib/rules/statBlocks";
 import { tableClasses } from "@/components/ui/dataTable";
 import { panelClass } from "@/components/ui/panel";
 import { Overline } from "@/components/ui/typography";
@@ -55,6 +57,8 @@ const resource = (r: ResourceKey) =>
   function Resource({ children }: P) {
     return <ResourceName r={r}>{children || undefined}</ResourceName>;
   };
+
+const PLUGINS = [remarkGfm, remarkDirective, remarkRulebook];
 
 const buildComponents = (renderBlock?: RenderBlock): Components => {
   const block = (name: string) =>
@@ -150,6 +154,29 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
         {children}
       </RuleCard>
     ),
+    "rb-statblock": ({ kind, source, wide }) => {
+      if (!isStatBlockKind(kind)) return null;
+      // Field values and sections are Markdown with the same shortcodes
+      const md = (text: string, inline?: boolean) => (
+        <Markdown
+          remarkPlugins={PLUGINS}
+          components={
+            inline
+              ? { ...components, p: ({ children }) => <>{children}</> }
+              : components
+          }
+        >
+          {text}
+        </Markdown>
+      );
+      return (
+        <StatBlockCard
+          data={parseStatBlock(kind, source ?? "")}
+          md={md}
+          wide={!!wide}
+        />
+      );
+    },
     "rb-unknown": ({ name }) => (
       <p className="text-sm text-dnd-red">Unknown shortcode ::{name}</p>
     ),
@@ -159,6 +186,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
         "backgrounds",
         "languages",
         "traits",
+        "weapons",
         "classes",
         "chapters",
         "travel-calculator",
@@ -166,7 +194,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
     ),
   };
 
-  return {
+  const components: Components = {
     // Headings get ids, so [Initiative](dice#initiative) can link to them
     h2: ({ node, children }) => (
       <h2 id={slugify(hastText(node))} className="scroll-mt-8">
@@ -212,6 +240,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
     // react-markdown types only know HTML tags; the shortcodes are custom tags
     ...(custom as unknown as Components),
   };
+  return components;
 };
 
 const RuleMarkdown: React.FC<{
@@ -220,7 +249,7 @@ const RuleMarkdown: React.FC<{
 }> = ({ content, renderBlock }) => (
   <div className="rules flow-root">
     <Markdown
-      remarkPlugins={[remarkGfm, remarkDirective, remarkRulebook]}
+      remarkPlugins={PLUGINS}
       components={buildComponents(renderBlock)}
     >
       {content}

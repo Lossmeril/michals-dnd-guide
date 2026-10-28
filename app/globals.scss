@@ -219,6 +219,22 @@
   }
 
   // -------------------------------------
+  // Stat blocks (components/game/statBlocks.tsx)
+  // -------------------------------------
+  .stat-block-text {
+    @apply leading-snug;
+    ul {
+      @apply list-disc pl-5;
+    }
+    ol {
+      @apply list-decimal pl-5;
+    }
+    li + li {
+      @apply mt-0.5;
+    }
+  }
+
+  // -------------------------------------
   // Decorative utilities
   // -------------------------------------
 
@@ -292,5 +308,40 @@
       left: 0;
       transform: rotate(0deg) scaleX(-100%);
     }
+  }
+}
+
+// =============================================================================
+// Print
+// =============================================================================
+
+// A print button copies its block into #print-root (components/ui/printButton.tsx)
+#print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  body {
+    background: white;
+  }
+  // Keep the parchment and resource colours on paper
+  .stat-block {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  body.print-one > :not(#print-root) {
+    display: none !important;
+  }
+  body.print-one #print-root {
+    display: block;
+  }
+  body.print-one #print-root .stat-block {
+    margin: 0;
+    max-width: none;
   }
 }
