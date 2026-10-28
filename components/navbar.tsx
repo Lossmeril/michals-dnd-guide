@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Heading } from "./ui/typography";
 import { Avatar } from "./ui/avatar";
 import AdminBar from "./adminBar";
+import { CZECH_PUBLISHED } from "@/lib/i18n/localize";
 import LangSwitch from "./langSwitch";
 import { getDict } from "@/lib/i18n/server";
 
@@ -36,7 +37,7 @@ const Navbar = async () => {
           >
             {dict.site.rulebook}
           </Link>
-          <LangSwitch />
+          {CZECH_PUBLISHED && <LangSwitch />}
           {user && profile && (
             <>
               {" "}

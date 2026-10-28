@@ -6,7 +6,7 @@ import Link from "next/link";
 import EquipmentList from "@/components/game/equipmentList";
 import { PerkTile } from "@/components/game/perkTree";
 import { TraitList } from "@/components/game/traitCard";
-import type { RenderBlock } from "@/components/rulebook/ruleMarkdown";
+import RuleMarkdown, { type RenderBlock } from "@/components/rulebook/ruleMarkdown";
 import { SimpleTable } from "@/components/ui/dataTable";
 import MediaObject from "@/components/ui/mediaObject";
 import Panel from "@/components/ui/panel";
@@ -17,6 +17,8 @@ import {
   type Rulebook,
 } from "@/lib/rules/character";
 import type { Dict } from "@/lib/i18n/dictionaries";
+import type { Lang } from "@/lib/i18n/localize";
+import { type Bestiary, creatureStatBlock } from "@/lib/rules/bestiary";
 import { formatCoins } from "@/lib/rules/format";
 import { hrefOf, type NavChapter } from "@/lib/rulebookNav";
 import type { Tables } from "@/lib/types/database.types";
@@ -150,12 +152,34 @@ const Chapters: React.FC<{ nav: NavChapter[] }> = ({ nav }) => (
 
 const RANKS: Tables<"classes">["rank"][] = ["basic", "advanced", "mighty"];
 
-/** Fills the data shortcodes from the rulebook tables and the nav */
+/** A bestiary creature's stat block, by its id: ::creature{id="wyvern"} */
+const CreatureBlock: React.FC<{ b: Bestiary | null; id?: string; t: Dict; lang: Lang }> = ({
+  b,
+  id = "",
+  t,
+  lang,
+}) => {
+  const creature = b?.creatures.find((c) => c.id === id);
+  return creature && b ? (
+    <RuleMarkdown content={creatureStatBlock(b, creature)} lang={lang} />
+  ) : (
+    <p className="text-sm text-dnd-red">{t.rulebook.unknownCreature(id)}</p>
+  );
+};
+
+/** Fills the data shortcodes from the rulebook tables, the bestiary and the nav */
 export const blockRenderer =
-  (rb: Rulebook | null, nav: NavChapter[], t: Dict): RenderBlock =>
+  (
+    rb: Rulebook | null,
+    nav: NavChapter[],
+    t: Dict,
+    { bestiary = null, lang }: { bestiary?: Bestiary | null; lang: Lang },
+  ): RenderBlock =>
   function renderBlock(name, props) {
     if (name === "chapters") return <Chapters nav={nav} />;
     if (name === "travel-calculator") return <TravelCalculator />;
+    if (name === "creature")
+      return <CreatureBlock b={bestiary} id={props.id} t={t} lang={lang} />;
     if (!rb) return null;
     switch (name) {
       case "races":

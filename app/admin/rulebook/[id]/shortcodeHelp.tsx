@@ -18,6 +18,7 @@ const ROWS: [string, string][] = [
   ['::::cards + :::card[Title]{#id image="…" subtitle="…"}', "Cards in a column, e.g. conditions; {#id} lets links jump to one"],
   ["```npc (or companion, unit, network, organization)", "A stat block: `key: value` lines (name, subtitle, image, body, soul, charisma, …), then ## sections. ```npc wide spans the page; rules: no drops the reminders"],
   [":::en / :::cs", "Text for one language only, e.g. an example that only makes sense in Czech. Close with :::"],
+  ['::creature{id="wyvern"}', "A creature's stat block from the bestiary, by its id (shown on the real page, not in the preview)"],
   ["Town guard |cs| Městský strážný", "A translated line inside a stat block (any field or section)"],
   ['::races ::backgrounds ::languages ::traits ::weapons ::classes{rank="basic"} ::chapters ::travel-calculator', "Filled from the database on the real page"],
 ];

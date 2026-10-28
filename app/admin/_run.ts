@@ -42,7 +42,9 @@ export type SlugTable =
   | "perks"
   | "backgrounds"
   | "languages"
-  | "items";
+  | "items"
+  | "bestiary_categories"
+  | "creatures";
 
 /** Inserts a new row, or updates an existing one by its id */
 export const saveBySlug = async <T extends SlugTable>(

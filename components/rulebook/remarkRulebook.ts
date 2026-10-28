@@ -26,6 +26,7 @@ export const KNOWN = {
     "traits",
     "weapons",
     "classes",
+    "creature",
     "chapters",
     "travel-calculator",
   ],

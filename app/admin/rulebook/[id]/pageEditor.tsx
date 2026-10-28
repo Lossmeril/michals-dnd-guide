@@ -44,6 +44,7 @@ const SNIPPETS: { label: string; text: string; block?: boolean }[] = [
   { label: "Material", text: ":material|" },
   { label: "Coins", text: ":coins|" },
   { label: "Resource bars", block: true, text: ':::stats[|Michal\'s Charisma, before and after]\n::stat{r="charisma" base="5"}\n::stat{r="charisma" base="5" exhausted="3"}\n:::' },
+  { label: "Stat block", block: true, text: "```npc\nname: |Name\nsubtitle: Human, ordinary\narmour: Light (1)\nspeed: 6 m\nthreat: d6\nbody: 11\nsoul: 4\ncharisma: 4\nskills: Fighter skills +2\n\n## Actions\n***Weapon.*** Foot close combat, reach 1 m. Hit: 1d6 + 2.\n```" },
   { label: "Table", block: true, text: "| Column | Column |\n|---|---|\n| | |" },
   { label: "Cards", block: true, text: "::::cards\n:::card[|Title]{subtitle=\"\"}\nText.\n:::\n::::" },
   { label: "Cards, 3 in a row", block: true, text: "::::cards{cols=\"3\"}\n:::card[|Title]{image=\"\"}\nText.\n:::\n:::card[Title]\nText.\n:::\n:::card[Title]\nText.\n:::\n::::" },
@@ -58,6 +59,7 @@ const DATA_BLOCKS = [
   { value: '::classes{rank="basic"}', label: "Basic class cards" },
   { value: '::classes{rank="advanced"}', label: "Advanced class cards" },
   { value: '::classes{rank="mighty"}', label: "Mighty class cards" },
+  { value: '::creature{id="|"}', label: "Creature from the bestiary" },
   { value: "::chapters", label: "List of chapters" },
   { value: "::travel-calculator", label: "Travel calculator" },
 ];

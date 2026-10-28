@@ -11,7 +11,7 @@ import { check, db, run, saveBySlug, type SlugTable } from "./_run";
 export async function uploadRulebookImage(
   target: Extract<
     ImageTarget,
-    "classes" | "races" | "perks" | "traits" | "items" | "rulebook"
+    "classes" | "races" | "perks" | "traits" | "items" | "rulebook" | "bestiary"
   >,
   formData: FormData,
 ) {
@@ -67,6 +67,19 @@ export async function saveLanguage(
     }
     return row.id;
   });
+}
+
+// ----- Bestiary -----
+
+export async function saveBestiaryCategory(
+  isNew: boolean,
+  row: TablesInsert<"bestiary_categories">,
+) {
+  return run(() => saveBySlug("bestiary_categories", isNew, row));
+}
+
+export async function saveCreature(isNew: boolean, row: TablesInsert<"creatures">) {
+  return run(() => saveBySlug("creatures", isNew, row));
 }
 
 // ----- Classes and skills -----
@@ -208,6 +221,8 @@ const DELETABLE: SlugTable[] = [
   "backgrounds",
   "languages",
   "items",
+  "bestiary_categories",
+  "creatures",
 ];
 
 export async function deleteRow(table: SlugTable, id: string) {

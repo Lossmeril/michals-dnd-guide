@@ -100,7 +100,7 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Card rows** in the rulebook (`::::cards{cols="3"}`): one column on phones, two on tablets, three on extra-wide screens. Cards in a row of three put their picture on top.
 - **Items** (`components/game/itemIcon.tsx`): a small square picture, or an ink icon of the item's kind (crossed swords, armour, shield, shirt, toolbox, knapsack). Broken items are greyed out and struck through.
 - **Merit counter** (`components/game/meritCounter.tsx`): a character's merit points in one campaign, with − for whoever may spend and + for the DM. Turns red above the usual 3.
-- **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
+- **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame; **hidden for now** with `SHOW_PERK_IMAGES` until the art is ready), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
 - Clicking a picture or card opens the details; the actions sit in the footer.
 
 ### Page layouts
@@ -114,7 +114,7 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 
 ### Languages (English and Czech)
 
-The app speaks English and Czech. The reader picks one with the EN/CS switch in the navbar (`components/langSwitch.tsx`); it's kept in the `lang` cookie, and a first visit follows the browser (Slovak counts as Czech).
+The app speaks English and Czech. **Czech is hidden from readers for now** (`CZECH_PUBLISHED` in `lib/i18n/localize.ts`): everyone reads English and the switch is gone, while admins still edit both. When it's on, the reader picks one with the EN/CS switch in the navbar (`components/langSwitch.tsx`); it's kept in the `lang` cookie, and a first visit follows the browser (Slovak counts as Czech).
 
 - **App text** (buttons, labels, the stat blocks' own words) lives in dictionaries: `lib/i18n/dictionaries.ts`. Server components use `getDict()` / `getLang()` (`lib/i18n/server.ts`), client ones `useDict()` and `useL()` (`lib/i18n/client.tsx`). Being moved over page by page; the rulebook frame and stat blocks are done.
 - **Data from the database** keeps both languages in one field: `English |cs| Czech`. No marker means English for both; an empty side falls back to the other. `localize` / `localizeDeep` (`lib/i18n/localize.ts`) pick one; `fetchRulebook()` and the rulebook page fetchers do it for you, and admin pages fetch raw (`fetchRulebook(true)`).

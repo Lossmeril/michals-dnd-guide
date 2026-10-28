@@ -462,6 +462,65 @@ The old site had a 5E-style travel calculator.
 - **Legendary Resistance:** a boss can turn a failed save into a success a few times a day (usually 3). It's the closest 5E thing to DrD2's Fate: a small, limited way for important NPCs to avert failure.
 - **No exhaustion for monsters:** they just take damage until they drop. Social and mental defeat (fear, charm, persuasion) is handled by conditions and DM judgement, not a track.
 
+## Bestiary
+
+> **Status: being designed (Q20).** The root of an academic-style bestiary.
+
+**In the app:** admins edit it at `/admin/bestiary`. Categories (`bestiary_categories`) are two levels deep: the five roots and their subgroups. Each creature (`creatures`) sits in a root or a subgroup and has a name, a picture, a description (lore, Markdown) and a stat block written as the rulebook's ```` ```npc ```` lines; its name and picture fill the block, and its category stands in for a missing subtitle. All text takes `English |cs| Czech`. A rulebook page shows a creature's stat block with `::creature{id="…"}`; there's no bestiary page of its own yet.
+
+### The five categories *(confirmed)*
+
+Every creature belongs to one of five categories. They're the roots of the bestiary; subgroups branch from them.
+
+| Category | What it is | Examples |
+|---|---|---|
+| **Animals** | Ordinary, non-magical beasts | Wolves, bears, horses, falcons, war dogs |
+| **Humans and humanoids** | Sapient beings resembling human nature and the human body shape | Humans, elves, dwarves, halflings, krolls, trolls, giants |
+| **Undead and reanimated** | Beings made from human (or non-human) remains, souls and bodies; **artificial life** belongs here too | Skeletons, zombies, ghosts, golems, homunculi |
+| **Monsters** | Animal-like creatures that are **magical in nature** | Dragons, wyverns, basilisks, **lesser vampires** |
+| **Fiends** | **Otherworldly entities** summoned into our world, or come in from other planes | **Higher vampires**, leshies, noonwraiths, duskwraiths, nightmares, house spirits, familiars, demons, gods |
+
+**Fiends** are the hardest to pin down. "Demons" describes them only in very simplified terms.
+- **What unites them:** they **attract worship** or **concern themselves with human souls**. They can live alongside humans, hunt them or lead them.
+- **Territory and cults:** some fight territorial struggles over worshippers, or sit at the centre of local cults.
+  - A vampire lord keeps familiars and thralls.
+  - A noonwraith guards its fields; a leshy guards a vast forest.
+  - Demons collect souls.
+- **Vampires straddle the line.** A lesser vampire is a monster. Becoming a **higher vampire** takes a curse with a **fiend aspect**, which makes it a fiend.
+- **Familiars are fiends** too: the Incantor's familiar spell (see [Companions](#companions)) brings one into the world in an animal's shape.
+
+### Where the categories meet the rules
+
+Many rules already name kinds of creatures. Read them against the categories:
+
+| Rule | Names | Categories |
+|---|---|---|
+| Fighter, Hunter and Juggler combat skills; Warrior and Scout mounted combat | "humans and beasts" | Humans and humanoids, Animals *(confirmed)* |
+| Ranger: *Close and ranged foot combat vs monsters*, *Monster taming*, *Trophies* | "monsters" | Monsters |
+| Witcher: *Close combat vs monsters, fiends and undead*, *Trophy taking*, *Witcher knowledge* | "monsters, fiends and undead" | Monsters, Fiends, Undead and reanimated |
+| Hunter *Animal handling* and *Animal training*; Shaman *Animal healing* and *Animal magic* | "animals" | Animals |
+| Medic poisons | "humans and animals" | Humans and humanoids, Animals |
+| *Dealing with supernatural beings* (Incantor, Witcher, Ranger) | "supernatural beings" | Undead and reanimated, Monsters, Fiends |
+| *Isa Sign* (Witcher) | "monsters and supernatural beings" | Undead and reanimated, Monsters, Fiends |
+| Alchemist *Artificial life* | "artificial beings" | Undead and reanimated |
+| DrD2 master abilities (Paladin, Necromancer) | "undead and demons" | Undead and reanimated, Fiends |
+| DrD2 master abilities (Žrec: *Basilisk spit*, *Dragon's claw*) | "monsters and demons", "monsters" | Monsters, Fiends |
+
+- **"Humans and beasts" means exactly Humans and humanoids plus Animals** *(confirmed)*. A troll or a giant is fought with Fighter skills; a wyvern or a lesser vampire needs Ranger's or Witcher's monster combat.
+- **Animals and Monsters** split along magic: a wolf is an animal, a werewolf or a wyvern is a monster. Animal magic and Medic poisons stop at the line; perks like Žrec's *Dragon's claw* carry them across.
+
+### Subgroups
+
+*(Draft, Q20b; not in the app: the seeded subgroups were removed on request.)* Each category splits into subgroups, like an academic bestiary's families:
+
+| Category | Subgroups |
+|---|---|
+| **Animals** | Beasts of the field (horses, cattle, dogs); predators (wolves, bears, big cats); birds; beasts of the water; vermin and swarms (rats, insects) |
+| **Humans and humanoids** | The civilised races (humans, elves, dwarves, halflings, krolls); wild humanoids (goblins, ogres, trolls); giants |
+| **Undead and reanimated** | Corporeal undead (zombies, ghouls, skeletons); spectres (ghosts, wraiths, banshees); constructs (golems, homunculi, animated objects) |
+| **Monsters** | Draconids (dragons, wyverns, basilisks); hybrids (griffins, chimeras, manticores); cursed beasts (werewolves, lesser vampires); insectoids and crawlers (giant spiders, centipedes); beasts of the deep (krakens, drowners) |
+| **Fiends** | Place guardians (leshies, noonwraiths, water spirits); night spirits (nightmares, duskwraiths); household spirits; vampires (higher vampires and their lords); demons; gods |
+
 ## Companions
 
 > **Status: being designed (Q18).** Called *henchmen* in early drafts. Companions that serve a player character and that the player controls: a trained falcon, a hired sellsword, a loyal squire, a raised skeleton, a bound demon, a golem. Needed for magical control (see [Control](#magic)) and referenced by sigils.
@@ -1602,7 +1661,7 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 **Built** at `/rulebook` (public, no login needed), following the structure below.
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
-- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
 - **Two languages:** every page and data field can hold English and Czech (`English |cs| Czech`, or the editor's tabs); readers switch in the navbar. See *Languages* in [visual-language.md](visual-language.md).
 - **Data blocks:** races, backgrounds, languages, traits, weapons and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
@@ -1656,7 +1715,7 @@ Built so far: a campaign overview (cover, name, description, DM, characters) and
 
 The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, Q7c, Q11b, Q11c, Q1a, the readings, merit points and the poison leftovers answered). Resume here.
 
-**Pending question:** none. The rules are in the app's rulebook and logic; see *App and data follow-ups* below.
+**Pending question:** **Q20b**, the draft bestiary subgroups (see [Subgroups](#subgroups)).
 
 **Still open after that:**
 - **Q18g, Power:** kept for now, not confirmed; revisit once organizations have been played.
@@ -1773,3 +1832,6 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - **Q19b, blood magic:** draft only: *Last memory* and the Mage *Necrolog* to the Inquisitor, *Blood toll* stays with Black Priest. Perks are settled later.
     - ~~**Q19c, prerequisites**~~: answered. Warlord: Warrior, Rogue, Scout. Ravager: Warrior, Ranger, Witcher. Shadow: Rogue, Scout, Mage, Alchemist. Inquisitor: Warrior, Warlock, Witcher, Mage. Zhrets: Ranger, Druid, Shaman. Black Priest: Warlock, Alchemist, Shaman, Druid. Every advanced class leads to two, Warrior to three.
     - ~~**Q19d, Elementalist**~~: answered. Kept split: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe let Zhrets reach all four elements through a purchasable perk, even without Warlock.
+20. **Bestiary** (see [Bestiary](#bestiary)): five root categories confirmed: Animals, Humans and humanoids, Undead and reanimated, Monsters, Fiends.
+    - ~~**Q20a, combat skills**~~: answered. "Humans and beasts" (Fighter, Hunter, Juggler, Warrior, Scout) means exactly Humans and humanoids plus Animals. Trolls and giants are Fighter's; wyverns and lesser vampires need Ranger or Witcher.
+    - **Q20b, subgroups:** a draft is in [Subgroups](#subgroups).

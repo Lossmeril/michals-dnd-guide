@@ -8,6 +8,9 @@ import { RESOURCE_STYLES } from "./resources";
 
 const DEFAULT_IMAGE = "/img/perks/default.webp";
 
+/** Perk pictures are hidden until the art is ready; traits keep theirs */
+const SHOW_PERK_IMAGES = false;
+
 /**
  * Square picture for perks and traits; the images carry their own frames.
  * Size it by width; the square ratio is applied last so a className can't
@@ -36,9 +39,8 @@ export const SquareImage: React.FC<{
 export const PerkImage: React.FC<{
   perk: Tables<"perks">;
   className?: string;
-}> = ({ perk, className }) => (
-  <SquareImage src={perk.image_url} className={className} />
-);
+}> = ({ perk, className }) =>
+  SHOW_PERK_IMAGES ? <SquareImage src={perk.image_url} className={className} /> : null;
 
 /** "Passive", "Granted automatically" or the activation price as a coloured pill */
 export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {

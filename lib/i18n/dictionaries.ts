@@ -22,6 +22,7 @@ const en = {
     material: "Material",
     placeholder: (name: string) => `::${name} is filled in on the real page.`,
     unknownShortcode: (name: string) => `Unknown shortcode ::${name}`,
+    unknownCreature: (id: string) => `No creature "${id}" in the bestiary`,
   },
   resources: { body: "Body", soul: "Soul", charisma: "Charisma" },
   manoeuvres: {
@@ -256,6 +257,7 @@ const cs: Dict = {
     material: "Materiál",
     placeholder: (name) => `::${name} se doplní na skutečné stránce.`,
     unknownShortcode: (name) => `Neznámý zkrácený kód ::${name}`,
+    unknownCreature: (id) => `Bestiář nemá tvora „${id}“`,
   },
   resources: { body: "Tělo", soul: "Duše", charisma: "Vliv" },
   manoeuvres: {

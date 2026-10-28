@@ -7,6 +7,12 @@ export const LANGS = ["en", "cs"] as const;
 export type Lang = (typeof LANGS)[number];
 export const DEFAULT_LANG: Lang = "en";
 
+/**
+ * Readers see Czech only when this is on. While it's off, everyone reads
+ * English and the navbar has no switch; admins still edit both languages.
+ */
+export const CZECH_PUBLISHED = false;
+
 export const LANG_NAMES: Record<Lang, string> = { en: "English", cs: "Čeština" };
 
 export const isLang = (s: unknown): s is Lang =>

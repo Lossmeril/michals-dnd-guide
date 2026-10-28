@@ -202,6 +202,7 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
         "traits",
         "weapons",
         "classes",
+        "creature",
         "chapters",
         "travel-calculator",
       ].map((name) => [`rb-${name}`, block(name)]),

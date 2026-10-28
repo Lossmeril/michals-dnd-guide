@@ -1,11 +1,16 @@
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Card, { CardGrid } from "@/components/ui/card";
 import { Heading } from "@/components/ui/typography";
+import { fetchBestiary } from "@/lib/endpoints/bestiary";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { fetchRulebookNav } from "@/lib/endpoints/rulebookPages";
 
 const AdminDashboard = async () => {
-  const [rb, nav] = await Promise.all([fetchRulebook(), fetchRulebookNav()]);
+  const [rb, nav, bestiary] = await Promise.all([
+    fetchRulebook(),
+    fetchRulebookNav(),
+    fetchBestiary(),
+  ]);
   const pageCount = nav.reduce((n, c) => n + c.pages.length, 0);
   const count = (n: number, one: string, many = `${one}s`) =>
     `${n} ${n === 1 ? one : many}`;
@@ -68,6 +73,13 @@ const AdminDashboard = async () => {
       image: "/img/classes/incantor.webp",
       text: "Who speaks what.",
       stat: count(rb.languages.length, "language"),
+    },
+    {
+      title: "Bestiary",
+      href: "/admin/bestiary",
+      image: "/img/races/kroll.webp",
+      text: "Creature categories and subgroups, and each creature's lore and stat block.",
+      stat: `${count(bestiary.categories.length, "category", "categories")} · ${count(bestiary.creatures.length, "creature")}`,
     },
     {
       title: "Traits",

@@ -50,6 +50,41 @@ export type Database = {
         }
         Relationships: []
       }
+      bestiary_categories: {
+        Row: {
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          parent_id: string | null
+          sort: number
+        }
+        Insert: {
+          description?: string | null
+          id: string
+          image_url?: string | null
+          name: string
+          parent_id?: string | null
+          sort?: number
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          parent_id?: string | null
+          sort?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bestiary_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "bestiary_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_players: {
         Row: {
           campaign_id: number
@@ -521,6 +556,44 @@ export type Database = {
           sort?: number
         }
         Relationships: []
+      }
+      creatures: {
+        Row: {
+          category_id: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          sort: number
+          stat_block: string | null
+        }
+        Insert: {
+          category_id: string
+          description?: string | null
+          id: string
+          image_url?: string | null
+          name: string
+          sort?: number
+          stat_block?: string | null
+        }
+        Update: {
+          category_id?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          sort?: number
+          stat_block?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creatures_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "bestiary_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       items: {
         Row: {
