@@ -55,16 +55,19 @@ export type Database = {
           campaign_id: number
           character_id: number
           id: number
+          merit_points: number
         }
         Insert: {
           campaign_id: number
           character_id: number
           id?: number
+          merit_points?: number
         }
         Update: {
           campaign_id?: number
           character_id?: number
           id?: number
+          merit_points?: number
         }
         Relationships: [
           {
@@ -526,6 +529,7 @@ export type Database = {
           damage: string | null
           damage_type: string | null
           description: string | null
+          free_manoeuvre: Database["public"]["Enums"]["manoeuvre"] | null
           id: string
           image_url: string | null
           kind: Database["public"]["Enums"]["item_kind"]
@@ -539,6 +543,7 @@ export type Database = {
           damage?: string | null
           damage_type?: string | null
           description?: string | null
+          free_manoeuvre?: Database["public"]["Enums"]["manoeuvre"] | null
           id: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
@@ -552,6 +557,7 @@ export type Database = {
           damage?: string | null
           damage_type?: string | null
           description?: string | null
+          free_manoeuvre?: Database["public"]["Enums"]["manoeuvre"] | null
           id?: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
@@ -789,6 +795,7 @@ export type Database = {
           name: string
           plural: string | null
           sort: number
+          speed: number
         }
         Insert: {
           blurb?: string | null
@@ -799,6 +806,7 @@ export type Database = {
           name: string
           plural?: string | null
           sort?: number
+          speed?: number
         }
         Update: {
           blurb?: string | null
@@ -809,6 +817,7 @@ export type Database = {
           name?: string
           plural?: string | null
           sort?: number
+          speed?: number
         }
         Relationships: [
           {
@@ -998,6 +1007,10 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      set_merit_points: {
+        Args: { p_campaign_player_id: number; p_points: number }
+        Returns: undefined
+      }
       save_character_build: {
         Args: {
           p_background_id?: string
@@ -1039,6 +1052,13 @@ export type Database = {
         | "slashing"
         | "bludgeoning"
       item_kind: "weapon" | "armour" | "shield" | "clothing" | "tool" | "gear"
+      manoeuvre:
+        | "precise"
+        | "mighty"
+        | "cunning"
+        | "quick"
+        | "defense"
+        | "widespread"
       perk_kind: "perk" | "spell" | "racial" | "aspect"
       requirement_kind:
         | "class_level"
@@ -1202,6 +1222,14 @@ export const Constants = {
         "bludgeoning",
       ],
       item_kind: ["weapon", "armour", "shield", "clothing", "tool", "gear"],
+      manoeuvre: [
+        "precise",
+        "mighty",
+        "cunning",
+        "quick",
+        "defense",
+        "widespread",
+      ],
       perk_kind: ["perk", "spell", "racial", "aspect"],
       requirement_kind: [
         "class_level",

@@ -830,9 +830,25 @@ Example, Warrior:
 
 | Aspect | Requires |
 |---|---|
-| **Brute** | Fighter 4 |
+| **Brute** | Fighter 4 + Juggler 2 |
 | **Knight** | Fighter 3 + Juggler 3 |
-| **Monk** | Juggler 4 | The aspects for the other nine advanced classes aren't defined yet.
+| **Monk** | Fighter 2 + Juggler 4 |
+
+**All advanced classes** *(confirmed)*: every class follows the same pattern. The first aspect leans on the first parent (**4 + 2**), the second is balanced (**3 + 3**), the third leans on the second parent (**2 + 4**). Each is exactly the 6 parent levels that unlock the class, so the split a character used to get in decides which aspect comes first; holding all three needs at least 4 + 4.
+
+| Class | Parents | 4 + 2 | 3 + 3 | 2 + 4 |
+|---|---|---|---|---|
+| **Warrior** | Fighter + Juggler | Brute | Knight | Monk |
+| **Ranger** | Fighter + Hunter | Barbarian | Monster Slayer | Beastmaster |
+| **Witcher** | Fighter + Medic | Berserk | Hexer | Exorcist |
+| **Scout** | Hunter + Juggler | Ghost | Outrider | Spymaster |
+| **Shaman** | Hunter + Medic | Warg | Seer | Herbalist |
+| **Druid** | Hunter + Incantor | Wildheart | Stoneshaper | Tidecaller |
+| **Rogue** | Juggler + Medic | Thief | Assassin | Poisoner |
+| **Alchemist** | Medic + Incantor | Mixer | Transmuter | Life Moulder |
+| **Warlock** | Fighter + Incantor | Paladin | Battlemage | Abjurer |
+| **Mage** | Juggler + Incantor | Illusionist | Enchanter | Conjurer |
+
 
 The 10 advanced classes are exactly every pair of the 5 basic classes:
 
@@ -851,18 +867,224 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 
 ### Mighty classes
 
-Each combines 3–4 advanced classes. A mighty class unlocks once **its advanced classes total 6 levels**, spread in any way. All of them can contribute, or only some. For Warlord, Warrior 5 / Rogue 1, Warrior 3 / Rogue 3 and Warrior 2 / Ranger 2 / Scout 1 / Rogue 1 all qualify. A single class can't do it alone, because classes cap at 5. As with advanced classes, that is the only gate.
+Each combines 3–4 advanced classes. A mighty class unlocks once **its advanced classes total 6 levels**, spread in any way. All of them can contribute, or only some. For Warlord, Warrior 5 / Rogue 1, Warrior 3 / Rogue 3 and Warrior 2 / Rogue 2 / Scout 2 all qualify. A single class can't do it alone, because classes cap at 5. As with advanced classes, that is the only gate.
 
 None have skills or perks yet, and Black Priest has no description (**Q8**).
 
 | Class | Built from | Magic | Fantasy |
 |---|---|---|---|
-| **Warlord** | Warrior, Ranger, Rogue, Scout | None | Leadership, strategy, armies and political power |
-| **Ravager** | Warrior, Ranger, Witcher, Shaman | Full | Raw martial destruction: dragon riders, legendary skinchangers |
-| **Shadow** | Rogue, Ranger, Mage, Alchemist | Full | Supernatural stealth: vanishing, bypassing barriers |
+| **Warlord** | Warrior, Rogue, Scout | None | Leadership, strategy, armies and political power |
+| **Ravager** | Warrior, Ranger, Witcher | Full | Raw martial destruction: dragon riders, legendary skinchangers |
+| **Shadow** | Rogue, Scout, Mage, Alchemist | Full | Supernatural stealth: vanishing, bypassing barriers |
 | **Inquisitor** | Warrior, Warlock, Witcher, Mage | Full | Blood magic that uncovers truth; counters and reflects spells |
 | **Zhrets** | Ranger, Druid, Shaman | Full | Pagan priest commanding whole regions of nature |
-| **Black Priest** | Warlock, Mage, Alchemist | Full | *(no description yet)* |
+| **Black Priest** | Warlock, Alchemist, Shaman, Druid | Full | *(no description yet)* |
+
+Michal's six mighty classes are a **reduced version of DrD2's ten master classes** (*mistrovská povolání*), merged because there were too many. Which DrD2 class goes where is **Q19**.
+
+### Master classes in DrD2
+
+*(Summarised from DrD2's Games of the Mighty. Not yet confirmed.)* Class names: šaman = Shaman, alchymista = Alchemist, mág = Mage, druid = Druid, čaroděj = Warlock, zvěd = Scout, vědmák = Witcher, válečník = Warrior, hraničář = Ranger, lupič = Rogue; bojovník = Fighter, lovec = Hunter, kejklíř = Juggler, mastičkář = Medic, zaříkávač = Incantor.
+
+**General rules**
+- A master class unlocks with **6 levels in total across its advanced classes**, in any split, as ours. *Optional:* 6 special abilities from them instead.
+- **No levels of its own.** Each master ability is bought (12 XP) together with a level in one of its advanced classes, or with raising a resource limit.
+- **Master skills** list **prerequisite skills** from lower classes. The roll adds the level of the class that owns the prerequisite skill used, and the effect follows that class (a Necromancer-Shaman speaks with the dead by drumming in a trance; a Necromancer-Mage reads the corpse's memory with words). The character needs at least one level in that class to use that part. All master skills are **unique**.
+  - Talents, Widespread and discounts from lower classes still apply where they fit.
+  - The magic used keeps its range and ritual (a Mage still needs words and sight).
+- Abilities without prerequisite skills just need the 6 levels.
+- Master abilities can't be triggered by Alchemist elixirs, except those with *Elixirs* as a prerequisite, and then only for the Alchemist himself.
+- **Each ability once** (the Elementalist takes them again per element).
+- *Optional:* an **initiation**, usually an adventure, granted by people of equal or lesser power (a church's faithful, a cult). *A Necromancer finds and performs a forgotten, forbidden ritual at a guarded place; an Inquisitor is chosen by the church's faithful or by the god after a heroic deed.*
+
+**DrD2 terms in the abilities:** *Advantage N* (Výhoda) = N merit points; *hard* (náročnost N) = a cost to attempt of N; *discount N on exhaustion* = a resistance bonus of N; *talent / proficiency / mastery* (nadání / zběhlost / mistrovství) = DrD2's tiers of free manoeuvres in a skill, which we don't have; *narrative authority* = the player declares a fact of the world, like *I Know a Guy*. Prices in brackets: Body, Soul, Charisma points, or a Scar.
+
+| DrD2 master class | Advanced classes | Fantasy |
+|---|---|---|
+| **Necromancer** (*černokněžník*) | Shaman, Alchemist, Mage | Speaks with the dead, reads blood, spreads plague; executioners, investigators, priests of death |
+| **Wonderworker** (*divotvůrce*) | Shaman, Druid, Alchemist, Warlock | Master of magic itself: portals, eternal spells, hidden casting, curses into frogs |
+| **Inquisitor** (*inkvizitor*) | Scout, Witcher, Mage | Keeper of truth: breaks and mirrors spells, interrogates, reads a spell's author |
+| **Avenger** (*mstitel*) | Warrior, Ranger, Rogue, Scout | Master assassin of the great: supernatural agility, unseen, terror symbols |
+| **Destroyer** (*ničitel*) | Warrior, Ranger, Witcher | Master warrior: barbarian, swordmaster, dragon rider, dragon-man |
+| **Paladin** | Warrior, Witcher, Warlock | Holy warrior against undead and demons |
+| **Shadow** (*stín*) | Rogue, Alchemist, Mage | Thief beyond the body: dissolves, steals through shadows |
+| **Leader** (*vůdce*) | Warrior, Rogue, Scout | Diplomat and commander: armies, intrigue, organizations |
+| **Elementalist** (*živlomág*) | Druid, Warlock | Master of one element (fire, water, air, earth) at disaster scale |
+| **Žrec** | Ranger, Shaman, Druid | Pagan nature priest, master of monsters and forests |
+
+**Necromancer**
+- *Gates of the underworld:* summon chosen undead or demons even where they don't live (Incantor, Alchemist; 2 Cha), or a dream being into a drugged body (Shaman; 2 Cha). They don't attack him and treat him as kin.
+- *Blood toll:* drawing blood with a Body Scar refills 2 Soul, or gives 2 merit points.
+- *Plague:* a contagion source by curse or substance until sunset or sunrise (2 Soul); an Alchemist can make a corpse explode as a trap, with a trigger (1 Soul each).
+- *Necrolog:* talk to the dead's spirit (Shaman; 3 Soul), read a corpse's memory (Mage; 3 Cha), call the soul into a prepared body (Alchemist; 3 Cha). The dead can lie.
+- *Last memory:* touching old blood, see the last seconds before it was spilled; see the bleeder's true face (1 Soul).
+- *Bound soul:* curse a sinner to return as a tormented undead until conditions tied to the sin are met (2 Cha).
+- *Shadows of night:* a fear made flesh; every roll is hard for the target until dusk or dawn without strong light or friends (1 Cha); also as an explosive gas.
+- *Dark minds:* narcotics, animal and mind magic work on undead and demons.
+- *Darkland:* on a place of death, symbolic touch on everything there.
+- *Lord of souls:* move a trusting soul (or his own) into an object, plant or corpse until dusk or dawn (2 Cha); make golems that think like people.
+- *Host of puppets:* lasting mind or animal spells without keeping the target in sight (1 Soul).
+- *Desecration:* carry a wellspring's power away in a "key" item (a Soul Scar of the wellspring's strength).
+
+**Wonderworker**
+- *Master of reagents:* turn emergency ingredients into full ones at magic moments (1 Soul).
+- *Overview:* stop time to think; Danger Level drops to 1, wins next initiative (Soul Scar 1).
+- *Void:* a fire or water spell (or alchemical substance) that leaves nothing, ignoring armour (2 Soul / 3 Material).
+- *Master of sigils:* hold as many sigils as Soul; an immortal guardian that refills itself and casts one spell on its own (6 Soul).
+- *Portal:* paired sigils at any distance carrying image and sound; people (5 Soul), two-way (1), dormant until a condition (1).
+- *Runesmith:* a rune item with an elixir's effect until the solstice, for triple ingredients.
+- *Hidden spells:* cast with no gestures, words or visible sigils, untraceable (1 Soul).
+- *Dream weaver:* reshape the dream world, set dream guardians, enter and change dreams (2 Soul).
+- *Eternal spells:* a spell lasting until broken or a set condition; can't kill; no one carries more than their Soul limit (Soul Scar 1).
+- *Lord of rituals:* an extra ritual item per 3 Soul.
+- *Curse:* turn a target into a small harmless animal until a condition or the sacrificed Scar heals; can't be broken (Soul Scar 1).
+- *Sigil thief:* take over another's sigil (1 Soul) and convert it to his own school (1 Soul).
+
+**Inquisitor**
+- *Clairvoyance:* wins first initiative, free Quick all conflict, one free Defense a round (1 Soul).
+- *Spellbreaking:* break spells and sigils of any magic, even very widespread ones (not substances).
+- *Magical handwriting:* tell who cast a spell or made a substance, or their "culture" (a Church priest, a pupil of Cyd); learn a spell's ending condition; a cipher's author, a slander's source.
+- *Torturer:* anything can be a torture tool; cruel manoeuvres when torturing; declare a place with gallows nearby (1 Soul).
+- *Protective aura:* resistance bonus 2 against spells (not substances).
+- *Memory of place:* see the most emotional event at a place since the last solstice (1 Soul).
+- *Kneel, rabble!:* a Charisma Scar he deals refills his Charisma (2 per level), or gives merit points.
+- *Dirty methods:* the player names the target's weakness, to loosen their tongue (Charisma Scar 1).
+- *Slippery:* resistance bonus 2 against persuasion, deceit, forgery and secrets.
+- *Interrogation:* talent at getting the truth from people and demons.
+- *Confessor:* name up to three sins of a member of an organization; each gives a merit point against that organization (1 Cha).
+- *Spell mirroring:* turn any spell back on its caster (1 Soul).
+
+**Avenger**
+- *Lightning movement:* supernatural acrobatics (run on fresh snow, up a wall, across water, catch missiles), one free Defense.
+- *Weak spots:* a target loses its armour's discount against him for the conflict (1 Soul).
+- *Nerves of steel:* resistance bonus 2 against intimidation.
+- *Eyes in the back:* answer traps and ambushes without an action; a free Defense against attacks from behind.
+- *Self-defence:* use the opponent's weapon's free manoeuvre; redirect an averted hit onto another target.
+- *Blend into the crowd,* even a hostile one in a fight (1 Cha).
+- *Death symbol:* a frightened enemy makes a mistake the player chooses (1 Cha); declare someone is hunted by the underworld (1 Cha).
+- *Hidden presence:* when hidden, undetectable by any sense, even supernatural ones.
+- *Lord of chaos:* among an enemy unit, impose penalties instead of his unused manoeuvres.
+- *Back door:* lower his own Danger Level by 1 alongside an attack.
+- *Treacherous attacks:* no manoeuvre limit on a surprise attack.
+- *Sharpened sense:* a racial sense (Night Eyes, Sixth Sense, bat hearing), and resistance 1 when using senses.
+
+**Destroyer**
+- *Dragon rider:* riding and fighting on flying creatures.
+- *Dragon's roar:* mastery in intimidation, cruel manoeuvres.
+- *Dragon-man:* after an involuntary Body Scar, turn into a monster he once killed himself until the conflict ends, with its body skills, abilities and natural weapons.
+- *Legendary fighter:* counters to his attacks are hard this round (2 Body).
+- *Mystic hunter:* ranged and all-round combat skills count against undead and demons.
+- *Sky archer:* mastery in mounted and aerial ranged combat against monsters.
+- *Devastating flurry:* with initiative in melee, defenders can only defend.
+- *Steel fist:* fists as steel weapons with free Mighty; armour gives 1 less against them.
+- *At home in armour:* armour hinders 1 less (good heavy armour not at all); a free Defense in armour.
+- *Charioteer and helmsman:* fighting from wagons and ships.
+- *Victor's mockery:* every enemy is Imprecise next round, once per conflict (1 Cha).
+- *Treacherous feints:* impose penalties on a melee opponent instead of his unused manoeuvres.
+
+**Paladin**
+- *God's favour:* bless himself.
+- *God's judgement:* arrange a meeting with an opponent; a higher power keeps the duel fair (1 Cha).
+- *Holy place:* consecrate a temple into a wellspring until the next solstice (3 Soul); reopen desecrated ones.
+- *Oath:* a sworn goal; no manoeuvre limit in life-threatening scenes serving it, penalties when acting against it, a Charisma Scar if it fails (1 Cha).
+- *Knight of light:* mastery in mounted melee against undead and demons.
+- *Self-sacrifice:* take another's Scar onto himself, one level lower (minimum 1) (2 points).
+- *Holy words:* mastery in curses and blessings.
+- *Holy armour:* consecrated armour gives +1 against undead and demons' attacks and 1 against their magic.
+- *Holy water:* poisons that work on undead and demons.
+- *Dawn:* an aura making undead and demons' actions hard (1 Cha).
+- *Inner sight:* see undead and demons, even invisible or behind walls (1 Soul).
+- *Prison:* lock an opponent outside time and space until dusk or dawn (2 Soul).
+
+**Shadow** (most abilities need no ritual)
+- *Black market:* the player decides who in town owns a wanted (ordinary) item (2 Soul).
+- *How does the runt do it?:* know a building's layout; appear past a locked door if light shines through (1 Soul).
+- *Escape artist:* a saddled horse or boat is waiting somewhere (1 Cha).
+- *Springs and cogs:* work locks and traps by gesture, leaving no trace.
+- *Dissolve:* vanish for a moment to avoid a physical consequence, whatever the Danger Level (Soul Scar 1).
+- *Shadow sower:* whoever hurts him is struck back by a shadow (+1 Danger Level) (1 Soul).
+- *Sabotage:* a Mighty hit also scars the target's tool; objects resist his destruction less.
+- *Shadowing:* use the same skill an opponent uses on him, with a shadow weapon.
+- *Dark hound:* know the direction to anyone he scarred, or who scarred him, until the solstice.
+- *Silent companion:* animate his own shadow; it acts on other shadows, and the effects come true at dusk or dawn (1 Cha per action).
+- *Vanish into shadows:* undetectable in shadow while still.
+
+**Leader**
+- *As ordered!:* companions with a clear planned order get free Quick while following it (1 Soul/Cha).
+- *Schemer:* talent at intrigue against organizations.
+- *Master and teacher / Teamwork:* join a companion unit and give it mastery / talent in skills he shares.
+- *Personal guard:* companions and units from organizations cost 1 Power less (minimum 1) and get an extra ability.
+- *Sacred bond:* heal Bond Scars for 3 payments instead of 5; his own yearly magic moment (5) and wellspring (2).
+- *Truce:* stop any conflict for the rest of the round; allies get a merit point; he wins next initiative (2 Cha).
+- *Natural charm:* counters to his negotiation are hard this round (1 Cha).
+- *I've heard of you:* the opponent's favourite topic comes up; free Quick in that talk (1 Cha).
+- *Silver tongue:* talent at negotiating, haggling and pretending.
+- *Warlord:* talent at leading in and out of combat, and warrior knowledge.
+- *Group leader:* free Widespread when lowering his group's Danger Level.
+
+**Elementalist** (one element per initiation; each counts as a new class; *optional:* the opposite element closes: fire × water, earth × air)
+- *Brother of demons:* elemental demons treat him as kin; resistance 1 against them.
+- *Screen:* his element can't harm him (his gear isn't so lucky).
+- *Genie's lamp:* bind an elemental companion into a vessel (1 Soul).
+- *Catastrophe:* very widespread on his element where it's present: rain to flood (1 Soul).
+- *Wrath of elements:* a lasting spell adds Imprecise, Feeble and Foolish on one activity (1 Soul).
+- *Lord of the skies:* omens from horizon to horizon (2 Soul); decide the weather (1 Soul).
+- *Chaining:* cast through allies close to his element, paying from their Bond.
+- *Force of nature:* his element's outbursts (fire, storm, flood, quake) are magic moments of strength 3.
+- *Merging:* become his element, immune to it and to ordinary weapons (1 Soul).
+- *Summon demons:* elemental demons as companions with Bond 3 (Soul Scar 1).
+- *Drain:* drain an element from a foe as a Scar; refills 2 Soul or 2 merit points.
+- *Elemental disaster:* counters to his magic are hard this round (2 Soul).
+
+**Žrec**
+- *Basilisk spit:* narcotics and poisons that work on monsters and demons.
+- *Landscaper:* shape the terrain for allies' advantage: Ranger by woodwork, Druid by stone magic (very widespread), Hunter by using it (2 Soul).
+- *Forest guardians:* summon a handful of monsters hostile to everyone but him until dusk (2 Cha); natural creatures don't attack him.
+- *Leaf-haired:* become a plant, or a monster whose trophy he holds, for as long as he likes (Soul Scar 1).
+- *Song of bark and feathers:* talent at magic cast with material of the target's kind.
+- *Awakening of the forest:* plant magic can kill with a giant's strength (1 Soul); total control of an animal (1 Cha).
+- *Strength of the forest:* very widespread nature magic over an area.
+- *Dragon's claw:* curses and animal magic work on monsters.
+- *Council of leshies:* bind part of his soul to a plant or spring, and be reborn from it when death comes (Soul Scar 3, every participant).
+- *Secret of roots:* grow seedlings of unusual plants he has seen (Soul Scar 1); recharge from a forest's wellspring.
+- *Call of kin:* call the nearest animal, or a pack, of his chosen kind within a day's travel (1 Cha).
+- *Sparrow chatter:* send one sense into any living thing in nature he perceives (1 Soul).
+
+**Our merge** *(confirmed)*
+
+| Ours | DrD2 sources |
+|---|---|
+| **Warlord** | Leader (command, intrigue, organizations); keeps the Avenger's prerequisite list |
+| **Ravager** | Destroyer (+ Shaman for skinchanging) |
+| **Shadow** | Shadow + the Avenger's assassin abilities (unseen presence, supernatural agility, treacherous attacks) |
+| **Inquisitor** | Inquisitor + Paladin + the Necromancer's **investigative blood magic** |
+| **Zhrets** | Žrec + the Elementalist's **water and earth** (through Druid) |
+| **Black Priest** | Necromancer + Wonderworker + the Elementalist's **fire and air** (through Warlock) |
+
+- Each leftover ability goes to the class that shares its prerequisites.
+- **Blood magic for the Inquisitor:** the Necromancer's blood reading is an investigator's tool, which matches our Inquisitor's "blood magic that uncovers truth". *Draft:* *Last memory* and the Mage version of *Necrolog* move; *Blood toll* stays with Black Priest. Perks are settled later.
+
+**Prerequisites** *(confirmed)*
+- **Goal:** every advanced class leads to **two** mighty classes, with no forced pairing that doesn't make sense. **Warrior** is the exception, leading to three: it's meant to be slightly more useful.
+- Built from the DrD2 sources' own lists: three match a DrD2 class exactly.
+
+| Mighty class | Advanced classes | DrD2 match | Change from the current list |
+|---|---|---|---|
+| **Warlord** | Warrior, Rogue, Scout | Leader, exactly | − Ranger |
+| **Ravager** | Warrior, Ranger, Witcher | Destroyer, exactly | − Shaman (skinchanging works through Ranger trophies and Witcher signs, as Dragon-man does) |
+| **Shadow** | Rogue, Scout, Mage, Alchemist | Shadow + Scout (from the Avenger) | Ranger → Scout |
+| **Inquisitor** | Warrior, Warlock, Witcher, Mage | Inquisitor + Paladin, without Scout | none |
+| **Zhrets** | Ranger, Druid, Shaman | Žrec, exactly | none |
+| **Black Priest** | Warlock, Alchemist, Shaman, Druid | Wonderworker, exactly | Mage → Shaman, Druid (the Necromancer's spirits and dreams come through Shaman, its bodies and plagues through Alchemist; the corpse-reading Mage part goes to the Inquisitor anyway) |
+
+- Each advanced class: Warrior (Warlord, Ravager, Inquisitor), Ranger (Ravager, Zhrets), Rogue (Warlord, Shadow), Scout (Warlord, Shadow), Witcher (Ravager, Inquisitor), Shaman (Zhrets, Black Priest), Druid (Zhrets, Black Priest), Alchemist (Shadow, Black Priest), Warlock (Inquisitor, Black Priest), Mage (Shadow, Inquisitor).
+- **The Elementalist stays split** *(confirmed)*: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe a purchasable Zhrets perk for all four elements.
+
+**Conflicts with ours**
+1. ~~**10 classes into 6.**~~ Answered: see *Our merge*.
+2. **Levels.** DrD2 master classes have no levels and roll with the lower classes' levels; ours have levels 1–5, one perk per level. Master abilities would become our mighty class **perks**; "master skills" with prerequisite skills become perks that extend those skills, rolled with the owning class's level.
+3. **Talent, proficiency, mastery.** DrD2's tiers of free manoeuvres have no equivalent here; strong and cruel manoeuvres come from perks.
+4. **Paladin** is already a Warlock aspect name.
 
 ## Leveling
 
@@ -1381,7 +1603,7 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
 - **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
-- **Data blocks:** races, backgrounds, languages, traits and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
+- **Data blocks:** races, backgrounds, languages, traits, weapons and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
 - **Conditions:** "automatically fails Strength/Dexterity saving throws" became "automatically loses Body defense rolls"; Restrained's "disadvantage on Dexterity saving throws" became "disadvantage on Body defense rolls".
@@ -1396,14 +1618,18 @@ Drafted while writing the pages, to confirm:
 - **Old example images:** the old site's `public/img/classes/advanced/warrior-monk.webp` (git commit `60a40a6`) illustrates Zara the Recluse in the class-blending examples (Fighter 1 / Juggler 5 / Warrior 1). Restore it for the "How classes work" page.
 - **No standalone perk list.** The old Perks page was a debug page. Perks appear on the class and race pages they belong to.
 
-**Proposed structure** (inspired by the old site, split into smaller pages):
+**Structure** (built):
 
-- **Basics:** What this game is · Dice rolls · Advantage and bonus dice
-- **Resources:** Resources · Danger Level · Exhaustion · Scars · Healing · Item scars · Dying
-- **Combat:** Turns and actions · Defending · Damage and armour · Manoeuvres · Conditions
-- **Characters:** Creating a character · Races · Backgrounds · Languages · Traits · Leveling
+- **Basics:** What this game is · Dice rolls · Hazards · Advantage and bonus dice · Merit points
 - **Classes:** How classes work · Basic classes · Advanced classes and aspects · Mighty classes · one page per class (skills, aspects, perks)
+- **Resources:** Resources · Danger Level · Cost to attempt · Exhaustion · Scars · Healing · Item scars · Dying
+- **Combat:** Turns and actions · Defending · Damage and armour · Manoeuvres · Conditions · NPCs
+- **Magic:** Casting magic · Durations and concentration · Sigils · Ritual items · Control and mind reading · Countering magic · Poisons · Potions
+- **Characters:** Creating a character · Races · Backgrounds · Languages · Traits · Leveling
+- **Companions and power:** Companions · Organizations and Standing · Networks · Units
 - **World:** Coins and Material · Travel (with the calculator)
+
+The pages added on 2026-10-28 hold rules only; their examples and story bits are Michal's to write. The weapon table on *Dice rolls* is the `::weapons` block, filled from the item list.
 
 ## Campaign management
 
@@ -1429,20 +1655,16 @@ Built so far: a campaign overview (cover, name, description, DM, characters) and
 
 The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, Q7c, Q11b, Q11c, Q1a, the readings, merit points and the poison leftovers answered). Resume here.
 
-**Pending question:** none. The Q&A list is answered; what's left is rules still to write.
+**Pending question:** none. The rules are in the app's rulebook and logic; see *App and data follow-ups* below.
 
 **Still open after that:**
 - **Q18g, Power:** kept for now, not confirmed; revisit once organizations have been played.
-- **Rules still to write:** aspects for the other nine advanced classes, mighty class skills and perks (including the Standing 3–5 perks, and Warlord's skills for creating and commanding military units).
+- **Rules still to write:** mighty class skills and perks (including the Standing 3–5 perks, and Warlord's skills for creating and commanding military units).
 
-**App and data follow-ups** from these decisions:
-- Rulebook pages (admin): **Advantage** (disadvantage now always wins) and **Conditions** (add Imprecise, Slow, Feeble, Foolish). A new **Hazards** page with the default-class table.
-- `skills` table: add *Dealing with supernatural beings* to Witcher and Ranger; mark the Incantor's as unique only with non-speaking beings.
-- `races`: a speed column (Human 6 m, Elf 6 m, Dwarf 5 m, Halfling 5 m, Kroll 7 m), in the race editor and pages.
-- Character sheet: a **merit point counter** the campaign DM awards and the player spends; a rulebook page for merit points (Basics › Advantage and bonus dice).
-- Character editor and the rulebook's **Resources** page: a warning (not an error) for a pool under 2, with the Milena the leper example.
-- Item editor: the free manoeuvre each weapon grants (default by damage type; shields Defense).
-- Perks to add: the Incantor concentration perk, the Incantor familiar spell, *Omni Potion* and *Unusual poisons* (Medic; fast, two-part, hard to detect, +1 Material per strength each, for every class's substances), strong manoeuvre perks, cruel manoeuvre perks for mighty classes. *Trophy Hunter*'s "Advantage dice" wording → bonus die. *Iron Liver*: advantage against alcohol **and swallowed poisons**. *Your Lips Are Venomous Poison*: skin poison at 2 Material per strength, 3 with immunity.
+**App and data follow-ups:** written into the app on **2026-10-28**: the rulebook pages (rules only; Michal writes the examples), mighty class prerequisites, all 30 aspects, the shared *Dealing with supernatural beings* skill, race speed, each weapon's free manoeuvre (item editor and the `::weapons` block), per-campaign merit points (campaign page) and the pool-under-2 warning. Still to do:
+- Perks to add when class perks go into the database: the Incantor concentration perk, the Incantor familiar spell, *Omni Potion* and *Unusual poisons* (Medic), strong manoeuvre perks, cruel manoeuvre perks for mighty classes. *Trophy Hunter*'s "Advantage dice" wording → bonus die. *Your Lips Are Venomous Poison*: skin poison at 2 Material per strength, 3 with immunity. (*Iron Liver* is updated.)
+- Rulebook examples and story bits for the new pages (Michal).
+- *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
 
 1. ~~Resource pools~~: answered (15 points to split).
    - ~~Q1a~~: answered (one point per level-up; see Leveling). ~~A cap per pool?~~ Answered: no cap or minimum; a warning below 2, and the DM handles tanks by raising their Danger Level.
@@ -1462,7 +1684,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
    - ~~What unlocks a mighty class?~~ Answered: its advanced classes total 6 levels, in any spread.
 4. ~~Aspects~~: answered (3 per advanced class, unlocked by parent-class levels, gate perks).
    - ~~Q4a~~: answered (aspects need the advanced class itself; they stack, and all can eventually be unlocked).
-   - Aspects for the other nine advanced classes, and any for mighty classes, still need defining.
+   - Answered: all ten advanced classes have aspects at 4 + 2, 3 + 3 and 2 + 4 (see [Aspects](#aspects)). Aspects for mighty classes still need defining.
 5. ~~Advantage~~: answered (3d6 keep best two; 2d20 keep higher; "Advantage dice" are now **bonus dice**).
    - ~~Q5a~~: answered (disadvantage mirrors advantage; sources don't stack). **Changed:** disadvantage always wins and cancels advantage; advantage never cancels disadvantage (unlike 5E). The rulebook's Advantage page still says they cancel out.
    - The Trophy Hunter perk text still says "Advantage dice" and needs updating.
@@ -1545,3 +1767,8 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q18l, units' Danger Level**~~: answered. None, like any NPC. Enemy units take track damage only from widespread actions reaching enough members; companion units use their master's Danger Level.
     - ~~**Q18m, unit damage**~~: answered. The Body track is the unit's hit points; one damage roll per qualifying action; the unit drops a size when Body falls to the next smaller size's maximum.
     - ~~**Q18d, familiars**~~: answered. From an Incantor perk spell, like *Find Familiar*.
+19. **Mighty classes from DrD2's master classes** (see [Master classes in DrD2](#master-classes-in-drd2)):
+    - ~~**Q19a, merging**~~: answered (see *Our merge*). Warlord ← Leader; Ravager ← Destroyer; Shadow ← Shadow + Avenger's assassin side; Inquisitor ← Inquisitor + Paladin + the Necromancer's investigative blood magic; Zhrets ← Žrec + Elementalist water and earth; Black Priest ← Necromancer + Wonderworker + Elementalist fire and air.
+    - **Q19b, blood magic:** draft only: *Last memory* and the Mage *Necrolog* to the Inquisitor, *Blood toll* stays with Black Priest. Perks are settled later.
+    - ~~**Q19c, prerequisites**~~: answered. Warlord: Warrior, Rogue, Scout. Ravager: Warrior, Ranger, Witcher. Shadow: Rogue, Scout, Mage, Alchemist. Inquisitor: Warrior, Warlock, Witcher, Mage. Zhrets: Ranger, Druid, Shaman. Black Priest: Warlock, Alchemist, Shaman, Druid. Every advanced class leads to two, Warrior to three.
+    - ~~**Q19d, Elementalist**~~: answered. Kept split: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe let Zhrets reach all four elements through a purchasable perk, even without Warlock.

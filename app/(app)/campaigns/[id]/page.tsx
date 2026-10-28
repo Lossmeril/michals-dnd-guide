@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import { toast } from "sonner";
+import MeritCounter from "@/components/game/meritCounter";
 import Card, { CardGrid } from "@/components/ui/card";
 import CoverImage from "@/components/ui/coverImage";
 import EditableText from "@/components/ui/editableText";
@@ -14,6 +15,7 @@ import {
   addCharacterToCampaign,
   removeCharacterFromCampaign,
   saveCampaign,
+  setMeritPoints,
 } from "./actions";
 import { AddCharacterSelect } from "./addCharacterSelect";
 import { CoverUpload } from "./coverUpload";
@@ -115,7 +117,7 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
         />
       )}
       <CardGrid empty="No characters in this campaign yet." className="mb-20">
-        {members.map(({ character, playerName }) => (
+        {members.map(({ character, playerName, membership }) => (
           <Card
             key={character.id}
             title={character.name}
@@ -124,6 +126,12 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
             <p className="text-xs text-dnd-ink/75">
               Level {character.level} · played by {playerName}
             </p>
+            <MeritCounter
+              points={membership.merit_points}
+              canAward={isDm}
+              canSpend={isDm || character.owner === userId}
+              onChange={(points) => setMeritPoints(membership.id, points)}
+            />
             {(isDm || character.owner === userId) && (
               <button
                 type="button"

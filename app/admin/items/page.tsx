@@ -51,6 +51,7 @@ const AdminItemsPage = async ({ searchParams }: PageProps<"/admin/items">) => {
             sortValue: (i) => i.damage,
           },
           { label: "Armour", render: (i) => i.armour_rating, sortValue: (i) => i.armour_rating },
+          { label: "Free manoeuvre", render: (i) => i.free_manoeuvre, sortValue: (i) => i.free_manoeuvre },
           { label: "Properties", render: (i) => i.properties },
           { label: "Given by", render: (i) => givenBy(i.id), sortValue: (i) => givenBy(i.id) },
         ]}

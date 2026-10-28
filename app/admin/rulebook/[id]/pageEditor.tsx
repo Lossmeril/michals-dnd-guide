@@ -46,6 +46,7 @@ const DATA_BLOCKS = [
   { value: "::backgrounds", label: "Backgrounds table" },
   { value: "::languages", label: "Languages table" },
   { value: "::traits", label: "Premade traits" },
+  { value: "::weapons", label: "Weapons table" },
   { value: '::classes{rank="basic"}', label: "Basic class cards" },
   { value: '::classes{rank="advanced"}', label: "Advanced class cards" },
   { value: '::classes{rank="mighty"}', label: "Mighty class cards" },

@@ -15,7 +15,7 @@ const ROWS: [string, string][] = [
   ['::image{src="…" alt="…" layout="side"}', "A picture: header, side, left or inline; add caption=\"…\" for a caption"],
   [':::stats[Caption] + ::stat{r="body" base="5" exhausted="2" scarred="1"}', "Resource bars, e.g. before and after"],
   ['::::cards + :::card[Title]{#id image="…" subtitle="…"}', "Cards in a column, e.g. conditions; {#id} lets links jump to one"],
-  ['::races ::backgrounds ::languages ::traits ::classes{rank="basic"} ::chapters ::travel-calculator', "Filled from the database on the real page"],
+  ['::races ::backgrounds ::languages ::traits ::weapons ::classes{rank="basic"} ::chapters ::travel-calculator', "Filled from the database on the real page"],
 ];
 
 const ShortcodeHelp = () => (

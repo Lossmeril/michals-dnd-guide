@@ -34,6 +34,7 @@ const blank: Tables<"races"> = {
   image_url: null,
   language_id: null,
   sort: 0,
+  speed: 6,
 };
 
 const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
@@ -77,6 +78,14 @@ const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
             onChange={(language_id) => set({ language_id })}
             none="None (picks an extra language instead)"
             options={rb.languages.map((l) => ({ value: l.id, label: l.name }))}
+          />
+          <NumberField
+            label="Speed (m)"
+            id="speed"
+            value={row.speed}
+            onChange={(speed) => set({ speed: speed ?? 6 })}
+            min={1}
+            hint="How far one movement goes. Human 6, dwarf 5."
           />
           <TextField
             label="Blurb"

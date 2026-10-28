@@ -82,3 +82,18 @@ export async function removeCharacterFromCampaign(
     return null;
   });
 }
+
+/** The DM awards and spends merit points; a player can only spend their own */
+export async function setMeritPoints(campaignPlayerId: number, points: number) {
+  await requireUser();
+  return toResult(async () => {
+    const supabase = createClient(await cookies());
+    check(
+      await supabase.rpc("set_merit_points", {
+        p_campaign_player_id: campaignPlayerId,
+        p_points: points,
+      }),
+    );
+    return points;
+  });
+}

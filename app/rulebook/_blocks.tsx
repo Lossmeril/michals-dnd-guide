@@ -36,6 +36,9 @@ const Races: React.FC<{ rb: Rulebook }> = ({ rb }) =>
             <p className="whitespace-pre-line text-sm mb-2">{race.description}</p>
           )}
           <p className="text-sm">
+            <strong>Speed:</strong> {race.speed} m
+          </p>
+          <p className="text-sm">
             <strong>Language:</strong>{" "}
             {language
               ? `Common tongue and ${language.name}`
@@ -100,6 +103,25 @@ const Traits: React.FC<{ rb: Rulebook }> = ({ rb }) => {
   );
 };
 
+const Weapons: React.FC<{ rb: Rulebook }> = ({ rb }) => (
+  <SimpleTable
+    head={["Weapon", "Damage", "Type", "Properties", "Free manoeuvre"]}
+    rows={rb.items
+      .filter((i) => i.kind === "weapon" || i.kind === "shield")
+      .map((i) => [
+        <strong key="n" className="libre text-dnd-red">
+          {i.name}
+        </strong>,
+        i.damage ?? "—",
+        i.damage_type ?? "—",
+        i.properties ?? "—",
+        i.free_manoeuvre
+          ? i.free_manoeuvre[0].toUpperCase() + i.free_manoeuvre.slice(1)
+          : "—",
+      ])}
+  />
+);
+
 const Chapters: React.FC<{ nav: NavChapter[] }> = ({ nav }) => (
   <div className="clear-both grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
     {nav.map((chapter) => (
@@ -139,6 +161,8 @@ export const blockRenderer =
         return <Languages rb={rb} />;
       case "traits":
         return <Traits rb={rb} />;
+      case "weapons":
+        return <Weapons rb={rb} />;
       case "classes": {
         const rank = RANKS.find((r) => r === props.rank) ?? "basic";
         return <ClassGrid rb={rb} rank={rank} />;

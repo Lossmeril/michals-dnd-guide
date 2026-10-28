@@ -37,6 +37,34 @@ export const ITEM_SETS = [
   { label: "Any musical instrument", kind: "tool", category: "instrument" },
 ] as const;
 
+/** Manoeuvres a weapon or shield can grant for free */
+export const WEAPON_MANOEUVRES = ["precise", "mighty", "cunning", "defense"] as const;
+
+/**
+ * The free manoeuvre a proper weapon grants by default: shields Defense,
+ * crossbows Mighty, bows Precise, otherwise by damage type (piercing Cunning,
+ * slashing Precise, bludgeoning Mighty). The admin can pick another per item.
+ */
+export const defaultManoeuvre = (
+  item: Pick<Item, "kind" | "damage_type" | "properties">,
+): Item["free_manoeuvre"] => {
+  const properties = item.properties?.toLowerCase() ?? "";
+  if (item.kind === "shield") return "defense";
+  if (item.kind !== "weapon") return null;
+  if (properties.includes("loading")) return "mighty";
+  if (properties.includes("ammunition")) return "precise";
+  switch (item.damage_type?.toLowerCase()) {
+    case "piercing":
+      return "cunning";
+    case "slashing":
+      return "precise";
+    case "bludgeoning":
+      return "mighty";
+    default:
+      return null;
+  }
+};
+
 export const itemsInSet = (items: Item[], set: (typeof ITEM_SETS)[number]) =>
   items
     .filter(

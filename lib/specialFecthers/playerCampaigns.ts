@@ -93,9 +93,10 @@ export const fetchCampaignDetails = async (campaignId: number) => {
 
   if (!campaign) return null;
 
-  const memberIds = campaignPlayers
-    .filter((cp) => cp.campaign_id === campaignId)
-    .map((cp) => cp.character_id);
+  const memberships = campaignPlayers.filter(
+    (cp) => cp.campaign_id === campaignId,
+  );
+  const memberIds = memberships.map((cp) => cp.character_id);
 
   const playerName = (profileId: string) =>
     profiles.find((p) => p.id === profileId)?.display_name || "Unknown";
@@ -110,6 +111,8 @@ export const fetchCampaignDetails = async (campaignId: number) => {
       .map((character) => ({
         character,
         playerName: playerName(character.owner),
+        // Per-campaign state, like merit points
+        membership: memberships.find((m) => m.character_id === character.id)!,
       })),
     // Characters the DM can still add to the campaign
     availableCharacters: characters

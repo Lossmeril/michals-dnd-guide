@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@/components/ui/formControls";
 import Panel from "@/components/ui/panel";
+import { defaultManoeuvre, WEAPON_MANOEUVRES } from "@/lib/rules/equipment";
 import { Constants, type Tables } from "@/lib/types/database.types";
 import { saveItem } from "../../actions";
 import {
@@ -40,6 +41,7 @@ const ItemEditor: React.FC<{
       damage_type: null,
       properties: null,
       armour_rating: null,
+      free_manoeuvre: null,
       image_url: null,
       sort: nextSort,
     },
@@ -49,6 +51,7 @@ const ItemEditor: React.FC<{
     save: (r) => saveItem(isNew, r),
   });
   const categories = CATEGORIES[row.kind];
+  const suggested = defaultManoeuvre(row);
 
   return (
     <>
@@ -106,6 +109,23 @@ const ItemEditor: React.FC<{
             min={0}
             value={row.armour_rating}
             onChange={(armour_rating) => set({ armour_rating })}
+          />
+        )}
+        {(row.kind === "weapon" || row.kind === "shield") && (
+          <SelectField
+            label="Free manoeuvre"
+            id="free-manoeuvre"
+            value={row.free_manoeuvre}
+            none="None (improvised)"
+            options={enumOptions(WEAPON_MANOEUVRES)}
+            onChange={(v) =>
+              set({ free_manoeuvre: v as Tables<"items">["free_manoeuvre"] })
+            }
+            hint={
+              suggested && row.free_manoeuvre !== suggested
+                ? `The default for this weapon is ${suggested}.`
+                : "Granted free in combat. Shields grant Defense once per round."
+            }
           />
         )}
         <TextField

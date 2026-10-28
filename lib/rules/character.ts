@@ -12,6 +12,8 @@ export const MAX_CLASS_LEVEL = 5;
 // Parent classes' levels must total this to unlock an advanced or mighty class
 export const UNLOCK_LEVELS = 6;
 export const BASE_RESOURCES = 15;
+// Pools below this get a warning: no minimum, but they don't last
+export const LOW_POOL = 2;
 
 export const STARTS = [
   { name: "Rags to Riches", level: 3 },
@@ -545,6 +547,18 @@ export const validateBuild = (
   }
   if (resourcePoints(build) < 0) {
     errors.push(`Spread all ${BASE_RESOURCES} starting resource points.`);
+  }
+  // Allowed, but a pool this small overflows on its first Scar
+  for (const [name, value] of [
+    ["Body", build.body],
+    ["Soul", build.soul],
+    ["Charisma", build.charisma],
+  ] as const) {
+    if (value >= 0 && value < LOW_POOL) {
+      warnings.push(
+        `${name} ${value} is very low: a single ${name} Scar can leave the character dying.`,
+      );
+    }
   }
 
   if (freePointsLeft(build, level, startLevel) < 0) {

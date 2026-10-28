@@ -99,6 +99,7 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Media object** (`components/ui/mediaObject.tsx`): a 3:4 portrait beside its text, e.g. a class's or race's details.
 - **Card rows** in the rulebook (`::::cards{cols="3"}`): one column on phones, two on tablets, three on extra-wide screens. Cards in a row of three put their picture on top.
 - **Items** (`components/game/itemIcon.tsx`): a small square picture, or an ink icon of the item's kind (crossed swords, armour, shield, shirt, toolbox, knapsack). Broken items are greyed out and struck through.
+- **Merit counter** (`components/game/meritCounter.tsx`): a character's merit points in one campaign, with − for whoever may spend and + for the DM. Turns red above the usual 3.
 - **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
 - Clicking a picture or card opens the details; the actions sit in the footer.
 
