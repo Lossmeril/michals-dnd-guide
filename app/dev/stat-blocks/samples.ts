@@ -6,9 +6,9 @@ export const SAMPLES: { title: string; markdown: string }[] = [
     title: "NPC: ordinary",
     markdown: `
 \`\`\`npc
-name: Town guard
+name: Town guard |cs| Městský strážný
 image: /img/classes/fighter.webp
-subtitle: Human, ordinary
+subtitle: Human, ordinary |cs| Člověk, obyčejný
 armour: Medium (2)
 speed: 6 m
 threat: d6

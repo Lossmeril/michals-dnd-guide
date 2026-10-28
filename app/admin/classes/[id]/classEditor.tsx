@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import Link from "next/link";
 import { useState } from "react";
 import ClassPortraitCard from "@/components/game/classPortraitCard";
@@ -53,6 +54,7 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
 }) => {
   const sort = useTableSort();
   const isNew = !cls;
+  const l = useL();
   const [parents, setParents] = useState(cls ? parentsOf(rb, cls.id) : []);
   const { row, id, set, save, remove, pending } = useRowEditor({
     initial: cls ?? { ...blank, sort: rb.classes.length },
@@ -79,22 +81,22 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
   return (
     <>
       <AdminHeader
-        title={isNew ? "New class" : row.name}
+        title={isNew ? "New class" : l(row.name)}
         crumbs={[{ href: "/admin/classes", label: "Classes" }]}
       />
 
       <EditorWithPreview
         preview={
           <ClassPortraitCard
-            cls={row}
+            cls={l(row)}
             subtitle={parents
-              .map((p) => rb.classes.find((c) => c.id === p)?.name)
+              .map((p) => l(rb.classes.find((c) => c.id === p)?.name))
               .join(" + ")}
           />
         }
       >
         <Panel as="section" className={formGrid}>
-          <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+          <TextField label="Name" localized id="name" value={row.name} onChange={(name) => set({ name })} />
           <IdField id={id} isNew={isNew} />
           <SelectField
             label="Rank"
@@ -117,7 +119,7 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
                 label={`Parent classes (${parentRank})`}
                 options={rb.classes
                   .filter((c) => c.rank === parentRank)
-                  .map((c) => ({ value: c.id, label: c.name }))}
+                  .map((c) => ({ value: c.id, label: l(c.name) }))}
                 selected={parents}
                 onChange={setParents}
                 hint="The class unlocks once these total 6 levels."
@@ -125,7 +127,7 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
             </div>
           )}
           <TextField
-            label="Description"
+            label="Description" localized
             id="description"
             value={row.description}
             onChange={(description) => set({ description: description || null })}
@@ -221,7 +223,7 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
   return (
     <Panel tight className="grid grid-cols-1 md:grid-cols-[2fr_1fr_auto_5rem] gap-3 items-end">
       <TextField
-        label={isNew ? "New skill" : "Skill"}
+        label={isNew ? "New skill" : "Skill"} localized
         id={`skill-${skill.id}`}
         value={row.name}
         onChange={(name) => set({ name })}
@@ -242,7 +244,7 @@ const SkillRow: React.FC<{ skill: Tables<"skills"> }> = ({ skill }) => {
       <NumberField label="Order" id={`skill-sort-${skill.id}`} value={row.sort} onChange={(sort) => set({ sort: sort ?? 0 })} />
       <div className="md:col-span-4">
         <TextField
-          label="Description"
+          label="Description" localized
           id={`skill-desc-${skill.id}`}
           value={row.description}
           onChange={(description) => set({ description: description || null })}

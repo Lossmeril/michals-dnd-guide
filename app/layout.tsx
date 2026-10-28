@@ -6,6 +6,8 @@ import Navbar from "@/components/navbar";
 import MainBox from "@/components/layout/mainBox";
 import Footer from "@/components/layout/footer";
 import { Toaster } from "sonner";
+import { LangProvider } from "@/lib/i18n/client";
+import { getLang } from "@/lib/i18n/server";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -24,10 +26,11 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const lang = await getLang();
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`h-full antialiased scroll-smooth ${libreBaskerville.variable} ${merriweather.variable}`}
     >
       <body className="min-h-full flex flex-col">
@@ -45,9 +48,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             },
           }}
         />
-        <Navbar />
-        <MainBox>{children}</MainBox>
-        <Footer />
+        <LangProvider lang={lang}>
+          <Navbar />
+          <MainBox>{children}</MainBox>
+          <Footer />
+        </LangProvider>
       </body>
     </html>
   );

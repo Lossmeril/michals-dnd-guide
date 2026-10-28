@@ -2,12 +2,15 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
+import { localizeDeep } from "@/lib/i18n/localize";
+import { getLang } from "@/lib/i18n/server";
 import type { Rulebook } from "@/lib/rules/character";
 
 const db = async () => createClient(await cookies());
 
-// The whole rulebook in one go; it's small and every editor step needs it
-export const fetchRulebook = async (): Promise<Rulebook> => {
+// The whole rulebook in one go; it's small and every editor step needs it.
+// Texts are in the reader's language, or both (`raw`) for the admin editors.
+export const fetchRulebook = async (raw = false): Promise<Rulebook> => {
   const supabase = await db();
   const [
     races,
@@ -52,7 +55,7 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
     if (r.error) throw r.error;
   }
 
-  return {
+  const rb: Rulebook = {
     races: races.data!,
     backgrounds: backgrounds.data!,
     items: items.data!,
@@ -69,4 +72,5 @@ export const fetchRulebook = async (): Promise<Rulebook> => {
       class_ids: perk_requirement_classes.map((c) => c.class_id),
     })),
   };
+  return raw ? rb : localizeDeep(rb, await getLang());
 };

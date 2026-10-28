@@ -2,6 +2,8 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
+import { localize } from "@/lib/i18n/localize";
+import { getLang } from "@/lib/i18n/server";
 import type { Build } from "@/lib/rules/character";
 import { parsePicks } from "@/lib/rules/equipment";
 
@@ -53,13 +55,14 @@ export const fetchCharacterSummaries = async (characterIds: number[]) => {
   ]);
   if (classes.error) throw classes.error;
   if (races.error) throw races.error;
+  const lang = await getLang();
 
   // Plain objects: server action results must be serializable
   const classesByCharacter: Record<number, string[]> = {};
   for (const c of classes.data.sort((a, b) => a.classes.sort - b.classes.sort)) {
-    (classesByCharacter[c.character_id] ??= []).push(`${c.classes.name} ${c.level}`);
+    (classesByCharacter[c.character_id] ??= []).push(`${localize(c.classes.name, lang)} ${c.level}`);
   }
-  const raceNames = Object.fromEntries(races.data.map((r) => [r.id, r.name]));
+  const raceNames = Object.fromEntries(races.data.map((r) => [r.id, localize(r.name, lang)]));
 
   return { classesByCharacter, raceNames };
 };

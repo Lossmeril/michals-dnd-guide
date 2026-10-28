@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import {
   enumOptions,
   NumberField,
@@ -30,6 +31,7 @@ const ItemEditor: React.FC<{
   nextSort: number;
 }> = ({ item, nextSort }) => {
   const isNew = !item;
+  const l = useL();
   const { row, id, set, save, remove, pending } = useRowEditor<Tables<"items">>({
     initial: item ?? {
       id: "",
@@ -56,11 +58,11 @@ const ItemEditor: React.FC<{
   return (
     <>
       <AdminHeader
-        title={isNew ? "New item" : row.name}
+        title={isNew ? "New item" : l(row.name)}
         crumbs={[{ href: "/admin/items", label: "Items" }]}
       />
       <Panel as="section" className={formGrid}>
-        <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+        <TextField label="Name" localized id="name" value={row.name} onChange={(name) => set({ name })} />
         <IdField id={id} isNew={isNew} />
         <SelectField
           label="Kind"
@@ -137,7 +139,7 @@ const ItemEditor: React.FC<{
           className="md:col-span-2"
         />
         <TextField
-          label="Description"
+          label="Description" localized
           id="description"
           value={row.description}
           onChange={(v) => set({ description: v || null })}

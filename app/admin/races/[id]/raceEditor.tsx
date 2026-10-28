@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import Link from "next/link";
 import { DataTable } from "@/components/ui/dataTable";
 import {
@@ -43,6 +44,7 @@ const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
 }) => {
   const sort = useTableSort();
   const isNew = !race;
+  const l = useL();
   const { row, id, set, save, remove, pending } = useRowEditor({
     initial: race ?? { ...blank, sort: rb.races.length },
     isNew,
@@ -54,30 +56,30 @@ const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
   return (
     <>
       <AdminHeader
-        title={isNew ? "New race" : row.name}
+        title={isNew ? "New race" : l(row.name)}
         crumbs={[{ href: "/admin/races", label: "Races" }]}
       />
 
       <EditorWithPreview
         preview={
           <PortraitCard
-            title={row.name || "Unnamed"}
+            title={l(row.name) || "Unnamed"}
             imageUrl={row.image_url}
-            subtitle={row.blurb}
+            subtitle={l(row.blurb)}
           />
         }
       >
         <Panel as="section" className={formGrid}>
-          <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+          <TextField label="Name" localized id="name" value={row.name} onChange={(name) => set({ name })} />
           <IdField id={id} isNew={isNew} />
-          <TextField label="Plural" id="plural" value={row.plural} onChange={(plural) => set({ plural: plural || null })} />
+          <TextField label="Plural" localized id="plural" value={row.plural} onChange={(plural) => set({ plural: plural || null })} />
           <SelectField
             label="Racial language"
             id="language"
             value={row.language_id}
             onChange={(language_id) => set({ language_id })}
             none="None (picks an extra language instead)"
-            options={rb.languages.map((l) => ({ value: l.id, label: l.name }))}
+            options={rb.languages.map((o) => ({ value: o.id, label: l(o.name) }))}
           />
           <NumberField
             label="Speed (m)"
@@ -88,7 +90,7 @@ const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
             hint="How far one movement goes. Human 6, dwarf 5."
           />
           <TextField
-            label="Blurb"
+            label="Blurb" localized
             id="blurb"
             value={row.blurb}
             onChange={(blurb) => set({ blurb: blurb || null })}
@@ -96,7 +98,7 @@ const RaceEditor: React.FC<{ rb: Rulebook; race: Tables<"races"> | null }> = ({
             className="md:col-span-2"
           />
           <TextField
-            label="Description"
+            label="Description" localized
             id="description"
             value={row.description}
             onChange={(description) => set({ description: description || null })}

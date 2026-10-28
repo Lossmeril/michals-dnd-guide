@@ -4,7 +4,7 @@ import RaceEditor from "./raceEditor";
 
 const AdminRacePage = async ({ params }: PageProps<"/admin/races/[id]">) => {
   const { id } = await params;
-  const rb = await fetchRulebook();
+  const rb = await fetchRulebook(true);
   const race = rb.races.find((r) => r.id === id);
   if (id !== "new" && !race) notFound();
 

@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
+import { useDict } from "@/lib/i18n/client";
 
 export interface Crumb {
   /** A node, so a name still loading can show a skeleton */
@@ -8,8 +11,6 @@ export interface Crumb {
   /** Omit for the current page */
   href?: string;
 }
-
-export const HOME_CRUMB: Crumb = { label: "Home", href: "/" };
 
 interface BreadcrumbsProps {
   /** From the top down; the last one is the current page */
@@ -25,7 +26,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   home = true,
   className,
 }) => {
-  const crumbs = home ? [HOME_CRUMB, ...items] : items;
+  const dict = useDict();
+  const crumbs = home ? [{ label: dict.site.home, href: "/" }, ...items] : items;
 
   return (
     <nav aria-label="Breadcrumb" className={twMerge("mb-4 text-sm", className)}>

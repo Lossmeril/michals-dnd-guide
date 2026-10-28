@@ -2,6 +2,7 @@
 
 const ROWS: [string, string][] = [
   ["## Heading", "A section heading; ### for a smaller one"],
+  ["## Nadpis {#heading}", "Sets the heading's anchor; translated headings keep the English one so links still work"],
   ["**bold**, *italic*", "Emphasis"],
   ["[Scars](scars)", "A link to another rulebook page, by its slug; [Initiative](dice#initiative) links to a heading"],
   ["- item / 1. item", "Lists"],
@@ -15,6 +16,9 @@ const ROWS: [string, string][] = [
   ['::image{src="…" alt="…" layout="side"}', "A picture: header, side, left or inline; add caption=\"…\" for a caption"],
   [':::stats[Caption] + ::stat{r="body" base="5" exhausted="2" scarred="1"}', "Resource bars, e.g. before and after"],
   ['::::cards + :::card[Title]{#id image="…" subtitle="…"}', "Cards in a column, e.g. conditions; {#id} lets links jump to one"],
+  ["```npc (or companion, unit, network, organization)", "A stat block: `key: value` lines (name, subtitle, image, body, soul, charisma, …), then ## sections. ```npc wide spans the page; rules: no drops the reminders"],
+  [":::en / :::cs", "Text for one language only, e.g. an example that only makes sense in Czech. Close with :::"],
+  ["Town guard |cs| Městský strážný", "A translated line inside a stat block (any field or section)"],
   ['::races ::backgrounds ::languages ::traits ::weapons ::classes{rank="basic"} ::chapters ::travel-calculator', "Filled from the database on the real page"],
 ];
 

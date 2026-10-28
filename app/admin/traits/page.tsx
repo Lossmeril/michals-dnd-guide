@@ -4,7 +4,7 @@ import { AdminHeader } from "../_components";
 import TraitsManager from "./traitsManager";
 
 const AdminTraitsPage = async () => {
-  const [rb, profiles] = await Promise.all([fetchRulebook(), fetchProfiles()]);
+  const [rb, profiles] = await Promise.all([fetchRulebook(true), fetchProfiles()]);
   const names = Object.fromEntries(
     profiles.map((p) => [p.id, p.display_name ?? "Unnamed player"]),
   );

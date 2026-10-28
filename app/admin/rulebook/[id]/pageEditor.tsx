@@ -1,5 +1,13 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
+import {
+  joinLocalized,
+  type Lang,
+  LANG_NAMES,
+  LANGS,
+  splitLocalized,
+} from "@/lib/i18n/localize";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeferredValue, useEffect, useRef, useState } from "react";
@@ -70,20 +78,24 @@ const PageEditor: React.FC<{
   const router = useRouter();
   const isNew = !page;
   const isIndex = page?.slug === INDEX_SLUG;
+  const l = useL();
   const [row, setRow] = useState({
     title: page?.title ?? "",
     slug: page?.slug ?? "",
     chapter_id: page?.chapter_id ?? defaultChapter ?? chapters[0]?.id ?? "",
     intro: page?.intro ?? null,
-    content: page?.content ?? "",
   });
+  // Each language's text on its own tab; saved together as "English |cs| Czech"
+  const [contents, setContents] = useState(() => splitLocalized(page?.content));
+  const [tab, setTab] = useState<Lang>("en");
+  const content = contents[tab];
   const [slugTouched, setSlugTouched] = useState(!isNew);
   const [dirty, setDirty] = useState(false);
   const [layout, setLayout] = useState("side");
   const { uploading, upload: uploadImage } = useImageUpload((fd) =>
     uploadRulebookImage("rulebook", fd),
   );
-  const preview = useDeferredValue(row.content);
+  const preview = useDeferredValue(content);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const { pending, runAction } = useAdminAction();
 
@@ -91,7 +103,11 @@ const PageEditor: React.FC<{
     setRow((r) => ({ ...r, ...patch }));
     setDirty(true);
   };
-  const slug = slugTouched ? row.slug : slugify(row.title);
+  const setContent = (text: string) => {
+    setContents((c) => ({ ...c, [tab]: text }));
+    setDirty(true);
+  };
+  const slug = slugTouched ? row.slug : slugify(splitLocalized(row.title).en);
 
   // Leaving with unsaved text asks first
   useEffect(() => {
@@ -104,10 +120,10 @@ const PageEditor: React.FC<{
   /** Puts text at the cursor; blocks get blank lines around them */
   const insert = (snippet: string, block = false) => {
     const el = textarea.current;
-    const start = el?.selectionStart ?? row.content.length;
+    const start = el?.selectionStart ?? content.length;
     const end = el?.selectionEnd ?? start;
-    const before = row.content.slice(0, start);
-    const after = row.content.slice(end);
+    const before = content.slice(0, start);
+    const after = content.slice(end);
     // Newlines missing to make a blank line between the block and its neighbour
     const pad = (s: string, side: "before" | "after") => {
       if (!block || !s) return "";
@@ -118,7 +134,7 @@ const PageEditor: React.FC<{
     const text = snippet.replace("|", "");
     const lead = pad(before, "before");
     const next = before + lead + text + pad(after, "after") + after;
-    set({ content: next });
+    setContent(next);
     const at = before.length + lead.length + (cursor < 0 ? text.length : cursor);
     requestAnimationFrame(() => {
       el?.focus();
@@ -134,13 +150,21 @@ const PageEditor: React.FC<{
   };
 
   const save = () =>
-    runAction(() => saveRulebookPage(page?.id ?? null, { ...row, slug }), {
-      then: (id) => {
-        setDirty(false);
-        if (isNew) router.push(`/admin/rulebook/${id}`);
-        else router.refresh();
+    runAction(
+      () =>
+        saveRulebookPage(page?.id ?? null, {
+          ...row,
+          slug,
+          content: joinLocalized(contents),
+        }),
+      {
+        then: (id) => {
+          setDirty(false);
+          if (isNew) router.push(`/admin/rulebook/${id}`);
+          else router.refresh();
+        },
       },
-    });
+    );
 
   const remove = () => {
     if (!page || !window.confirm("Delete this page for good?")) return;
@@ -156,7 +180,7 @@ const PageEditor: React.FC<{
   return (
     <>
       <AdminHeader
-        title={isNew ? "New page" : row.title || "Untitled"}
+        title={isNew ? "New page" : l(row.title) || "Untitled"}
         crumbs={[{ href: "/admin/rulebook", label: "Rulebook pages" }]}
         actions={
           page && (
@@ -168,7 +192,7 @@ const PageEditor: React.FC<{
       />
 
       <Panel as="section" className={formGrid}>
-        <TextField label="Title" id="title" value={row.title} onChange={(title) => set({ title })} />
+        <TextField label="Title" localized id="title" value={row.title} onChange={(title) => set({ title })} />
         <TextField
           label="Slug"
           id="slug"
@@ -192,7 +216,7 @@ const PageEditor: React.FC<{
           options={chapters.map((c) => ({ value: c.id, label: c.title }))}
         />
         <TextField
-          label="Intro"
+          label="Intro" localized
           id="intro"
           value={row.intro}
           onChange={(v) => set({ intro: v || null })}
@@ -239,11 +263,33 @@ const PageEditor: React.FC<{
               {uploading ? "Uploading…" : "Upload image"}
             </FileButton>
           </div>
+          <div role="tablist" aria-label="Language" className="flex gap-1 border-b border-dnd-gold">
+            {LANGS.map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                role="tab"
+                aria-selected={tab === lang}
+                onClick={() => setTab(lang)}
+                className={
+                  tab === lang
+                    ? "rounded-b-none text-xs px-3 py-1"
+                    : "button-secondary rounded-b-none border-b-0 text-xs px-3 py-1"
+                }
+              >
+                {LANG_NAMES[lang]}
+                {lang === "cs" && !contents.cs.trim() && " (empty)"}
+              </button>
+            ))}
+          </div>
           <textarea
             ref={textarea}
-            aria-label="Page content"
-            value={row.content}
-            onChange={(e) => set({ content: e.target.value })}
+            aria-label={`Page content (${LANG_NAMES[tab]})`}
+            value={content}
+            placeholder={
+              tab === "cs" ? "Empty: Czech readers see the English text." : undefined
+            }
+            onChange={(e) => setContent(e.target.value)}
             spellCheck
             className="w-full min-h-[60vh] font-mono text-xs leading-relaxed"
           />
@@ -252,7 +298,7 @@ const PageEditor: React.FC<{
 
         <Panel>
           <Overline className="mb-4">Preview</Overline>
-          <RuleMarkdown content={preview} />
+          <RuleMarkdown content={preview} lang={tab} />
         </Panel>
       </section>
 

@@ -7,7 +7,7 @@ const AdminLanguagePage = async ({
   params,
 }: PageProps<"/admin/languages/[id]">) => {
   const { id } = await params;
-  const rb = await fetchRulebook();
+  const rb = await fetchRulebook(true);
   const language = rb.languages.find((l) => l.id === id);
   if (id !== "new" && !language) notFound();
 

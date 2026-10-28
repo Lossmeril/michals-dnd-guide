@@ -10,6 +10,8 @@ interface StatBlockProps {
   bonus?: number;
   exhausted?: number;
   scarred?: number;
+  /** The pool's name in the reader's language; English by default */
+  name?: string;
 }
 
 /** A line from top-right to bottom-left, plus the other diagonal when scarred */
@@ -48,9 +50,9 @@ const StatBlock: React.FC<StatBlockProps> = ({
   bonus = 0,
   exhausted = 0,
   scarred = 0,
+  name = RESOURCE_NAMES[resource],
 }) => {
   const { icon, text, border } = RESOURCE_STYLES[resource];
-  const name = RESOURCE_NAMES[resource];
   const total = base + bonus;
 
   // Scars take the last points first, exhaustion the ones just before them

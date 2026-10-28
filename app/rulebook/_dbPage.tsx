@@ -5,6 +5,8 @@ import {
   fetchRulebookPage,
 } from "@/lib/endpoints/rulebookPages";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
+import { DICTS } from "@/lib/i18n/dictionaries";
+import { getLang } from "@/lib/i18n/server";
 import { blockRenderer } from "./_blocks";
 import { RulePage } from "./_components";
 
@@ -16,9 +18,10 @@ const DbPage = async ({ slug }: { slug: string }) => {
   const page = await fetchRulebookPage(slug);
   if (!page) notFound();
 
-  const [nav, rb] = await Promise.all([
+  const [nav, rb, lang] = await Promise.all([
     fetchRulebookNav(),
     NEEDS_RULEBOOK.test(page.content) ? fetchRulebook() : null,
+    getLang(),
   ]);
 
   return (
@@ -29,7 +32,8 @@ const DbPage = async ({ slug }: { slug: string }) => {
     >
       <RuleMarkdown
         content={page.content}
-        renderBlock={blockRenderer(rb, nav)}
+        lang={lang}
+        renderBlock={blockRenderer(rb, nav, DICTS[lang])}
       />
     </RulePage>
   );

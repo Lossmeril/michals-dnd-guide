@@ -4,7 +4,7 @@ import ClassEditor from "./classEditor";
 
 const AdminClassPage = async ({ params }: PageProps<"/admin/classes/[id]">) => {
   const { id } = await params;
-  const rb = await fetchRulebook();
+  const rb = await fetchRulebook(true);
   const cls = rb.classes.find((c) => c.id === id);
   if (id !== "new" && !cls) notFound();
 

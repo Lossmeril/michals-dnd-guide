@@ -8,9 +8,11 @@ import Link from "next/link";
 import { Heading } from "./ui/typography";
 import { Avatar } from "./ui/avatar";
 import AdminBar from "./adminBar";
+import LangSwitch from "./langSwitch";
+import { getDict } from "@/lib/i18n/server";
 
 const Navbar = async () => {
-  const user = await getUser();
+  const [user, dict] = await Promise.all([getUser(), getDict()]);
   let profile: Tables<"profiles"> | null = null;
 
   if (user) {
@@ -23,7 +25,7 @@ const Navbar = async () => {
         <div>
           <Link href="/">
             <Heading level={2} className="mb-0" justStyle>
-              Michal&apos;s D&D Guide
+              {dict.site.name}
             </Heading>
           </Link>
         </div>
@@ -32,8 +34,9 @@ const Navbar = async () => {
             href="/rulebook"
             className="libre font-bold text-dnd-red hover:text-dnd-red-dark"
           >
-            Rulebook
+            {dict.site.rulebook}
           </Link>
+          <LangSwitch />
           {user && profile && (
             <>
               {" "}
@@ -49,13 +52,13 @@ const Navbar = async () => {
                 <p>{profile.display_name || user.email}</p>
               </Link>
               <form action={logout}>
-                <button type="submit">Log out</button>
+                <button type="submit">{dict.site.logOut}</button>
               </form>
             </>
           )}
           {!user && (
             <a href="/login" className="text-dnd-red button">
-              Log in
+              {dict.site.logIn}
             </a>
           )}
         </div>

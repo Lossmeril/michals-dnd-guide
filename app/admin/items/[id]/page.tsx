@@ -4,7 +4,7 @@ import ItemEditor from "./itemEditor";
 
 const AdminItemPage = async ({ params }: PageProps<"/admin/items/[id]">) => {
   const { id } = await params;
-  const rb = await fetchRulebook();
+  const rb = await fetchRulebook(true);
   const item = rb.items.find((i) => i.id === id);
   if (id !== "new" && !item) notFound();
 

@@ -1,6 +1,7 @@
 // What the data shortcodes (::races, ::classes{rank=basic}, …) show on a real
 // rulebook page. The admin preview shows placeholders instead.
 
+import { Fragment } from "react";
 import Link from "next/link";
 import EquipmentList from "@/components/game/equipmentList";
 import { PerkTile } from "@/components/game/perkTree";
@@ -15,13 +16,16 @@ import {
   relatedLanguageNames,
   type Rulebook,
 } from "@/lib/rules/character";
+import type { Dict } from "@/lib/i18n/dictionaries";
 import { formatCoins } from "@/lib/rules/format";
 import { hrefOf, type NavChapter } from "@/lib/rulebookNav";
 import type { Tables } from "@/lib/types/database.types";
 import ClassGrid from "./classGrid";
 import TravelCalculator from "./travel/travelCalculator";
 
-const Races: React.FC<{ rb: Rulebook }> = ({ rb }) =>
+type BlockProps = { rb: Rulebook; t: Dict };
+
+const Races: React.FC<BlockProps> = ({ rb, t }) =>
   rb.races.map((race) => {
     const language = rb.languages.find((l) => l.id === race.language_id);
     const perks = racialPerks(rb, race.id);
@@ -36,18 +40,16 @@ const Races: React.FC<{ rb: Rulebook }> = ({ rb }) =>
             <p className="whitespace-pre-line text-sm mb-2">{race.description}</p>
           )}
           <p className="text-sm">
-            <strong>Speed:</strong> {race.speed} m
+            <strong>{t.blocks.speed}:</strong> {race.speed} m
           </p>
           <p className="text-sm">
-            <strong>Language:</strong>{" "}
-            {language
-              ? `Common tongue and ${language.name}`
-              : "Common tongue, plus one of your choice"}
+            <strong>{t.blocks.language}:</strong>{" "}
+            {language ? t.blocks.raceLanguage(language.name) : t.blocks.chooseLanguage}
           </p>
         </MediaObject>
-        <Overline className="mt-6">Racial perks (pick one)</Overline>
+        <Overline className="mt-6">{t.blocks.racialPerks}</Overline>
         {perks.length === 0 ? (
-          <p className="text-sm text-dnd-ink/70">None written yet.</p>
+          <p className="text-sm text-dnd-ink/70">{t.blocks.noneYet}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             {perks.map((p) => (
@@ -59,31 +61,36 @@ const Races: React.FC<{ rb: Rulebook }> = ({ rb }) =>
     );
   });
 
-const Backgrounds: React.FC<{ rb: Rulebook }> = ({ rb }) =>
+const Backgrounds: React.FC<BlockProps> = ({ rb, t }) =>
   rb.backgrounds.length === 0 ? (
-    <p>None written yet.</p>
+    <p>{t.blocks.noneYet}</p>
   ) : (
     <SimpleTable
-      head={["Background", "Gear", "Purse", "Languages", "+1 in"]}
+      head={t.blocks.backgroundHead}
       rows={rb.backgrounds.map((b) => [
         <strong key="n" className="libre text-dnd-red">
           {b.name}
         </strong>,
         <EquipmentList key="e" items={rb.items} equipment={b.equipment} />,
-        `${formatCoins(b.coins_copper)} · ${b.material} Material`,
+        `${formatCoins(b.coins_copper)} · ${t.blocks.material(b.material)}`,
         `+${b.extra_languages}`,
         b.known_settings,
       ])}
     />
   );
 
-const Languages: React.FC<{ rb: Rulebook }> = ({ rb }) => (
+const Languages: React.FC<BlockProps> = ({ rb, t }) => (
   <SimpleTable
-    head={["Language", "Spoken by", "Racial language of", "Related to"]}
+    head={t.blocks.languageHead}
     rows={rb.languages.map((l) => [
-      <strong key="n" className="libre text-dnd-red">
-        {l.name}
-      </strong>,
+      <Fragment key="n">
+        <strong className="libre text-dnd-red">{l.name}</strong>
+        {l.sample && (
+          <span className="block mt-1 libre italic text-dnd-ink/80 whitespace-pre-line">
+            {l.sample}
+          </span>
+        )}
+      </Fragment>,
       l.description,
       rb.races
         .filter((r) => r.language_id === l.id)
@@ -94,18 +101,18 @@ const Languages: React.FC<{ rb: Rulebook }> = ({ rb }) => (
   />
 );
 
-const Traits: React.FC<{ rb: Rulebook }> = ({ rb }) => {
-  const premade = rb.traits.filter((t) => !t.is_custom);
+const Traits: React.FC<BlockProps> = ({ rb, t }) => {
+  const premade = rb.traits.filter((trait) => !trait.is_custom);
   return premade.length === 0 ? (
-    <p>None written yet.</p>
+    <p>{t.blocks.noneYet}</p>
   ) : (
     <TraitList traits={premade} className="clear-both my-6" />
   );
 };
 
-const Weapons: React.FC<{ rb: Rulebook }> = ({ rb }) => (
+const Weapons: React.FC<BlockProps> = ({ rb, t }) => (
   <SimpleTable
-    head={["Weapon", "Damage", "Type", "Properties", "Free manoeuvre"]}
+    head={t.blocks.weaponHead}
     rows={rb.items
       .filter((i) => i.kind === "weapon" || i.kind === "shield")
       .map((i) => [
@@ -115,9 +122,7 @@ const Weapons: React.FC<{ rb: Rulebook }> = ({ rb }) => (
         i.damage ?? "—",
         i.damage_type ?? "—",
         i.properties ?? "—",
-        i.free_manoeuvre
-          ? i.free_manoeuvre[0].toUpperCase() + i.free_manoeuvre.slice(1)
-          : "—",
+        i.free_manoeuvre ? t.manoeuvres[i.free_manoeuvre] : "—",
       ])}
   />
 );
@@ -147,22 +152,22 @@ const RANKS: Tables<"classes">["rank"][] = ["basic", "advanced", "mighty"];
 
 /** Fills the data shortcodes from the rulebook tables and the nav */
 export const blockRenderer =
-  (rb: Rulebook | null, nav: NavChapter[]): RenderBlock =>
+  (rb: Rulebook | null, nav: NavChapter[], t: Dict): RenderBlock =>
   function renderBlock(name, props) {
     if (name === "chapters") return <Chapters nav={nav} />;
     if (name === "travel-calculator") return <TravelCalculator />;
     if (!rb) return null;
     switch (name) {
       case "races":
-        return <Races rb={rb} />;
+        return <Races rb={rb} t={t} />;
       case "backgrounds":
-        return <Backgrounds rb={rb} />;
+        return <Backgrounds rb={rb} t={t} />;
       case "languages":
-        return <Languages rb={rb} />;
+        return <Languages rb={rb} t={t} />;
       case "traits":
-        return <Traits rb={rb} />;
+        return <Traits rb={rb} t={t} />;
       case "weapons":
-        return <Weapons rb={rb} />;
+        return <Weapons rb={rb} t={t} />;
       case "classes": {
         const rank = RANKS.find((r) => r === props.rank) ?? "basic";
         return <ClassGrid rb={rb} rank={rank} />;

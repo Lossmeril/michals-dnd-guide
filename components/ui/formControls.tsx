@@ -2,6 +2,13 @@
 
 // Controlled inputs wrapped in a Field: label, control, hint
 
+import { useState } from "react";
+import {
+  joinLocalized,
+  type Lang,
+  LANGS,
+  splitLocalized,
+} from "@/lib/i18n/localize";
 import Field from "./field";
 
 export type Option = { value: string; label: string };
@@ -13,7 +20,7 @@ export const enumOptions = (values: readonly string[]): Option[] =>
     label: (value[0].toUpperCase() + value.slice(1)).replaceAll("_", " "),
   }));
 
-export const TextField: React.FC<{
+type TextFieldProps = {
   label: string;
   id: string;
   value: string | null;
@@ -23,7 +30,66 @@ export const TextField: React.FC<{
   multiline?: boolean;
   disabled?: boolean;
   className?: string;
-}> = ({
+  /** An English and a Czech box, saved together as "English |cs| Czech" */
+  localized?: boolean;
+};
+
+/**
+ * The two boxes of a localized field. They keep their own text while typing,
+ * so trailing spaces survive, and pick up changes made from outside.
+ */
+const LocalizedInputs: React.FC<Omit<TextFieldProps, "label" | "hint" | "className" | "localized">> = ({
+  id,
+  value,
+  onChange,
+  placeholder,
+  multiline,
+  disabled,
+}) => {
+  const [parts, setParts] = useState(() => splitLocalized(value));
+  const [sent, setSent] = useState(value ?? "");
+  if ((value ?? "") !== sent) {
+    setSent(value ?? "");
+    setParts(splitLocalized(value));
+  }
+  const change = (lang: Lang, text: string) => {
+    const next = { ...parts, [lang]: text };
+    const joined = joinLocalized(next);
+    setParts(next);
+    setSent(joined);
+    onChange(joined);
+  };
+
+  return (
+    <div className="grid md:grid-cols-2 gap-2">
+      {LANGS.map((lang) => {
+        const props = {
+          id: lang === "en" ? id : `${id}-${lang}`,
+          value: parts[lang],
+          placeholder: lang === "en" ? placeholder : undefined,
+          disabled,
+          "aria-label": lang === "en" ? undefined : "Czech",
+          onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+            change(lang, e.target.value),
+        };
+        return (
+          <div key={lang} className="relative">
+            <span className="absolute right-1.5 top-1 text-[10px] font-bold uppercase text-dnd-ink/40 pointer-events-none">
+              {lang}
+            </span>
+            {multiline ? (
+              <textarea rows={5} {...props} className="w-full pr-7" />
+            ) : (
+              <input {...props} className="w-full pr-7 disabled:opacity-60" />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const TextField: React.FC<TextFieldProps> = ({
   label,
   id,
   value,
@@ -33,9 +99,19 @@ export const TextField: React.FC<{
   multiline,
   disabled,
   className,
+  localized,
 }) => (
   <Field label={label} htmlFor={id} hint={hint} className={className}>
-    {multiline ? (
+    {localized ? (
+      <LocalizedInputs
+        id={id}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        multiline={multiline}
+        disabled={disabled}
+      />
+    ) : multiline ? (
       <textarea
         id={id}
         rows={5}

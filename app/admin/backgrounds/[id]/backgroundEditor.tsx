@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import Link from "next/link";
 import { useState } from "react";
 import { Overline } from "@/components/ui/typography";
@@ -24,6 +25,7 @@ const BackgroundEditor: React.FC<{
   nextSort: number;
 }> = ({ background, items, nextSort }) => {
   const isNew = !background;
+  const l = useL();
   const { row, id, set, save, remove, pending } = useRowEditor<
     Tables<"backgrounds">
   >({
@@ -50,14 +52,14 @@ const BackgroundEditor: React.FC<{
   return (
     <>
       <AdminHeader
-        title={isNew ? "New background" : row.name}
+        title={isNew ? "New background" : l(row.name)}
         crumbs={[{ href: "/admin/backgrounds", label: "Backgrounds" }]}
       />
       <Panel as="section" className={formGrid}>
-        <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+        <TextField label="Name" localized id="name" value={row.name} onChange={(name) => set({ name })} />
         <IdField id={id} isNew={isNew} />
         <TextField
-          label="Description"
+          label="Description" localized
           id="description"
           value={row.description}
           onChange={(v) => set({ description: v || null })}
@@ -82,7 +84,7 @@ const BackgroundEditor: React.FC<{
         />
         <NumberField label="Sort order" id="sort" value={row.sort} onChange={(v) => set({ sort: v ?? 0 })} />
         <TextField
-          label="Known settings"
+          label="Known settings" localized
           id="known"
           value={row.known_settings}
           onChange={(v) => set({ known_settings: v || null })}

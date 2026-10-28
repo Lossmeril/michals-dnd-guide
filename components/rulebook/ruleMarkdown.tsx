@@ -12,6 +12,8 @@ import { ResourceName, type ResourceKey } from "@/components/game/resources";
 import StatBlock from "@/components/game/statBlock";
 import StatBlockCard from "@/components/game/statBlocks";
 import { isStatBlockKind, parseStatBlock } from "@/lib/rules/statBlocks";
+import { DICTS } from "@/lib/i18n/dictionaries";
+import { DEFAULT_LANG, type Lang } from "@/lib/i18n/localize";
 import { tableClasses } from "@/components/ui/dataTable";
 import { panelClass } from "@/components/ui/panel";
 import { Overline } from "@/components/ui/typography";
@@ -36,9 +38,9 @@ type P = Record<string, string | undefined> & { children?: React.ReactNode };
 const num = (v: string | undefined) => (v ? Number(v) || 0 : 0);
 
 /** A placeholder for data blocks the preview can't load */
-const BlockPlaceholder: React.FC<{ name: string }> = ({ name }) => (
+const BlockPlaceholder: React.FC<{ name: string; lang: Lang }> = ({ name, lang }) => (
   <div className="clear-both my-6 p-4 border-2 border-dashed border-dnd-gold rounded-lg text-center text-sm text-dnd-ink/70">
-    <strong>::{name}</strong> is filled in on the real page.
+    {DICTS[lang].rulebook.placeholder(name)}
   </div>
 );
 
@@ -53,14 +55,22 @@ type HastNode = { type: string; value?: string; children?: HastNode[] };
 const hastText = (n?: HastNode): string =>
   n ? (n.value ?? (n.children ?? []).map(hastText).join("")) : "";
 
-const resource = (r: ResourceKey) =>
-  function Resource({ children }: P) {
-    return <ResourceName r={r}>{children || undefined}</ResourceName>;
-  };
 
-const PLUGINS = [remarkGfm, remarkDirective, remarkRulebook];
+const pluginsFor = (lang: Lang) => [
+  remarkGfm,
+  remarkDirective,
+  [remarkRulebook, { lang }] as const,
+] as Parameters<typeof Markdown>[0]["remarkPlugins"];
 
-const buildComponents = (renderBlock?: RenderBlock): Components => {
+const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
+  const plugins = pluginsFor(lang);
+  const t = DICTS[lang];
+  const resource = (r: ResourceKey) =>
+    function Resource({ children }: P) {
+      const name =
+        r === "coin" ? t.rulebook.coins : r === "material" ? t.rulebook.material : t.resources[r];
+      return <ResourceName r={r}>{children || name}</ResourceName>;
+    };
   const block = (name: string) =>
     function DataBlock(all: P & { node?: unknown }) {
       // The rest are the shortcode's attributes, e.g. rank="basic"
@@ -72,7 +82,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
       );
       return (
         renderBlock?.(name, props) ?? (
-          <BlockPlaceholder name={name} />
+          <BlockPlaceholder name={name} lang={lang} />
         )
       );
     };
@@ -110,6 +120,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
           bonus={num(bonus)}
           exhausted={num(exhausted)}
           scarred={num(scarred)}
+          name={t.resources[r]}
         />
       ) : null,
     "rb-stats": ({ title, children }) => (
@@ -125,7 +136,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
         title={title}
         image={image}
         imageSide={stacked ? "top" : side === "right" ? "right" : "left"}
-        eyebrow={eyebrow}
+        eyebrow={eyebrow ?? t.rulebook.example}
         className={stacked ? "my-0" : undefined}
       >
         {children}
@@ -159,7 +170,7 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
       // Field values and sections are Markdown with the same shortcodes
       const md = (text: string, inline?: boolean) => (
         <Markdown
-          remarkPlugins={PLUGINS}
+          remarkPlugins={plugins}
           components={
             inline
               ? { ...components, p: ({ children }) => <>{children}</> }
@@ -171,14 +182,17 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
       );
       return (
         <StatBlockCard
-          data={parseStatBlock(kind, source ?? "")}
+          data={parseStatBlock(kind, source ?? "", lang)}
           md={md}
           wide={!!wide}
+          lang={lang}
         />
       );
     },
     "rb-unknown": ({ name }) => (
-      <p className="text-sm text-dnd-red">Unknown shortcode ::{name}</p>
+      <p className="text-sm text-dnd-red">
+        {DICTS[lang].rulebook.unknownShortcode(name ?? "")}
+      </p>
     ),
     ...Object.fromEntries(
       [
@@ -196,13 +210,14 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
 
   const components: Components = {
     // Headings get ids, so [Initiative](dice#initiative) can link to them
-    h2: ({ node, children }) => (
-      <h2 id={slugify(hastText(node))} className="scroll-mt-8">
+    // "## Zkouška dovednosti {#skill-check}" keeps the English anchor
+    h2: ({ node, id, children }) => (
+      <h2 id={id ?? slugify(hastText(node))} className="scroll-mt-8">
         {children}
       </h2>
     ),
-    h3: ({ node, children }) => (
-      <h3 id={slugify(hastText(node))} className="scroll-mt-8">
+    h3: ({ node, id, children }) => (
+      <h3 id={id ?? slugify(hastText(node))} className="scroll-mt-8">
         {children}
       </h3>
     ),
@@ -246,11 +261,13 @@ const buildComponents = (renderBlock?: RenderBlock): Components => {
 const RuleMarkdown: React.FC<{
   content: string;
   renderBlock?: RenderBlock;
-}> = ({ content, renderBlock }) => (
+  /** Which :::en / :::cs blocks to show, and the language of built-in text */
+  lang?: Lang;
+}> = ({ content, renderBlock, lang = DEFAULT_LANG }) => (
   <div className="rules flow-root">
     <Markdown
-      remarkPlugins={PLUGINS}
-      components={buildComponents(renderBlock)}
+      remarkPlugins={pluginsFor(lang)}
+      components={buildComponents(lang, renderBlock)}
     >
       {content}
     </Markdown>

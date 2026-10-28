@@ -11,7 +11,7 @@ const AdminPerkPage = async ({
 }: PageProps<"/admin/perks/[id]">) => {
   const { id } = await params;
   const query = await searchParams;
-  const rb = await fetchRulebook();
+  const rb = await fetchRulebook(true);
   const perk = rb.perks.find((p) => p.id === id);
   if (id !== "new" && !perk) notFound();
 

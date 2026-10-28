@@ -7,6 +7,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { Heading } from "@/components/ui/typography";
 import { isAdmin } from "@/lib/auth";
 import { fetchRulebookNav } from "@/lib/endpoints/rulebookPages";
+import { getDict } from "@/lib/i18n/server";
 import { hrefOf, INDEX_SLUG, locate } from "@/lib/rulebookNav";
 
 export const RulePage = async ({
@@ -27,13 +28,13 @@ export const RulePage = async ({
   editHref?: string;
   children: React.ReactNode;
 }) => {
-  const [nav, admin] = await Promise.all([fetchRulebookNav(), isAdmin()]);
+  const [nav, admin, dict] = await Promise.all([fetchRulebookNav(), isAdmin(), getDict()]);
   const { page, chapter, prev, next } = locate(nav, slug);
   const isIndex = slug === INDEX_SLUG && !parent;
   const items = isIndex
-    ? [{ label: "Rulebook" }]
+    ? [{ label: dict.site.rulebook }]
     : [
-        { label: "Rulebook", href: "/rulebook" },
+        { label: dict.site.rulebook, href: "/rulebook" },
         ...(chapter && chapter.pages[0]
           ? [{ label: chapter.title, href: hrefOf(chapter.pages[0].slug) }]
           : []),
@@ -51,7 +52,7 @@ export const RulePage = async ({
             href={editHref}
             className="button-secondary button shrink-0 inline-flex items-center gap-2 text-sm"
           >
-            <FaPen className="text-xs" /> Edit
+            <FaPen className="text-xs" /> {dict.rulebook.edit}
           </Link>
         )}
       </div>
@@ -59,7 +60,7 @@ export const RulePage = async ({
       {children}
       {!parent && (prev || next) && (
         <nav
-          aria-label="Rulebook pages"
+          aria-label={dict.rulebook.pages}
           className="print:hidden clear-both flex justify-between gap-4 mt-16 pt-4 border-t-2 border-dnd-gold text-sm"
         >
           {prev ? (

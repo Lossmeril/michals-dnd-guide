@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import { useState } from "react";
 import Eyebrow from "@/components/ui/eyebrow";
 import { SquareImage } from "@/components/game/perkCard";
@@ -48,9 +49,9 @@ const TraitForm: React.FC<{
   const ready = draft.name.trim() && draft.upside.trim() && draft.downside.trim();
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
-      <TextField label="Name" id={`${idPrefix}-name`} value={draft.name} onChange={(name) => setDraft({ ...draft, name })} />
+      <TextField label="Name" localized id={`${idPrefix}-name`} value={draft.name} onChange={(name) => setDraft({ ...draft, name })} />
       <TextField
-        label="Flavour"
+        label="Flavour" localized
         id={`${idPrefix}-flavour`}
         value={draft.flavour}
         onChange={(flavour) => setDraft({ ...draft, flavour })}
@@ -58,7 +59,7 @@ const TraitForm: React.FC<{
         className="md:col-span-2"
       />
       <TextField
-        label="What it does"
+        label="What it does" localized
         id={`${idPrefix}-desc`}
         value={draft.description}
         onChange={(description) => setDraft({ ...draft, description })}
@@ -73,8 +74,8 @@ const TraitForm: React.FC<{
           onChange={(image_url) => setDraft({ ...draft, image_url })}
         />
       </div>
-      <TextField label="Upside" id={`${idPrefix}-up`} value={draft.upside} onChange={(upside) => setDraft({ ...draft, upside })} />
-      <TextField label="Downside" id={`${idPrefix}-down`} value={draft.downside} onChange={(downside) => setDraft({ ...draft, downside })} />
+      <TextField label="Upside" localized id={`${idPrefix}-up`} value={draft.upside} onChange={(upside) => setDraft({ ...draft, upside })} />
+      <TextField label="Downside" localized id={`${idPrefix}-down`} value={draft.downside} onChange={(downside) => setDraft({ ...draft, downside })} />
       <div className="md:col-span-3 flex gap-2">
         <button
           type="button"
@@ -98,6 +99,7 @@ const TraitsManager: React.FC<{
   traits: Tables<"traits">[];
   authors: Record<string, string>;
 }> = ({ traits, authors }) => {
+  const l = useL();
   const { pending, runAction } = useAdminAction();
   const [editing, setEditing] = useState<number | null>(null);
   // Bumped after adding, so the "new trait" form starts empty again
@@ -152,7 +154,7 @@ const TraitsManager: React.FC<{
                   <SquareImage src={t.image_url} className="w-16" />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="font-bold libre text-dnd-red">{t.name}</span>
+                      <span className="font-bold libre text-dnd-red">{l(t.name)}</span>
                       {t.is_custom ? (
                         <Eyebrow
                           text={waiting ? "awaiting approval" : "custom, approved"}
@@ -167,7 +169,7 @@ const TraitsManager: React.FC<{
                         </span>
                       )}
                     </div>
-                    <TraitText trait={t} />
+                    <TraitText trait={l(t)} />
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {t.is_custom && (
@@ -191,7 +193,7 @@ const TraitsManager: React.FC<{
                       type="button"
                       disabled={pending}
                       onClick={() =>
-                        window.confirm(`Delete ${t.name}? Characters lose it too.`) &&
+                        window.confirm(`Delete ${l(t.name)}? Characters lose it too.`) &&
                         runAction(() => deleteTrait(t.id), { success: "Deleted" })
                       }
                       className="button-secondary text-xs py-1"

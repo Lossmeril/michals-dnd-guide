@@ -1,5 +1,6 @@
 "use client";
 
+import { useL } from "@/lib/i18n/client";
 import { useState } from "react";
 import PerkCard from "@/components/game/perkCard";
 import {
@@ -78,6 +79,7 @@ interface PerkEditorProps {
 
 const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
   const isNew = !perk;
+  const l = useL();
   const [links, setLinks] = useState<ClassLinkInput[]>(
     perk
       ? rb.classPerks
@@ -127,7 +129,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
   });
   const racial = row.kind === "racial";
 
-  const classOptions = rb.classes.map((c) => ({ value: c.id, label: c.name }));
+  const classOptions = rb.classes.map((c) => ({ value: c.id, label: l(c.name) }));
   const setReq = (i: number, patch: Partial<RequirementInput>) =>
     setRequirements(requirements.map((r, j) => (j === i ? { ...r, ...patch } : r)));
   const setLink = (i: number, patch: Partial<ClassLinkInput>) =>
@@ -151,7 +153,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
   return (
     <>
       <AdminHeader
-        title={isNew ? "New perk" : row.name}
+        title={isNew ? "New perk" : l(row.name)}
         crumbs={[{ href: "/admin/perks", label: "Perks and spells" }]}
       />
 
@@ -160,7 +162,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
         preview={
           <>
             <PerkCard
-              perk={{ ...row, id, name: row.name || "Unnamed" }}
+              perk={l({ ...row, id, name: row.name || "Unnamed" })}
               core={links.some((l) => l.is_core)}
               requires={requirements.map(describe).join(", ")}
             />
@@ -170,7 +172,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
       >
         <div className="flex flex-col gap-8 min-w-0">
           <Panel as="section" className={formGrid}>
-            <TextField label="Name" id="name" value={row.name} onChange={(name) => set({ name })} />
+            <TextField label="Name" localized id="name" value={row.name} onChange={(name) => set({ name })} />
             <IdField id={id} isNew={isNew} />
             <SelectField
               label="Kind"
@@ -187,11 +189,11 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                 value={row.race_id}
                 onChange={(race_id) => set({ race_id })}
                 none="Pick a race"
-                options={rb.races.map((r) => ({ value: r.id, label: r.name }))}
+                options={rb.races.map((r) => ({ value: r.id, label: l(r.name) }))}
               />
             )}
             <TextField
-              label="Flavour"
+              label="Flavour" localized
               id="flavour"
               value={row.flavour}
               onChange={(flavour) => set({ flavour: flavour || null })}
@@ -199,7 +201,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
               className="md:col-span-2"
             />
             <TextField
-              label="Description"
+              label="Description" localized
               id="description"
               value={row.description}
               onChange={(description) => set({ description: description || null })}
@@ -245,7 +247,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                       hint="Empty for a variable price."
                     />
                     <TextField
-                      label="Per"
+                      label="Per" localized
                       id="cost-unit"
                       value={row.cost_unit}
                       onChange={(cost_unit) => set({ cost_unit: cost_unit || null })}
@@ -272,7 +274,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                   }
                 />
               </div>
-              <TextField label="Material component" id="material-note" value={row.material_note} onChange={(v) => set({ material_note: v || null })} />
+              <TextField label="Material component" localized id="material-note" value={row.material_note} onChange={(v) => set({ material_note: v || null })} />
               <SelectField
                 label="Duration"
                 id="duration"
@@ -281,8 +283,8 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                 none="—"
                 options={enumOptions(ENUMS.spell_duration)}
               />
-              <TextField label="Range" id="range" value={row.range} onChange={(v) => set({ range: v || null })} hint="In metres." />
-              <TextField label="Area" id="area" value={row.area} onChange={(v) => set({ area: v || null })} />
+              <TextField label="Range" localized id="range" value={row.range} onChange={(v) => set({ range: v || null })} hint="In metres." />
+              <TextField label="Area" localized id="area" value={row.area} onChange={(v) => set({ area: v || null })} />
               <TextField label="Damage" id="damage" value={row.damage} onChange={(v) => set({ damage: v || null })} hint="e.g. 2d6" />
               <div className="md:col-span-2">
                 <CheckboxGroup
@@ -396,7 +398,7 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
                                     ? p.kind === "aspect"
                                     : p.kind !== "aspect"),
                               )
-                              .map((p) => ({ value: p.id, label: p.name }))}
+                              .map((p) => ({ value: p.id, label: l(p.name) }))}
                           />
                         </div>
                       )}

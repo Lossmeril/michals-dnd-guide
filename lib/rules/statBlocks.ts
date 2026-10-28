@@ -1,6 +1,10 @@
 // Stat blocks for NPCs, companions, units, networks and organizations, written
 // in the rulebook as a fenced block (```npc … ```). See the Stat blocks page
-// and the cheat sheet in the page editor for the format.
+// and the cheat sheet in the page editor for the format. Field values and
+// sections can be translated like any text: "Town guard |cs| Městský strážný".
+// The blocks' own labels and rules are in the dictionaries (statBlock).
+
+import { localize, type Lang } from "@/lib/i18n/localize";
 
 export const STAT_BLOCK_KINDS = [
   "npc",
@@ -13,14 +17,6 @@ export type StatBlockKind = (typeof STAT_BLOCK_KINDS)[number];
 
 export const isStatBlockKind = (s: string | null | undefined): s is StatBlockKind =>
   (STAT_BLOCK_KINDS as readonly string[]).includes(s ?? "");
-
-export const STAT_BLOCK_LABELS: Record<StatBlockKind, string> = {
-  npc: "NPC",
-  companion: "Companion",
-  unit: "Unit",
-  network: "Network",
-  organization: "Organization",
-};
 
 export interface StatBlockData {
   kind: StatBlockKind;
@@ -49,6 +45,7 @@ const FIELD = /^([a-z][a-z0-9 ]*?)\s*:\s*(.*)$/i;
 export const parseStatBlock = (
   kind: StatBlockKind,
   source: string,
+  lang: Lang,
 ): StatBlockData => {
   const fields: [string, string][] = [];
   const sections: StatBlockData["sections"] = [];
@@ -79,10 +76,13 @@ export const parseStatBlock = (
 
   return {
     kind,
-    name,
-    subtitle,
-    fields,
-    sections: sections.map((s) => ({ ...s, text: s.text.trim() })),
+    name: localize(name, lang),
+    subtitle: localize(subtitle, lang),
+    fields: fields.map(([k, v]) => [k, localize(v, lang)]),
+    sections: sections.map((s) => ({
+      title: localize(s.title, lang),
+      text: localize(s.text.trim(), lang),
+    })),
   };
 };
 
@@ -100,11 +100,11 @@ export const numberOf = (value: string | undefined) => {
 // Rules the blocks print alongside the numbers
 // -----------------------------------------------------------------------------
 
-/** Unit sizes: Body track multiplier, payment multiplier, who's big enough to hurt it */
+/** Unit sizes: Body track multiplier and payment multiplier */
 export const UNIT_SIZES = {
-  handful: { label: "Handful", body: 2, payment: 5, harmedBy: "more than one person" },
-  band: { label: "Band", body: 4, payment: 25, harmedBy: "more than a handful" },
-  horde: { label: "Horde", body: 8, payment: 125, harmedBy: "more than a band" },
+  handful: { body: 2, payment: 5 },
+  band: { body: 4, payment: 25 },
+  horde: { body: 8, payment: 125 },
 } as const;
 export type UnitSize = keyof typeof UNIT_SIZES;
 
@@ -113,12 +113,12 @@ export const unitSizeOf = (value: string | undefined): UnitSize | undefined => {
   return key && key in UNIT_SIZES ? (key as UnitSize) : undefined;
 };
 
-/** Companion kinds and when they act */
+/** Companion kinds: does it act right after its master, or on its own initiative? */
 export const COMPANION_ROLES = {
-  familiar: { label: "Familiar", turn: "Right after its master, on the master's initiative" },
-  summon: { label: "Summon", turn: "Right after its master, on the master's initiative" },
-  animal: { label: "Animal companion", turn: "Its own initiative" },
-  hireling: { label: "Hireling", turn: "Its own initiative" },
+  familiar: { afterMaster: true },
+  summon: { afterMaster: true },
+  animal: { afterMaster: false },
+  hireling: { afterMaster: false },
 } as const;
 export type CompanionRole = keyof typeof COMPANION_ROLES;
 
@@ -129,15 +129,6 @@ export const companionRoleOf = (
   return (Object.keys(COMPANION_ROLES) as CompanionRole[]).find((r) =>
     v.startsWith(r),
   );
-};
-
-/** An organization's Reach, from DrD2's Standing table */
-export const REACH_LEVELS: Record<number, string> = {
-  1: "A few people and some say in one community",
-  2: "Influences a small region",
-  3: "Decides a small region's key questions, or advises on bigger ones",
-  4: "Shapes decisions across the land, or decisive in a large region",
-  5: "Decisive across the land",
 };
 
 /** Points a network splits between its tracks */

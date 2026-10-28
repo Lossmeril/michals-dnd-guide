@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp, FaPen, FaTrash } from "react-icons/fa6";
+import { useL } from "@/lib/i18n/client";
+import { joinLocalized, splitLocalized } from "@/lib/i18n/localize";
 import { hrefOf, INDEX_SLUG, type NavChapter } from "@/lib/rulebookNav";
 import IconButton from "@/components/ui/iconButton";
 import Panel from "@/components/ui/panel";
@@ -16,15 +18,25 @@ import {
   saveRulebookChapter,
 } from "./actions";
 
-/** Chapters and their pages: order, names, and links to each page's editor */
+/**
+ * Chapters and their pages: order, names, and links to each page's editor.
+ * `nav` holds both languages; titles show in the admin's.
+ */
 const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
   const router = useRouter();
+  const l = useL();
   const { pending, runAction } = useAdminAction();
   const [newChapter, setNewChapter] = useState("");
 
+  // Asks for the English name, then the Czech one
   const renameChapter = (chapter: NavChapter) => {
-    const title = window.prompt("Chapter name", chapter.title)?.trim();
-    if (title && title !== chapter.title) {
+    const old = splitLocalized(chapter.title);
+    const en = window.prompt("Chapter name (English)", old.en)?.trim();
+    if (!en) return;
+    const cs = window.prompt("Chapter name (Czech; empty for none)", old.cs);
+    if (cs === null) return;
+    const title = joinLocalized({ en, cs: cs.trim() });
+    if (title !== chapter.title) {
       runAction(() => saveRulebookChapter(chapter.id, title));
     }
   };
@@ -45,7 +57,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
           <Panel as="section" key={chapter.id}>
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <h2 className="libre font-bold text-xl text-dnd-red-dark mr-auto">
-                {chapter.title}
+                {l(chapter.title)}
               </h2>
               <IconButton
                 label="Move chapter up"
@@ -72,7 +84,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                 label="Delete chapter"
                 disabled={pending || chapter.pages.length > 0}
                 onClick={() =>
-                  window.confirm(`Delete the chapter “${chapter.title}”?`) &&
+                  window.confirm(`Delete the chapter “${l(chapter.title)}”?`) &&
                   runAction(() => deleteRulebookChapter(chapter.id), {
                     success: "Deleted",
                   })
@@ -89,7 +101,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                     href={`/admin/rulebook/${page.id}`}
                     className="font-bold text-dnd-red hover:text-dnd-red-dark mr-auto"
                   >
-                    {page.title}
+                    {l(page.title)}
                   </Link>
                   <Link
                     href={hrefOf(page.slug)}
@@ -115,7 +127,7 @@ const RulebookManager: React.FC<{ nav: NavChapter[] }> = ({ nav }) => {
                     label="Delete page"
                     disabled={pending || page.slug === INDEX_SLUG}
                     onClick={() =>
-                      window.confirm(`Delete the page “${page.title}” for good?`) &&
+                      window.confirm(`Delete the page “${l(page.title)}” for good?`) &&
                       runAction(() => deleteRulebookPage(page.id), {
                         success: "Deleted",
                       })

@@ -112,6 +112,18 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Editors and sheets** share one layout; editing only adds controls (see the character sheet).
 - guide2.0 used a 12-column grid with the content in columns 2–11 on wide screens, and a navbar with the user's avatar and a dropdown whose arrow was an ink diamond.
 
+### Languages (English and Czech)
+
+The app speaks English and Czech. The reader picks one with the EN/CS switch in the navbar (`components/langSwitch.tsx`); it's kept in the `lang` cookie, and a first visit follows the browser (Slovak counts as Czech).
+
+- **App text** (buttons, labels, the stat blocks' own words) lives in dictionaries: `lib/i18n/dictionaries.ts`. Server components use `getDict()` / `getLang()` (`lib/i18n/server.ts`), client ones `useDict()` and `useL()` (`lib/i18n/client.tsx`). Being moved over page by page; the rulebook frame and stat blocks are done.
+- **Data from the database** keeps both languages in one field: `English |cs| Czech`. No marker means English for both; an empty side falls back to the other. `localize` / `localizeDeep` (`lib/i18n/localize.ts`) pick one; `fetchRulebook()` and the rulebook page fetchers do it for you, and admin pages fetch raw (`fetchRulebook(true)`).
+- **Admin forms:** `TextField` with `localized` shows an English and a Czech box side by side and saves them as one field. Use it for names and descriptions, not for values the rules read (damage type, properties).
+- **Rulebook pages:** the page editor has English and Czech tabs. Inside a page, `:::en` … `:::` and `:::cs` … `:::` hold text for one language only, and stat block lines can use `|cs|`.
+- **Translated headings** keep the English anchor: `## Zkouška dovednosti {#skill-check}`, so links like `dice#skill-check` work in both languages.
+- **Czech rules vocabulary** (confirmed except the class names): PJ (DM), povolání (class), úroveň povolání, dovednost (skill), perk, zkouška (skill check), střet (challenge), obranný hod (defense roll), nástraha (hazard), výhoda / nevýhoda, bonusová kostka, bonus (merit point), nový level (level-up point), vyčerpat (exhaust), kampaň (campaign), hráčská postava. Classes as in DrD2: Bojovník, Lovec, Kejklíř, Mastičkář, Zaříkávač; Válečník, Hraničář, Vědmák, Zvěd, Šaman, Druid, Lupič, Alchymista, Čaroděj, Mág.
+- **Czech terms** (confirmed): Tělo, Duše, Vliv; Sudba, Pouto, Jizva, Ohrožení, Postavení, Dosah; Hrstka, Tlupa, Horda; manoeuvres Přesně, Mocně, Lstivě, Rychle, Obrana, Rozsáhle; NPC stays NPC.
+
 ### Alerts
 
 `Alert` (`components/ui/alert.tsx`), from guide2.0: a 4px left border, coloured by kind: info green, warning yellow, danger red (red border). Use it for notices above a form, like an expired link.

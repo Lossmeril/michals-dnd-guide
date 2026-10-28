@@ -602,18 +602,21 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          sample: string | null
           sort: number
         }
         Insert: {
           description?: string | null
           id: string
           name: string
+          sample?: string | null
           sort?: number
         }
         Update: {
           description?: string | null
           id?: string
           name?: string
+          sample?: string | null
           sort?: number
         }
         Relationships: []

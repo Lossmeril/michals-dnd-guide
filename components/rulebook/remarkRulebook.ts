@@ -7,6 +7,7 @@ import type {
   LeafDirective,
   TextDirective,
 } from "mdast-util-directive";
+import { DEFAULT_LANG, isLang, type Lang } from "@/lib/i18n/localize";
 import { isStatBlockKind } from "@/lib/rules/statBlocks";
 
 type Directive = ContainerDirective | LeafDirective | TextDirective;
@@ -67,15 +68,33 @@ const splitDice = (node: Text): PhrasingContent[] => {
     .filter((n): n is PhrasingContent => n !== null);
 };
 
-const transform = (node: Nodes) => {
+const transform = (node: Nodes, lang: Lang) => {
   if (!("children" in node)) return;
   const parent = node as Parent;
   const out: Nodes[] = [];
 
   for (const child of parent.children as Nodes[]) {
+    // :::en … ::: and :::cs … ::: hold text for one language only
+    if (child.type === "containerDirective" && isLang(child.name)) {
+      if (child.name === lang) {
+        transform(child, lang);
+        out.push(...(child.children as Nodes[]));
+      }
+      continue;
+    }
     if (child.type === "text") {
       out.push(...splitDice(child));
       continue;
+    }
+    // "## Heading {#id}" sets the heading's id, so a translated heading keeps
+    // the anchor other pages link to
+    if (child.type === "heading") {
+      const last = child.children.at(-1);
+      const m = last?.type === "text" ? last.value.match(/\s*\{#([\w-]+)\}\s*$/) : null;
+      if (last?.type === "text" && m) {
+        last.value = last.value.slice(0, m.index);
+        child.data = { ...child.data, hProperties: { ...child.data?.hProperties, id: m[1] } };
+      }
     }
     // ```npc … ``` and the other kinds become stat blocks
     if (child.type === "code" && isStatBlockKind(child.lang)) {
@@ -89,6 +108,7 @@ const transform = (node: Nodes) => {
           hProperties: {
             kind: child.lang,
             source: child.value,
+            lang,
             wide: /\bwide\b/.test(child.meta ?? "") ? "true" : "",
           },
         },
@@ -96,7 +116,7 @@ const transform = (node: Nodes) => {
       continue;
     }
     if (!isDirective(child)) {
-      transform(child);
+      transform(child, lang);
       out.push(child);
       continue;
     }
@@ -147,16 +167,18 @@ const transform = (node: Nodes) => {
     }
 
     child.data = { hName: `rb-${child.name}`, hProperties: props };
-    transform(child);
+    transform(child, lang);
     out.push(child);
   }
 
   parent.children = out as Parent["children"];
 };
 
-/** The remark plugin */
-const remarkRulebook = () => (tree: Root) => {
-  transform(tree);
-};
+/** The remark plugin; `lang` picks which :::en / :::cs blocks stay */
+const remarkRulebook =
+  ({ lang = DEFAULT_LANG }: { lang?: Lang } = {}) =>
+  (tree: Root) => {
+    transform(tree, lang);
+  };
 
 export default remarkRulebook;

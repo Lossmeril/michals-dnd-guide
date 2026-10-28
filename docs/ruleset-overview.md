@@ -1542,7 +1542,7 @@ Kept deliberately vague for now. A starting list:
 | **Kroll tongue** | Krolls; primitive and mostly spoken |
 | **Old tongues** | Dead languages of fallen empires; written only, read by scholars |
 
-Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages; it has no rules effect yet.
+Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages; it has no rules effect yet. Each language can also have a **sample text** (a line written in it, to show how it looks), shown under its name in the rulebook's languages table.
 
 Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also speak their **racial language**. Humans and Halflings, who have none, instead pick **one extra language** of their choice. A background then adds the number of extra languages shown below.
 
@@ -1603,6 +1603,7 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
 - **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Two languages:** every page and data field can hold English and Czech (`English |cs| Czech`, or the editor's tabs); readers switch in the navbar. See *Languages* in [visual-language.md](visual-language.md).
 - **Data blocks:** races, backgrounds, languages, traits, weapons and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
