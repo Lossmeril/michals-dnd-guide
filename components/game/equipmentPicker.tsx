@@ -16,12 +16,12 @@ import {
   withOption,
 } from "@/lib/rules/equipment";
 
-/** "Longsword (1d8 slashing)", "Chain shirt (armour 2)" */
+/** "Longsword (1d8 slashing)", "Mail shirt (body, protection 2, burden 2)" */
 export const itemLabel = (item: Item) => {
   const detail = item.damage
     ? [item.damage, item.damage_type].filter(Boolean).join(" ")
-    : item.armour_rating !== null
-      ? `armour ${item.armour_rating}`
+    : item.slots
+      ? `${item.slots.join(" + ")}, protection ${item.protection ?? 0}, burden ${item.burden ?? 0}`
       : null;
   return detail ? `${item.name} (${detail})` : item.name;
 };

@@ -50,7 +50,12 @@ const AdminItemsPage = async ({ searchParams }: PageProps<"/admin/items">) => {
             render: (i) => [i.damage, i.damage_type].filter(Boolean).join(" "),
             sortValue: (i) => i.damage,
           },
-          { label: "Armour", render: (i) => i.armour_rating, sortValue: (i) => i.armour_rating },
+          {
+            label: "Armour",
+            render: (i) =>
+              i.slots && `${i.slots.join(" + ")}: ${i.protection ?? 0} / ${i.burden ?? 0}${i.harness ? ", harness" : ""}`,
+            sortValue: (i) => i.protection,
+          },
           { label: "Free manoeuvre", render: (i) => i.free_manoeuvre, sortValue: (i) => i.free_manoeuvre },
           { label: "Properties", render: (i) => i.properties },
           { label: "Given by", render: (i) => givenBy(i.id), sortValue: (i) => givenBy(i.id) },

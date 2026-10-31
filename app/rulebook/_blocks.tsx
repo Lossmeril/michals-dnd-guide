@@ -12,6 +12,9 @@ import MediaObject from "@/components/ui/mediaObject";
 import Panel from "@/components/ui/panel";
 import { Overline } from "@/components/ui/typography";
 import {
+  aspectSplit,
+  aspectsOf,
+  parentNames,
   racialPerks,
   relatedLanguageNames,
   type Rulebook,
@@ -19,6 +22,7 @@ import {
 import type { Dict } from "@/lib/i18n/dictionaries";
 import type { Lang } from "@/lib/i18n/localize";
 import { type Bestiary, creatureStatBlock } from "@/lib/rules/bestiary";
+import { isArmourPiece } from "@/lib/rules/armour";
 import { formatCoins } from "@/lib/rules/format";
 import { hrefOf, type NavChapter } from "@/lib/rulebookNav";
 import type { Tables } from "@/lib/types/database.types";
@@ -63,22 +67,43 @@ const Races: React.FC<BlockProps> = ({ rb, t }) =>
     );
   });
 
+/** One section per background: there are too many, with too much gear, for a table */
 const Backgrounds: React.FC<BlockProps> = ({ rb, t }) =>
   rb.backgrounds.length === 0 ? (
     <p>{t.blocks.noneYet}</p>
   ) : (
-    <SimpleTable
-      head={t.blocks.backgroundHead}
-      rows={rb.backgrounds.map((b) => [
-        <strong key="n" className="libre text-dnd-red">
-          {b.name}
-        </strong>,
-        <EquipmentList key="e" items={rb.items} equipment={b.equipment} />,
-        `${formatCoins(b.coins_copper)} · ${t.blocks.material(b.material)}`,
-        `+${b.extra_languages}`,
-        b.known_settings,
-      ])}
-    />
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8 my-6">
+      {rb.backgrounds.map((b) => (
+        <section key={b.id} id={b.id} className="scroll-mt-8 text-sm">
+          <h3 className="libre text-lg font-bold text-dnd-red uppercase mb-1">{b.name}</h3>
+          {b.description && <p className="mb-2">{b.description}</p>}
+          <dl className="flex flex-col gap-1">
+            <div>
+              <dt className="font-bold">{t.blocks.background.gear}</dt>
+              <dd>
+                <EquipmentList items={rb.items} equipment={b.equipment} />
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold inline">{t.blocks.background.purse}: </dt>
+              <dd className="inline">
+                {formatCoins(b.coins_copper)} · {t.blocks.material(b.material)}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold inline">{t.blocks.background.languages}: </dt>
+              <dd className="inline">{b.extra_languages}</dd>
+            </div>
+            {b.known_settings && (
+              <div>
+                <dt className="font-bold inline">{t.blocks.background.known}: </dt>
+                <dd className="inline">{b.known_settings}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+      ))}
+    </div>
   );
 
 const Languages: React.FC<BlockProps> = ({ rb, t }) => (
@@ -128,6 +153,70 @@ const Weapons: React.FC<BlockProps> = ({ rb, t }) => (
       ])}
   />
 );
+
+/** The armour pieces: where they go and what they add up to (no prices) */
+const Armour: React.FC<BlockProps> = ({ rb, t }) => (
+  <SimpleTable
+    head={t.blocks.armourHead}
+    rows={rb.items
+      .filter(isArmourPiece)
+      .map((i) => [
+        <Fragment key="n">
+          <strong className="libre text-dnd-red">{i.name}</strong>
+          {i.harness && (
+            <span className="block text-xs text-dnd-ink/70">{t.blocks.harness}</span>
+          )}
+        </Fragment>,
+        i.slots!.map((slot) => t.blocks.armourSlots[slot]).join(" + "),
+        i.protection ?? 0,
+        i.burden ?? 0,
+      ])}
+  />
+);
+
+/** Each advanced class's aspects and the parent levels that unlock them */
+const Aspects: React.FC<BlockProps> = ({ rb, t }) => {
+  const rows = rb.classes
+    .filter((c) => c.rank === "advanced")
+    .map((c) => ({
+      cls: c,
+      aspects: aspectsOf(rb, c.id).map((a) => ({
+        aspect: a,
+        split: aspectSplit(rb, c.id, a.id).join(" + "),
+      })),
+    }));
+  const columns = Math.max(0, ...rows.map((r) => r.aspects.length));
+  if (columns === 0) return <p>{t.blocks.noneYet}</p>;
+  // "4 + 2" heads a column when every class unlocks that aspect the same way
+  const splits = Array.from({ length: columns }, (_, i) => {
+    const all = new Set(rows.map((r) => r.aspects[i]?.split));
+    return all.size === 1 ? [...all][0] : undefined;
+  });
+  return (
+    <SimpleTable
+      head={[
+        ...t.blocks.aspectHead,
+        ...splits.map((s, i) => s ?? t.blocks.aspectColumn(i + 1)),
+      ]}
+      rows={rows.map(({ cls, aspects }) => [
+        <Link key="c" href={`/rulebook/classes/${cls.id}`} className="link libre font-bold">
+          {cls.name}
+        </Link>,
+        parentNames(rb, cls.id),
+        ...splits.map((s, i) => {
+          const a = aspects[i];
+          if (!a) return "—";
+          return (
+            <Fragment key={a.aspect.id}>
+              {a.aspect.name}
+              {!s && <span className="block text-xs text-dnd-ink/70">{a.split}</span>}
+            </Fragment>
+          );
+        }),
+      ])}
+    />
+  );
+};
 
 const Chapters: React.FC<{ nav: NavChapter[] }> = ({ nav }) => (
   <div className="clear-both grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
@@ -192,6 +281,10 @@ export const blockRenderer =
         return <Traits rb={rb} t={t} />;
       case "weapons":
         return <Weapons rb={rb} t={t} />;
+      case "armour":
+        return <Armour rb={rb} t={t} />;
+      case "aspects":
+        return <Aspects rb={rb} t={t} />;
       case "classes": {
         const rank = RANKS.find((r) => r === props.rank) ?? "basic";
         return <ClassGrid rb={rb} rank={rank} />;

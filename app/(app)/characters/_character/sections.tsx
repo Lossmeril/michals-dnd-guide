@@ -29,6 +29,7 @@ import {
   relatedLanguageNames,
   STARTS,
 } from "@/lib/rules/character";
+import { armourTotals } from "@/lib/rules/armour";
 import { defaultPicks, equipmentOf, itemName } from "@/lib/rules/equipment";
 import { formatCoins, RESOURCE_NAMES } from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
@@ -496,6 +497,13 @@ export const InventorySection: React.FC<{
 }> = ({ items, inventory }) => {
   const nameOf = (row: Tables<"character_items">) =>
     row.name ?? (row.item_id ? itemName(items, row.item_id) : "Unknown item");
+  // Carried, unbroken armour pieces count as worn
+  const armour = armourTotals(
+    inventory
+      .filter((row) => row.carried && !row.broken)
+      .map((row) => items.find((i) => i.id === row.item_id))
+      .filter((i) => i !== undefined),
+  );
   const groups = [
     { label: "Carried", rows: inventory.filter((i) => i.carried) },
     { label: "Left behind", rows: inventory.filter((i) => !i.carried) },
@@ -504,6 +512,17 @@ export const InventorySection: React.FC<{
   return (
     <Section id="inventory" title="Inventory">
       {groups.length === 0 && <p className="text-sm">Nothing yet.</p>}
+      {armour.protection > 0 && (
+        <p className="text-sm mb-6">
+          <strong>Armour:</strong> rating {armour.rating} ({armour.protectionTier}, protection{" "}
+          {armour.protection}) · encumbrance{" "}
+          {armour.encumbrance ? `${armour.encumbrance} Body` : "none"} ({armour.burdenTier},
+          burden {armour.burden}
+          {armour.fullHarness && ", fitted harness"})
+          {armour.doubled.length > 0 &&
+            ` · only one piece counts on: ${armour.doubled.join(", ")}`}
+        </p>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {groups.map((g) => (
           <div key={g.label}>

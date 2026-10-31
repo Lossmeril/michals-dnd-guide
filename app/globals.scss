@@ -168,6 +168,10 @@
       @apply clear-both text-lg font-bold text-dnd-red-dark mt-8 mb-3;
       font-family: var(--font-libre-baskerville);
     }
+    > h4 {
+      @apply clear-both text-base font-bold text-dnd-red mt-6 mb-2;
+      font-family: var(--font-libre-baskerville);
+    }
     > :first-child {
       @apply mt-0;
     }

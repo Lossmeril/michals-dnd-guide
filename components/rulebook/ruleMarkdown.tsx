@@ -102,13 +102,16 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
         <span className="text-dnd-red">:roll[{roll}]?</span>
       );
     },
-    "rb-image": ({ src, alt, layout, caption }) =>
+    "rb-image": ({ src, alt, layout, caption, width, height, align }) =>
       src ? (
         <RuleImage
           src={src}
           alt={alt}
           layout={layout as ImageLayout}
           caption={caption}
+          width={width}
+          height={height}
+          align={align}
         />
       ) : null,
     "rb-formula": ({ children }) => <Formula>{children}</Formula>,
@@ -146,7 +149,8 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
     "rb-cards": ({ children, cols }) => (
       <div
         className={twMerge(
-          "clear-both grid grid-cols-1 gap-4 my-6 items-start",
+          "clear-both grid grid-cols-1 gap-4 my-6",
+          cols === "3" ? "items-stretch" : "items-start",
           cols === "2" && "md:grid-cols-2",
           cols === "3" && "md:grid-cols-2 xl:grid-cols-3",
         )}
@@ -154,14 +158,8 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
         {children}
       </div>
     ),
-    "rb-card": ({ title, subtitle, image, id, stacked, children }) => (
-      <RuleCard
-        title={title}
-        subtitle={subtitle}
-        image={image}
-        id={id}
-        stacked={!!stacked}
-      >
+    "rb-card": ({ title, subtitle, image, id, children }) => (
+      <RuleCard title={title} subtitle={subtitle} image={image} id={id}>
         {children}
       </RuleCard>
     ),
@@ -201,6 +199,8 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
         "languages",
         "traits",
         "weapons",
+        "armour",
+        "aspects",
         "classes",
         "creature",
         "chapters",
@@ -221,6 +221,11 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
       <h3 id={id ?? slugify(hastText(node))} className="scroll-mt-8">
         {children}
       </h3>
+    ),
+    h4: ({ node, id, children }) => (
+      <h4 id={id ?? slugify(hastText(node))} className="scroll-mt-8">
+        {children}
+      </h4>
     ),
     a: ({ href: to, children }) => (
       <Link href={href(to)} className="link">

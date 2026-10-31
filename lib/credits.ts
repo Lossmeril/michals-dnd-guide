@@ -72,6 +72,14 @@ export const CREDITS: CreditSection[] = [
       },
       { what: "Parchment background", image: "/img/bg.webp" },
       {
+        what: "Neidhart von Reuental",
+        by: "Codex Manesse (Heidelberg University Library, Cod. Pal. germ. 848)",
+        href: "https://digi.ub.uni-heidelberg.de/diglit/cpg848",
+        license: "Public domain",
+        note: "The site icon and the navbar picture",
+        image: "/img/neidhart.webp",
+      },
+      {
         what: "Home page cards",
         by: "Wizards of the Coast, via D&D Beyond",
         href: "https://www.dndbeyond.com",

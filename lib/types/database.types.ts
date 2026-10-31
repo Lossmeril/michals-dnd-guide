@@ -597,45 +597,57 @@ export type Database = {
       }
       items: {
         Row: {
-          armour_rating: number | null
+          burden: number | null
           category: string | null
           damage: string | null
           damage_type: string | null
           description: string | null
+          harness: boolean
           free_manoeuvre: Database["public"]["Enums"]["manoeuvre"] | null
           id: string
           image_url: string | null
           kind: Database["public"]["Enums"]["item_kind"]
           name: string
+          price_copper: number
           properties: string | null
+          protection: number | null
+          slots: Database["public"]["Enums"]["armour_slot"][] | null
           sort: number
         }
         Insert: {
-          armour_rating?: number | null
+          burden?: number | null
           category?: string | null
           damage?: string | null
           damage_type?: string | null
           description?: string | null
+          harness?: boolean
           free_manoeuvre?: Database["public"]["Enums"]["manoeuvre"] | null
           id: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
           name: string
+          price_copper?: number
           properties?: string | null
+          protection?: number | null
+          slots?: Database["public"]["Enums"]["armour_slot"][] | null
           sort?: number
         }
         Update: {
-          armour_rating?: number | null
+          burden?: number | null
           category?: string | null
           damage?: string | null
           damage_type?: string | null
           description?: string | null
+          harness?: boolean
           free_manoeuvre?: Database["public"]["Enums"]["manoeuvre"] | null
           id?: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
           name?: string
+          price_copper?: number
           properties?: string | null
+          protection?: number | null
+          slots?: Database["public"]["Enums"]["armour_slot"][] | null
           sort?: number
         }
         Relationships: []
@@ -1127,6 +1139,7 @@ export type Database = {
         | "piercing"
         | "slashing"
         | "bludgeoning"
+      armour_slot: "under" | "body" | "head" | "arms" | "legs"
       item_kind: "weapon" | "armour" | "shield" | "clothing" | "tool" | "gear"
       manoeuvre:
         | "precise"
@@ -1297,6 +1310,7 @@ export const Constants = {
         "slashing",
         "bludgeoning",
       ],
+      armour_slot: ["under", "body", "head", "arms", "legs"],
       item_kind: ["weapon", "armour", "shield", "clothing", "tool", "gear"],
       manoeuvre: [
         "precise",

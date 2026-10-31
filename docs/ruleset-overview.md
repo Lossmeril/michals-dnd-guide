@@ -126,7 +126,7 @@ Items can take scars too.
   - The 2 points are an **unspecified resource**: they count towards whichever pool the failed roll needed.
   - Unspent points are lost and don't carry over. If 1 point was missing and the scar gave 2, the extra point is gone.
 - **Only proper items** can be scarred. An improvised item, like a chair leg used as a club, can't be scarred for points, though some perks may allow it.
-- **Armour scars:** when the DM scars armour, its rating drops by 1. Light armour (rating 1) breaks instead.
+- **Armour scars:** when the DM scars armour, one piece of it breaks and stops counting until repaired *(draft, replaces "its rating drops by 1"; see [Modular armour](#modular-armour-draft-from-the-central-european-pricelist))*.
 - **Repair** works like healing a scar: **5 resources**, usually Material, plus a successful **skill check**. It must be plausible: an old map or an antique sword can't be restored to its former glory.
 - Pseudo-magic classes deal themselves a Scar to enter magic mode for a conflict (see [Magic](#magic)).
 
@@ -218,6 +218,44 @@ Armour helps in two ways:
 | Heavy | 3 | Exhaust 2 Body |
 
 **Encumbrance** is a [cost to attempt](#cost-to-attempt): before even attempting an activity the armour would hinder, the character must first exhaust the encumbrance cost in Body. That covers stealth, acrobatics, swimming, fast movement, and anything else the DM judges the armour gets in the way of.
+
+#### Modular armour *(draft, from the Central European pricelist)*
+
+Armour isn't bought as a suit ("full plate" is hard to price, and nobody bought it in one go). Players **mix and match pieces**, and the pieces add up to the tiers above.
+
+- **Slots:** under, body, head, arms, legs. **One piece per slot**; a long mail hauberk takes body and arms.
+- **Two totals:** every piece adds to **Protection** and **Burden**.
+  - **Protection sets the armour rating**, **Burden sets the encumbrance**.
+  - Both use the same tiers: **0 none, 1–3 light, 4–6 medium, 7+ heavy**. So Protection 4–6 is rating 2; Burden 7+ costs 2 Body to attempt.
+  - Most sets land in the same tier on both.
+- **Fitted plate harness:** plate on the body (coat of plates or breastplate), a bascinet, plate arms and plate legs, fitted by an armourer: **−3 Burden**. It's the only way to get heavy protection at medium burden. Second-hand plate gets no relief until refitted (a week with an armourer).
+- *Optional:* mail and plate body pieces need a gambeson underneath.
+- **The numbers are ours, not the source's.** The pricelist asked how the three tiers work in numbers; our existing armour rules answer it: rating 0–3 is subtracted from Scar levels and from averting a hit, and encumbrance is a cost to attempt in Body.
+- **Scarring armour** *(draft, to confirm)*: the old rule ("rating drops by 1; light armour breaks") assumed one suit. With pieces, **one piece breaks** (the DM picks which) and stops counting until repaired, which can drop the armour a tier. Breaking a cheap kettle hat and a mail shirt aren't equal, so the DM picks the piece the hit plausibly struck.
+
+| Piece | Slot | Protection | Burden |
+|---|---|---|---|
+| Gambeson (padded) | Under | 1 | 1 |
+| Leather or hide jerkin | Body | 1 | 1 |
+| Mail shirt (haubergeon), scale shirt | Body | 2 | 2 |
+| Mail hauberk, long and sleeved | Body + arms | 3 | 3 |
+| Coat of plates, breastplate *(harness)* | Body | 3 | 3 |
+| Iron cap, kettle hat | Head | 1 | 1 |
+| Bascinet with mail aventail *(harness)* | Head | 2 | 2 |
+| Plate arms with gauntlets *(harness)* | Arms | 1 | 1 |
+| Mail chausses | Legs | 1 | 1 |
+| Plate legs *(harness)* | Legs | 1 | 1 |
+
+| Example set | Protection | Burden | Rating | Encumbrance |
+|---|---|---|---|---|
+| Gambeson + kettle hat | 2 | 2 | 1 | — |
+| Militia: gambeson + mail shirt + kettle hat | 4 | 4 | 2 | 1 Body |
+| Gambeson + coat of plates + kettle hat | 5 | 5 | 2 | 1 Body |
+| Man-at-arms: gambeson + hauberk + bascinet + chausses | 7 | 7 | 3 | 2 Body |
+| Partial plate (no plate legs) | 7 | 7 | 3 | 2 Body |
+| Full fitted plate | 8 | 5 | 3 | 1 Body |
+
+**In the app:** armour items carry `slots`, `protection`, `burden` and `harness`; `lib/rules/armour.ts` adds them up. The character sheet shows the totals for carried, unbroken pieces, assuming a full harness is fitted. The rulebook lists the pieces with `::armour`. The old whole suits (leather, chain shirt, scale mail, chain mail, plate) are gone.
 
 The Kroll perk *Bison Skin* ("+1 resistance bonus on exhaustion when not wearing armour") could become "counts as armour rating 1 when unarmoured" under this system.
 
@@ -878,7 +916,7 @@ Each advanced class has **3 aspects**. An aspect is the root node of a perk tree
 
 Mechanically, an aspect is a **perk that is granted automatically** when its level requirements are met. Other perks then require it. Supporting aspects doesn't change how a class works, so the same system covers advanced and mighty classes.
 
-- An aspect **belongs to its advanced class**. The character must have that class (Warrior 1 or higher) before any of its aspects can unlock. A Fighter 4 character without Warrior does not hold Brute.
+- An aspect **belongs to its advanced class**. The character must have that class (Warrior 1 or higher) before any of its aspects can unlock. A Fighter 4 character without Warrior does not hold Hire-Sword.
 - Within the class, an aspect **unlocks automatically** when the character reaches a certain combination of parent-class levels.
 - An aspect **does nothing on its own**. It only acts as a prerequisite for certain perks.
 - The parent-class split decides which aspects, and so which perk branches, a character can reach **first**.
@@ -889,7 +927,7 @@ Example, Warrior:
 
 | Aspect | Requires |
 |---|---|
-| **Brute** | Fighter 4 + Juggler 2 |
+| **Hire-Sword** | Fighter 4 + Juggler 2 |
 | **Knight** | Fighter 3 + Juggler 3 |
 | **Monk** | Fighter 2 + Juggler 4 |
 
@@ -897,7 +935,7 @@ Example, Warrior:
 
 | Class | Parents | 4 + 2 | 3 + 3 | 2 + 4 |
 |---|---|---|---|---|
-| **Warrior** | Fighter + Juggler | Brute | Knight | Monk |
+| **Warrior** | Fighter + Juggler | Hire-Sword | Knight | Monk |
 | **Ranger** | Fighter + Hunter | Barbarian | Monster Slayer | Beastmaster |
 | **Witcher** | Fighter + Medic | Berserk | Hexer | Exorcist |
 | **Scout** | Hunter + Juggler | Ghost | Outrider | Spymaster |
@@ -906,7 +944,7 @@ Example, Warrior:
 | **Rogue** | Juggler + Medic | Thief | Assassin | Poisoner |
 | **Alchemist** | Medic + Incantor | Mixer | Transmuter | Life Moulder |
 | **Warlock** | Fighter + Incantor | Paladin | Battlemage | Abjurer |
-| **Mage** | Juggler + Incantor | Illusionist | Enchanter | Conjurer |
+| **Mage** | Juggler + Incantor | Illusionist | Puppetmaster | Conjurer |
 
 
 The 10 advanced classes are exactly every pair of the 5 basic classes:
@@ -1607,20 +1645,106 @@ Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also spe
 
 ### Starter backgrounds
 
-*(Draft adapted from 5E, to be edited.)* For scale: 1 gold is a lot for a commoner, 1 silver = 10 copper, and 1 Material is worth 1 silver.
+*(Draft, to be edited.)* **All 5E backgrounds**, from the 2014 PHB and the 2024 PHB, merged where they overlap (2014 Guild Artisan and 2024 Artisan are one; Guild Merchant is the Merchant). The 2014 variants (Spy, Gladiator, Knight, Pirate) are left out: they only change a feature. 19 in all, in the database and in the rulebook's `::backgrounds` block.
 
-| Background | Equipment | Coins | Material | Extra languages | Known settings |
+**How the 5E gear was adapted:**
+- **Classes give no gear here**, so every background brings its own weapon, usually as a choice ("quarterstaff, mace or club"). A few carry armour pieces: Soldier and Guard (gambeson and a helmet), Folk hero (gambeson), Criminal and Sailor (leather jerkin), Guide and Outlander (hide jerkin).
+- **Kits are split into the items in them**, as listed in the PHB: thieves' tools = file, lockpicks, small mirror on a handle, scissors, pliers; a herbalism kit = leather gloves, clippers, mortar and pestle, three glass jars, two pouches; and so on (healer's kit, disguise, forgery, calligrapher's, cartographer's tools).
+  - **Consumables become Material:** herbs, salves, bandages, incense, nails, hops. That's what Material is for. Tools stay items.
+  - **Artisan's tools:** the Artisan and the Folk hero pick a craft (smith, carpenter, leatherworker, weaver, brewer, mason, potter, jeweller, cook), each its own set of tools.
+  - **Navigator's tools** (no sextants here; spyglasses don't exist) become a lodestone compass, a sounding line, a ruler and writing things. The Merchant gets balance scales, a counting cloth and a ledger instead.
+  - **Gaming set:** bone dice or playing cards.
+- **The 2024 "50 gp instead of equipment" option is dropped.**
+- **Swords are expensive** (a longsword is four months' wages), so the Soldier picks from spears, axes, maces, flails and polearms. Nobody starts with a sword except by buying one.
+
+**Balance** *(draft)*. Starting value = gear + coins + Material, with **clothes counted at half** (you can't sell the shirt off your back at full price). Coins compensate, so gear-rich backgrounds get little cash and poor ones a bit more than the pricelist suggests. The spread is roughly **1 : 3** (urchin 86 sp, noble about 260 sp) instead of the pricelist's raw allowances (5 sp to 150 sp on top of gear). The scholars sit high because a book is worth 150 sp, but nobody sells their only book.
+
+| Background | Gear, in short | Coins | Material | Languages | Value |
 |---|---|---|---|---|---|
-| **Soldier** | Spear or longsword, shield, medium armour, rank insignia, dice set, bedroll | 5 silver | 2 | 0 | Barracks and army camps, the chain of command |
-| **Criminal** | Dagger, dark hooded clothes, crowbar, lockpicks | 8 silver | 2 | 1 (e.g. an oriental tongue picked up from smugglers) | The criminal underbelly, fences and hideouts |
-| **Noble** | Rapier, fine clothes, signet ring, scroll of pedigree | 1 gold | 0 | 1 (e.g. Liturgic or Elven) | Noble courts, etiquette and heraldry |
-| **Acolyte** | Prayer book, holy symbol, incense, vestments | 5 silver | 3 (incense, candles) | 1 (Liturgic) | Temples and monasteries, the church hierarchy |
-| **Hermit** | Quarterstaff, herbal kit, winter blanket, journal | 2 silver | 5 (herbs) | 1 | The wilds near their retreat, folk remedies and superstitions |
-| **Sailor** | Club, 15 m of silk rope, lucky charm, sailor's clothes | 5 silver | 2 | 1 (e.g. an oriental tongue) | Ports, ships and dockside taverns |
-| **Artisan** | Light hammer, artisan's tools of one craft, guild letter, traveller's clothes | 1 gold | 5 (craft supplies) | 0 | Guilds, workshops and markets |
-| **Commoner** | Sickle or handaxe, common clothes, shovel, iron pot | 3 silver | 3 | 0 | Villages and farmland, local folk and their troubles |
-| **Entertainer** | Dagger, musical instrument, costume, admirer's favour | 6 silver | 1 | 1 | Taverns, fairs and travelling troupes |
-| **Outlander** | Handaxe or spear, hunting trap, light armour (hides), traveller's clothes | 2 silver | 4 (hides, bone) | 1 (e.g. Northern or Kroll tongue) | The frontier, its tribes and trade routes |
+| **Acolyte** | Quarterstaff, mace or club; holy symbol, prayer book, vestments, calligrapher's things | 15 sp | 3 | 1 | ~190 sp |
+| **Artisan** | One craft's tools; light hammer, handaxe or dagger; guild letter | 70 sp | 5 | 0 | 115–155 sp |
+| **Charlatan** | Disguise or forgery kit; a con (bottles, weighted dice, marked cards, fake signet); dagger, fine clothes | 20 sp | 1 | 1 | ~210 sp |
+| **Criminal** | Two daggers (or dagger and club), leather jerkin, crowbar, thieves' tools, dark hooded clothes | 50 sp | 1 | 1 | ~145 sp |
+| **Entertainer** | An instrument; dagger, quarterstaff or club; two costumes, mirror, perfume, admirer's favour | 35 sp | 1 | 1 | 145–205 sp |
+| **Farmer** | Spear, quarterstaff or flail; sickle, carpentry tools, healer's things, iron pot, shovel | 30 sp | 6 | 0 | 95–115 sp |
+| **Folk hero** | One craft's tools; spear, handaxe, quarterstaff or flail; gambeson, shovel, iron pot | 30 sp | 2 | 0 | 100–155 sp |
+| **Guard** | Spear and light crossbow, or spear and shield; gambeson, iron cap, hooded lantern, manacles | 30 sp | 1 | 0 | 140–180 sp |
+| **Guide** | Shortbow, or sling and spear or handaxe; hide jerkin, cartographer's tools, tent, bedroll | 25 sp | 2 | 1 | ~125 sp |
+| **Hermit** | Quarterstaff, herbalism tools, book of philosophy, notes, lamp and oil, bedroll, blanket | 5 sp | 6 | 1 | ~210 sp |
+| **Merchant** | Dagger, shortsword or mace; scales, counting cloth, ledger, writing things | 50 sp | 3 | 1 | 130–185 sp |
+| **Noble** | Dagger, spear or mace; fine clothes, signet ring, pedigree, perfume, gaming set | 20 sp | 0 | 1 | ~260 sp |
+| **Outlander** | Quarterstaff, spear, handaxe or greatclub, or a shortbow; hide jerkin, hunting trap, animal trophy | 30 sp | 6 | 1 | 95–110 sp |
+| **Sage** | Quarterstaff, small knife, book of history, letter from a dead colleague, writing things, scholar's robe | 5 sp | 2 | 2 | ~220 sp |
+| **Sailor** | Club, dagger or handaxe; leather jerkin, navigation things, hemp rope, lucky charm | 35 sp | 2 | 1 | ~120 sp |
+| **Scribe** | Dagger or quarterstaff; small knife, writing things, extra parchment, lamp and oil, scholar's robe | 60 sp | 2 | 1 | ~120 sp |
+| **Soldier** | Spear and shortbow, two military weapons, or one and a shield; gambeson, kettle hat, insignia, trophy, healer's things | 25 sp | 4 | 0 | 130–200 sp |
+| **Urchin** | Sling or club; dagger, map of the home town, pet mouse, token of the parents | 60 sp | 1 | 0 | ~85 sp |
+| **Wayfarer** | Two daggers, thieves' tools, gaming set, bedroll, pouches | 25 sp | 1 | 1 | ~100 sp |
+
+**Known settings** (the +1): as in the database; e.g. Guard: town watches and gatehouses, law and its enforcers; Scribe: town halls and chanceries, records and those who keep them.
+
+## Economy and prices
+
+> **Status: saved for later.** Every item has a price in the database (`items.price_copper`), but **no page shows prices yet**; the DM's price tables come later. The source is Michal's *Central European Pricelist & Economy (1300–1400) for 5E* (2026-10-31). What follows is its outline, adapted to our rules.
+
+### Coins
+
+- **1 gp = 100 sp, 1 sp = 10 cp** (ours already). **Silver is the everyday currency.**
+- **Anchor:** 1 sp = 1 Prague groschen, a day's unskilled wage (St. Vitus site, 1372). 1 cp ≈ a heller: a mug of cheap beer. 1 gp is 3–4 months of a labourer's pay; no real coin that big existed, so treat it as a heavy "great gold" or a bookkeeping unit.
+- **In-world units:** a *kopa* = 60 sp ("three kopy" = 180 sp); a florin = 16 sp by default (14 c.1360, 18 c.1385, 22–24 after 1400).
+- **1 Material = 1 sp** (ours already) matches the pricelist's "one material at 1 sp".
+
+| Amount | Buys |
+|---|---|
+| 1 cp | A mug of beer, a bread roll, a torch, a foot toll |
+| 1 sp | A day's wage, a chicken, a block of cheese |
+| 10 sp | Leather boots, a calf, a plough |
+| 1 gp | Two cows, a cheap riding horse, a basic sword |
+| 10 gp | A simple house in Prague's New Town, a good warhorse |
+| 100 gp | A showpiece burgher house, a small village |
+
+### Re-pricing 5E
+
+- **Base rule:** a 5E price of X gp becomes **X × 10 sp**; 5E copper and silver prices stay about as they are.
+- **Cut hard:** armour (plate 1,500 gp → 480 sp), horses (riding horse ~150 sp, destrier 12–24 gp), livestock (halved), food and lifestyle (cut about 10×: modest living is 1 sp a day).
+- **Raised:** clothing and books, which 5E undercharges (common clothes 40 sp, fine clothes 300 sp, a book 150 sp).
+- **Swords are the expensive weapon** (longsword 120 sp); village iron and polearms are cheap (spear 4 sp, halberd 25 sp).
+- **Not available:** spyglass. Acid, alchemist's fire, antitoxin, poisons and potions follow the Material rules.
+
+### Crafted substances
+
+- **Shop price = (Material × 1 sp + labour) × 1.25**, minimum 2 sp a batch. Labour at a master's 3 sp a day. Shortcut: Material × 1.5, rounded up.
+- Fits our potions and poisons as they are: a burn ointment worth 5 points costs 5 Material to make and about 9 sp in a shop.
+- Regional and event modifiers apply to the Material only. A village herb-wife charges 5 cp per Material for purely local remedies.
+
+### Prices move
+
+- **Final price = base × season × region × event**, rounded to clean coins. Grain swings most (±30% by season, ×2–4 in famine); arms and horses ×1.5 in war (warhorses ×2); a siege multiplies food by 5 or more.
+- **Regions:** big towns cheapest for imports and dearest for food and lodging; mining towns +25–50% on food, lodging and labour; villages cheap food, dear or missing manufactured goods.
+- **Haggling:** optionally roll 2d6 for the day's price (2: −30%, 3–4: −15%, 5–9: list, 10–11: +15%, 12: +30%). *Ours:* a won haggling roll (a Charisma skill such as Juggler's *Influence and deception* or Medic's *Negotiation*, with a known setting's +1 where it fits) moves it one step the buyer's way. It replaces the source's Persuasion check.
+- **Pawnbrokers pay half** the list price.
+
+### Wages, lifestyle, property
+
+- **Wages:** labourer 1 sp a day, carpenter or mason 2–3 sp, master craftsman 3–5 sp, foot soldier 1.5–2 sp, crossbowman 3 sp, mounted man-at-arms 5 sp, knight leading a troop 10–20 sp.
+- **Adventurers' hazard pay** is 2–3× a soldier's: 10–15 sp a day of real danger. Escort duty 10–20 sp a job, a bandit bounty 30–60 sp each, a monster or a lord's errand 50–100 sp, loot 5–30 sp.
+- **Lifestyle per day:** squalid 3 cp, poor 6 cp, modest 1 sp, comfortable 2 sp, wealthy 5 sp, aristocratic 20 sp+. *Ours:* comfortable or better is what a **quality rest** needs (safe, comfortable, stress-free); squalid and poor nights are **poor rests**.
+- **Hirelings:** untrained 1 sp a day, skilled 3 sp. This agrees with our [companions'](#companions) payments: a payment is the companion's bonus in silver.
+- **Property:** a town house 4–10 gp, a lán of farmland 9–15 gp, a village 100–250 gp, a fortified manor 150–300 gp, a small castle 1,000–3,000 gp. Useful once characters gain Standing.
+- **Taxes, tolls and fines** (berna, tithe, bridge and gate tolls, Casimir the Great's compositions) are in the source for flavour; a city gate is 1 cp on foot.
+
+### Starting money and saving for plate
+
+- **Allowances:** the pricelist gives 5–150 sp on top of the gear. Ours fold them into the background balance above.
+- **Plate is a goal, not a starting option.** Good plate (480 sp in pieces) takes 6–10 jobs. *Ours:* characters start at level 3, 7 or 9, so plate comes with money earned in play, not with a level.
+  - **Piece by piece** is now the natural path: gambeson, a coat of plates, a bascinet, then arms and legs, trading old pieces in at half value.
+  - Second-hand plate: about 300 sp, plus 30 sp and a week to refit it (no harness relief until then).
+  - A patron (the plate stays the lord's), or instalments with a debt collector behind them.
+- **Keeping it expensive:** upkeep about 1 sp a week on the road; full plate marks the wearer as rich, so tolls, prices and bandit interest rise. The bespoke knightly harness (about 45 gp) gives prestige only.
+
+### Item prices in the database
+
+Every item has `price_copper`, set in the item editor (admin only) and never shown to players. Values follow the pricelist; *(est.)* items are interpolated (a quiver 1 sp, a pavise 40 sp, plate legs 110 sp). Kit pieces are priced so a kit adds up to the pricelist's kit price (thieves' tools ≈ 30 sp). Sentimental items (a guild letter, a pet mouse) are worth nothing.
 
 ## Traits
 
@@ -1660,10 +1784,10 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 
 **Built** at `/rulebook` (public, no login needed), following the structure below.
 
-- **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain), and ordering of chapters and pages. The front page has the slug `index`.
+- **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain; a plain one can take `width` and/or `height`, and `align`; on a header or side picture `align` picks the part that stays in view: `top`, `bottom left`, `30%` or `20% 70%`), and ordering of chapters and pages. The front page has the slug `index`.
 - **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
 - **Two languages:** every page and data field can hold English and Czech (`English |cs| Czech`, or the editor's tabs); readers switch in the navbar. See *Languages* in [visual-language.md](visual-language.md).
-- **Data blocks:** races, backgrounds, languages, traits, weapons and class cards are read from their own tables (`::races`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
+- **Data blocks:** races, backgrounds, languages, traits, weapons, aspects and class cards are read from their own tables (`::races`, `::aspects`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
 - **Conditions:** "automatically fails Strength/Dexterity saving throws" became "automatically loses Body defense rolls"; Restrained's "disadvantage on Dexterity saving throws" became "disadvantage on Body defense rolls".
@@ -1725,6 +1849,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
 - Perks to add when class perks go into the database: the Incantor concentration perk, the Incantor familiar spell, *Omni Potion* and *Unusual poisons* (Medic), strong manoeuvre perks, cruel manoeuvre perks for mighty classes. *Trophy Hunter*'s "Advantage dice" wording → bonus die. *Your Lips Are Venomous Poison*: skin poison at 2 Material per strength, 3 with immunity. (*Iron Liver* is updated.)
 - Rulebook examples and story bits for the new pages (Michal).
 - *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
+- **Pricing, modular armour and backgrounds** (2026-10-31): the code is in, but the database part waits in `supabase/migrations/2026103112*.sql` (schema, then items and backgrounds, then the rulebook armour paragraphs); applying it from the session was declined. To confirm: **scarring armour breaks one piece** (replaces "rating drops by 1"), and the background balance.
 
 1. ~~Resource pools~~: answered (15 points to split).
    - ~~Q1a~~: answered (one point per level-up; see Leveling). ~~A cap per pool?~~ Answered: no cap or minimum; a warning below 2, and the DM handles tanks by raising their Danger Level.

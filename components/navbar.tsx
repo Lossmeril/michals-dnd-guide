@@ -4,6 +4,7 @@ import { fetchProfile } from "@/lib/endpoints/profiles";
 
 import { Tables } from "@/lib/types/database.types";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Heading } from "./ui/typography";
 import { Avatar } from "./ui/avatar";
@@ -24,7 +25,14 @@ const Navbar = async () => {
     <>
       <nav className="print:hidden h-16 w-full bg-dnd-bg border-b border-dnd-red-dark flex items-center justify-between px-4">
         <div>
-          <Link href="/">
+          <Link href="/" className="flex flex-row gap-2 items-center">
+            <Image
+              src="/img/neidhart.webp"
+              alt=""
+              width={48}
+              height={48}
+              loading="eager"
+            />
             <Heading level={2} className="mb-0" justStyle>
               {dict.site.name}
             </Heading>

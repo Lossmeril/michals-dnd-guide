@@ -52,10 +52,11 @@ const SNIPPETS: { label: string; text: string; block?: boolean }[] = [
 
 const DATA_BLOCKS = [
   { value: "::races", label: "Races and their perks" },
-  { value: "::backgrounds", label: "Backgrounds table" },
+  { value: "::backgrounds", label: "Backgrounds" },
   { value: "::languages", label: "Languages table" },
   { value: "::traits", label: "Premade traits" },
   { value: "::weapons", label: "Weapons table" },
+  { value: "::armour", label: "Armour pieces table" },
   { value: '::classes{rank="basic"}', label: "Basic class cards" },
   { value: '::classes{rank="advanced"}', label: "Advanced class cards" },
   { value: '::classes{rank="mighty"}', label: "Mighty class cards" },

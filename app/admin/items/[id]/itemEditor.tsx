@@ -2,13 +2,17 @@
 
 import { useL } from "@/lib/i18n/client";
 import {
+  Checkbox,
+  CheckboxGroup,
   enumOptions,
   NumberField,
   SelectField,
   TextField,
 } from "@/components/ui/formControls";
 import Panel from "@/components/ui/panel";
+import { ARMOUR_SLOTS, type ArmourSlot } from "@/lib/rules/armour";
 import { defaultManoeuvre, WEAPON_MANOEUVRES } from "@/lib/rules/equipment";
+import { formatCoins } from "@/lib/rules/format";
 import { Constants, type Tables } from "@/lib/types/database.types";
 import { saveItem } from "../../actions";
 import {
@@ -22,7 +26,6 @@ import {
 
 const CATEGORIES: Partial<Record<Tables<"items">["kind"], string[]>> = {
   weapon: ["simple", "martial"],
-  armour: ["light", "medium", "heavy"],
   tool: ["instrument"],
 };
 
@@ -42,7 +45,11 @@ const ItemEditor: React.FC<{
       damage: null,
       damage_type: null,
       properties: null,
-      armour_rating: null,
+      protection: null,
+      burden: null,
+      slots: null,
+      harness: false,
+      price_copper: 0,
       free_manoeuvre: null,
       image_url: null,
       sort: nextSort,
@@ -104,14 +111,40 @@ const ItemEditor: React.FC<{
             />
           </>
         )}
-        {(row.kind === "armour" || row.kind === "shield") && (
-          <NumberField
-            label="Armour rating"
-            id="rating"
-            min={0}
-            value={row.armour_rating}
-            onChange={(armour_rating) => set({ armour_rating })}
-          />
+        {row.kind === "armour" && (
+          <>
+            <NumberField
+              label="Protection"
+              id="protection"
+              min={0}
+              value={row.protection}
+              onChange={(protection) => set({ protection })}
+              hint="Added up over the worn pieces: 1–3 light, 4–6 medium, 7+ heavy armour rating."
+            />
+            <NumberField
+              label="Burden"
+              id="burden"
+              min={0}
+              value={row.burden}
+              onChange={(burden) => set({ burden })}
+              hint="Added up the same way; its tier sets the encumbrance in Body."
+            />
+            <CheckboxGroup
+              label="Slots"
+              options={enumOptions(ARMOUR_SLOTS)}
+              selected={row.slots ?? []}
+              onChange={(slots) =>
+                set({ slots: slots.length ? (slots as ArmourSlot[]) : null })
+              }
+              hint="One piece per slot. A long hauberk takes body and arms."
+            />
+            <Checkbox
+              label="Part of a plate harness (a full fitted harness: −3 Burden)"
+              checked={row.harness}
+              onChange={(harness) => set({ harness })}
+              className="self-center"
+            />
+          </>
         )}
         {(row.kind === "weapon" || row.kind === "shield") && (
           <SelectField
@@ -157,6 +190,14 @@ const ItemEditor: React.FC<{
             Square, shown small. Without one, the item gets an icon of its kind.
           </p>
         </div>
+        <NumberField
+          label="Price (copper)"
+          id="price"
+          min={0}
+          value={row.price_copper}
+          onChange={(v) => set({ price_copper: v ?? 0 })}
+          hint={`${formatCoins(row.price_copper)}. Kept for the DM's price tables; not shown to players.`}
+        />
         <NumberField label="Sort order" id="sort" value={row.sort} onChange={(v) => set({ sort: v ?? 0 })} />
       </Panel>
       <SaveBar

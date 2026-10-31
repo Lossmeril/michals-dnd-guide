@@ -170,7 +170,19 @@ export const aspectsOf = (rb: Rulebook, classId: string) =>
     .map((cp) => findPerk(rb, cp.perk_id)!)
     .filter((p) => p.kind === "aspect");
 
-export const racialPerks = (rb: Rulebook, raceId: string) =>
+/** An aspect's parent levels in the parents' order, e.g. [4, 2]; 0 if unset */
+export const aspectSplit = (rb: Rulebook, classId: string, aspectId: string) =>
+  parentsOf(rb, classId).map(
+    (parentId) =>
+      rb.requirements.find(
+        (r) =>
+          r.perk_id === aspectId &&
+          r.kind === "class_level" &&
+          r.class_ids.includes(parentId),
+      )?.level ?? 0,
+  );
+
+export const racialPerks =(rb: Rulebook, raceId: string) =>
   rb.perks.filter((p) => p.race_id === raceId);
 
 export const requirementsOf = (rb: Rulebook, perkId: string) =>
@@ -232,7 +244,7 @@ export const describeRequirement = (rb: Rulebook, req: Requirement) => {
   }
 };
 
-/** e.g. "Fighter 5, Brute aspect"; empty when the perk has no requirements */
+/** e.g. "Fighter 5, Hire-Sword aspect"; empty when the perk has no requirements */
 export const describeRequirements = (rb: Rulebook, perkId: string) =>
   requirementsOf(rb, perkId)
     .map((r) => describeRequirement(rb, r))

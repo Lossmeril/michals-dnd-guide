@@ -6,11 +6,11 @@
 // list of entries, and each entry is one item, or a choice list of items the
 // player picks one from:
 //
-//   Soldier: [ two weapons | a weapon and a shield ], [ chain shirt ], …
+//   Soldier: [ two weapons | a weapon and a shield ], [ gambeson, kettle hat, … ], …
 //   [{ options: [
 //     { entries: [{ items: [<weapons>], quantity: 1 }, { items: [<weapons>], quantity: 1 }] },
 //     { entries: [{ items: [<weapons>], quantity: 1 }, { items: ["shield"], quantity: 1 }] },
-//   ] }, { options: [{ entries: [{ items: ["chain-shirt"], quantity: 1 }] }] }, …]
+//   ] }, { options: [{ entries: [{ items: ["gambeson"], quantity: 1 }] }] }, …]
 
 import type { Json, Tables } from "@/lib/types/database.types";
 
@@ -28,10 +28,7 @@ export const ITEM_SETS = [
   { label: "Any weapon", kind: "weapon", category: null },
   { label: "Any simple weapon", kind: "weapon", category: "simple" },
   { label: "Any martial weapon", kind: "weapon", category: "martial" },
-  { label: "Any armour", kind: "armour", category: null },
-  { label: "Any light armour", kind: "armour", category: "light" },
-  { label: "Any medium armour", kind: "armour", category: "medium" },
-  { label: "Any heavy armour", kind: "armour", category: "heavy" },
+  { label: "Any armour piece", kind: "armour", category: null },
   { label: "Any shield", kind: "shield", category: null },
   { label: "Any tool", kind: "tool", category: null },
   { label: "Any musical instrument", kind: "tool", category: "instrument" },

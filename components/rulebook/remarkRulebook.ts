@@ -25,6 +25,8 @@ export const KNOWN = {
     "languages",
     "traits",
     "weapons",
+    "armour",
+    "aspects",
     "classes",
     "creature",
     "chapters",
@@ -160,7 +162,7 @@ const transform = (node: Nodes, lang: Lang) => {
       child.children = [];
     }
 
-    // Cards in a row of three are narrow: their pictures go on top
+    // Cards in a row of three are narrow: pictures in them go on top
     if (child.name === "cards" && props.cols === "3") {
       for (const card of child.children) {
         if (isDirective(card)) card.attributes = { ...card.attributes, stacked: "true" };
