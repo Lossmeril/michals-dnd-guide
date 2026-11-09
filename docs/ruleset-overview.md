@@ -38,24 +38,40 @@ The class level added is that of the class the skill belongs to.
 **Several sources:**
 - Advantage and disadvantage **don't stack**, as in 5E. Three sources of advantage is still just one advantaged roll.
 - **Disadvantage always wins.** If a roll has **any** disadvantage, it's disadvantaged, however many sources of advantage it has. Disadvantage cancels advantage; advantage never cancels disadvantage. This differs from 5E, where one of each cancels out.
-  - It covers every source of disadvantage (a condition, a missed Mighty) and every source of advantage, paid or free: Precise, Quick, free manoeuvres from weapons and perks, a Blessing, attacking a prone target.
+  - It covers every source of disadvantage (such as a condition) and every source of advantage, paid or free: Precise, Quick, free manoeuvres from weapons and perks, a Blessing, attacking a prone target.
   - Paying for Precise or Quick on a disadvantaged roll is wasted.
 
 **Bonus die:** some abilities grant a bonus die, e.g. Trophy Hunter's d4 at level 1 rising to d12 at level 5. The old rulebook called these "Advantage dice".
 - During the encounter, the player may add the bonus die to **any one roll**: initiative, a skill check, a challenge, and so on.
 - Once they commit to rolling it, they must keep the result.
 
+**Hidden rolls** *(confirmed, 2026-11-08; written by Michal on the rulebook's Dice rolls page)*
+- **What:** a roll the DM makes **behind the screen**, usually a saving throw or a skill check, so the player doesn't know whether the outcome came from the roll.
+  - *Example:* Michal searches a missing girl's room. The DM rolls in secret and says he finds nothing. Is there nothing to find, or did he just roll badly?
+- **Only to shield against meta-knowledge.** Hidden rolls serve the story: they're for rolls where the result itself would tell the player something their character doesn't know (is there anything to find?).
+- **No exhausting against a hidden roll.** The player can't avert a failure they don't know about.
+- **Harm is rolled openly.** When a failure would hurt (a saving throw against a trap or poison), the player rolls the dice themselves and can exhaust as usual. So a hidden roll never takes away the safety net.
+- **Hidden circumstances in a challenge:** when something the players mustn't know yet takes away a bonus, the player still rolls and adds their bonus openly. The DM **secretly adds the same bonus to the other side** to cancel it, so nothing gives the secret away.
+  - **Only the bonus is hidden.** The rest of the challenge works as usual: the player sees the result and can exhaust to avert a loss.
+  - *Example:* Michal (Juggler 2) throws a knife at a rival bard who is really a higher demon. Juggler's throwing works only against humans and beasts, so it shouldn't apply. Michal rolls 7 + 2 = 9; the "bard" rolls 5 + 3 + 2 (the hidden compensation) = 10.
+
+**Critical hits** *(confirmed, 2026-11-01)*
+- A natural 20 on the challenge, or double 6 on the skill check, before a damage roll makes the hit **critical**: the attacker gets a free **Mighty**.
+- It sits **outside the one-manoeuvre limit**, as a reward from the dice rather than a choice. It's the one manoeuvre that arrives after the roll.
+- **No refund:** a point already paid for Mighty on that roll stays spent.
+- **Paralyzed and Unconscious:** a hit from within 1 m is a critical hit.
+
 **Merit points** *(confirmed; DrD2's Výhoda)*
-- The DM awards a merit point for **good play or roleplay**: a clever plan, a good story, playing the character's personality. That's one reason the sheet has a personality field.
+- The DM awards a merit point for **good play, creating interesting situations or roleplay**: a clever plan, a good story, playing the character's personality. That's one reason the sheet has a personality field.
 - Each award adds **+1 to the character's merit counter**. (This is DrD2's "bonus of size 1": a point on the counter, not +1 to a roll.)
-- **Spending one** gives a **free advantage on any roll**: a skill check, a challenge, a defense roll, initiative.
-  - It's advantage like any other, so it's a free Precise (or Quick on initiative), doesn't stack with other advantage, and is wasted on a disadvantaged roll.
-  - **Spent before the roll,** like Precise *(confirmed)*.
-  - **Tracked per campaign,** like Scars *(confirmed)*: a guest character starts another campaign with 0.
-- **Holding them:** usually up to **3**, but the DM decides (Michal hands out physical tokens). They're expected to be **used within the session**, not hoarded for later.
-- *Example:* Čajek spins the jailer a good story while pouring the sleeping draught. The DM gives him a merit point, and he spends it at once for advantage on the sleight-of-hand roll.
+- **Spending one** gives **one free resource point of any pool** *(confirmed, 2026-11-01; replaces "a free advantage on any roll")*: to buy a manoeuvre, or towards exhausting.
+- **Not hard rules, so not in the rulebook** *(confirmed)*: merits don't carry from campaign to campaign (the app tracks them per campaign, so a guest character starts with 0), and they're meant to be used within the session.
+- **No cap** *(confirmed)*. The old "usually up to 3" is gone; nobody gets that far anyway.
+- *Example:* Michal earns a merit for good roleplay, and in his next mess spends it on a Mighty manoeuvre for an extra damage die.
 
 Weapons use the D&D 5E simple and martial weapon table: dice, damage type and properties such as Light, Finesse, Thrown (4/12 m, converted from 20/60 ft), Versatile, Heavy, Reach and Two-Handed.
+
+**Unarmed strikes** *(confirmed, 2026-11-08)*: a punch, kick or headbutt deals a flat **1 + Fighter level** bludgeoning damage, with no die (5E's 1 + Strength modifier). It's foot close combat, a Fighter skill. Fists aren't a weapon, so they give no free manoeuvre. The Fighter perk *Rock fist* raises it to **d4 + Fighter level**. Improvised weapons stay at d4.
 
 ### Resources
 
@@ -111,7 +127,7 @@ Some activities are hard before they even start. In those, the character pays a 
 - **Healing exhaustion:** a **poor rest** restores 3 exhausted points of the player's choice; a **quality rest** (safe, comfortable, stress-free) restores all of them.
 - **Healing a scar:** costs **5 resource points per scar level**, plus meaningfully addressing the cause (treating the wound, therapy, reparations). A level-2 scar costs 10. The points can come from any mix of:
   - **The bearer's own pools,** any of the three. Body: it hurts. Soul: the pain wears them out. Charisma: recovering leaves them unsociable.
-  - **A healer's resources,** usually Soul, when a perk allows it (e.g. *Good Samaritan*, *It's Not a Sacrifice*).
+  - **A healer's resources,** usually Soul, when a perk allows it (e.g. *Good Samaritan*). *It's Not a Sacrifice* is different: it hands over exhausted points, not Scar healing.
   - **Healing substances** such as ointments and elixirs. Each holds a fixed number of resource points; a Medic's burn ointment might be worth 5. Each treats only the kind of Scar it was made for (see [Our potion rules](#our-potion-rules-confirmed)).
   - **Material,** at 1 point each, where it makes sense and only after consulting the DM; for example, 5 Material for a bandage.
 
@@ -125,7 +141,7 @@ Items can take scars too.
   - Only for an activity the item would **reasonably be involved in**: a lockpick for a lock, a sword for a fight. Creative uses can be allowed, e.g. flirting with a magic trick that burns the only map to the dungeon.
   - The 2 points are an **unspecified resource**: they count towards whichever pool the failed roll needed.
   - Unspent points are lost and don't carry over. If 1 point was missing and the scar gave 2, the extra point is gone.
-- **Only proper items** can be scarred. An improvised item, like a chair leg used as a club, can't be scarred for points, though some perks may allow it.
+- **Only proper items** can be scarred. An improvised item, like a chair leg used as a club, can't be scarred for points, though some perks may allow it: the Fighter's *Headcracker* scars an improvised weapon for the usual **2 points** *(confirmed, 2026-11-09)*.
 - **Armour scars:** when the DM scars armour, one piece of it breaks and stops counting until repaired *(draft, replaces "its rating drops by 1"; see [Modular armour](#modular-armour-draft-from-the-central-european-pricelist))*.
 - **Repair** works like healing a scar: **5 resources**, usually Material, plus a successful **skill check**. It must be plausible: an old map or an antique sword can't be restored to its former glory.
 - Pseudo-magic classes deal themselves a Scar to enter magic mode for a conflict (see [Magic](#magic)).
@@ -160,6 +176,8 @@ Planned: perks that let another character within **touch distance** intervene an
 - Combat is in **rounds**, ordered by initiative.
 - Each turn: **one action** and **one movement**. Movement can be split around the action. Some abilities grant bonus actions or reactions.
 - Actions include **attacking** one target in reach (more with Widespread) and **casting a spell**.
+- **Free attacks** *(confirmed, 2026-11-08; 5E's opportunity attack)*: when an enemy leaves a character's reach, that character may make **one melee attack** against it, **once per round**, as a reaction. The target can defend as usual.
+  - **Disengage** is an action: the character moves away that turn without giving anyone a free attack. Perks like the Fighter's *Long reach* (step back 1 m as a bonus action) do it without spending the action.
 - **Player characters have no hit points.** The game is about resource management: players exhaust resources to avoid bad outcomes, and anything they don't avert becomes a Scar.
 - **NPC damage against player characters** only helps the DM translate a hit into a Scar. The die reflects the threat: **d4** for weak combatants, **d6** for normal challenges, larger dice for gargantuan threats. The exact system isn't decided yet.
 - Weapon damage dice and the 5E weapon table apply to attacks against NPCs, reducing their **Body** track (see [NPCs](#npcs)).
@@ -177,9 +195,11 @@ When a character is targeted by an attack, spell or other hostile effect, they c
   ```
 
   For example, a normal enemy (d6) rolls 5 against armour rating 2, giving a level-3 Scar.
-- This replaces 5E's **saving throws**. Wherever old texts say "saving throw", read **defense roll**. "Automatically fails saving throws" means the target automatically loses defense rolls.
+- **Old 5E texts:** against an attacker or caster, read "saving throw" as **defense roll**. "Automatically fails saving throws" means the target automatically loses defense rolls. Against the environment it's our own [saving throw](#saving-throws-confirmed), a skill check.
 
-### Hazards *(confirmed)*
+### Saving throws *(confirmed)*
+
+*Called "hazards" until 2026-11-01.*
 
 Traps, poisons, collapsing floors, a curse muttered at the character: anything that needs overcoming with no attacker to challenge. It's a **skill check** (2d6 + class level ≥ 9), and replaces both 5E's saving throws against the environment and DrD2's *výzva*.
 
@@ -189,12 +209,13 @@ Traps, poisons, collapsing floors, a curse muttered at the character: anything t
 
 **Default classes.** When nobody has a better idea, these are the expected answers:
 
-| Hazard | 5E save | Default skill (class, resource) |
+| Danger | 5E save | Default skill (class, resource) |
 |---|---|---|
 | Dodging a trap, falling rocks, an explosion; keeping balance | Dexterity | Acrobatics (Juggler, B) |
 | The same in the wild: a rockslide, a crumbling riverbank | Dexterity | Wilderness movement (Hunter, B) |
 | Holding on, breaking free of a net or grapple, forcing a door | Strength | Strength (Fighter, B) |
-| Poison, disease, cold, hunger, a long march | Constitution | Endurance (Medic, B) |
+| Poison, disease, cold, hunger | Constitution | Endurance (Medic, B) |
+| A long march, hard labour, a heavy load | Strength, Constitution | Strength (Fighter, B) *(2026-11-08)* |
 | Fear, charm, mind magic, temptation | Wisdom | Willpower (Incantor, S) |
 | Keeping face under threats, mockery or social pressure | Charisma | Confidence and intimidation (Fighter, C) |
 | Noticing a trap or an ambush in the wild | Wisdom (Perception) | Wilderness survival (Hunter, S) |
@@ -205,10 +226,20 @@ Advanced classes can answer too when their skills fit: *Mechanisms* (Rogue) for 
 
 ### Armour
 
-Armour helps in two ways:
+Armour helps player characters in two ways, and NPCs in one:
 
 - **Scars from hits:** scar level = damage roll − armour rating.
 - **Body exhaustion** *(confirmed)*: when a character exhausts Body to avert being hit, the armour rating lowers the cost, like a resistance bonus. **Averting always costs at least 1.** At Danger Level 3: no armour 3, light 2, medium 1, heavy 1. A long fight still wears down a knight.
+- **NPCs** *(confirmed, 2026-11-08)*: every hit's damage loses the armour rating, the same subtraction as a player character's Scar level. 0 or less is **absorbed**. *A longsword hit of 7 against a knight in plate (rating 3) deals 4.*
+  - The stat block's `armour:` line sets the rating, from the pieces worn like a player character's, or natural armour (a bear's hide).
+  - **Natural armour** goes up to 3 like worn armour. **Big monsters can reach 4–5**, but only where it's warranted: a dragon's scales, a stone golem. *(Confirmed, 2026-11-08.)*
+  - **Mighty's extra die** is the way through it, so maces and hammers (free Mighty) suit fighting armour.
+  - **Units:** the rating counts only if most members wear it, like other equipment.
+  - **Backup, if heavy armour makes fights drag:** the 5E route instead. Armour makes the wearer harder to hit: +rating to the NPC's defense rolls, and an undefended attack needs 9 + rating to land. Player characters keep their own rules either way.
+- **Ignoring armour** *(planned)*: some damage skips the subtraction, for player characters and NPCs alike.
+  - **Poison** already does (see [Our poison rules](#our-poison-rules-confirmed)).
+  - **Ballista bolts** (see [Structures and siege engines](#structures-and-siege-engines-draft)).
+  - **A Ravager perk**, reserved to that mighty class: its hits ignore armour.
 
 | Armour | Rating | Encumbrance cost |
 |---|---|---|
@@ -257,7 +288,7 @@ Armour isn't bought as a suit ("full plate" is hard to price, and nobody bought 
 
 **In the app:** armour items carry `slots`, `protection`, `burden` and `harness`; `lib/rules/armour.ts` adds them up. The character sheet shows the totals for carried, unbroken pieces, assuming a full harness is fitted. The rulebook lists the pieces with `::armour`. The old whole suits (leather, chain shirt, scale mail, chain mail, plate) are gone.
 
-The Kroll perk *Bison Skin* ("+1 resistance bonus on exhaustion when not wearing armour") could become "counts as armour rating 1 when unarmoured" under this system.
+The Kroll perk *Bison Skin*: with no armour worn, the kroll's hide counts as **armour rating 1**, like light armour *(confirmed, 2026-11-09; was "+1 resistance bonus on exhaustion")*. It doesn't stack with worn armour.
 
 ### Manoeuvres
 
@@ -267,19 +298,26 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 |---|---|
 | **Precise** | Advantaged roll on the action. |
 | **Mighty** | Against an NPC: an extra damage die (or Danger Level +1 on Soul and Charisma). Against a player character: averting costs +1, or the Scar is 1 level higher. See [The Mighty versions](#the-mighty-versions-confirmed). |
-| **Cunning** | After the attack, the target is knocked prone, grappled, or pushed in any direction. |
+| **Cunning** | Once the attack lands, the manoeuvre buys a triggered bonus action *(confirmed)*: the target is knocked prone, grappled, or pushed in any direction. No perk-granted bonus action is needed. |
 | **Quick** | Advantaged initiative roll. |
 
 **Precise and Quick are advantage.** Any advantage on an action, from a perk, a Blessing or a prone target, **is** a free Precise; advantage on initiative is a free Quick. Paying for one when you already have advantage changes nothing.
 
-**One paid manoeuvre per action** *(confirmed)*. Free manoeuvres (from a weapon, a perk or any advantage) don't count towards it. Quick isn't part of the action, so it doesn't count either.
-- *A swordsman with the blade's free Precise pays 1 Body for Mighty:* allowed.
+**One manoeuvre per action** *(confirmed, 2026-11-01; replaces "one paid manoeuvre")*. Free manoeuvres count towards the limit, whether they come from a weapon, a perk or a situation.
+- **Quick counts** *(confirmed)*, because it affects the turn's action: use it, and that turn's action gets no other manoeuvre.
+- **Defense doesn't count** *(confirmed)*: it's a paid reaction, not part of the action.
+- **A critical hit's free Mighty doesn't count** (see [Rolls](#rolls)).
+- *A swordsman using the blade's free Precise can't also pay 1 Body for Mighty.*
 - *Paying for both Mighty and Cunning on one swing:* not allowed.
+- **Conditions name the manoeuvre** *(confirmed)*: attacks against a prone target (within 1 m), or a blinded, paralyzed, petrified, restrained, stunned or unconscious one, **are Precise**. So are a charmer's social checks against the charmed and an invisible creature's actions (its initiative is Quick). That Precise is the action's one manoeuvre.
+  - **It isn't forced:** the attacker can use another manoeuvre instead, but has to pay for it unless something else grants it free (a mace's free Mighty).
 
 **Widespread and areas** *(confirmed)*
 - **Every multi-target action needs Widespread,** as in DrD2. Without it, an action affects one target.
-- **Area spells have it built in.** A perk spell with an area (Fireball, Burning Hands, Earthquake) hits its area with a free Widespread, so its paid manoeuvre slot stays open. Its **activation price** pays for the area instead, much like a 5E spell slot.
-- **Base magic pays for it.** Core spells and other base forms of magic need a paid Widespread for several targets. *A Warlock lighting several torches at a distance with base fire magic pays for Widespread.* Perks like Marching Forest, Rock and Stone and Tsunami make it free for their bending.
+- **Two kinds of spell** *(confirmed, 2026-11-01)*:
+  - **Unspecified effects,** usually core spells, give the caster a general ability to control something, like a Druid's control of water. They work up to a witch's hut (see *Units of size* under [Scale of the basic version](#proposed-base-dračí-doupě-2)). **Widespread extends them,** to more targets or a larger amount: more water needs a Widespread. *A Warlock lighting several torches at a distance with base fire magic pays for Widespread.* Perks like Marching Forest, Rock and Stone and Tsunami make it free for their bending.
+  - **Specific effects,** like Fireball, Burning Hands or Earthquake, do one fixed thing. Their area is part of that effect, paid for by the **activation price**, much like a 5E spell slot. **Widespread can't change them:** there's no way to make a fireball bigger.
+- *To confirm:* a specific spell's area isn't a manoeuvre, so the action's one manoeuvre looks free for something else, such as Mighty.
 
 **Free manoeuvres from weapons** *(confirmed)*
 - Every proper weapon grants **one free manoeuvre** in combat; improvised weapons grant none. A **shield** grants a free **Defense once per round**.
@@ -295,7 +333,7 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 - **Granted manoeuvres are free:** the weapon's free one, and any listed in the stat block (a wolf's Cunning on every bite, a soldier's shield Defense).
 - **Ungranted manoeuvres cost 1 point of a track,** usually **Soul or Charisma**, whichever fits. Those tracks are small, so paying brings the NPC closer to breaking or giving in.
 
-**The Mighty versions** *(confirmed)*. All are declared before the roll; a lost roll gives disadvantage on the next roll.
+**The Mighty versions** *(confirmed)*. All are declared before the roll.
 
 | | Mighty | Very mighty | Cruelly mighty |
 |---|---|---|---|
@@ -307,7 +345,7 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 
 - *(Confirmed.)* Very mighty against an NPC's Body adds 2 dice (the same as an undefended Cruelly mighty hit). A player character not averting a Cruelly mighty hit takes the Very mighty +2. The cruel version's extra bite is the forced Scar and the damage before defending, not a bigger number.
 - **Damage before defending** against Cruelly mighty: **one die** of the attack's damage on Body (no class level; 1d8 against a longsword), or the **attacker's class level** on Soul and Charisma. An important NPC's Fate saves it from the blow, not from this.
-| **Defense** | Defend yourself without spending your action. |
+| **Defense** | Defend yourself without spending your action. Usable as many times per round as the character can pay *(confirmed)*; a shield makes one per round free. |
 | **Widespread** | The action affects multiple targets instead of one. |
 
 **When to declare** *(confirmed)*
@@ -315,15 +353,13 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 | Manoeuvre | Declared |
 |---|---|
 | **Precise** | Before the roll |
-| **Mighty** | Before the roll: a gamble (see below) |
+| **Mighty** | Before the roll |
 | **Cunning** | After the attack lands |
-| **Quick** | Before initiative is rolled. It's outside the action, so it isn't the action's manoeuvre |
+| **Quick** | Before initiative is rolled. It counts as the turn's one manoeuvre |
 | **Defense** | When targeted after the action is spent |
 | **Widespread** | When describing the action |
 
-**Mighty is a gamble.** Unlike DrD2, where it's declared after winning, Mighty is paid up front. If the roll is **lost** (the attack misses), the character has **disadvantage on their next roll**, whatever it is: a defense roll, initiative, the next attack. Like all disadvantage, no advantage cancels it.
-- **An averted hit isn't a miss** *(confirmed)*. If the target averts with exhaustion, Mighty did exactly its job by raising the cost.
-- **Only a miss that stands counts:** the attacker loses the roll and doesn't exhaust to avert their own failure. Then the disadvantage on the next roll applies.
+**Mighty has no penalty for missing** *(confirmed, 2026-11-01)*. The old gamble (disadvantage on the next roll after a miss) is gone: too complicated, and it almost never came up.
 
 #### Manoeuvres in DrD2
 
@@ -395,9 +431,9 @@ Penalties are **another form of condition** and belong with them. Compared with 
 1. ~~**Cunning is different.**~~ Answered: ours stays (prone, grapple or push). → **Q16a**
 2. ~~**Mighty**~~ Answered: reworded for tracks (see *The Mighty versions*). It mostly agrees: DrD2's +1 to the averting cost is ours "against targets without hit points". Against NPCs we add an extra damage die. Wording needs updating, since NPCs now have tracks, not hit points.
 3. ~~**"Free when you have advantage"**~~ Answered: the clause is dropped. It came from translating advantage into manoeuvres: any advantage on an action is a free Precise, on initiative a free Quick. Our Precise and Quick) does nothing: advantage doesn't stack, so a second source changes nothing. DrD2 has no such clause. → **Q16b**
-4. ~~**Timing.**~~ Answered: DrD2's timing, with Cunning after the attack lands, and Mighty declared before the roll with disadvantage on the next roll if it misses. DrD2 fixes when each is declared: Precise and Quick before the roll, Mighty after winning, Cunning after the target declines to exhaust. Ours doesn't say. → **Q16b**
-5. ~~**One manoeuvre per action.**~~ Answered: one paid manoeuvre; free ones don't count. DrD2 implies it (Quick doesn't count, being outside the action), plus any free one from a weapon. Ours doesn't say. → **Q16b**
-6. ~~**Widespread is required**~~ Answered: area spells have a free Widespread built in, paid for by their activation price; base magic and other actions pay for it. **Widespread is required** for any multi-target action in DrD2. Our area spells (Fireball, Burning Hands, Earthquake) and the 5E idea of built-in areas clash with it. → **Q16c**
+4. ~~**Timing.**~~ Answered: DrD2's timing, with Cunning after the attack lands, and Mighty declared before the roll, with no penalty for missing (changed 2026-11-01). DrD2 fixes when each is declared: Precise and Quick before the roll, Mighty after winning, Cunning after the target declines to exhaust. Ours doesn't say. → **Q16b**
+5. ~~**One manoeuvre per action.**~~ Answered: one manoeuvre, free ones included (changed 2026-11-01). DrD2 implies it (Quick doesn't count, being outside the action), plus any free one from a weapon. Ours doesn't say. → **Q16b**
+6. ~~**Widespread is required**~~ Answered: spells with a specific effect have a fixed area, paid for by their activation price, which Widespread can't change; spells with an unspecified effect, and other actions, pay for Widespread to extend them. **Widespread is required** for any multi-target action in DrD2. Our area spells (Fireball, Burning Hands, Earthquake) and the 5E idea of built-in areas clash with it. → **Q16c**
 7. ~~**Weapons.**~~ Answered: each weapon grants one free manoeuvre, set in the item editor, defaulting by damage type. Ours use the 5E table (dice, damage type, properties). DrD2's free manoeuvre maps neatly onto 5E damage types: piercing → Cunning, slashing → Precise, bludgeoning → Mighty; bows → Precise, crossbows → Mighty, thrown → Cunning. Shields → free Defense once per round. Both can coexist. → **Q16d**
 8. ~~**Strong and cruel manoeuvres need "mastery"**~~ Answered: strong ones from perks, cruel ones from mighty class perks; NPCs from stat-block abilities. They needed mastery, which we haven't defined: class level 5, a perk, an NPC bonus above 5? → **Q16e**
 9. ~~**NPCs and manoeuvre costs.**~~ Answered: granted manoeuvres are free; ungranted ones cost 1 point of a track, usually Soul or Charisma. Player characters pay 1 point of a pool. NPCs have tracks, not pools, and Fate only averts failures. DrD2 NPCs paid with Fate (cruelly cunning even scales with it). → **Q16f**
@@ -408,7 +444,7 @@ Penalties are **another form of condition** and belong with them. Compared with 
 ### Conditions, resistances and weaknesses
 
 - **Conditions:** Blinded, Charmed, Deafened, Frightened, Grappled, Incapacitated, Invisible, Paralyzed, Petrified, Prone, Restrained, Stunned and Unconscious, adapted from 5E, mostly granting or imposing advantage and disadvantage. Plus four from DrD2's penalties: **Imprecise, Slow, Feeble and Foolish** (see [Penalties vs our conditions](#penalties-vs-our-conditions)). Their disadvantage, like any, can't be cancelled by advantage.
-- Old texts still say "saving throw"; read it as a **defense roll** (see [Defending](#defending)). Some also mention Strength/Dexterity saves, which need rewording, and feet, which become metres (see [Units](#units)).
+- Old texts' "saving throw" against an attacker or caster reads as a **defense roll** (see [Defending](#defending)). Some also mention Strength/Dexterity saves, which need rewording, and feet, which become metres (see [Units](#units)).
 
 | Modifier | Effect on damage | Effect on exhaustion cost |
 |---|---|---|
@@ -441,6 +477,226 @@ The old site had a 5E-style travel calculator.
 - Encumbered −2 m, heavily encumbered −4 m. Whether this should tie into armour encumbrance is still to decide.
 - The slowest traveller sets the pace, and mounted groups can add a 1-hour gallop.
 
+**DM tables** *(draft, 2026-11-08)*. The same numbers as the calculator, worked out ahead so the DM can read them off at the table. Days are 8 hours on the move.
+
+**Speeds**
+
+| Who | Per turn | Running (whole turn) | km/h | km a day (road, normal pace) |
+|---|---|---|---|---|
+| Dwarf, Halfling | 5 m | 10 m | 4 | 30 |
+| Human, Elf | 6 m | 12 m | 5 | 40 |
+| Kroll | 7 m | 14 m | 5.5 | 45 |
+| Ox cart, heavy wagon | 4 m | — | 3 | 25 |
+| Pony, mule, draught horse, war dog, wolf | 8 m | 16 m | 6.5 | 50 |
+| Riding horse, warhorse | 12 m | 24 m | 10 | 75 |
+
+**A day's travel** (km), by the slowest traveller's speed:
+
+| Speed | Pace | Road, plains | Hills, forest | Mountains, swamp | Severe |
+|---|---|---|---|---|---|
+| 4 m | Slow | 17 | 13 | 8 | 4 |
+| | Normal | 25 | 19 | 13 | 6 |
+| | Fast | 33 | 25 | 17 | 8 |
+| 5 m | Slow | 20 | 15 | 10 | 5 |
+| | Normal | 30 | 23 | 15 | 8 |
+| | Fast | 40 | 30 | 20 | 10 |
+| 6 m | Slow | 27 | 20 | 13 | 7 |
+| | Normal | 40 | 30 | 20 | 10 |
+| | Fast | 53 | 40 | 27 | 13 |
+| 7 m | Slow | 30 | 23 | 15 | 8 |
+| | Normal | 45 | 34 | 23 | 11 |
+| | Fast | 60 | 45 | 30 | 15 |
+| 8 m | Slow | 33 | 25 | 17 | 8 |
+| | Normal | 50 | 38 | 25 | 13 |
+| | Fast | 67 | 50 | 33 | 17 |
+| 12 m | Slow | 50 | 38 | 25 | 13 |
+| | Normal | 75 | 56 | 38 | 19 |
+| | Fast | 100 | 75 | 50 | 25 |
+
+- **Pace:** what each one allows is in [Pace](#pace-confirmed-2026-11-08) below.
+- **Weather and ground move the column, not the number:**
+  - Rain: no change.
+  - Heavy rain, mud on the roads, ankle-deep snow: **one column right**.
+  - Snowstorm, knee-deep snow: **two columns right**.
+  - Past *Severe*: 3 km at most, or stay put.
+- **Encumbered:** one pace slower (normal becomes slow). **Heavily encumbered:** slow pace and one column right. *(Replaces −2 m and −4 m, near enough.)*
+- **Gallop:** a mounted party can add one hour of gallop, about **+15 km** on a road. The horses then need a slow day or a long rest.
+- **Forced march:** each hour past 8 is a [cost to attempt](#cost-to-attempt) of **1 Body**, exhausted before the hour starts. With no Body left, the traveller stops or takes a Scar to go on.
+
+**Ground** *(draft)*: what the ground does in a fight, and which travel column it counts as.
+
+| Ground | In a fight | Travel column | The catch |
+|---|---|---|---|
+| Road, firm meadow, light forest | Full | Road | — |
+| Ploughed field, tall grass, ankle-deep snow, a ford up to the knee | Half | Hills, forest | — |
+| Mud, wet clay | Half | Hills, forest | Running or fighting: Acrobatics saving throw or fall prone |
+| Ice | Full, walking only | Road, slow pace only | Running, fighting or being hit: Acrobatics saving throw or fall prone |
+| Knee-deep snow, sand dunes, loose scree, steep slope uphill | Half | Mountains | Downhill at a run: Acrobatics saving throw or fall |
+| Dense forest, thicket | Half | Mountains | No riding |
+| Primeval forest, a mountain with no path | Half | Severe | No riding or carts |
+| Deep mud (knee and above) | Quarter | Severe | Carts get stuck. Ending a turn still: Strength saving throw or stuck (lose next turn's movement) |
+| Bog, marsh | Quarter | Severe | Ending a turn still: Strength saving throw or sink deeper and be **Restrained**; sunk to the chest, only someone else can pull you out |
+| Waist-deep water | Quarter | Severe | Armour's cost to attempt applies |
+| Swimming | Quarter | — | Armour's cost to attempt applies; heavy armour sinks |
+| Climbing (a rope, a rough wall) | Quarter | — | A saving throw (Acrobatics or Strength) at the Danger Level of the fall |
+
+**Half and quarter speed per turn:**
+
+| Speed | Full | Half | Quarter |
+|---|---|---|---|
+| 5 m | 5 m | 2.5 m | 1 m |
+| 6 m | 6 m | 3 m | 1.5 m |
+| 7 m | 7 m | 3.5 m | 2 m |
+| 8 m | 8 m | 4 m | 2 m |
+| 12 m | 12 m | 6 m | 3 m |
+
+#### Pace *(confirmed, 2026-11-08)*
+
+From 5E (2024 PHB: slow gives advantage on Perception and Survival, fast gives disadvantage on them, normal gives disadvantage on Stealth). In our terms, advantage is a free **Precise** and disadvantage always wins.
+
+| Pace | Distance | Noticing an ambush or a sign (the watch) | Navigating, tracking, foraging | Sneaking |
+|---|---|---|---|---|
+| **Slow** | The *Slow* row | **Advantage** | **Advantage** | Yes |
+| **Normal** | The *Normal* row | Plain roll | Plain roll | Disadvantaged |
+| **Fast** | The *Fast* row | **Disadvantage** | **Disadvantage**; no foraging | No |
+
+- **Noticing** is the watch's hidden saving throw (*Wilderness survival*, Hunter; *Urban survival*, Juggler, in town). One character rolls for the party: whoever is keeping watch, usually at the front.
+- **Sneaking:** the party moves unseen, so encounters notice them only on a won challenge. The whole party rolls, and armour's [cost to attempt](#cost-to-attempt) applies. One clanking knight gives everyone away.
+- **Encumbered** drops one pace (see above), and with it these benefits.
+
+#### Travel tasks *(confirmed, 2026-11-08)*
+
+From 5E's travel activities. Each character picks **one** for the day; the pace limits what's possible.
+
+| Task | Roll | Success | Failure, not averted |
+|---|---|---|---|
+| **Keep watch** | *Wilderness* or *Urban survival* (hidden) | The party notices an encounter first | The encounter notices the party first |
+| **Navigate** (off the road only) | *Wilderness survival* | On course | Lost: the day's distance counts for nothing; next morning's roll finds the way |
+| **Track** | *Hunting* (Hunter) | On the trail | Trail lost until a new sign is found |
+| **Forage** (not at fast pace) | *Hunting* (Hunter) | Food for the party today, and **1 Material** of herbs, wood or hides (proper Material) | Nothing found |
+| **Map** | *Warrior knowledge*, *Ranger knowledge* or Scout's skills | Advantage on navigating this route again | — |
+| **Sneak** (slow or normal pace) | *Acrobatics* (Juggler) or *Wilderness movement* (Hunter), for everyone | Unseen, as above | Seen |
+
+- **The Danger Level** of travel rolls is the region's (see [Random encounters](#random-encounters-confirmed-2026-11-08)): 2 on a patrolled road, 3 in the wilds, 4 in dangerous lands.
+- **Weather** makes some rolls disadvantaged (see [Weather](#weather-confirmed-2026-11-08)).
+
+#### Weather *(confirmed, 2026-11-08)*
+
+**Roll 2d6 each morning** on the season's column. A 7 keeps yesterday's weather, so spells of rain and frost last. 5E's DMG rolls temperature, wind and rain separately on a d20; this folds them into one roll for Central Europe.
+
+| 2d6 | Spring | Summer | Autumn | Winter |
+|---|---|---|---|---|
+| 2 | Late frost, sleet | Thunderstorm | Gale | Snowstorm |
+| 3–4 | Heavy rain | Heavy rain shower | Heavy rain | Snow |
+| 5–6 | Rain | Overcast, showers | Fog | Overcast, frost |
+| 7 | As yesterday | As yesterday | As yesterday | As yesterday |
+| 8–10 | Fair | Fair, warm | Fair, fog in the morning | Clear, hard frost |
+| 11 | Mild, roads drying | Heat | Rain | Thaw: mud |
+| 12 | Thaw floods: fords impassable | Heatwave | First snow | Bitter cold |
+
+**What it does:**
+
+| Weather | Travel | Noticing and ranged attacks | Exposure |
+|---|---|---|---|
+| Fair, overcast, showers, rain | — | — | — |
+| Fog | — | Nothing seen beyond 20 m; **navigating disadvantaged** | — |
+| Heavy rain, sleet | One column right | Noticing by sight or hearing **disadvantaged**; open flames go out | — |
+| Thunderstorm, gale | One column right | Noticing and ranged attacks **disadvantaged** | Lightning and falling branches: shelter is wise |
+| Snow | One column right from the next day (ankle-deep) | — | Cold, below |
+| Snowstorm | Two columns right | Nothing seen beyond 10 m; noticing, navigating and ranged attacks **disadvantaged** | Cold, below |
+| Thaw, mud | One column right | — | — |
+| Thaw floods | Fords impassable for a day | — | — |
+| Heat | — | — | Heavy armour: the day's march is a cost to attempt of 1 Body |
+| Heatwave | — | — | Everyone: the day's march costs 1 Body to attempt (2 in medium or heavy armour), unless they march at night |
+| Hard frost, bitter cold | — | — | Cold, below |
+
+- **Cold:** a night outdoors without a fire, a tent or warm clothes is an *Endurance* saving throw (Medic) at **Danger Level 3** (bitter cold: 5). Failing, not averted: a level-1 Body Scar (frostbite, a fever). Either way it's a **poor rest**.
+- **Rain, snow, cold and heat** make any night outdoors without shelter a poor rest.
+
+#### Random encounters *(confirmed, 2026-11-08)*
+
+From 5E's DMG (a d20 check, encounter on 18–20, rolled every few hours or once by day and once by night) and the old-school 1-in-6. Here: **roll a d6 twice a day, once for the day's march and once for the night.**
+
+| Region | Encounter on | Danger Level of travel rolls |
+|---|---|---|
+| **A patrolled road**, settled farmland | 1, and only at night | 2 |
+| **The wilds**: forest, hills, an unpatrolled road | 1 | 3 |
+| **Dangerous lands**: a war zone, monster country, an outlaw forest | 1–2 | 4 |
+
+- **Slow pace** doesn't change the chance; it changes who notices first.
+- **Camping by the road** or in a village counts one row safer; a **fire at night** in the wilds or worse counts one row more dangerous (the light carries).
+- **The DM can skip the roll** when an encounter would only waste time, or place one when the story needs it.
+
+**What it is** (d6, or the DM picks):
+
+| d6 | Encounter |
+|---|---|
+| 1 | **A sign:** tracks, a corpse, a burnt farm, a fresh grave. A hook, not a fight |
+| 2 | **Travellers:** merchants, pilgrims, a herald, refugees |
+| 3 | **The lord's men:** a patrol, a toll, a bailiff looking for someone |
+| 4 | **Beasts:** wolves, a boar, a bear (the region's animals) |
+| 5 | **Outlaws:** bandits, deserters, poachers who don't want witnesses |
+| 6 | **Something worse:** a monster or a fiend of the region (from the [bestiary](#bestiary)); in dangerous lands, roll twice and take the worse |
+
+**Who notices first:** the watch's hidden roll against the encounter (a challenge if the other side is sneaking or lying in ambush).
+
+| Ground and light | Spotted at |
+|---|---|
+| Open ground by day | 100 m |
+| Forest, hills, rain | 30 m |
+| Dense forest, fog, night, snowstorm | 10 m |
+
+- **The side that noticed** chooses: talk, hide, ambush or go round.
+- **The side that didn't** is surprised: **disadvantaged initiative** in the first round (5E 2024's rule).
+- **A night encounter** breaks the rest: it becomes a poor rest.
+
+**How they react** (optional, for travellers, the lord's men and outlaws when the party doesn't strike first): 2d6, the classic reaction roll. The DM can add the [known setting](#backgrounds) +1 or a fitting talker's class level once they open their mouth.
+
+| 2d6 | Reaction |
+|---|---|
+| 2–4 | Hostile: attack, rob or arrest |
+| 5–8 | Wary: talk, but keep hands on weapons |
+| 9–12 | Friendly: share news, trade, offer the fire |
+
+### Digging and mining *(draft)*
+
+**One worker with a spade and pick**, per hour, in m³ (a grave is about 2 m³):
+
+| Ground | By hand | With tools | A tunnel, crew of 4, per 8-hour shift |
+|---|---|---|---|
+| Sand, loose earth | 0.1 | 1 | 4 m |
+| Garden earth, topsoil | 0.1 | 0.75 | 3 m |
+| Clay, packed earth | — | 0.5 | 2 m |
+| Gravel, stony ground | — | 0.25 | 1 m |
+| Frozen ground | — | 0.1 (thaw it with fire first) | 0.5 m |
+| Soft rock: chalk, sandstone, tuff | — | 0.05 | 0.5 m |
+| Hard rock: granite, limestone | — | — | 10 cm (30 cm with fire-setting) |
+
+- **A tunnel** is 1 m wide and 2 m high.
+- **Overtime:** each hour past 8 is a [cost to attempt](#cost-to-attempt) of **1 Body**, exhausted before the hour starts. With no Body left, the digger stops or takes a Scar to go on. *(Replaces an Endurance saving throw.)*
+- **Faster digging is a racial perk:** the dwarf's *Call of the mine* (twice the speed, advantage on digging rolls). There's no free racial bonus.
+
+**Cave-ins:** roll a d6 **once per shift** for each tunnel; on the listed numbers it caves in.
+
+| Ground | Unshored | Shored with timber |
+|---|---|---|
+| Sand, loose earth | 1–3 | 1 |
+| Garden earth, topsoil, gravel | 1–2 | — |
+| Clay, packed earth, frozen ground | 1 | — |
+| Soft rock, hard rock | — | — |
+
+- **Shoring** takes timber: about 1 Material per metre of tunnel.
+- **Shaking ground** (siege engines hitting above, a countermine, a fire in the tunnel, an earthquake): roll at once, and a shored tunnel caves in on a 1 whatever the ground.
+- **Caught inside:** an Acrobatics saving throw at Danger Level 4 to get clear. Failing means a d6 threat-die Body Scar and being buried (**Restrained**) until dug out, about 1 m³ of digging per person.
+
+**Burrowing creatures:**
+
+| Creature | Burrow per turn | Through rock? | Leaves a tunnel? |
+|---|---|---|---|
+| Giant badger | 2 m | No | Yes, a narrow one |
+| Earth elemental | 6 m | Yes, and worked stone | No |
+| Earth or stone golem | 6 m | Yes, and worked stone | No |
+
 ## NPCs
 
 > **Status: being designed (Q15).** How non-player characters differ from player characters.
@@ -467,7 +723,7 @@ The old site had a 5E-style travel calculator.
 ### Three tracks instead of hit points *(confirmed)*
 
 - **NPCs have Body, Soul and Charisma tracks** instead of hit points, and never exhaust.
-- **Body works as hit points** and is scaled like 5E hit points, so it's the largest track. Weapons and damage spells reduce it.
+- **Body works as hit points** and is scaled like 5E hit points, so it's the largest track. Weapons and damage spells reduce it, minus the NPC's armour rating (see [Armour](#armour)).
   - **Not the same scale as a player character's Body.** A player's Body pool (about 3–10) is how far they can push, spent at the Danger Level; they never lose it to damage, they take Scars. An NPC's Body track is 5E hit points (a guard 11, an ogre 59), because weapon damage against NPCs is 5E-sized (dice + class level). Don't compare the two numbers.
 - **Soul and Charisma** are smaller tracks for mental and social defeat: fear, illusions and mind magic reduce Soul; intimidation, deception and humiliation reduce Charisma.
 - **At 0 in a track, the NPC is overpowered** that way. Body: down or dead. Soul: breaks, panics or is controlled. Charisma: surrenders, flees or gives in.
@@ -549,7 +805,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 
 ### Subgroups
 
-*(Draft, Q20b; not in the app: the seeded subgroups were removed on request.)* Each category splits into subgroups, like an academic bestiary's families:
+*(Confirmed, 2026-11-08; in the app as the second level of `bestiary_categories`, ids like `animals-predators`.)* Each category splits into subgroups, like an academic bestiary's families:
 
 | Category | Subgroups |
 |---|---|
@@ -595,7 +851,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 - **Anyone can build and lead a small network** of Reach 1–2, at Standing equal to its Reach: a smuggling ring, a circle of informants, a first witcher school.
 - **A character's Standing 3–5 comes only from mighty class perks.** Rising to officer in the king's army or abbot of a great monastery needs a mighty class.
 - **Units are for the mighty classes,** or for **special story beats** where the DM lends one. *Michal once let a player command a city watch squadron against a giant monster.*
-- **Creating new units, and the skills for commanding them, belong to the mighty classes,** military units especially to the **Warlord**.
+- **Creating new units, and the perks for commanding them, belong to the mighty classes,** military units especially to the **Warlord**.
 
 **Reach and Standing** *(confirmed)*
 - DrD2's Standing mixes two things: **how important the organization is** in the world, and **where the character stands in it**. Even Standing 1 is a leader (of a small band, a musicians' guild).
@@ -605,7 +861,7 @@ Many rules already name kinds of creatures. Read them against the categories:
   - the **leader of a tiny one** (a small, insignificant spy ring: unimportant organization, top rank).
 - **Two numbers.** **Reach** (1–5) is the organization's importance, using DrD2's Standing table. The character's **Standing** (0 up to the Reach) is their rank in it; the leader's Standing equals the Reach. DrD2's table describes people, so it still reads as the character's Standing; Power costs and companions work from the character's Standing.
   - **Standing 0** is a rank-and-file member, used in play here (DrD2 didn't). A king's soldier is Standing 0 in a Reach-5 army; an officer over hundreds, Standing 3 there; the founder of a spy ring, Standing 1 in a Reach-1 ring.
-- *Terms, not to mix up:* a **merit point** is a temporary bonus for good play (spent on advantage); a **level-up point** is a story beat that buys a class level, a perk or a resource point. Power, if adopted, would be a third thing.
+- *Terms, not to mix up:* a **merit point** is a temporary bonus for good play (one free resource point); a **level-up point** is a story beat that buys a class level, a perk or a resource point. Power, if adopted, would be a third thing.
 
 **Organizations acting for the character** *(confirmed)*
 - DrD2's organizations **take no actions**; its networks **do** (theft, kidnapping, gathering information, bribery). Folding networks into organizations lost that.
@@ -710,7 +966,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 9. ~~**Familiars.**~~ Answered: from a spell. 5E's *Find Familiar* is a spell; ours would be a companion got through a perk or a binding. → **Q18d**
 10. ~~**Who plays the Games of the Mighty.**~~ Answered: anyone up to Standing 2; Standing 3–5 from mighty class perks; units for mighty classes or story beats. DrD2 offers organizations, Standing, Power and units to any character once the game grows; Michal wants a **bigger option for the mighty classes** (Warlord's leadership, armies and political power fits it best). Is Standing open to everyone, with the mighty classes reaching the top? → **Q18f**
 11. ~~**Networks are small organizations.**~~ Answered: folded into one rule. A character's place in a network (grunt or leader) is exactly DrD2's Standing. Networks could fold into organizations rather than be a separate rule. → **Q18f**
-12. **Power vs merit points.** Both reward play: merit points for good play (spent on advantage), Power for adding a complication to one's own organization (spent on Standing and companions), at most the highest Standing per session. Two currencies, different jobs. → **Q18g**
+12. **Power vs merit points.** Both reward play: merit points for good play (one free resource point), Power for adding a complication to one's own organization (spent on Standing and companions), at most the highest Standing per session. Two currencies, different jobs. → **Q18g**
 13. ~~**Fate on companions and units.**~~ Answered: no Fate; Bond only. DrD2's companions from Standing get both Fate (bonus + 3) and Bond; ours have Bond and no Fate. Units' Fate grows with size. → **Q18h**
 14. ~~**Units vs tracks.**~~ Answered: Body × size, Soul and Charisma as the average member. DrD2 units have the average member's limits; ours would need NPC tracks. 5E has swarm stat blocks (a swarm of rats) as one creature, which fits. Only a widespread action hitting enough members changes a unit's state, which maps onto our Widespread manoeuvre. → **Q18h**
 15. **Exhausting against a bigger unit costs double the Danger Level.** It plugs straight into our Danger Level for player characters. → **Q18h**
@@ -854,6 +1110,396 @@ A mighty character rarely travels alone: a knight's squires, a wizard's apprenti
 - A strong unit with a weak Bond is still strong when the Bond runs out; it just stops obeying. It can withdraw, surrender, or switch sides.
 - Keep few units on the scene: merge infantry with archers, thieves with scouts; play commanders as the unit's abilities.
 
+### Grid and scales *(draft, 2026-11-08)*
+
+Also in the rulebook as *Grid and scales* (Useful tables); keep both in step.
+
+The battle map works at three scales. **A round is 6 seconds at both skirmish and battle scale**, so heroes and units fight in the same rounds. Zoom in when it matters: one battle square is 5 × 5 skirmish squares, and one field square is 10 × 10 battle squares.
+
+| Scale | One square | A square holds | A round | Use it for |
+|---|---|---|---|---|
+| **Skirmish** | 1 m | One person | 6 s | Fights of a few people. The usual map: 5E's 5 ft square |
+| **Battle** | 5 m | A handful | 6 s | Fights with units: a caravan ambush, a gate stormed |
+| **Field** | 50 m | A horde | 1 minute | Pitched battles. Heroes join units |
+| **Campaign** | 5 km | — | An hour | Marches; distances from [A day's travel](#travel) |
+
+#### Big creatures
+
+At skirmish scale, from 5E's sizes:
+
+| Size | Squares | For example |
+|---|---|---|
+| Small, Medium | 1 | A halfling, a human, a wolf |
+| Large | 2 × 2 | A horse, an ogre, a troll |
+| Huge | 3 × 3 | A giant, a wyvern |
+| Gargantuan | 4 × 4 or more | A dragon |
+
+#### Movement
+
+Squares per round (a minute on the field). Running takes the whole turn.
+
+| Who | Skirmish walk / run | Battle walk / run | Field walk / run |
+|---|---|---|---|
+| Dwarf, Halfling | 5 / 10 | 1 / 2 | 1 / 2 |
+| Human, Elf | 6 / 12 | 1 / 2 | 1 / 2 |
+| Kroll | 7 / 14 | 1 / 2 | 1 / 2 |
+| Pony, mule, war dog, wolf | 8 / 16 | 1 / 3 | 1 / 3 |
+| Riding horse, warhorse | 12 / 24 | 2 / 5 | 2 / 5 |
+| Ox cart | 4 / — | 1 / — | 1 / — |
+
+- **A unit moves at its slowest member's speed.**
+- **Rough ground** (see [Ground](#travel)): on half-speed ground every square costs 2; on quarter-speed ground, 4. A unit that moves 1 square takes two rounds per square of mud.
+
+#### Units on the map
+
+| Size | Battle (5 m squares) | Field (50 m squares) |
+|---|---|---|
+| Handful | 1 square | Part of a square |
+| Band | 4 squares: a 2 × 2 block or a 1 × 4 line | Up to 4 bands share a square |
+| Horde | 16 squares: a 4 × 4 block, a 2 × 8 or a 1 × 16 line | 1 square |
+| A hero | Stands alone in a square, or joins a friendly unit's square | Always joins a unit |
+
+- **Front:** a unit faces one side, set when it moves. **Attacks into its flank or rear are Precise** (a free Precise, like attacking a prone target).
+- **Block or line:** a line has a wider front and more members in contact, but turning it costs its whole movement. A block turns freely.
+- **Engaged:** units in touching squares (edges or corners) are in melee. An engaged unit can only move away by spending its **action** to withdraw.
+- **Shrinking:** when a unit drops a size, remove squares down to the new size, from the side that was hit.
+
+#### What one action reaches
+
+DrD2's reach rule, in squares. Only an action reaching enough members harms a unit's tracks (see [Units](#units-drd2)).
+
+| Action | Battle | Field |
+|---|---|---|
+| Melee by one person | 1 square (a handful) | — (too small) |
+| Ranged attack or a spell | A tight 2 × 2 (a band) | — |
+| A Widespread volley by a unit | Every square in range | 1 square |
+| Commands, threats, a speech | Everyone within 6 squares (earshot) | 1 square |
+
+#### Ranges in squares
+
+| Weapon | Skirmish (m) | Battle | Field |
+|---|---|---|---|
+| Thrown dagger, handaxe | 4 / 12 | 1 / 2 | Touching |
+| Javelin | 6 / 24 | 1 / 5 | Touching |
+| Shortbow, light crossbow | 16 / 64 | 3 / 13 | Touching / 1 |
+| Heavy crossbow | 20 / 80 | 4 / 16 | Touching / 1 |
+| Longbow | 30 / 120 | 6 / 24 | 1 / 2 |
+| Ballista | 24 / 96 | 5 / 19 | Touching / 2 |
+| Mangonel | 40 / 160 | 8 / 32 | 1 / 3 |
+| Trebuchet | 60 / 240 | 12 / 48 | 1 / 5 |
+
+## Domains, sieges and war
+
+> **Status: confirmed (Q21, 2026-11-08); numbers are a starting point.** Late-game rules for characters who hold land. Source: **DrD 1.6, Pravidla pro experty – Svět** (*Hospodářství a politika*, *Hrady*, *Armády*), a file Michal shared on 2026-11-08. Nothing here is confirmed.
+
+### What the old book does
+
+**Domain economy** (*Hospodářství a politika*)
+- **One turn is a season.** It runs in the background between adventures: "while you were away, taxes brought in this much, ten households left, a village burned".
+- **Contentment** (*spokojenost*, about −500 to +500) drives everything. Tax rate sets a starting value; then things push it up or down:
+  - **Up:** spending on law (safe roads, fair courts), churches and festivals, a castle or town walls (a sense of safety).
+  - **Down:** levies, confiscations, a garrison keeping people in line, plundering, disasters.
+  - **People remember:** the new value is (5 × last season's + this season's) ÷ 6, so a domain can't be bought back in a week.
+- **Fear works too.** Output is lowest at contentment 0, when people are unhappy but not yet afraid. Below 0 (a garrison, terror) they work again out of fear. The **chance of revolt** also peaks at 0.
+- **Revolt** comes in three kinds:
+  - an **uprising**, where every household fields a band of peasants;
+  - an **outlaw hero** (*zbojník*), who skims a share of the income until someone hunts him down, which makes a ready-made adventure;
+  - an **assassination attempt** on the lord.
+- **People move.** Households drift towards the domain with better contentment. Distance, borders and a foreign language slow them down.
+- **Work costs labour and material.** Roads, fields, a town or a castle cost labour (taken from tax income) and material (paid from the treasury). Spending more per season finishes it sooner.
+- **Titles and obligations** (Drakonie): a lord owes taxes and troops to the lord above; titles are hereditary, granted, elected or conquered; a conquered title still needs the higher lords' recognition.
+
+**Castles** (*Hrady*)
+- **The price ruins families:** "most castles destroyed their owners". Upkeep is the castle's price ÷ 200 every season. Skip it and the castle decays, and repairs cost extra.
+- **Walls have their own hit points,** on a separate scale (one "castle life" ≈ 3,000 ordinary ones), so swords can't dent them; only siege engines, mining and magic can.
+- **Storage sets the siege.** Granaries, wells, kitchens, stables and barracks decide how many people the castle holds and for how many weeks.
+- **Five ways to take a castle:**
+  - **Bombardment:** trebuchets and catapults knock out wall sections; a gap is a breach.
+  - **Storm:** ladders, siege towers and rams; defenders get a big bonus on walls and in towers.
+  - **Mining:** a tunnel to collapse a wall or to sneak in; the defenders can dig a countermine.
+  - **Starvation:** when the stores run out.
+  - **Magic:** ordinary missiles thrown by magic, or spells that attack the stone itself.
+
+**Armies** (*Armády*)
+- **A unit** has combat strength, punch, toughness, morale and speed, plus a number of groups (its hit points). One set of rules scales from a squad to a division.
+- **Battles:** the side that loses half its groups rolls morale, and a unit rolls for **panic** when more friendly units around it fall than enemy ones. **An army breaks when a quarter of its groups flee.**
+- **How a battle ends:** an agreement, a withdrawal, a rout, a scattering or annihilation. **A unit that fled can be gathered again; a destroyed one can't.**
+- **Attacker and defender manoeuvres:** probe, attack or storm; withdraw, defend or counter-attack.
+- **Commanders** give a morale bonus to units near them, more when fighting in the front line.
+  - Anyone can **challenge** a commander to a duel. The battle pauses, and the winner's troops get a bonus.
+  - A commander who refuses for no good reason loses their troops' trust.
+- **Strategy is played in weeks.** Marching slow, average or fast builds **fatigue**, which costs the army in battle.
+  - **Supply:** each group eats a set ration a week and can carry two weeks of food.
+  - **Living off the land:** **foraging** feeds the army and hurts the domain's mood; **plundering** destroys households for good.
+- **Heroes in units:** a character joins a unit and makes it stronger. The bigger the battle's scale, the less one hero matters; at large scales the hero's plans and abilities count more than their sword.
+
+### What to take
+
+1. **The domain as a slow mood with memory** *(confirmed: see [The seasonal turn](#the-seasonal-turn-confirmed-2026-11-08-numbers-are-a-starting-point))*. A small mood scale (e.g. −3 Afraid … 0 Sullen … +3 Content) that moves at most **one step a season**. The taxes and the lord's actions set where it's heading. This keeps the old book's best idea, that "people remember", without its arithmetic.
+2. **Fear works, sullenness doesn't.** Income and the revolt risk follow the old curve: a ruler of fear gets work out of people, and a ruler who is neither loved nor feared gets the worst of both.
+3. **Revolts as adventure hooks.** The outlaw hero, the uprising and the assassin are story events triggered by the mood, not number crunching.
+4. **Castles cost upkeep.** A castle is mostly an expense that raises the domain's mood (safety) or holds it down (oppression).
+5. **Fortifications as stat blocks** *(confirmed: see [Structures and siege engines](#structures-and-siege-engines-draft) and [Stores and the storm](#stores-and-the-storm-confirmed-2026-11-08))*.
+   - Each wall section, tower and gate has a **Body track** that only siege engines, mining and magic can harm. That's the same idea as 5E's damage threshold for objects; ours is called sturdiness.
+   - **Stores** are counted in weeks.
+   - **The storm** maps onto our rules: defenders on a wall get a free Defense, and attackers climbing face a higher Danger Level. A breach lowers it.
+6. **Siege engines** (ballista, mangonel, trebuchet, ram, siege tower) as small stat blocks: structure damage, range, crew. 5E's DMG has numbers to convert.
+7. **Morale and scattering on our tracks** *(confirmed: see [Battles](#battles-confirmed-2026-11-08))*.
+   - A unit **overpowered through Charisma** has scattered and can be gathered after the battle. One **overpowered through Body** is gone.
+   - **An army breaks** when a quarter of its units have broken.
+   - **Panic:** when a neighbouring unit breaks, its neighbours take Charisma damage.
+8. **The commander's duel** *(confirmed: see [Battles](#battles-confirmed-2026-11-08))*: a challenge between commanders mid-battle. The winner's units get a free Precise for a few rounds; the loser's take Charisma damage. Refusing without a good reason costs the commander their units' trust. This is a natural Warlord perk.
+9. **The strategic week:** march pace, fatigue, food carried (two weeks), foraging vs plunder and its effect on the domain's mood.
+
+### The seasonal turn *(confirmed, 2026-11-08; numbers are a starting point)*
+
+A held domain runs on **seasonal turns**, not on the network rules: holding land is **active upkeep**, decided by the lord every season, not a pool topped up with payments.
+
+**Each season, in order:**
+
+1. **The lord decides:** the tax rate and up to **two upkeep actions** (more if a companion runs part of the domain for them, one each).
+2. **Add up where the mood is heading** (the table below).
+3. **The mood moves one step** towards that number, never more. People remember: a domain bled dry can't be bought back with one feast.
+4. **Collect the income** for the new mood, and pay upkeep (castles).
+5. **Roll for revolt** if the mood calls for it.
+
+**Where the mood is heading:** start at 0 and add everything that happened this season.
+
+| This season | Mood heads |
+|---|---|
+| Light taxes | +1 |
+| Normal taxes | 0 |
+| Heavy taxes | −1 |
+| Crushing taxes | −2 |
+| **Upkeep actions** (each) | |
+| Keeping the law: courts held, roads patrolled (the lord or a companion there in person) | +1 |
+| A feast or festival (a tenth of the domain's full income) | +1 |
+| Alms, or a church built or endowed (a tenth of the full income) | +1 |
+| Walls built or repaired (the people feel safe) | +1 |
+| A holding built or repaired: a mill, a fishpond, a burnt farm (the people see their lord investing) | +1 |
+| **Hard hands** | |
+| A garrison keeping order | −1, and holds the mood below 0 (see *Fear works*) |
+| Levies raised for war | −1 |
+| Confiscation, or plunder by the lord's own troops | −2 |
+| **Bad luck** | |
+| Famine, plague, a raid, a fire | −1 each |
+| The lord away all season, with no companion in charge | −1 |
+
+**What the mood gives:**
+
+| Mood | | Income | Revolt (d6 each season) |
+|---|---|---|---|
+| +3 | **Content** | Full; levies come willingly | — |
+| +2 | **Loyal** | Full | — |
+| +1 | **Calm** | Three quarters | — |
+| 0 | **Sullen** | Half | 1–2 |
+| −1 | **Wary** | Half | 1 |
+| −2 | **Afraid** | Three quarters | 1 |
+| −3 | **Terrorised** | Full | 1; any revolt is an assassin |
+
+- **Fear works, sullenness doesn't** (the old book's curve). A domain that's neither loved nor feared gives the least and revolts the most.
+  - **Fear needs a garrison.** Without one, a mood below 0 heads back up towards 0, Sullen, one step a season.
+- **Revolt** (roll a d6 when it triggers):
+
+| d6 | What happens |
+|---|---|
+| 1–2 | **An outlaw hero** takes to the woods and skims a quarter of the income until someone hunts them down: a ready-made adventure |
+| 3–4 | **An uprising:** every village fields a band of peasants (see [Units](#units-drd2)) |
+| 5–6 | **An assassin** comes for the lord |
+
+**Income per season** *(confirmed, 2026-11-08)*: the **sum of the domain's holdings**. The DM adds up the rows once when the domain is set up, and again only when something is built or lost; the mood picks the column.
+
+| Holding | Full | Three quarters | Half | To build or buy | Pays back in |
+|---|---|---|---|---|---|
+| A lán of peasant land (16–18 ha) | 10 sp | 8 sp | 5 sp | 900–1,500 sp (the pricelist) | 25–35 years |
+| A mill (the lord's monopoly) | 40 sp | 30 sp | 20 sp | 800 sp | 5 years |
+| A tavern licence | 15 sp | 11 sp | 8 sp | 300 sp | 5 years |
+| A smithy | 10 sp | 8 sp | 5 sp | 200 sp | 5 years |
+| A fishpond | 30 sp | 23 sp | 15 sp | 600 sp (digging, a dam) | 5 years |
+| Woods (timber, game, pannage) | 15 sp | 11 sp | 8 sp | Comes with the land | — |
+| A vineyard | 20 sp | 15 sp | 10 sp | 400 sp, and 3 years to the first harvest | 8 years |
+| A toll (bridge, ford, road) | 30–60 sp | 23–45 sp | 15–30 sp | A bridge, or a royal grant | — |
+| A weekly market (a town right) | 400 sp | 300 sp | 200 sp | A royal or ducal charter | — |
+| A town house's rent | 8 sp | 6 sp | 4 sp | — | — |
+| A silver mine | 500 sp or more | — | — | A royal grant; a story of its own | — |
+
+- **Where the numbers come from:** around 1350 a lán paid its lord half a kopa to a kopa of groschen a year plus hens and eggs, about 40 sp. Buildings are set to pay back in about five years; land takes decades, as land sold for about 20 years' income.
+- **Land is slow money; buildings are fast.** More lány means clearing forest or taking a neighbour's: an adventure.
+
+**Typical domains:**
+
+| Domain | Holdings | Full | Three quarters | Half |
+|---|---|---|---|---|
+| A village | 16 lány, a mill | 200 sp | 150 sp | 100 sp |
+| A manor with three villages | Three villages | 600 sp | 450 sp | 300 sp |
+| A small town | 150 houses, a weekly market, a bridge toll, two mills, eight taverns | 2,000 sp | 1,500 sp | 1,000 sp |
+
+**Disasters hit holdings** *(confirmed, 2026-11-08)* as well as the mood (−1 each). The DM brings them in from the story; they aren't rolled.
+
+| Disaster | What it does to holdings |
+|---|---|
+| Famine, a bad harvest | Fields give half this season |
+| Plague | Fields and town houses give half this season (fewer hands) |
+| Fire | One building gone (or ten town houses) until rebuilt at its build cost |
+| A raid | One building burnt, and one village's fields give nothing this season |
+| A flood | Mills and fishponds give nothing this season |
+
+- **Rebuilding** costs the holding's build price and counts as an upkeep action, so a lord who rebuilds quickly wins the people back.
+
+**In the app** *(planned)*: a domain sheet, a list of holdings with the totals per mood column.
+
+**Castle upkeep per season** (the old book's price ÷ 200, worked out): a fortified manor 100 sp, a small castle 1,000 sp. Unpaid, the castle decays: a wall section loses a quarter of its Body each season, and repairs cost double. *A small castle eats half a small town's income: "most castles destroyed their owners".*
+
+**Where it meets the rest:**
+- **The domain is an organization:** the lord's Standing equals its Reach (a village 1, a manor 2, a town 3).
+- **Companions** run parts of it, each adding one upkeep action, and each needing their own Bond and payment.
+- **Revolts, outlaw heroes and assassins** are adventures, not dice results to shrug off.
+
+### Battles *(confirmed, 2026-11-08)*
+
+In the rulebook as *Battles* (Companions and power). From the old book's armies, on our [units](#units-drd2) and [grid](#grid-and-scales-draft-2026-11-08).
+
+**Scattered or destroyed:**
+
+| A unit at 0 in | Has | After the battle |
+|---|---|---|
+| **Charisma** | Scattered: thrown down weapons, ran | Can be gathered again: a day, and a skill check with *Combat leadership* (Warrior) or *Leading people outside combat* (Scout). It comes back **one size smaller**: stragglers never return |
+| **Body** | Been destroyed | Gone for good |
+| **Soul** | Broken: panicked, frozen, or under someone else's control | As scattered, unless magic still holds it |
+
+**Panic:** when a unit breaks (any track at 0), every friendly unit **touching it** takes Charisma damage at Danger Level 2, as if from a threat.
+
+**An army breaks** when a quarter of its units have broken. The units still standing withdraw, and the battle ends in a rout unless someone stops it (a commander's speech: a Widespread Charisma action at the scene's Danger Level).
+
+| Units in the army | 4 | 8 | 12 | 16 | 20 |
+|---|---|---|---|---|---|
+| Breaks after this many | 1 | 2 | 3 | 4 | 5 |
+
+**The commander's duel:**
+- **Anyone can challenge** an enemy commander within earshot. If accepted, the battle around them **pauses** (the units watch) and the two fight it out as an ordinary fight, to the first Scar not averted, or until one yields.
+- **The winner's units** get a **free Precise for 3 rounds**.
+- **The loser's units** take Charisma damage at **Danger Level 3**.
+- **Refusing without a good reason** costs the commander their units' trust: companion units lose **1 Bond**, others take Charisma damage at Danger Level 2.
+- A natural **Warlord perk** later (better odds, a cruel version), but anyone can challenge.
+
+### What to leave
+
+- The percentages, multiplier tables and grain sums: they're built for a spreadsheet, not the table.
+- The castle drawn on hex paper in triangles, and the battle played with counters on hex maps.
+- The gold amounts: they don't match our pricelist, where 1 gold is 3–4 months' wages.
+- Slaves and the detailed climate model.
+
+### Where it meets our rules
+
+1. **A domain is an organization.** Reach and Standing already exist. A held domain could reuse the **network** rules: three tracks (muscle and levies, order and stores, loyalty), a **Bond-like pool of loyalty** paid for with upkeep (law, festivals, a church), and scars when the upkeep is skipped. Or it gets its own seasonal turn with the mood scale. → **Q21**
+2. **Units already exist** (handful, band, horde). The old book's battle-scale ladder (squad → company → regiment → division) matches the unit sizes.
+3. **Siege engines** deal structure damage; see [Structures and siege engines](#structures-and-siege-engines-draft).
+4. **Mining** fits Rogue's *Mechanisms* or a perk for sappers; a countermine is a challenge. Tunnelling speeds are in [Digging and mining](#digging-and-mining-draft).
+5. **Mighty classes:** Warlord (armies, commanding, the duel), Zhrets and Black Priest (disasters), Shadow (assassins, mining in, sabotage) and Inquisitor (outlaw heroes, revolts) all get late-game uses.
+
+### Structures and siege engines *(draft)*
+
+Walls, gates and roofs have a **Body track**, like an NPC, counted **per section**: about 3 m of wall, one gate, or a 3 × 3 m patch of roof.
+
+- **Sturdiness** *(confirmed, 2026-11-08; called threshold until then)*: a hit dealing **less** than the sturdiness does nothing; one that reaches it deals its full damage. It's 5E's damage threshold and does the job of DrD2's *Odolnost*. Swords don't dent a town wall; a trebuchet does.
+  - **The same for every hit:** weapons, siege engines, and [hazards](#substances-and-traps), which roll their strength in d6. A weak charge sometimes gets lucky; that slight randomness is wanted.
+- **At 0** a wall section is **breached** (a 3 m gap full of rubble), a gate is **broken**, and a roof **falls in**.
+- **Burning:** a burning section loses the listed Body **every round** until the fire is put out. A bucket chain puts out one section a round.
+- **Taking it apart by hand:** with time and no one shooting, workers don't roll. The last column says how long a **crew of 4** with axes, picks and crowbars needs.
+
+**Walls and gates**
+
+| Section | Body | Sturdiness | Burns | Crew of 4 takes it down in |
+|---|---|---|---|---|
+| Wattle and daub (a cottage) | 15 | 0 | 5 a round | 1 minute |
+| Plank wall, plain door | 20 | 5 | 5 a round | 5 minutes |
+| Iron-bound door | 40 | 10 | 2 a round | 30 minutes |
+| Log wall (a cabin, a blockhouse) | 40 | 10 | 2 a round | 1 hour |
+| Wooden palisade | 50 | 10 | 5 a round (once oiled) | 2 hours |
+| Brick wall | 60 | 10 | No | 4 hours |
+| Stone house wall | 80 | 15 | No | 1 day |
+| Town gate (oak, iron-bound) | 100 | 15 | 2 a round | 1 day |
+| Portcullis (iron) | 80 | 20 | No | 2 days (or lift it) |
+| Earth rampart | 300 | 20 | No | 3 days of digging |
+| Town wall (2 m of stone) | 400 | 20 | No | 4 days |
+| Castle curtain wall, tower storey (3 m of stone) | 600 | 25 | No | 1 week, or a mine |
+
+- **Earth soaks up stones:** siege engines and loose blasts deal **half** damage to a rampart. Rams, mines and tamped charges deal full.
+- **A tower storey at 0** collapses onto the one below. Anyone inside makes a saving throw (Acrobatics) at Danger Level 4, or takes a d8 threat-die Scar.
+
+**Roofs**
+
+| Roof | Body | Sturdiness | Burns | Falls on those below as |
+|---|---|---|---|---|
+| Thatch | 10 | 0 | 10 a round; a fire arrow or torch lights it | d4 |
+| Wooden shingles | 15 | 0 | 5 a round | d4 |
+| Flat clay roof | 30 | 5 | No | d6 |
+| Clay tiles on beams | 20 | 5 | 2 a round (the beams) | d6 |
+| Slate on beams | 25 | 5 | 2 a round (the beams) | d6 |
+| Stone vault | 100 | 15 | No | d10 |
+
+**Small things** have a sturdiness and no Body: a hit that reaches it breaks them, like an [item scar](#item-scars). Rope, a leather strap 0; a wooden bar, a chest 5; an iron lock, a chain, manacles, a hinge 10; a steel strongbox 15.
+
+- **Those below** make a saving throw (Acrobatics) to dive clear. A player character who fails takes a Scar from the threat die; an NPC takes the roll × 3 off its Body track. *(To confirm: the NPC damage.)*
+
+**Siege engines** *(from the 5E DMG, ranges at 5 ft = 1 m)*
+
+| Engine | Damage (average) | Range | Crew | Shots |
+|---|---|---|---|---|
+| Ballista | 3d10 (16) | 24 / 96 m | 3 | 1 a round |
+| Mangonel | 5d10 (27) | 40 / 160 m, not under 12 m | 5 | 1 every 3 rounds; 10 an hour |
+| Trebuchet | 8d10 (44) | 60 / 240 m, not under 12 m | 8 | 4 an hour |
+| Ram (roofed) | 8d8 (36) | Touch | 10 | 1 a round |
+| Fire pots, burning bundles | Sets wood and thatch alight | As the engine throwing them | — | — |
+| A finished mine | The section above drops to 0; the next one along loses half. Fired the old way (burning the props) it falls by morning, and the smoke gives it away; blown with a tamped charge (see below) whose roll reaches the section's sturdiness, it falls at once | — | — | — |
+| Explosive charge | Its strength in d6; **tamped** (packed against or under the section: hung on a gate, at the end of a mine) it rolls **2 more dice**. Sets anything that burns alight | Thrown: 4 / 12 m; or placed | 1 | Once |
+
+- **Hitting a wall** from a siege engine is a skill check (2d6 + the crew's bonus ≥ 9). Misses are common on purpose: a trebuchet that lands half its shots takes a curtain section down in about 7 hours.
+- **Repairs:** a night's work by a crew of 10 restores a quarter of a damaged section's Body. A breach needs rebuilding (days, Material), not repair.
+- **The ballista** is the only engine meant for people too: against an NPC or a unit, use its damage as a weapon's. Its bolts **ignore armour**.
+
+**Charges needed:** tamped Alchemist charges to bring a section down, on average rolls. "Rarely" means the average roll falls short of the sturdiness: a lucky charge gets through now and then.
+
+| Section (Body, sturdiness) | Strength 3 (tamped 5d6 ≈ 17) | Strength 5 (7d6 ≈ 24) | Strength 7 (9d6 ≈ 31) |
+|---|---|---|---|
+| Iron-bound door (40, 10) | 3 | 2 | 2 |
+| Town gate (100, 15) | 6 | 5 | 4 |
+| Portcullis (80, 20) | Rarely | 4 | 3 |
+| Town wall (400, 20) | Rarely | 17 | 13 |
+| Castle curtain wall (600, 25) | Rarely | Rarely | 20 |
+
+- **The point:** an Alchemist opens doors and gates; walls fall to engines and mines. A charge at the end of a mine is the fast way to fire it.
+- **In the old book's five ways to take a castle** (see [Domains, sieges and war](#domains-sieges-and-war)): charges belong to the **storm** (blowing the gate) and to **mining** (firing the mine). Bombardment stays with the engines, magic with the casters.
+
+
+#### Stores and the storm *(confirmed, 2026-11-08)*
+
+In the rulebook as *Sieges* (World).
+
+**Stores** are counted in weeks, for the garrison the place was built for:
+
+| Place | Garrison | Food | Water |
+|---|---|---|---|
+| A fortified manor | 20 | 4 weeks | A well |
+| A small castle | 60 | 12 weeks | A well, or 1 week from a cistern |
+| A walled town | The burghers and 200 soldiers | 8 weeks | Wells |
+
+- **Double the people, half the weeks.** Refugees let in at the gate cut the siege short.
+- **Starving:** each week with no food, the garrison takes Charisma damage at Danger Level 3, and the defending unit drops a size (desertion and death).
+
+**The storm:**
+- **On the wall,** defenders get a **free Defense once per round**, like a shield.
+- **Climbing a ladder** is a [cost to attempt](#cost-to-attempt) of **1 Body**. A climber can't defend: attacks at them are undefended.
+- **Pushing a ladder off** is a **Cunning** manoeuvre (the push); everyone on it falls.
+- **A siege tower** reaches the top of the wall with no climbing cost and no ladder to push.
+- **A breach** is rubble: half-speed ground, and no wall bonus for the defenders. The fight moves to the breach.
+
+**Falling** is a [hazard](#substances-and-traps) whose strength is set by height (Acrobatics saving throw; armour doesn't help):
+
+| Height | 3 m | 6 m | 9 m | 12 m |
+|---|---|---|---|---|
+| Strength | 2 | 4 | 6 | 8 |
+
 ## Character creation
 
 From the old rulebook's order (still to be confirmed and completed, **Q1**, **Q3**):
@@ -874,11 +1520,11 @@ Race has little mechanical impact beyond one racial perk, but it matters a lot f
 
 | Race | Description | Speed | Racial perk options |
 |---|---|---|---|
-| **Human** | Diverse and courageous, living life to the fullest | 6 m | For the King, Sticks and Stones, Maiden Fair, I Know a Guy |
-| **Elf** | Secluded, ancient, ageless beauty and wisdom | 6 m | Behind Blue Eyes, Eternal Nobility, Veil of Night (the data also has Magical Ties) |
-| **Dwarf** | Hearty and proud; honour and their word are everything | 5 m | Night Eyes, Skin Made of Iron, Iron Liver, Blood Bond |
-| **Halfling** | Hospitable, jovial, braver than they look | 5 m | Sixth Sense, Silent Feet, Connoisseur, Scrappy |
-| **Kroll** | Unique to this system: brawny, primitive, attuned to the wild | 7 m | Echolocation, Fury, Bison Skin |
+| **Human** | Diverse and courageous, living life to the fullest | 6 m | Everywhere at Home, For the King!, I Know a Guy, Maiden Fair, Sticks and Stones |
+| **Elf** | Secluded, ancient, ageless beauty and wisdom | 6 m | Behind Blue Eyes, Dusk Veil, Eternal Nobility |
+| **Dwarf** | Hearty and proud; honour and their word are everything | 5 m | Ancient Artisan, Call of the Mine, Clan Bond, Iron Liver, Steel in Our Bones |
+| **Halfling** | Hospitable, jovial, braver than they look | 5 m | Connoisseur, Good Spirits, Scrappy, Silent Feet, Sixth Sense |
+| **Kroll** | Unique to this system: brawny, primitive, attuned to the wild | 7 m | Bison Skin, Echolocation, Fury, Magic Roots |
 
 **Speed** is how far a character moves in one movement on their turn, from 5E (SRD 5.1) at 5 ft = 1 m:
 - **Human and Elf** 30 ft → 6 m.
@@ -954,8 +1600,8 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 | **Warrior** | Fighter + Juggler | None | Mounted combat (B), Ironworks (B), Warrior knowledge (S), High society influence (S), Combat leadership (C) |
 | **Ranger** | Fighter + Hunter | None | Close and ranged foot combat vs monsters (B), Trophies (S), Woodworking (S), Ranger knowledge (S), Monster taming (C, unique), Leading in the wild (C), Dealing with supernatural beings (C) |
 | **Witcher** | Fighter + Medic | Pseudo | Close combat vs monsters, fiends and undead (S), Trophy taking (S), Witcher signs (S, unique), Witcher knowledge (S, unique), Dealing with supernatural beings (C). Core spell: Isa Sign |
-| **Scout** | Hunter + Juggler | None | Ranged mounted combat (B), Hiding information (S), Underground influence (C, unique), Leading people outside combat (C), Healing human charisma (C) |
-| **Shaman** | Hunter + Medic | Pseudo | Narcotic substances (S), Foresight (S, unique), Animal healing (S), Animal magic (C, unique) |
+| **Scout** | Hunter + Juggler | None | Ranged mounted combat (B), Hiding information (S), Underground influence (C, unique), Leading people outside combat (C), Healing human charisma (C), Seafaring (S) |
+| **Shaman** | Hunter + Medic | Pseudo | Narcotic substances (S, unique), Foresight (S, unique), Animal healing (S), Animal magic (C, unique) |
 | **Druid** | Hunter + Incantor | Full | Stone magic, Water magic, Plant magic (all S, unique). Core spells: Earth Bending, Water Bending, Manipulate Plants |
 | **Rogue** | Juggler + Medic | None | Aerial acrobatics (B), Mechanisms (S), Forgery (S), Contact poisons (S, unique) |
 | **Alchemist** | Medic + Incantor | Full | Alchemy knowledge (S), Explosives, corrosives and gases (S, unique), Elixirs (S, unique), Artificial life (C, unique) |
@@ -966,7 +1612,7 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 
 Each combines 3–4 advanced classes. A mighty class unlocks once **its advanced classes total 6 levels**, spread in any way. All of them can contribute, or only some. For Warlord, Warrior 5 / Rogue 1, Warrior 3 / Rogue 3 and Warrior 2 / Rogue 2 / Scout 2 all qualify. A single class can't do it alone, because classes cap at 5. As with advanced classes, that is the only gate.
 
-None have skills or perks yet, and Black Priest has no description (**Q8**).
+**Mighty classes have no skills, only perks** *(confirmed, 2026-11-08)*. Their rolls use the level of the lower class whose skill the perk builds on, as DrD2's master skills do. None of the perks are written yet, and Black Priest has no description (**Q8**).
 
 | Class | Built from | Magic | Fantasy |
 |---|---|---|---|
@@ -1179,7 +1825,7 @@ Michal's six mighty classes are a **reduced version of DrD2's ten master classes
 
 **Conflicts with ours**
 1. ~~**10 classes into 6.**~~ Answered: see *Our merge*.
-2. **Levels.** DrD2 master classes have no levels and roll with the lower classes' levels; ours have levels 1–5, one perk per level. Master abilities would become our mighty class **perks**; "master skills" with prerequisite skills become perks that extend those skills, rolled with the owning class's level.
+2. ~~**Levels.**~~ Answered: mighty classes have levels 1–5 and one perk per level, but **no skills**. Master abilities become perks; "master skills" become perks that extend a lower class's skill, rolled with that class's level.
 3. **Talent, proficiency, mastery.** DrD2's tiers of free manoeuvres have no equivalent here; strong and cruel manoeuvres come from perks.
 4. **Paladin** is already a Warlock aspect name.
 
@@ -1227,7 +1873,7 @@ level = number of class perks + (Body + Soul + Charisma − 15)
 Resource points are counted **without perk bonuses**: a perk that raises a stat already counts as the perk. Only **chosen** class perks count. The racial perk, **core spells** (unlocked for free when gaining the class) and **aspects** (granted automatically) don't. Each class level grants one chosen class perk, so chosen class perks never fall below Σ class levels.
 ## Magic
 
-> **Status: being designed (Q14).** This section records what the old rulebook and `perks.tsx` (git commit `60a40a6`) actually contain. The rules for casting are still mostly missing. The current database holds no spells yet.
+> **Status: being designed (Q14).** This section records what the old rulebook and `perks.tsx` (git commit `60a40a6`) actually contain. The rules for casting are still mostly missing. The old spells are in the database since 2026-11-08, carried over as they were.
 
 ### As it stands
 
@@ -1245,9 +1891,9 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
   - *Blessings and Curses* (Incantor) gives a target advantage, disadvantage or a bonus d4 on one kind of roll.
   - *Eye Sigil* (Incantor) is an area that other Incantor spells can be cast through, costing Material per "sigil strength".
   - *Isa Sign* (Witcher) deals 1d6 radiant to monsters and supernatural beings.
-- **Prices vary widely.** Spells cost nothing, 1–3 Soul, 1 Charisma, 2 Body (Skinchanger), or 1–2 Material (Fireball, Fire Shield). Some perks make spells cheaper: free Widespread for bending (Marching Forest, Rock and Stone, Tsunami), and free amulet charging (Mighty Amulets).
+- **Prices vary widely.** Spells cost nothing, 1–3 Soul (Burning Hands, Kenaz and Sowilo 1 Soul since 2026-11-09), 1 Charisma, 2 Body (Skinchanger), or 1–2 Material (Fireball, Fire Shield). Some perks make spells cheaper: free Widespread for bending (Marching Forest, Rock and Stone, Tsunami), and free amulet charging (Mighty Amulets).
 - **Spell fields:** components (Verbal, Somatic, Material and/or Ritual, sometimes naming the item: "a feather of any bird"), range, area, duration, damage and damage type.
-- **Damage is 5E-sized:** Burning Hands 2d6, Fire Shield 2d8, Kenaz *Witcher level × d6*, Fireball *(3 + Warlock level)d6*. Area spells let each target "make a saving throw to halve the damage".
+- **Damage is 5E-sized:** Burning Hands 2d6, Fire Shield 2d8, Kenaz *Witcher level × d6*, Fireball *(3 + Warlock level)d6*. Area spells give each target a defense roll: an NPC who wins takes half damage, a player character who wins takes none.
 - **Schools of magic** (Arcane, Divine, Eldritch) exist in the old data. Only Detect Magic uses them ("identify its school"), and the database has no field for them. **Unused for now** *(confirmed)*: the magic skills (Fire magic, Illusion magic, …) act as schools, so Detect Magic identifies the skill. Arcane, Divine and Eldritch are kept aside and may go to another class later.
 
 ### Proposed base: Dračí Doupě 2
@@ -1315,6 +1961,20 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 - **Size:** about a small village house (a "witch's hut"). A Druid's wave can capsize a raft, but only rocks a ship.
 - **Strength:** a human's, or what a human could do by natural means. A gust of wind pushes as hard as a person could.
 
+**Units of size** *(confirmed, 2026-11-08)*: how much an open-ended spell (bending, plant control, an illusion) moves in one cast. Each step up the ladder is one Widespread.
+
+| Unit | About | On the grid | For example |
+|---|---|---|---|
+| **A palm** | A cup, a candle, a handful of earth | Part of a square | Light a pipe, chill a drink, wilt a flower |
+| **A witch's hut** (the base) | A small cottage: about 5 m across | One battle square (5 m), a handful | A wave that capsizes a raft but only rocks a ship; a shallow stream frozen to the bed for 5 m, as a dam or a bridge; one tree; walking 5 m across water; one illusion of a hut-sized thing |
+| **A farmstead** (Widespread) | A yard with its buildings: about 10 m across | 2 × 2 battle squares, a band's footprint | Fog over a small harbour; a riverbank sliding into the water; a whole grove swaying |
+| **A village** (Very widespread: only master abilities that name it) | A fort, a village green, a city district | One field square (50 m), a horde's | Catastrophe-scale nature magic: Zhrets, Black Priest |
+
+- **The ladder is also a unit's reach.** A base spell reaches a handful, Widespread a band, Very widespread a horde (see [Units](#units-drd2)).
+- **Several things within one step** (three torches, four puddles) also take Widespread, as for any multi-target action.
+- **Strength stays in words,** with no ladder: a human's by default ("a gust pushes like a man", "vines grip like hands and can be torn free"). Perks that go further say so in their text (a giant's strength, a storm).
+- **DrD2's limits stay:** only existing material in its natural form (no water from nothing; no beer or soup without a perk); a hut of water can be frozen, not a lake; effects are instant unless a perk extends them.
+
 **Duration**
 - **Instant:** one action that would otherwise be impossible (leap across the battlefield), or a change to the target's Danger Level (a wave of fear; the target can steel themselves again next moment).
 - **Until sunset or sunrise**, whichever comes first.
@@ -1363,7 +2023,7 @@ Reusable focus objects (a staff, a holy symbol) aren't components; they're [ritu
 **What limits core spells** *(confirmed)*. Core spells can be free and used every turn; the limits are elsewhere:
 - **An action** each cast, so the caster isn't attacking or doing anything else.
 - **A roll** each cast. Failures cost exhaustion at the Danger Level, and that adds up: by turn three a novice mage can be worn out.
-- **Scale:** one target (more with a paid Widespread), hut-sized, human strength, no killing. Hard circumstances add a cost to attempt.
+- **Scale:** one target and hut-sized (more targets or a larger amount with a paid Widespread), human strength, no killing. Hard circumstances add a cost to attempt.
 - **NPC immunity:** stronger NPCs can be immune to simple curses, as a stat-block ability.
 - **Blessings and Curses stays free.** It's a buff that costs an action and risks exhaustion. In play, players use buffs less once they have more active options.
 
@@ -1559,7 +2219,7 @@ When a spell is stopped, all resources put into it are lost.
 6. ~~**Strong effects vs player characters.**~~ Answered: lethal poison is damage, a threat die by strength turned into a Body Scar. For NPCs they map onto conditions (sleep → Unconscious, paralysis → Paralyzed) or the Body track (death). For player characters there are no hit points; does "death" become a big Body Scar, e.g. level = strength? → **Q17a**
 7. **Penalties fit:** DrD2 poisons use exactly the four penalty conditions we just adopted (Imprecise, Slow, Feeble, Foolish), which covers 5E's Poisoned condition without adding it.
 8. ~~**Potions vs our healing substances.**~~ Answered: one kind of Scar, Body by default; *Omni Potion* lifts the limit. Ours already hold resource points for scar healing (a Medic's burn ointment worth 5). DrD2 adds two limits: a potion treats **one kind** of Scar, and only **Body** Scars. Ours say nothing about either.
-9. ~~**"Bonus of size 1."**~~ Answered: DrD2's *Výhoda* is a merit point added to a counter, spent for a free advantage on any roll (see [Merit points](#rolls)).
+9. ~~**"Bonus of size 1."**~~ Answered: DrD2's *Výhoda* is a merit point added to a counter, spent as one free resource point (changed 2026-11-01; see [Merit points](#rolls)).
 10. ~~**Dwarves.**~~ Answered: *Iron Liver* is widened to advantage when resisting **alcohol and swallowed poisons**. It stays a chosen racial perk, so not every dwarf has it; contact poisons and gases aren't covered. 5E dwarves resist poison by race.
 
 ### Conflicts with 5E and our current rules
@@ -1581,14 +2241,236 @@ When a spell is stopped, all resources put into it are lost.
 15. **Breaking spells.** 5E's *Dispel Magic* and *Remove Curse* work by spell level. DrD2 needs the school, range, matching resources and knowledge of the spell. Breaking not healing Scars agrees with our scar healing rules.
 16. **Concentration.** 5E breaks it on damage with a Constitution save. Ours: any hit (even one armour absorbs) forces a defense roll with the caster's magic class level. Details are listed under *Breaking concentration*. → **Q14g**
 17. ~~**The "hard action" cost**~~: answered. Hard circumstances add a DM-set cost to attempt, like armour encumbrance; a sigil's 1 point per action is the same rule.
-18. **Poison duration.** DrD2 poisons and narcotics run until the next sunrise or sunset. Our Medic, Rogue and Alchemist substances have no duration rules yet.
+18. ~~**Poison duration.**~~ Answered: next sunrise or sunset by default, and Alchemist substances act at once (see [Substances and traps](#substances-and-traps)).
 19. **Ritual items vs 5E.** A 5E focus (arcane focus, holy symbol) only replaces material components. The closest 5E item to a battery is the *Pearl of Power*. No direct clash; *wellsprings* are new to our world and need a place in the World section.
 
 Open points are collected as **Q14** in [Open questions](#open-questions).
 
+## Substances and traps
+
+> **Status: confirmed (Q22, 2026-11-08).** In the rulebook as *Traps and hazards* (Equipment) and in the structure tables. One rule for everything that is made and then acts on its own: poisons, narcotics, explosives, acids, gases, mechanical traps. A second, shorter rule covers what is drunk or used up for a benefit: healing potions, elixirs, artificial life. Source: DrD2 Part III (*nástrahy*, *výroba*, and the Medic, Shaman and Alchemist substances), which Michal shared on 2026-11-08. Our confirmed poison and potion rules stay; this section generalises them.
+
+### Hazards: one stat line for every trap and harmful substance *(confirmed, 2026-11-08)*
+
+DrD2 calls them *nástrahy*: things that take their own action against whoever meets them. A poison works on the drinker, a trapdoor on whoever steps on it, a bomb on everyone near it.
+
+**Five entries** (DrD2's, unchanged):
+
+| Entry | Says | For example |
+|---|---|---|
+| **Reach** | Who it hits, and how | The drinker; whoever opens the lid; everyone within the blast |
+| **Pool** | Body, Soul or Charisma | Body for darts and acid; Soul for a nightmare draught |
+| **Strength** | How bad it is (see below) | 1–8 |
+| **Effect** | One effect, as for our poisons: damage, a condition, a Scar, a story effect, or a mix | 3d6 off Body; Paralyzed; the cell door shuts |
+| **Giveaway** | How it can be spotted. **Every hazard must have one** that gives a real chance | A bitter taste; a wire across the corridor; a hiss as the vial breaks |
+
+**Shorthand,** for stat blocks and adventure notes: *Spider venom (bite; fast Body poison, strength 5; Paralyzed).*
+
+**Strength does three jobs**, so there's one number to set:
+
+| Strength | Danger Level to avert | Damage to an NPC | Threat die against a player character | Feel |
+|---|---|---|---|---|
+| 1 | 1 | 1d6 (3) | d4 | A sting, a prank, anything made of improvised materials |
+| 2 | 2 | 2d6 (7) | d4 | A rusty snare, a vial of acid |
+| 3 | 3 | 3d6 (10) | d6 | A dart trap, a sleeping draught, a small bomb |
+| 4 | 4 | 4d6 (14) | d6 | A spiked pit, a strong poison |
+| 5 | 5 | 5d6 (17) | d8 | Black powder, a deadly poison |
+| 6 | 6 | 6d6 (21) | d8 | A collapsing ceiling |
+| 7 | 7 | 7d6 (24) | d10 | A powder keg |
+| 8 | 8 | 8d6 (28) | d10 | Legendary work |
+
+This is the poison rule already confirmed (strength d6 against NPCs, the same threat dice against player characters), stretched to every hazard. **The hazard's strength replaces the scene's Danger Level** for that one roll.
+
+### Meeting a hazard
+
+1. **Noticing it** (optional). A character who could spot the giveaway in time rolls a Soul saving throw: *Mechanisms* (Rogue) for a lock trap, *Urban* or *Wilderness survival* for an ambush trap, *Potions and poisons* (Medic) for a tainted meal.
+   - It's a **hidden roll**: whether there was anything to find is exactly the meta-knowledge hidden rolls protect. So no exhausting against it.
+   - Spotted means avoided, or at least not triggered by accident. **A hazard with no giveaway** (the *Hard to detect* property below) can only be found by searching, and that roll is disadvantaged.
+2. **Disarming it** (a found trap): a skill check with *Mechanisms* (or *Hunting* for a snare). A failure **sets it off**, unless averted by exhausting Soul equal to its strength.
+3. **Resisting it.** The victim makes an **open** saving throw with whatever fits: *Acrobatics* to dodge the darts, *Endurance* against the poison, *Willpower* against the draught. This is a skill check, since there's no attacker.
+   - **A player character** who fails averts as usual: exhaust the pool **equal to the strength**, or take a Scar. Averted means no effect.
+   - **An ordinary NPC** suffers the effect. **An important one** can spend 1 Fate.
+   - **Several victims** each roll for themselves.
+4. **No weak effect.** DrD2's hazards have a strong and a weak effect, and the weak one (a raised Danger Level) lands even on a success. We dropped that for poisons, so it's dropped for every hazard: a won roll, or an averted one, means **nothing happens**.
+5. **Armour** *(confirmed, 2026-11-08)*: counts against what mail or a shield would stop (darts, blades, falling rocks, the stones a blast throws): rating off the Scar level and off the Body cost of averting, as for any hit. It does nothing against poison, gas, acid, fire or a fall.
+
+**Hazards against things** *(confirmed, 2026-11-08)*: walls, gates, roofs and locks have a **sturdiness** (see [Structures and siege engines](#structures-and-siege-engines-draft)), which does the job of DrD2's *Odolnost*.
+- The hazard rolls its **strength in d6**. A roll below the sturdiness does nothing; one that reaches it comes off the section's Body. A small thing (a lock, a chain, a bar) simply breaks.
+- **Tamped** (packed against or under the target: hung on a gate, at the end of a mine) a charge rolls **2 more dice**. That's placement, not a better brew, so it goes past the maker's Soul cap.
+- **Acid** takes about a minute to eat through. **Gas** does nothing to things.
+- A hazard does nothing to the wrong thing: poison doesn't hurt a door.
+- *A strength-3 bomb hung on an iron-bound door (sturdiness 10, Body 40) rolls 5d6, about 17 a charge: three charges. Thrown loose at a town wall (sturdiness 20), its 3d6 almost never gets through.*
+
+### Kinds of hazard
+
+| Kind | Class | Skill | Pool | Gets in by | Takes effect | Material per strength |
+|---|---|---|---|---|---|---|
+| **Mechanical trap**: pit, darts, blade, net, alarm | Rogue | *Mechanisms* | Body; Soul for one that traps or misleads rather than hurts | Trigger: a plate, a wire, a lid | At once | 1 |
+| **Wild trap**: snare, deadfall, staked pit | Hunter | *Hunting* | Body | A tripline, a bait | At once | 1 |
+| **Swallowed poison** | Medic (anyone can try) | *Potions and poisons* | Body | Swallowed | Next sunrise or sunset | 1 |
+| **Contact poison** (weapon coatings too) | Rogue | *Contact poisons* (unique) | Body | A wound, the mouth or the eyes | Next sunrise or sunset | 1 |
+| **Narcotic**: visions, frenzy, giggling fits, love | Shaman | *Narcotic substances* (unique) | Soul or Charisma | Swallowed | Next sunrise or sunset | 1 |
+| **Explosive**: black powder, fire clay | Alchemist | *Explosives, corrosives and gases* (unique) | Body | Lit fuse, or impact | At once | 2 |
+| **Corrosive**: acid | Alchemist | The same | Body | Splashed or poured | At once | 2 |
+| **Gas** | Alchemist | The same | Body | Breathed in when the vial breaks | At once | 2 |
+
+- **The class column matters most:** it's what a player needs to make the thing. Unique skills can't be tried at all without that class; the rulebook's *Substances* page opens with the same split for every substance, potions and elixirs included.
+
+- **Narcotics** work like Medic poisons, aimed at the mind: the effect is a condition (Charmed, Frightened, Imprecise or Foolish with a skill), a Soul or Charisma Scar from the threat die, or a story effect (the victim sees things, barks like a dog). Mostly mental or social; a physical one (visions that spoil aim) is the exception.
+- **Explosives, corrosives and gases** are the Alchemist's. They cost double because they act **at once** and **hit everything around them**:
+  - **Full strength where they go off, 1 less for every metre further out.** *A strength-4 bomb hits at 4 in its square, 3 at 1 m, 2 at 2 m, 1 at 3 m.* Diving clear is the saving throw (*Acrobatics*).
+  - That area is part of the price, like a Fireball's (see [Widespread and areas](#manoeuvres)), so Widespread can't change it.
+  - **Reach by strength:** 1 in its own square only; 2 → 1 m; 3 → 2 m; 5 → 4 m; 7 → 6 m.
+  - **Gas indoors** keeps its full strength through a closed room no wider than its reach; outside it falls off like a blast.
+  - Their giveaway is often the moment itself: a flash, a bang, a smell, coloured smoke.
+- **Widespread for traps:** a mechanical trap meant to catch several people (a net across the corridor, a collapsing ceiling) costs **1 Material more**, however many it catches. Poisons and narcotics are per dose: one dose, one victim.
+- **Medic poisons and narcotics work only on humans, humanoids and animals.** The others work on anything with a body.
+
+**Properties.** Each costs **+1 Material per strength** and needs the perk that teaches it:
+
+| Property | Does | For | Perk |
+|---|---|---|---|
+| **Fast** | Works at once instead of at sunrise or sunset | Poisons, narcotics | *Unusual poison* (Medic) |
+| **Two-part** | Sleeps until something wakes it (wine, pipe smoke) | Poisons, narcotics, gases | *Unusual poison* (Medic) |
+| **Hard to detect** | No taste, smell or colour | Poisons, narcotics, gases | *Unusual poison* (Medic) |
+| **Bare skin** (+1; +2 if the maker is immune) | A contact poison that works through unbroken skin | Contact poisons | *Your lips are venomous poison* (Rogue) |
+| **On a word** | Goes off at a sound or a spoken word | Explosives, gases | *To write:* Alchemist (DrD2 *Neobvyklé třaskaviny*) |
+| **First one met** | The victim acts a set way towards the first person they meet once it takes effect (fall in love, try to kill) | Narcotics | *To write:* Shaman (DrD2 *Čarovné nápoje*) |
+
+*Example:* a strength-3 fast, hard-to-detect sleeping poison costs 3 + 3 + 3 = **9 Material** a dose.
+
+**Strength cap** *(confirmed, 2026-11-08)*: no higher than the **maker's Soul pool**, the same cap as a sigil's pool (DrD2: the maker's Soul limit).
+- **NPCs' hazards are pre-made.** The DM just writes the hazard line (or the shorthand in a stat block); an NPC maker needs no separate stat and no cap.
+
+### Making things *(confirmed, 2026-11-08)*
+
+In the rulebook as *Crafting* (Equipment).
+
+
+The same for hazards, potions, elixirs and plain gear.
+
+- **Needs:** a place, tools, time and **Material**. A smithy for an axe; a pot and a campfire for a draught.
+- **Time in a hurry:** **1 Material goes in per round.** A strength-4 bomb (8 Material) takes 8 rounds. A pit still needs digging (see [Digging and mining](#digging-and-mining-draft)).
+- **Rolls:**
+  - With **time, tools and a rest afterwards**, it simply works. A roll would only cost points the rest gives back.
+  - **In a hurry, or with no rest to follow:** a skill check with the making skill. A failure is averted with Soul at the scene's Danger Level, or the Material is lost (the DM says how much).
+- **Interrupted:** someone who wins against the maker spoils that round's Material (the ladle spills). One who sets out to wreck the work (kicks the pot over) spoils all of it.
+- **Improvised materials** (DrD2's emergency ingredients: whatever's at hand, 0 Material) *(confirmed)*. They work like improvised weapons:
+  - **Hazards:** strength **1**, and it stops working at the next sunrise or sunset. Hunter's *MacGyver* is the exception: an improvised trap up to the Soul pool.
+  - **Consumables** (potions, elixirs, sigils): no effect in the rules, only in the story. The ointment soothes; it heals nothing.
+  - **Weapons and tools:** no free manoeuvre, as improvised weapons already.
+  - *Perk to write:* a Medic perk like DrD2's *Umění improvizace*: improvised materials make any hazard of strength 1 that **keeps** past sunrise or sunset.
+  - **Medic's *Garden of Eden*** avoids the problem: what it harvests (1d4 − 1 a day) is **proper Material**, not improvised.
+- **Keeping:**
+  - Substances keep until used (a potion practically forever).
+  - A set trap stays armed until it's triggered or found.
+  - Sigils are the exception, ending at sunrise or sunset (see [Sigils](#magic)).
+- **Buying** is in [Crafted substances](#crafted-substances): about Material × 1.5 in silver. DrD2 and 5E both say materials are half the shop price, which is close.
+
+### Consumables: potions, elixirs, artificial life
+
+**Healing potions:** as confirmed (see [Our potion rules](#our-potion-rules-confirmed)). 1 Material per stored point, one kind of Scar, Body by default.
+
+**Elixirs** *(confirmed, 2026-11-08)* (Alchemist's *Elixirs*, unique). DrD2's three tiers, turned into our manoeuvres. In the rulebook under *Substances* (Magic):
+
+| Elixir | For the drinker's **next action** | Material |
+|---|---|---|
+| **Skill elixir** (DrD2 *zběhlost*) | One named skill gets a free Precise, Mighty or Cunning (set when it's made) | 2 |
+| **Master elixir** (DrD2 *mistrovství*) | One named skill gets a strong manoeuvre: Very precise, Very mighty or Very cunning | 3 |
+| **Wonder elixir** (DrD2 *zázračný*) | An ability no human has: flying, walking on calm water, breathing fire as Fire bending, seeing in the dark | 5 |
+
+- **One action,** won or lost. If the action is averted or cut short, the elixir is spent anyway. *Walking on water, the drinker loses the struggle with a drowner halfway across: the rest is swimming.*
+- **The free manoeuvre is the action's one manoeuvre.** Under disadvantage a Precise is wasted, as always.
+- **Only humans, humanoids and animals,** and the whole dose at once.
+- **Rolling with a wonder elixir:** plain 2d6, since nobody trusts a power that isn't theirs. **An Alchemist adds their Alchemist level.** So does someone who has the skill already.
+- **Several effects in one bottle:** add up the prices.
+- **No improvised materials.**
+- *Perk to write:* *Strengthened elixir* (DrD2 *Posílení elixíru*): +3 Material and a short ritual as the Alchemist hands it over, and the elixir lasts until sunset or sunrise. Only when the Alchemist gives it in person, so it can't be sold.
+- **Flying:** the Alchemist flies through the wonder elixir (and later *Strengthened elixir*); the spell *Fly* is **Warlock only** *(confirmed, 2026-11-09)*.
+
+**Artificial life** (Alchemist's *Artificial life*, unique; DrD2's *umělý život*):
+- **A shem** (a clay ball, a gem, a scroll with runes) set into a body up to human size brings it to life. **One at a time.**
+- **The ritual** takes a day and a night. It costs **5 Material per point of Bond**.
+- **It lasts** until the next solstice or equinox, and can be renewed then.
+- **The creature** is a companion with an NPC stat block in the *Undead and reanimated* category: mute, literal-minded, good at simple tasks.
+
+**Lasting magic items** *(confirmed, 2026-11-08)*: only the **Black Priest** makes them, through its mighty class perks. Everyone else, Alchemists included, makes things that run out. Other lasting artefacts (a dwarven runesmith's axe, a fairy's circlet) come from masters and the DM, as loot and story rewards.
+- **Why Black Priest:** it's built from DrD2's Wonderworker, whose *Runesmith* (a rune item holding an elixir's effect) and *Eternal spells* (a spell lasting until broken) are exactly this. The perks are still to write.
+- 5E lets anyone craft magic items by rarity, with a formula, money and time. We don't.
+
+### Next to 5E
+
+| | 5E | DrD2 | Ours (proposed) |
+|---|---|---|---|
+| **Traps** | Trigger, effect and countermeasures. Severity (setback, dangerous, deadly) × tier sets the save DC (10–20), the attack bonus and the damage (1d10 up to 24d10). The 2024 DMG scales each trap by tier. | Reach, pool, strength, effect, giveaway; strength against the victim's limit | DrD2's five entries; **strength is the Danger Level, the damage dice and the price** |
+| **Poisons** | Contact, ingested, inhaled, injury; a fixed Constitution DC and effect; 100–2,000 gp | Strength per Material, timed by sunrise and sunset | Confirmed rules; contact covers injury |
+| **Bombs and acid** | Acid 2d6 (25 gp), alchemist's fire 1d4 a turn (50 gp); the DMG's bomb 3d6 and powder keg 7d6 with a Dexterity save | Alchemist substances, 2 per strength, weaker by 1 per pace | The same, 1 less per metre |
+| **Potions** | Healing 2d4 + 2; others mostly last an hour | Healing points; elixirs for one action | Healing points; elixirs for one action, all day with a perk |
+| **Crafting** | Raw materials half the price; progress per day (2014: 5 gp a day; 2024: 10 gp a day); magic items by rarity, needing a formula | Materials half the price; a roll only in a hurry; 1 groš a round | The same, at 1 Material a round |
+| **Objects** | AC and hit points by material and size, a damage threshold | *Odolnost* 1 (paper wall) to 16+ (stone walls), against the hazard's strength | Body tracks and a sturdiness (5E's threshold) against the rolled damage |
+
+**5E's adventuring gear in our terms:**
+
+| 5E item | Ours | Material |
+|---|---|---|
+| Basic poison (1d4, coats a weapon) | Contact poison, strength 1, Fast | 2 |
+| Vial of acid | Corrosive, strength 2, one target | 4 |
+| Alchemist's fire | Corrosive, strength 2, keeps burning: it repeats each round until put out with a skill check (as *lasting flame*) | 4 |
+| Bomb | Explosive, strength 3 | 6 |
+| Keg of gunpowder | Explosive, strength 7 (a player needs Soul 7 to make it; bought or found ones are pre-made) | 14 |
+| Antitoxin | A Medic potion against poison Scars, or an antidote that breaks one poison (Material equal to its strength; see breaking spells under [Magic](#magic)) | By strength |
+| Potion of healing | Healing potion | 1 per point |
+| Potion of flying, giant strength | Wonder elixir | 5 |
+| Holy water | Not alchemy: a Blessing, or a later perk (DrD2's Paladin *Holy water*) | — |
+
+### Where it meets our rules
+
+1. **Poisons** keep every confirmed rule; this only adds the hazard line, the shorthand and the cap.
+2. **Pseudo-magic essences** (the Witcher's elixir, the Shaman's drum or amulet) are already our magic mode: a level-1 Scar, no Material. They aren't substances in this sense.
+3. **Sigils** are hazards too in a way (they act on intruders), but they're live magic, paid from their own pool. They stay as they are.
+4. **NPC abilities** use the shorthand: a wyvern's sting, a giant spider's bite.
+5. **Perks to write:** *On a word* (Alchemist), *First one met* (Shaman), *Strengthened elixir* (Alchemist), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
+
 ## Perks and spells
 
-- There are about **137** perks and spells, defined in the old `data/perks/perks.tsx`.
+- The old `data/perks/perks.tsx` (git commit `60a40a6`) had about **137** perks and spells. **All are in the database** *(2026-11-08)*: Michal rewrote the racial and Fighter perks; the other **106** were carried over as they were, with typos fixed and a few confirmed changes (bonus dice in *Trophy hunter*, the 2/3 Material price of *Your lips are venomous poison*, ice instead of cold in *Fire shield*).
+  - **Wording pass** *(2026-11-09)*: "saving throw" against a caster became a defense roll, "turns" became rounds, "challenge" became a roll where it meant a skill check, schools of magic became magic skills, and typos were fixed. Bonus actions stay for now.
+  - **Now in the database:** 143 perks and spells plus the 30 aspects. Racial perks are listed under [Races](#races).
+  - **Perk review** *(2026-11-09)*, decisions per perk:
+    - *Burning hands*, *Kenaz sign*, *Sowilo sign*: 1 Soul (specific-effect spells pay for their area).
+    - *Headcracker* (Fighter): 2 points, as any item scar.
+    - *Bison skin* (Kroll): armour rating 1 when unarmoured.
+    - *Tiwaz sign* (Witcher): free Defense manoeuvres until the end of the conflict; a lost defense roll is still averted as usual.
+    - *Berserk* (Ranger): for 5 rounds, advantage on attacks and averting a hit costs 1 less (minimum 1). No extra class level on damage, no resistance. *Later:* maybe a second perk expanding it.
+    - *Legendary warrior* (Warrior): free **Very Mighty** with the chosen weapon type, replacing the weapon's own free manoeuvre. The first strong-manoeuvre perk.
+    - *Borders walker* (Ranger): **passive**, encumbrance 1 lower in the wilderness (medium free, heavy 1 Body). It was 1 Soul for a 1-point discount.
+    - *Two birds* (Juggler): a second throw as a **bonus action**, like Hunter's *Double shot*. It was a paid Widespread, which anyone can already use.
+    - *Earthquake* (Druid): shrunk to a **farmstead**, a 5 m radius at up to 30 m, **3d6 bludgeoning** and prone on a lost defense roll; 3 Soul, no Material. A 30 m radius is village scale, kept for master abilities.
+    - *City guide* (Rogue): **1 Soul** per use, like the other "you can determine…" perks.
+    - *Strongman* (Fighter): only advantage on sheer strength. Wielding two-handed weapons one-handed belongs to the Warrior's *Mountain that rides*.
+    - *Gladiator* and *Fight club* (Fighter): Gladiator gives advantage with **proper weapons** only; Fight club with **fists and improvised weapons** (the brawler, alongside *Headcracker* and *Rock fist*).
+    - *Blinding lights* (Mage) and *Sowilo sign* (Witcher): Blinding lights bursts at a point within 10 m; Sowilo bursts **around the Witcher**, who is immune to it (close allies aren't). Both 1 Soul.
+    - *Behind blue eyes* (Elf): +1 point per **Soul** Scar (a typo said Charisma). One race per pool: Kroll *Fury* Body, Elf Soul, Human *Sticks and stones* Charisma.
+    - **Water perks, split by body, small boat and ship:**
+      - *Just keep swimming* (Hunter): swimming, diving, holding breath, fishing.
+      - *Soon may the Wellerman come* (**Ranger only** now): small boats on rivers, lakes and coasts (rowing, canoes, rafts), and building rafts, dugouts and rowing boats.
+      - **Seafaring** (Scout skill, S, **new**): sailing a ship, rigging and crew, navigating the open sea, reading the sea and weather at sea. Rolled with the Scout level; Body where it's hauling rigging in a storm.
+      - *Sea legs* (Scout, **new**): advantage on Seafaring.
+    - **Sensing the supernatural, in layers:** *Witcher senses* (passive) feels monsters, fiends and undead within about 100 m, with no direction or number, except the greatest; *Othala sign* (now **1 Soul**) pinpoints them and magic within 20 m, invisible ones too; Ranger's *Hunter instinct* feels **monsters only**, like Witcher senses.
+    - *Animal whisperer* (Hunter): renamed from *Beast master*, which clashed with the Ranger aspect *Beastmaster*. The id stays `beast-master`.
+    - *Fly*: **Warlock only**; the Alchemist flies with the wonder elixir.
+    - *It's not a sacrifice* (Medic): after an hour of care, each Body point the Medic exhausts restores one of the patient's exhausted Body points. No Scar healing (that's *Good Samaritan*).
+    - *Field medic* (Medic): 1 Material per use. An action restores 1 exhausted Body point to an ally within touch; a bonus action and a *Healing the human body* skill check stabilise a dying ally at once.
+    - **Scar-bonus perks** (*Fury*, *Behind blue eyes*, *Sticks and stones*, *For the king!*): only a Scar taken **to avert a failure** gives 3 points instead of 2. Blank payments (magic mode, Cruelly mighty) and DM-imposed Scars give nothing extra.
+    - *Infiltration expertise* (Rogue): **25 silver**, about a month's wages. A Coins price on a perk is always in silver, and the app shows it as "Pay 25 silver".
+    - *Scrappy* (Halfling) and *Garden of Eden* (Medic) give **proper** Material, not improvised.
+    - **Spell fields tidied:** areas moved out of the range field (*Burning hands*, *Kenaz*), *Pied piper* priced per animal, *Salamander sigil* lasts until sunset or sunrise, and Material notes for the sigils, *Fireball* and *Fire shield* (5E's components).
+    - *Fireball* (Warlock): a **4 m radius** (5E's 20 ft).
+    - *Blessings and curses* (Incantor): lasts **until sunset or sunrise**, on every roll of the named kind; **one blessing or curse per target**, a new one replaces the old. The d4 bonus die is used once, as any bonus die.
+    - **Ids cleaned:** 24 perks, the *Bard* background and the *Druidic* language had the Czech name in their id (`fury-cs-zbesilost` → `fury`); also `connosieur` → `connoisseur`, and the aspects `brute` → `hire-sword` and `enchanter` → `puppetmaster`. The admin editors now make a new id from the **English** name only.
+    - **Aspect gating:** no class perk has a requirement yet, so the aspects gate nothing. Michal assigns them class by class while finalising the perks.
+    - *Monastic school* (Warrior): **removed**. It was "unarmed: Warrior level × d6", which made fists the best weapon. Unarmed fighting comes back as several perks under the **Monk** aspect. Options discussed: an unarmed die growing with Warrior level (d6 at 1–2, d8 at 3–4, d10 at 5, plus the Fighter level), and fists counting as a proper weapon with a free manoeuvre.
+  - *Berserk* (Ranger perk) and *Poisoner* (Medic perk) share their names with the Witcher and Rogue aspects; their ids are `ranger-berserk` and `medic-poisoner`.
 - Each belongs to a race (racial perks) or a class (class perks, core spells, spells).
 - **Perk:** a name, a one-line **flavour** text with the gist, a description, and either **passive** or an **activation price**. A price is an amount (or "Variable") of a resource (Body, Soul, Charisma, Material, Coins), sometimes with a unit, e.g. "per unit of strength" or "per group member".
   - A Body, Soul or Charisma price is paid by **exhausting** that many points of the pool.
@@ -1709,6 +2591,7 @@ Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also spe
 - **Cut hard:** armour (plate 1,500 gp → 480 sp), horses (riding horse ~150 sp, destrier 12–24 gp), livestock (halved), food and lifestyle (cut about 10×: modest living is 1 sp a day).
 - **Raised:** clothing and books, which 5E undercharges (common clothes 40 sp, fine clothes 300 sp, a book 150 sp).
 - **Swords are the expensive weapon** (longsword 120 sp); village iron and polearms are cheap (spear 4 sp, halberd 25 sp).
+- **Silvering** a weapon, or ten pieces of ammunition: **50 sp** *(confirmed, 2026-11-08; 5E's 100 gp)*. About a third of a longsword: affordable for a monster hunter, not an afterthought.
 - **Not available:** spyglass. Acid, alchemist's fire, antitoxin, poisons and potions follow the Material rules.
 
 ### Crafted substances
@@ -1785,13 +2668,13 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 **Built** at `/rulebook` (public, no login needed), following the structure below.
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain; a plain one can take `width` and/or `height`, and `align`; on a header or side picture `align` picks the part that stays in view: `top`, `bottom left`, `30%` or `20% 70%`), and ordering of chapters and pages. The front page has the slug `index`.
-- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds: `companion`, `unit`, `network`, `organization`, `ritual-item`; any can take an `emblem:` picture and an `allegiance:`; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
 - **Two languages:** every page and data field can hold English and Czech (`English |cs| Czech`, or the editor's tabs); readers switch in the navbar. See *Languages* in [visual-language.md](visual-language.md).
 - **Data blocks:** races, backgrounds, languages, traits, weapons, aspects and class cards are read from their own tables (`::races`, `::aspects`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
 Drafted while writing the pages, to confirm:
 - **Conditions:** "automatically fails Strength/Dexterity saving throws" became "automatically loses Body defense rolls"; Restrained's "disadvantage on Dexterity saving throws" became "disadvantage on Body defense rolls".
-- **Conditions:** 5E's "a hit within 5 feet is a critical hit" (Paralyzed, Unconscious) became "a hit from within 1 m adds an extra damage die", since there are no critical hits.
+- **Conditions:** 5E's "a hit within 5 feet is a critical hit" (Paralyzed, Unconscious) stays a critical hit, within 1 m (see [Rolls](#rolls)).
 - **NPC damage dice:** d4 weak, d6 normal, **d8 or more for big threats** (ogres, trolls), and anything the DM likes for gargantuan ones.
 - **Bows and crossbows** in the weapon table use the 5E ranges converted at 5 ft = 1 m (shortbow 16/64 m, longbow 30/120 m).
 
@@ -1804,14 +2687,16 @@ Drafted while writing the pages, to confirm:
 
 **Structure** (built):
 
-- **Basics:** What this game is · Dice rolls · Hazards · Advantage and bonus dice · Merit points
+- **Basics:** What this game is · Dice rolls (including saving throws) · Advantage · Bonuses
 - **Classes:** How classes work · Basic classes · Advanced classes and aspects · Mighty classes · one page per class (skills, aspects, perks)
 - **Resources:** Resources · Danger Level · Cost to attempt · Exhaustion · Scars · Healing · Item scars · Dying
 - **Combat:** Turns and actions · Defending · Damage and armour · Manoeuvres · Conditions · NPCs
-- **Magic:** Casting magic · Durations and concentration · Sigils · Ritual items · Control and mind reading · Countering magic · Poisons · Potions
+- **Magic:** Casting magic · Durations and concentration · Sigils · Ritual items · Control and mind reading · Countering magic · Substances (poisons, narcotics, potions, elixirs, with a table of what works on what)
+- **Equipment:** Weapons · Armour · Item scars · Traps and hazards · Crafting
 - **Characters:** Creating a character · Races · Backgrounds · Languages · Traits · Leveling
-- **Companions and power:** Companions · Organizations and Standing · Networks · Units
-- **World:** Coins and Material · Travel (with the calculator)
+- **Companions and power:** Companions · Organizations and Standing · Networks · Units · Battles
+- **World:** Coins and Material · Travel (pace, tasks, weather, encounters, the calculator) · Sieges
+- **Useful tables** *(draft, 2026-11-08)*: Speeds · A day's travel · Ground · Weather · Random encounters · Digging and mining · Walls and gates · Roofs · Siege engines · Grid and scales. Lookup tables for the DM, from the drafts under [Travel](#travel), [Digging and mining](#digging-and-mining-draft) and [Structures and siege engines](#structures-and-siege-engines-draft); keep both in step.
 
 The pages added on 2026-10-28 hold rules only; their examples and story bits are Michal's to write. The weapon table on *Dice rolls* is the `::weapons` block, filled from the item list.
 
@@ -1839,14 +2724,15 @@ Built so far: a campaign overview (cover, name, description, DM, characters) and
 
 The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, Q7c, Q11b, Q11c, Q1a, the readings, merit points and the poison leftovers answered). Resume here.
 
-**Pending question:** **Q20b**, the draft bestiary subgroups (see [Subgroups](#subgroups)).
+**Pending question:** none from Q20–Q22; next up are the leftovers under *Still open after that*. **Q22**, substances and traps, is fully answered (2026-11-08).
 
 **Still open after that:**
+- ~~**Units for magic**~~: answered (2026-11-08). A size ladder (palm, witch's hut, farmstead, village; one Widespread per step, tied to the grid); strength described in words only.
 - **Q18g, Power:** kept for now, not confirmed; revisit once organizations have been played.
-- **Rules still to write:** mighty class skills and perks (including the Standing 3–5 perks, and Warlord's skills for creating and commanding military units).
+- **Rules still to write:** mighty class perks (no skills; including the Standing 3–5 perks, and Warlord's perks for creating and commanding military units).
 
 **App and data follow-ups:** written into the app on **2026-10-28**: the rulebook pages (rules only; Michal writes the examples), mighty class prerequisites, all 30 aspects, the shared *Dealing with supernatural beings* skill, race speed, each weapon's free manoeuvre (item editor and the `::weapons` block), per-campaign merit points (campaign page) and the pool-under-2 warning. Still to do:
-- Perks to add when class perks go into the database: the Incantor concentration perk, the Incantor familiar spell, *Omni Potion* and *Unusual poisons* (Medic), strong manoeuvre perks, cruel manoeuvre perks for mighty classes. *Trophy Hunter*'s "Advantage dice" wording → bonus die. *Your Lips Are Venomous Poison*: skin poison at 2 Material per strength, 3 with immunity. (*Iron Liver* is updated.)
+- Perks still to write: Black Priest perks for crafting lasting magic items, the Incantor concentration perk, the Incantor familiar spell, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, the Monk aspect's unarmed-fighting perks (replacing *Monastic school*). (Done: *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
 - Rulebook examples and story bits for the new pages (Michal).
 - *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
 - **Pricing, modular armour and backgrounds** (2026-10-31): the code is in, but the database part waits in `supabase/migrations/2026103112*.sql` (schema, then items and backgrounds, then the rulebook armour paragraphs); applying it from the session was declined. To confirm: **scarring armour breaks one piece** (replaces "rating drops by 1"), and the background balance.
@@ -1872,13 +2758,12 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
    - Answered: all ten advanced classes have aspects at 4 + 2, 3 + 3 and 2 + 4 (see [Aspects](#aspects)). Aspects for mighty classes still need defining.
 5. ~~Advantage~~: answered (3d6 keep best two; 2d20 keep higher; "Advantage dice" are now **bonus dice**).
    - ~~Q5a~~: answered (disadvantage mirrors advantage; sources don't stack). **Changed:** disadvantage always wins and cancels advantage; advantage never cancels disadvantage (unlike 5E). The rulebook's Advantage page still says they cancel out.
-   - The Trophy Hunter perk text still says "Advantage dice" and needs updating.
 6. ~~Non-unique skills~~: answered (anyone can attempt them, with no class bonus).
 7. **5E leftovers:**
-   - ~~Saving throws~~: answered (they're **defense rolls**: reaction challenges using the action or the Defense manoeuvre).
+   - ~~Saving throws~~: answered (5E's against an attacker or caster are **defense rolls**: reaction challenges using the action or the Defense manoeuvre; against the environment, a **saving throw** is our skill check).
    - ~~Q7a~~: answered (the attacker makes a skill check to land, then rolls damage by threat size: d4, d6 or larger).
    - Strength/Dexterity saves in the Restrained and Unconscious conditions need rewording to a resource, or dropping.
-   - ~~**Q7c, saves without stats**~~: answered. Hazards are skill checks with any class that fits the described approach; skills follow areas of expertise, not stats. A table of default classes sets expectations (see [Hazards](#hazards-confirmed)).
+   - ~~**Q7c, saves without stats**~~: answered. Saving throws are skill checks with any class that fits the described approach; skills follow areas of expertise, not stats. A table of default classes sets expectations (see [Saving throws](#saving-throws-confirmed)).
    - ~~Metres or feet?~~ Answered: **metres**, for player legibility.
    - ~~Q7b~~: answered (simplified 5 ft = 1 m).
 8. **Content gaps:**
@@ -1926,8 +2811,8 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q15c, bonus scale**~~: answered. Usually like player characters (up to +5); legendary NPCs can go up to **+8**, but only in incredible instances.
 16. **Manoeuvres** (see [Manoeuvres in DrD2](#manoeuvres-in-drd2)):
     - ~~**Q16a, Cunning**~~: answered. Ours stays (prone, grapple or push); DrD2's Danger Level version isn't used.
-    - ~~**Q16b, rules of use**~~: answered. ~~Timing?~~ Answered: DrD2's timing (see *When to declare*). Cunning is declared after the attack lands. Mighty is declared before the roll; a miss gives disadvantage on the character's next roll. ~~"Free when you have advantage"?~~ Dropped: any advantage on an action is a free Precise, on initiative a free Quick. ~~How many per action?~~ One paid manoeuvre; free ones (weapon, perk, advantage) and Quick don't count.
-    - ~~**Q16c, Widespread and areas**~~: answered. Every multi-target action needs Widespread. Perk spells with an area have it built in, paid for by their activation price (like a 5E spell slot); base forms of magic pay for it.
+    - ~~**Q16b, rules of use**~~: answered. ~~Timing?~~ Answered: DrD2's timing (see *When to declare*). Cunning is declared after the attack lands. Mighty is declared before the roll, with no penalty for missing (changed 2026-11-01). ~~"Free when you have advantage"?~~ Dropped: any advantage on an action is a free Precise, on initiative a free Quick. ~~How many per action?~~ One manoeuvre, free ones and Quick included; Defense and a critical hit's free Mighty don't count (changed 2026-11-01; it was one paid manoeuvre). Conditions are to be reworded to name the manoeuvre ("attacks against a prone target are Precise").
+    - ~~**Q16c, Widespread and areas**~~: answered. Every multi-target action needs Widespread. Spells with an unspecified effect (usually core spells) pay for Widespread to reach more targets or a larger amount. Spells with a specific effect (Fireball) have a fixed area, paid for by their activation price (like a 5E spell slot), and Widespread can't change it.
     - ~~**Q16d, weapon manoeuvres**~~: answered. Each weapon grants one free manoeuvre, chosen by the admin in the item editor (default by damage type: piercing Cunning, slashing Precise, bludgeoning Mighty); shields grant a free Defense once per round. The editor field isn't built yet.
     - ~~**Q16e, mastery**~~: answered. Strong manoeuvres come from class perks; cruel manoeuvres from mighty class perks; NPCs get either as stat-block abilities. Class level alone unlocks neither.
     - ~~**Q16f, NPC manoeuvres**~~: answered. ~~How do NPCs pay?~~ Answered: manoeuvres granted by their weapon or stat block are free; an ungranted one costs 1 point of a track, usually Soul or Charisma. ~~Cruelly mighty against them?~~ An NPC that defends first takes damage before the challenge roll; one that doesn't takes +2 damage dice. Damage before the roll is one die of the attack (Body) or the attacker's class level (Soul, Charisma). The full Mighty table is under *The Mighty versions*.
@@ -1959,4 +2844,20 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q19d, Elementalist**~~: answered. Kept split: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe let Zhrets reach all four elements through a purchasable perk, even without Warlock.
 20. **Bestiary** (see [Bestiary](#bestiary)): five root categories confirmed: Animals, Humans and humanoids, Undead and reanimated, Monsters, Fiends.
     - ~~**Q20a, combat skills**~~: answered. "Humans and beasts" (Fighter, Hunter, Juggler, Warrior, Scout) means exactly Humans and humanoids plus Animals. Trolls and giants are Fighter's; wyverns and lesser vampires need Ranger or Witcher.
-    - **Q20b, subgroups:** a draft is in [Subgroups](#subgroups).
+    - ~~**Q20b, subgroups**~~: answered. The draft subgroups are confirmed and in the app (see [Subgroups](#subgroups)).
+21. ~~**Domains, sieges and war**~~ (see [Domains, sieges and war](#domains-sieges-and-war)): answered 2026-11-08, from DrD 1.6's *Svět*.
+    - ~~**Q21a, the domain model**~~: answered. Seasonal turns with the mood scale, not the network rules: running a domain is active upkeep (see [The seasonal turn](#the-seasonal-turn-confirmed-2026-11-08-numbers-are-a-starting-point)).
+    - ~~**Q21d, seasonal numbers**~~: answered. The draft tables are the starting point, to adjust in play.
+    - ~~**Q21f, yield from holdings**~~: answered. Income is the sum of the domain's holdings (lány, mills, taverns, fishponds, tolls, markets, houses), per mood column.
+    - ~~**Q21e, holdings in the turn**~~: answered. Building or repairing a holding is an upkeep action (+1); disasters hit specific holdings as well as the mood.
+    - ~~**Q21b, fortifications**~~: answered. Wall sections, towers and gates have Body tracks and sturdiness; stores are counted in weeks (double the people, half the weeks); the storm gives defenders a free Defense, climbers a 1 Body cost to attempt and no defense, and falls are hazards by height.
+    - ~~**Q21c, battles**~~: answered. 0 Charisma scatters a unit (gathered again a size smaller), 0 Body destroys it; panic hits touching units; an army breaks at a quarter of its units; the commander's duel (see [Battles](#battles-confirmed-2026-11-08)).
+22. ~~**Substances and traps**~~ (see [Substances and traps](#substances-and-traps)): answered 2026-11-08, from DrD2's *nástrahy*, crafting and substances.
+    - ~~**Q22a, one hazard rule**~~: answered. Every trap and harmful substance uses DrD2's five entries (Reach, Pool, Strength, Effect, Giveaway). Strength is the Danger Level to avert, the damage dice (strength d6 against NPCs, a threat die against player characters) and the price. One effect, no weak effect.
+    - ~~**Q22b, cap**~~: answered. Strength is no higher than the maker's Soul pool. NPC hazards are pre-made, written as a hazard line with no maker's stat.
+    - ~~**Q22c, armour against traps**~~: answered. Armour counts against darts, blades, rocks and blasts (off the Scar level and the Body cost of averting), not against poison, gas, acid, fire or falls.
+    - ~~**Q22d, Alchemist prices**~~: answered. Explosives, corrosives and gases cost 2 Material per strength and lose 1 strength per metre from where they go off.
+    - ~~**Q22h, sturdiness**~~: answered. The structures' threshold is renamed **sturdiness** and stays a threshold against rolled damage, for hazards too (the slight randomness is wanted). Tamped charges roll 2 more dice. DrD2's *Odolnost* isn't used.
+    - ~~**Q22e, elixirs**~~: answered. Skill elixir (a free Precise, Mighty or Cunning with one named skill, 2 Material), master elixir (the Very version, 3), wonder elixir (an ability no human has, 5); each for the drinker's next action.
+    - ~~**Q22f, lasting magic items**~~: answered. Only the Black Priest crafts them, through mighty class perks (from DrD2's Wonderworker: *Runesmith*, *Eternal spells*). Others make consumables; lasting artefacts otherwise come from the DM.
+    - ~~**Q22g, crafting**~~: answered. Automatic with time, tools and a rest; otherwise a skill check; 1 Material a round in a hurry; improvised materials (0 Material) make strength-1 hazards that end at sunrise or sunset, and consumables with no effect. *Garden of Eden* harvests proper Material.
