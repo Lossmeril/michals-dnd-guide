@@ -1,0 +1,68 @@
+"use server";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+
+import { localize } from "@/lib/i18n/localize";
+import { getLang } from "@/lib/i18n/server";
+import type { Build } from "@/lib/rules/character";
+import { parsePicks } from "@/lib/rules/equipment";
+
+const db = async () => createClient(await cookies());
+
+export const fetchCharacterBuild = async (characterId: number) => {
+  const { data, error } = await (await db())
+    .from("characters")
+    .select("*, character_classes(class_id, level), character_perks(perk_id, class_id), character_languages(language_id), character_traits(trait_id), character_items(*)")
+    .eq("id", characterId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const {
+    character_classes,
+    character_perks,
+    character_languages,
+    character_traits,
+    character_items,
+    ...character
+  } = data;
+  const build: Build = {
+    raceId: character.race_id,
+    backgroundId: character.background_id,
+    equipment: parsePicks(character.equipment_picks),
+    languages: character_languages.map((l) => l.language_id),
+    traitIds: character_traits.map((t) => t.trait_id),
+    classes: Object.fromEntries(character_classes.map((c) => [c.class_id, c.level])),
+    perks: character_perks.map((p) => ({ perkId: p.perk_id, classId: p.class_id })),
+    body: character.body,
+    soul: character.soul,
+    charisma: character.charisma,
+  };
+  // Inventory isn't part of the build: it changes in play
+  const inventory = character_items.sort((a, b) => a.id - b.id);
+  return { character, build, inventory };
+};
+
+// Classes and race names for character cards, one query per table for any number of characters
+export const fetchCharacterSummaries = async (characterIds: number[]) => {
+  const supabase = await db();
+  const [classes, races] = await Promise.all([
+    supabase
+      .from("character_classes")
+      .select("character_id, level, classes(name, sort)")
+      .in("character_id", characterIds),
+    supabase.from("races").select("id, name"),
+  ]);
+  if (classes.error) throw classes.error;
+  if (races.error) throw races.error;
+  const lang = await getLang();
+
+  // Plain objects: server action results must be serializable
+  const classesByCharacter: Record<number, string[]> = {};
+  for (const c of classes.data.sort((a, b) => a.classes.sort - b.classes.sort)) {
+    (classesByCharacter[c.character_id] ??= []).push(`${localize(c.classes.name, lang)} ${c.level}`);
+  }
+  const raceNames = Object.fromEntries(races.data.map((r) => [r.id, localize(r.name, lang)]));
+
+  return { classesByCharacter, raceNames };
+};

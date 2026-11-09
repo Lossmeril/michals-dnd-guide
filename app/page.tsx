@@ -1,4 +1,4 @@
-import Card from "@/components/ui/card";
+import Card, { CardGrid } from "@/components/ui/card";
 import { Heading } from "@/components/ui/typography";
 import { requireUser } from "@/lib/auth";
 
@@ -10,17 +10,16 @@ const HomePage = async () => {
       <Heading level={1} className="mb-10">
         Welcome to Michal&apos;s D&D Guide!
       </Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CardGrid>
         <Card
-          title="Ruleset"
+          title="Rulebook"
           imageUrl="https://www.dndbeyond.com/attachments/12/891/laying-the-spread.jpg"
           imageClassName="object-center"
-          link="/ruleset"
-          disabled
+          link="/rulebook"
         >
           <p>
-            Explore my custom ruleset for D&D, reference materials, and house
-            rules.
+            The rules: dice, resources, Scars, combat, classes and everything
+            in between.
           </p>
         </Card>
         <Card
@@ -44,7 +43,7 @@ const HomePage = async () => {
             about your companions.
           </p>
         </Card>
-      </div>
+      </CardGrid>
     </>
   );
 };
