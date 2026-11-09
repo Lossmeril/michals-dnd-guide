@@ -99,12 +99,14 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Media object** (`components/ui/mediaObject.tsx`): a 3:4 portrait beside its text, e.g. a class's or race's details.
 - **Card rows** in the rulebook (`::::cards{cols="3"}`): one column on phones, two on tablets, three on extra-wide screens. Cards in a row of three put their picture on top.
 - **Items** (`components/game/itemIcon.tsx`): a small square picture, or an ink icon of the item's kind (crossed swords, armour, shield, shirt, toolbox, knapsack). Broken items are greyed out and struck through.
-- **Merit counter** (`components/game/meritCounter.tsx`): a character's merit points in one campaign, with − for whoever may spend and + for the DM. Turns red above the usual 3.
+- **Stat blocks** (`components/game/statBlocks.tsx`): 5E-style blocks for NPCs, companions, units, networks, organizations and ritual items, gold bars top and bottom, tick boxes for tracks and Bond, a yellow "Running it" box of rules. An `emblem:` (coat of arms, guild mark) sits by the name to show allegiance. The ritual item is a small card to fill in by hand (stored points, the charging table and the link to renew; `components/game/ritualCharging.tsx`). Preview: `/dev/stat-blocks`.
+- **Merit counter** (`components/game/meritCounter.tsx`): a character's merit points in one campaign, with − for whoever may spend and + for the DM.
 - **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame; **hidden for now** with `SHOW_PERK_IMAGES` until the art is ready), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
 - Clicking a picture or card opens the details; the actions sit in the footer.
 
 ### Page layouts
 
+- **Printed character sheet** (`/characters/[id]/print`): white A4 pages. Page 1 is the front and fills one sheet: pools as boxes to strike in pencil (/ exhausted, X scarred) with the character's skills listed under their resource, a Danger Level track (1–5+) at their side for a token, armour, weapons, purse, Scars and dying. No player name, merits or rules crib (a separate rules sheet is planned). Perks and spells flow on in two columns over as many sheets as needed; gear, an Incantor's ritual item card, traits and story close it. All printing is A4 (`@page` in `globals.scss`); the navbar and the admin bar are `print:hidden`.
 - **Breadcrumbs** (`components/ui/breadcrumbs.tsx`) open every page except home and the auth pages: `Home › Characters › Zara › Edit`. Pass the trail from the top down; Home is added for you and the last crumb is the current page. Admin pages start with `Admin` (`ADMIN_CRUMB`), via `AdminHeader`'s `crumbs`.
 
 - **Auth pages** (`app/(auth)/authShell.tsx`, from guide2.0's `EditorShell` with sidebar): an image card on the side (the city gate) with the link to the other auth page, and the title, story box and form panel in the main column.

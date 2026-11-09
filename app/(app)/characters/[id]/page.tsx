@@ -42,14 +42,22 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
         level={character.level}
         ownerName={ownerName}
         actions={
-          isOwner && (
+          <>
+            {isOwner && (
+              <Link
+                href={`/characters/${character.id}/editor`}
+                className="button"
+              >
+                Edit character
+              </Link>
+            )}
             <Link
-              href={`/characters/${character.id}/editor`}
-              className="button"
+              href={`/characters/${character.id}/print`}
+              className="button button-secondary"
             >
-              Edit character
+              Print sheet
             </Link>
-          )
+          </>
         }
       />
       <RaceSection {...sectionProps} />

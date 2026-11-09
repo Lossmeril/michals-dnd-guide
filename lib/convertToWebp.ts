@@ -4,6 +4,10 @@ export const convertToWebp = async (
   file: File,
   { maxDimension = 1024, quality = 0.85 } = {},
 ): Promise<File> => {
+  // A canvas keeps only the first frame, so a GIF would stop moving.
+  // Upload it as it is; the size check still applies.
+  if (file.type === "image/gif") return file;
+
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
   const width = Math.round(bitmap.width * scale);

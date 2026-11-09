@@ -18,7 +18,7 @@ const ROWS: [string, string][] = [
   ['::image{src="…" alt="…" width="300"}', "An inline picture at a set size (px, or e.g. \"50%\"): width or height alone keeps its ratio, both crop it; align=\"left\", \"center\" or \"right\" (default center)"],
   [':::stats[Caption] + ::stat{r="body" base="5" exhausted="2" scarred="1"}', "Resource bars, e.g. before and after"],
   ['::::cards + :::card[Title]{#id image="…" subtitle="…"}', "Cards in a column, e.g. conditions; {#id} lets links jump to one"],
-  ["```npc (or companion, unit, network, organization)", "A stat block: `key: value` lines (name, subtitle, image, body, soul, charisma, …), then ## sections. ```npc wide spans the page; rules: no drops the reminders"],
+  ["```npc (or companion, unit, network, organization, ritual-item)", "A stat block: `key: value` lines (name, subtitle, image, body, soul, charisma, …), then ## sections. emblem: a coat of arms or logo shown by the name, allegiance: whose side it's on. A ritual-item is a small card to fill in by hand: just name, subtitle and emblem. ```npc wide spans the page; rules: no drops the reminders"],
   [":::en / :::cs", "Text for one language only, e.g. an example that only makes sense in Czech. Close with :::"],
   ['::creature{id="wyvern"}', "A creature's stat block from the bestiary, by its id (shown on the real page, not in the preview)"],
   ["Town guard |cs| Městský strážný", "A translated line inside a stat block (any field or section)"],

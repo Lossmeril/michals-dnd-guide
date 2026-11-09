@@ -9,6 +9,8 @@ export const SAMPLES: { title: string; markdown: string }[] = [
 name: Town guard |cs| Městský strážný
 image: /img/classes/fighter.webp
 subtitle: Human, ordinary |cs| Člověk, obyčejný
+emblem: /img/emblems/watch-kruta-hora.svg
+allegiance: The watch of Krutá Hora
 armour: Medium (2)
 speed: 6 m
 threat: d6
@@ -34,6 +36,8 @@ languages: Common tongue
 name: Captain of the watch
 image: /img/classes/warrior.webp
 subtitle: Human, important
+emblem: /img/emblems/watch-kruta-hora.svg
+allegiance: The watch of Krutá Hora
 armour: Heavy (3)
 speed: 6 m
 threat: d8
@@ -69,6 +73,8 @@ languages: Common tongue, Liturgic
 name: Strahd von Zarovich
 image: /img/classes/black-priest.webp
 subtitle: Vampire (undead), legendary. Lord of Barovia
+emblem: /img/emblems/barovia.svg
+allegiance: House von Zarovich
 armour: Natural (2)
 speed: 6 m, climbing 6 m
 threat: d10
@@ -154,6 +160,8 @@ senses: Keen hearing and smell
 \`\`\`unit
 name: Band of watchmen
 subtitle: Human soldiers, enemy unit
+emblem: /img/emblems/watch-kruta-hora.svg
+allegiance: The watch of Krutá Hora
 size: band
 members: About 30 town guards
 armour: Medium (2)
@@ -182,6 +190,7 @@ manoeuvres: Cunning (spears), Widespread on every action
 name: The Harbour Rats
 image: /img/classes/rogue.webp
 subtitle: Smuggling ring, Reach 1
+emblem: /img/emblems/harbour-rats.svg
 master: A Scout 3, Standing 1
 bonus: +3
 specialisation: Smuggling and fencing
@@ -207,6 +216,7 @@ charisma: 4
 name: The watch of Krutá Hora
 image: /img/classes/warlord.webp
 subtitle: City watch, semi-independent of the royal administration
+emblem: /img/emblems/watch-kruta-hora.svg
 reach: 3
 seat: The Lantern Tower by the old market
 leader: Captain Jorgen Veit
@@ -220,6 +230,17 @@ rivals: The underworld families, the royal reeve
 
 ## Secrets
 The captain's chair is bought, not earned. Half the sergeants are on someone's payroll.
+\`\`\`
+`,
+  },
+  {
+    title: "Ritual item",
+    markdown: `
+\`\`\`ritual-item
+name: Staff of the Ashen Oak |cs| Hůl popelavého dubu
+emblem: /img/emblems/order-of-ash.svg
+allegiance: Order of the Ash
+subtitle: Brother Kolva's ritual item
 \`\`\`
 `,
   },

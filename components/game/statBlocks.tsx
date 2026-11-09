@@ -1,5 +1,6 @@
-// 5E-style stat blocks for NPCs, companions, units, networks and
-// organizations. Each prints on its own (the print button) with boxes to tick
+// 5E-style stat blocks for NPCs, companions, units, networks, organizations
+// and Incantors' ritual items. Any of them can carry an emblem (a coat of
+// arms, a guild mark) to show whose side it's on. Each prints on its own (the print button) with boxes to tick
 // in play and the rules it needs printed underneath.
 
 import { Fragment } from "react";
@@ -19,6 +20,7 @@ import {
   type UnitSize,
 } from "@/lib/rules/statBlocks";
 import { type Pool, RESOURCE_STYLES } from "./resources";
+import RitualCharging from "./ritualCharging";
 
 /** Renders Markdown with the rulebook's shortcodes; inline drops the <p> */
 export type RenderMd = (text: string, inline?: boolean) => React.ReactNode;
@@ -145,22 +147,35 @@ const Frame: React.FC<{
   data: StatBlockData;
   md: RenderMd;
   wide?: boolean;
+  /** A small card with no picture, e.g. a ritual item */
+  compact?: boolean;
   top: React.ReactNode;
   children: React.ReactNode;
-}> = ({ t, data, md, wide, top, children }) => {
-  const image = fieldOf(data, "image");
+}> = ({ t, data, md, wide, compact, top, children }) => {
+  const image = compact ? undefined : fieldOf(data, "image");
+  const emblem = fieldOf(data, "emblem");
+  const allegiance = fieldOf(data, "allegiance");
   return (
     <article
       data-printable
       className={twMerge(
         "stat-block clear-both relative my-8 flex flex-col sm:flex-row bg-dnd-bg text-dnd-ink",
         "border-y-[6px] border-dnd-gold shadow-[0_0_10px_rgba(0,0,0,0.25)]",
-        wide ? "w-full" : image ? "max-w-3xl" : "max-w-2xl",
+        compact ? "max-w-md" : wide ? "w-full" : image ? "max-w-3xl" : "max-w-2xl",
       )}
     >
       <div className="flex-1 min-w-0 px-4 pt-3 pb-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          {emblem && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={emblem}
+              alt={allegiance ?? ""}
+              title={allegiance}
+              className="shrink-0 w-12 h-14 object-contain drop-shadow-sm"
+            />
+          )}
+          <div className="min-w-0 flex-1">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-dnd-ink/60">
               {t.kinds[data.kind]}
             </p>
@@ -169,6 +184,12 @@ const Frame: React.FC<{
             </h3>
             {data.subtitle && (
               <p className="italic text-sm">{md(data.subtitle, true)}</p>
+            )}
+            {allegiance && (
+              <p className="text-xs">
+                <span className="font-bold text-dnd-red-dark">{t.labels.allegiance}</span>{" "}
+                {md(allegiance, true)}
+              </p>
             )}
           </div>
           <PrintButton label={t.print(data.name)} className="shrink-0 print:hidden" />
@@ -219,7 +240,7 @@ const keysOf = (t: T, ...keys: readonly LabelKey[]): [string, string][] =>
   keys.map((k) => [k, t.labels[k]]);
 
 /** Fields the frame itself uses */
-const FRAME_KEYS = ["image", "rules"];
+const FRAME_KEYS = ["image", "emblem", "allegiance", "rules"];
 
 const titleOf = (key: string) => key.charAt(0).toUpperCase() + key.slice(1);
 
@@ -348,6 +369,7 @@ const NpcBlock: React.FC<KindProps & { companion?: boolean }> = ({
           items={[
             md(r.rolls, true),
             md(r.hit(threat), true),
+            r.armourDamage,
             companion ? r.companionManoeuvres : r.npcManoeuvres,
             companion ? r.companionBond : fate ? r.fate : r.noFate,
             ...(companion ? [r.bondHealing] : []),
@@ -432,6 +454,7 @@ const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
             r.unitAction,
             r.unitHarm(sizeKey ? t.sizes[sizeKey].harmedBy : r.enoughMembers),
             r.unitDamage,
+            r.armourDamage,
             r.unitDefense,
             r.unitCounter,
             r.unitDouble,
@@ -568,6 +591,17 @@ const OrganizationBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) =>
   );
 };
 
+/** A small printable card: the Incantor fills in the charging by hand */
+const RitualItemBlock: React.FC<KindProps> = ({ t, data, md, rules }) => {
+  const r = t.rules;
+  return (
+    <Frame t={t} data={data} md={md} compact top={null}>
+      <RitualCharging t={t.ritual} />
+      {rules && <Reminders t={t} items={[r.ritualUse, r.ritualOwner, r.ritualLink, r.ritualLost]} />}
+    </Frame>
+  );
+};
+
 /** One stat block of any kind */
 const StatBlockCard: React.FC<{
   data: StatBlockData;
@@ -591,6 +625,8 @@ const StatBlockCard: React.FC<{
       return <NetworkBlock {...props} />;
     case "organization":
       return <OrganizationBlock {...props} />;
+    case "ritual-item":
+      return <RitualItemBlock {...props} />;
   }
 };
 

@@ -325,8 +325,10 @@
 }
 
 @media print {
+  // A4 everywhere: stat blocks and the character sheet
   @page {
-    margin: 12mm;
+    size: A4 portrait;
+    margin: 10mm;
   }
   body {
     background: white;
@@ -337,6 +339,27 @@
     -webkit-print-color-adjust: exact;
     break-inside: avoid;
     box-shadow: none;
+  }
+  // The character sheet (app/(app)/characters/[id]/print): the front fills
+  // one sheet, the perk pages flow over as many sheets as they need
+  .char-sheet {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .char-sheet .sheet-page {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    min-height: 0;
+    break-after: page;
+  }
+  // The front fills one sheet (297 mm minus the margins, less a hair for rounding)
+  .char-sheet .sheet-page.sheet-front {
+    min-height: 276mm;
+  }
+  .char-sheet .sheet-page:last-child {
+    break-after: auto;
   }
   body.print-one > :not(#print-root) {
     display: none !important;

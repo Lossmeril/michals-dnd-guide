@@ -25,7 +25,7 @@ const AdminBar = () => {
   return (
     <nav
       aria-label="Admin"
-      className="w-full bg-dnd-ink text-dnd-bg px-4 flex items-center gap-6 overflow-x-auto text-sm"
+      className="print:hidden w-full bg-dnd-ink text-dnd-bg px-4 flex items-center gap-6 overflow-x-auto text-sm"
     >
       <span className="libre caps font-bold text-dnd-gold py-2 shrink-0">
         Admin

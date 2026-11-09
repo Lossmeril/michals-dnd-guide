@@ -40,7 +40,9 @@ export const PerkImage: React.FC<{
   perk: Tables<"perks">;
   className?: string;
 }> = ({ perk, className }) =>
-  SHOW_PERK_IMAGES ? <SquareImage src={perk.image_url} className={className} /> : null;
+  SHOW_PERK_IMAGES ? (
+    <SquareImage src={perk.image_url} className={className} />
+  ) : null;
 
 /** "Passive", "Granted automatically" or the activation price as a coloured pill */
 export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
@@ -178,7 +180,7 @@ const PerkCard: React.FC<PerkCardProps> = ({
       ) : (
         <>
           <PerkImage perk={perk} className="mb-3" />
-          <p className="text-xl font-bold text-dnd-red libre leading-tight mb-1 pr-12">
+          <p className="text-base font-bold text-dnd-red libre leading-tight mb-1 pr-12">
             {perk.name}
           </p>
           <div className="mb-3">

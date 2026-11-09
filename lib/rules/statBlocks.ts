@@ -1,4 +1,5 @@
-// Stat blocks for NPCs, companions, units, networks and organizations, written
+// Stat blocks for NPCs, companions, units, networks, organizations and
+// Incantors' ritual items, written
 // in the rulebook as a fenced block (```npc … ```). See the Stat blocks page
 // and the cheat sheet in the page editor for the format. Field values and
 // sections can be translated like any text: "Town guard |cs| Městský strážný".
@@ -12,6 +13,7 @@ export const STAT_BLOCK_KINDS = [
   "unit",
   "network",
   "organization",
+  "ritual-item",
 ] as const;
 export type StatBlockKind = (typeof STAT_BLOCK_KINDS)[number];
 
@@ -133,3 +135,16 @@ export const companionRoleOf = (
 
 /** Points a network splits between its tracks */
 export const NETWORK_TRACK_POINTS = 12;
+
+/**
+ * Ritual items: points stored at sunrise or sunset (1), at a solstice or
+ * equinox (up to 5), or at a wellspring (its strength, 2–5). Only the highest
+ * occasion counts, so an item never holds more than 5.
+ */
+export const RITUAL_ITEM_MAX = 5;
+export const RITUAL_OCCASIONS = [
+  { key: "dusk", points: "1" },
+  { key: "solstice", points: "≤ 5" },
+  { key: "wellspring", points: "2–5" },
+  { key: "cursed", points: "0" },
+] as const;

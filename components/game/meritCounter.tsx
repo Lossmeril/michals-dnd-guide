@@ -7,9 +7,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { Result } from "@/lib/result";
 
-/** Merit points a character usually holds at most; the DM may allow more */
-export const USUAL_MERIT_CAP = 3;
-
 const MeritCounter: React.FC<{
   points: number;
   canAward: boolean;
@@ -41,16 +38,7 @@ const MeritCounter: React.FC<{
           −
         </button>
       )}
-      <span
-        className={points > USUAL_MERIT_CAP ? "text-dnd-red font-bold" : ""}
-        title={
-          points > USUAL_MERIT_CAP
-            ? `More than the usual ${USUAL_MERIT_CAP}`
-            : undefined
-        }
-      >
-        {points}
-      </span>
+      <span>{points}</span>
       {canAward && (
         <button
           type="button"

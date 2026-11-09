@@ -113,12 +113,32 @@ const en = {
       unit: "Unit",
       network: "Network",
       organization: "Organization",
+      "ritual-item": "Ritual item",
     },
     print: (name: string) => `Print ${name}`,
     now: "now",
     runningIt: "Running it",
+    ritual: {
+      stored: "Stored",
+      storedNote: "1 point a box, 5 at most",
+      charging: "Charging",
+      occasion: "Occasion",
+      points: "Points",
+      cost: "1 Material a point; none with Mighty Amulets.",
+      occasions: {
+        dusk: "Sunrise or sunset",
+        solstice: "Evening of a solstice or equinox",
+        wellspring: "A wellspring, at sunrise or sunset",
+        cursed: "An evil or cursed place",
+      },
+      noStack:
+        "Charges don't stack: when several occasions meet (a wellspring at a solstice), only the highest counts. An item already holding that many takes nothing more; points stored before stay.",
+      link: "Link renewed",
+      seasons: ["Spring equinox", "Summer solstice", "Autumn equinox", "Winter solstice"],
+    },
     labels: {
       kind: "Kind",
+      allegiance: "Allegiance",
       turn: "Turn",
       master: "Master",
       armour: "Armour",
@@ -202,6 +222,7 @@ const en = {
       noFate: "No Fate: its failures land.",
       bondHealing:
         "1 payment refills 1 Bond. Healing a Bond scar: a roll and 5 payments per level.",
+      armourDamage: "Hits on its Body lose its armour rating; 0 or less is absorbed.",
       socialDamage:
         "A won Soul or Charisma roll against it takes the Danger Level it faces right now + the winner's class level off that track.",
       zeroTracks:
@@ -243,6 +264,14 @@ const en = {
         "Any Standing can find and bind companions within its reach.",
       orgMighty:
         "Anyone can join at a low rank, and build and lead an organization of Reach 1–2. Standing 3–5 comes only from mighty class perks.",
+      ritualUse:
+        "Stored points pay perk activation prices and manoeuvres when casting, for any magic the Incantor has.",
+      ritualOwner:
+        "Incantor only: no one else can charge or use it. One per character.",
+      ritualLink:
+        "It holds part of its owner's body; the owner renews the link at every solstice or equinox.",
+      ritualLost:
+        "Lost: until the next solstice or equinox, whoever holds it has symbolic touch on the owner.",
     },
   },
 };
@@ -358,12 +387,32 @@ const cs: Dict = {
       unit: "Jednotka",
       network: "Síť kontaktů",
       organization: "Organizace",
+      "ritual-item": "Rituální předmět",
     },
     print: (name) => `Vytisknout: ${name}`,
     now: "teď",
     runningIt: "Jak s tím hrát",
+    ritual: {
+      stored: "Uloženo",
+      storedNote: "1 bod za políčko, nejvýš 5",
+      charging: "Nabíjení",
+      occasion: "Příležitost",
+      points: "Body",
+      cost: "1 Materiál za bod; s Mocnými amulety zdarma.",
+      occasions: {
+        dusk: "Východ nebo západ slunce",
+        solstice: "Večer slunovratu nebo rovnodennosti",
+        wellspring: "Pramen síly, při východu nebo západu slunce",
+        cursed: "Zlé nebo prokleté místo",
+      },
+      noStack:
+        "Nabití se nesčítají: když se sejde víc příležitostí (pramen síly o slunovratu), platí jen ta nejvyšší. Předmět, který už tolik bodů má, nepřijme nic dalšího; dřív uložené body zůstávají.",
+      link: "Pouto obnoveno",
+      seasons: ["Jarní rovnodennost", "Letní slunovrat", "Podzimní rovnodennost", "Zimní slunovrat"],
+    },
     labels: {
       kind: "Druh",
+      allegiance: "Příslušnost",
       turn: "Tah",
       master: "Pán",
       armour: "Zbroj",
@@ -447,6 +496,7 @@ const cs: Dict = {
       noFate: "Bez Sudby: jeho neúspěchy platí.",
       bondHealing:
         "1 platba doplní 1 Pouto. Léčení jizvy na Poutu: hod a 5 plateb za stupeň.",
+      armourDamage: "Zásahy do jeho Těla ztrácí jeho hodnotu zbroje; 0 a méně zbroj pohltí.",
       socialDamage:
         "Vyhraný hod na Duši nebo Vliv proti němu mu z dané hodnoty ubere jeho současné Ohrožení + úroveň povolání vítěze.",
       zeroTracks:
@@ -488,6 +538,14 @@ const cs: Dict = {
         "Každé Postavení může najít a získat pomocníky ve svém dosahu.",
       orgMighty:
         "Kdokoli se může přidat na nízké pozici a založit a vést organizaci s Dosahem 1–2. Postavení 3–5 dávají jen perky mocných povolání.",
+      ritualUse:
+        "Uložené body platí aktivační ceny perků a manévry při sesílání, pro jakoukoli magii, kterou zaříkávač ovládá.",
+      ritualOwner:
+        "Jen pro zaříkávače: nikdo jiný ho nenabije ani nepoužije. Každá postava má jen jeden.",
+      ritualLink:
+        "Obsahuje část těla majitele; majitel obnovuje pouto o každém slunovratu a rovnodennosti.",
+      ritualLost:
+        "Ztracený: do příštího slunovratu nebo rovnodennosti má jeho držitel na majitele symbolický dotyk.",
     },
   },
 };
