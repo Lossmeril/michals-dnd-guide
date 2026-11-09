@@ -26,7 +26,8 @@ export const costOf = (perk: Tables<"perks">) => {
   return [
     COST_VERBS[perk.cost_resource],
     perk.cost_amount ?? "a variable amount of",
-    RESOURCE_NAMES[perk.cost_resource],
+    // Coin prices are in silver, the everyday currency
+    perk.cost_resource === "coin" ? "silver" : RESOURCE_NAMES[perk.cost_resource],
     unit && (unit.startsWith("per ") ? unit : `per ${unit}`),
   ]
     .filter(Boolean)

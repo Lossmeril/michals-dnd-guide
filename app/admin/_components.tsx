@@ -14,6 +14,7 @@ import { TextField } from "@/components/ui/formControls";
 import StickyBar from "@/components/ui/stickyBar";
 import { Heading, Overline } from "@/components/ui/typography";
 import { useImageUpload } from "@/lib/hooks/useImageUpload";
+import { splitLocalized } from "@/lib/i18n/localize";
 import type { Result } from "@/lib/result";
 import { slugify } from "@/lib/slugify";
 import { deleteRow, uploadRulebookImage } from "./actions";
@@ -155,8 +156,8 @@ export const useRowEditor = <R extends { id: string; name: string }>({
   const router = useRouter();
   const [row, setRow] = useState(initial);
   const { pending, runAction } = useAdminAction();
-  // Ids are made from the name once and never change
-  const id = isNew ? slugify(row.name) : row.id;
+  // Ids are made from the English name once and never change
+  const id = isNew ? slugify(splitLocalized(row.name).en) : row.id;
 
   return {
     row,
