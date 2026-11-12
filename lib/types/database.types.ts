@@ -777,6 +777,7 @@ export type Database = {
       }
       perks: {
         Row: {
+          archetype: string | null
           area: string | null
           components:
             | Database["public"]["Enums"]["spell_component_type"][]
@@ -798,6 +799,7 @@ export type Database = {
           range: string | null
         }
         Insert: {
+          archetype?: string | null
           area?: string | null
           components?:
             | Database["public"]["Enums"]["spell_component_type"][]
@@ -819,6 +821,7 @@ export type Database = {
           range?: string | null
         }
         Update: {
+          archetype?: string | null
           area?: string | null
           components?:
             | Database["public"]["Enums"]["spell_component_type"][]

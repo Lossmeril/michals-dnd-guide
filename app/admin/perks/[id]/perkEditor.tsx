@@ -64,6 +64,7 @@ const blank: Tables<"perks"> = {
   damage: null,
   damage_types: null,
   duration: null,
+  archetype: null,
 };
 
 interface PerkEditorProps {
@@ -181,6 +182,19 @@ const PerkEditor: React.FC<PerkEditorProps> = ({ rb, perk, preset }) => {
               onChange={(kind) => set({ kind: (kind ?? "perk") as Tables<"perks">["kind"] })}
               options={enumOptions(ENUMS.perk_kind)}
               hint="Aspects are granted automatically and root a class's perk tree."
+            />
+            <SelectField
+              label="Archetype (dev)"
+              id="archetype"
+              value={row.archetype}
+              onChange={(archetype) => set({ archetype })}
+              none="None"
+              options={[
+                { value: "advantage", label: "Advantage" },
+                { value: "sigil", label: "Sigil" },
+                { value: "mastery", label: "Mastery" },
+              ]}
+              hint="Dev only: counts the advantage, sigil and mastery perks each class has."
             />
             {racial && (
               <SelectField

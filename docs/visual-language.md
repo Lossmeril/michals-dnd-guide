@@ -101,7 +101,7 @@ guide2.0 also had `inverted` (outline that fills on hover) and `monochrome` (ink
 - **Items** (`components/game/itemIcon.tsx`): a small square picture, or an ink icon of the item's kind (crossed swords, armour, shield, shirt, toolbox, knapsack). Broken items are greyed out and struck through.
 - **Stat blocks** (`components/game/statBlocks.tsx`): 5E-style blocks for NPCs, companions, units, networks, organizations and ritual items, gold bars top and bottom, tick boxes for tracks and Bond, a yellow "Running it" box of rules. An `emblem:` (coat of arms, guild mark) sits by the name to show allegiance. The ritual item is a small card to fill in by hand (stored points, the charging table and the link to renew; `components/game/ritualCharging.tsx`). Preview: `/dev/stat-blocks`.
 - **Merit counter** (`components/game/meritCounter.tsx`): a character's merit points in one campaign, with − for whoever may spend and + for the DM.
-- **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame; **hidden for now** with `SHOW_PERK_IMAGES` until the art is ready), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
+- **Perk card** (`components/game/perkCard.tsx`): square image (the art carries its own frame; a default picture when the perk has none), red serif name, coloured cost pill, corner ribbon for Spell, Core spell and Aspect. Aspects get the yellow accent background.
 - Clicking a picture or card opens the details; the actions sit in the footer.
 
 ### Page layouts

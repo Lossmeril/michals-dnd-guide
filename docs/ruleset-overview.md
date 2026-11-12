@@ -38,7 +38,7 @@ The class level added is that of the class the skill belongs to.
 **Several sources:**
 - Advantage and disadvantage **don't stack**, as in 5E. Three sources of advantage is still just one advantaged roll.
 - **Disadvantage always wins.** If a roll has **any** disadvantage, it's disadvantaged, however many sources of advantage it has. Disadvantage cancels advantage; advantage never cancels disadvantage. This differs from 5E, where one of each cancels out.
-  - It covers every source of disadvantage (such as a condition) and every source of advantage, paid or free: Precise, Quick, free manoeuvres from weapons and perks, a Blessing, attacking a prone target.
+  - It covers every source of disadvantage (such as a condition) and every source of advantage, paid or free: Precise, Quick, free manoeuvres from perks, a Blessing, attacking a prone target.
   - Paying for Precise or Quick on a disadvantaged roll is wasted.
 
 **Bonus die:** some abilities grant a bonus die, e.g. Trophy Hunter's d4 at level 1 rising to d12 at level 5. The old rulebook called these "Advantage dice".
@@ -71,7 +71,7 @@ The class level added is that of the class the skill belongs to.
 
 Weapons use the D&D 5E simple and martial weapon table: dice, damage type and properties such as Light, Finesse, Thrown (4/12 m, converted from 20/60 ft), Versatile, Heavy, Reach and Two-Handed.
 
-**Unarmed strikes** *(confirmed, 2026-11-08)*: a punch, kick or headbutt deals a flat **1 + Fighter level** bludgeoning damage, with no die (5E's 1 + Strength modifier). It's foot close combat, a Fighter skill. Fists aren't a weapon, so they give no free manoeuvre. The Fighter perk *Rock fist* raises it to **d4 + Fighter level**. Improvised weapons stay at d4.
+**Unarmed strikes** *(confirmed, 2026-11-08)*: a punch, kick or headbutt deals a flat **1 + Fighter level** bludgeoning damage, with no die (5E's 1 + Strength modifier). It's foot close combat, a Fighter skill. The Fighter perk *Rock fist* raises it to **d4 + Fighter level**. Improvised weapons stay at d4.
 
 ### Resources
 
@@ -204,7 +204,7 @@ When a character is targeted by an attack, spell or other hostile effect, they c
 Traps, poisons, collapsing floors, a curse muttered at the character: anything that needs overcoming with no attacker to challenge. It's a **skill check** (2d6 + class level ≥ 9), and replaces both 5E's saving throws against the environment and DrD2's *výzva*.
 
 - **Any fitting class:** the player says how the character deals with it, and the DM accepts the class whose skill fits that approach. Against a dart trap: leap clear (Juggler), take it on a shield (Fighter), or have spotted the plate beforehand (Hunter).
-- **Skills follow areas of expertise,** as in DrD2, not 5E's stats. Recalling how a siege engine works is Fighter's *Warrior knowledge*, not the Incantor's *Scholarship*, even though it's "intelligence".
+- **Skills follow areas of expertise,** as in DrD2, not 5E's stats. Recognising a fencing school by its stance is Fighter's *Weapon knowledge*, and recalling how a siege engine works is Warrior's *Warrior knowledge*, not the Incantor's *Scholarship*, even though it's "intelligence".
 - **Failing** is averted as usual, by exhausting the skill's resource equal to the Danger Level or taking a Scar. The pools are everyone's safety net; the class level only decides how often they pay.
 
 **Default classes.** When nobody has a better idea, these are the expected answers:
@@ -220,7 +220,7 @@ Traps, poisons, collapsing floors, a curse muttered at the character: anything t
 | Keeping face under threats, mockery or social pressure | Charisma | Confidence and intimidation (Fighter, C) |
 | Noticing a trap or an ambush in the wild | Wisdom (Perception) | Wilderness survival (Hunter, S) |
 | Noticing a trap or an ambush in town | Wisdom (Perception) | Urban survival (Juggler, S) |
-| Recalling knowledge | Intelligence | By field: war → *Warrior knowledge* (Fighter); the occult and history → *Scholarship* (Incantor); wounds and illness → *Healing the human body* (Medic); beasts → *Hunting* (Hunter) |
+| Recalling knowledge | Intelligence | By field: weapons and fighting → *Weapon knowledge* (Fighter); war and tactics → *Warrior knowledge* (Warrior); the occult and history → *Scholarship* (Incantor); wounds and illness → *Healing the human body* (Medic); beasts → *Hunting* (Hunter) |
 
 Advanced classes can answer too when their skills fit: *Mechanisms* (Rogue) for a lock trap, *Aerial acrobatics* (Rogue) for a fall.
 
@@ -233,7 +233,7 @@ Armour helps player characters in two ways, and NPCs in one:
 - **NPCs** *(confirmed, 2026-11-08)*: every hit's damage loses the armour rating, the same subtraction as a player character's Scar level. 0 or less is **absorbed**. *A longsword hit of 7 against a knight in plate (rating 3) deals 4.*
   - The stat block's `armour:` line sets the rating, from the pieces worn like a player character's, or natural armour (a bear's hide).
   - **Natural armour** goes up to 3 like worn armour. **Big monsters can reach 4–5**, but only where it's warranted: a dragon's scales, a stone golem. *(Confirmed, 2026-11-08.)*
-  - **Mighty's extra die** is the way through it, so maces and hammers (free Mighty) suit fighting armour.
+  - **Mighty's extra die** is the way through it. Since weapons no longer grant it free (2026-11-11), perks that do (*Weapon of choice*, *Legendary warrior*) are the answer to armour.
   - **Units:** the rating counts only if most members wear it, like other equipment.
   - **Backup, if heavy armour makes fights drag:** the 5E route instead. Armour makes the wearer harder to hit: +rating to the NPC's defense rolls, and an undefended attack needs 9 + rating to land. Player characters keep their own rules either way.
 - **Ignoring armour** *(planned)*: some damage skips the subtraction, for player characters and NPCs alike.
@@ -297,20 +297,20 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 | Manoeuvre | Effect |
 |---|---|
 | **Precise** | Advantaged roll on the action. |
-| **Mighty** | Against an NPC: an extra damage die (or Danger Level +1 on Soul and Charisma). Against a player character: averting costs +1, or the Scar is 1 level higher. See [The Mighty versions](#the-mighty-versions-confirmed). |
-| **Cunning** | Once the attack lands, the manoeuvre buys a triggered bonus action *(confirmed)*: the target is knocked prone, grappled, or pushed in any direction. No perk-granted bonus action is needed. |
+| **Mighty** | Against an NPC: an extra damage die (or Danger Level +1 on Soul and Charisma). Against a player character: averting costs +1, or on top of the Scar they exhaust d4 more from the same pool. See [The Mighty versions](#the-mighty-versions-confirmed). |
+| **Cunning** | Once the attack lands, the manoeuvre buys a triggered bonus action *(confirmed)*: the target is knocked prone, or **in close combat** grappled or pushed in any direction *(confirmed, 2026-11-11: a thrown or shot weapon can't grapple or push)*. No perk-granted bonus action is needed. |
 | **Quick** | Advantaged initiative roll. |
 
-**Precise and Quick are advantage.** Any advantage on an action, from a perk, a Blessing or a prone target, **is** a free Precise; advantage on initiative is a free Quick. Paying for one when you already have advantage changes nothing.
+**Precise and Quick are advantage.** Any advantage on an action, from a perk, a Blessing or a prone target, **is** a free Precise; advantage on initiative is a free Quick. **A perk that grants advantage always means Precise** *(confirmed, 2026-11-11)*; a perk that helps initiative names Quick. Paying for one when you already have advantage changes nothing.
 
-**One manoeuvre per action** *(confirmed, 2026-11-01; replaces "one paid manoeuvre")*. Free manoeuvres count towards the limit, whether they come from a weapon, a perk or a situation.
+**One manoeuvre per action** *(confirmed, 2026-11-01; replaces "one paid manoeuvre")*. Free manoeuvres count towards the limit, whether they come from a perk, a shield or a situation.
 - **Quick counts** *(confirmed)*, because it affects the turn's action: use it, and that turn's action gets no other manoeuvre.
 - **Defense doesn't count** *(confirmed)*: it's a paid reaction, not part of the action.
 - **A critical hit's free Mighty doesn't count** (see [Rolls](#rolls)).
-- *A swordsman using the blade's free Precise can't also pay 1 Body for Mighty.*
+- *A swordsman with a perk's free Precise can't also pay 1 Body for Mighty.*
 - *Paying for both Mighty and Cunning on one swing:* not allowed.
 - **Conditions name the manoeuvre** *(confirmed)*: attacks against a prone target (within 1 m), or a blinded, paralyzed, petrified, restrained, stunned or unconscious one, **are Precise**. So are a charmer's social checks against the charmed and an invisible creature's actions (its initiative is Quick). That Precise is the action's one manoeuvre.
-  - **It isn't forced:** the attacker can use another manoeuvre instead, but has to pay for it unless something else grants it free (a mace's free Mighty).
+  - **It isn't forced:** the attacker can use another manoeuvre instead, but has to pay for it unless something else grants it free (a perk's free Mighty).
 
 **Widespread and areas** *(confirmed)*
 - **Every multi-target action needs Widespread,** as in DrD2. Without it, an action affects one target.
@@ -319,31 +319,42 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
   - **Specific effects,** like Fireball, Burning Hands or Earthquake, do one fixed thing. Their area is part of that effect, paid for by the **activation price**, much like a 5E spell slot. **Widespread can't change them:** there's no way to make a fireball bigger.
 - *To confirm:* a specific spell's area isn't a manoeuvre, so the action's one manoeuvre looks free for something else, such as Mighty.
 
-**Free manoeuvres from weapons** *(confirmed)*
-- Every proper weapon grants **one free manoeuvre** in combat; improvised weapons grant none. A **shield** grants a free **Defense once per round**.
-- **Defaults by damage type:** piercing and thrown → Cunning; slashing and bows → Precise; bludgeoning and crossbows → Mighty.
-- **Set per weapon in the item editor** (`/admin/items`): the admin picks which manoeuvre it grants, starting from the default. *(Planned: not built yet.)* Odd cases like the rapier (piercing, but all about precision) are set by hand.
+**Weapons grant no free manoeuvres** *(confirmed, 2026-11-11; replaces "every proper weapon grants one")*
+- **Why:** DrD2's free weapon manoeuvre made weapons differ in a vague damage system. Ours already differ by 5E's dice and properties, and an always-on manoeuvre took the main Body-spending decision out of combat (every sword attack advantaged, every mace hit an extra die and +1 to avert).
+- **The shield stays:** a free **Defense once per round**.
+- **Perks grant them instead** *(confirmed, 2026-11-11)*, in three ways:
+  - **Advantage** on an activity (a weapon, a skill) **always means Precise**, nothing else.
+  - **A named manoeuvre** for a specific case: *Got you* gives Cunning to grapple with a hooking weapon.
+  - **Strong manoeuvres** across all the skills a class governs, e.g. Very Mighty in every Fighter skill.
+- **The ladder:** a plain weapon pays 1 point; a perk makes it free (*Weapon of choice*: Mighty with one weapon type); a class's **mastery perk** at level 5 makes any manoeuvre strong with all that class's skills (*Legendary warrior* for the Warrior); mighty classes give cruel manoeuvres.
+- **NPCs:** a free manoeuvre with a weapon is a stat-block ability ("free Precise with the sword"), not a property of the weapon.
+- **In the app:** weapons' `free_manoeuvre` is cleared; only shields keep `defense`. The column and the item editor field stay for now.
 
 **Strong and cruel manoeuvres** *(confirmed)*. There's no general "mastery"; perks and abilities grant them.
-- **Strong (*very*) manoeuvres** come from **perks**, each tied to a class's skills: e.g. a Fighter perk for Very Mighty in foot close combat. Class level 5 alone doesn't unlock them.
+- **Strong (*very*) manoeuvres** come from **perks**, each tied to a class's skills. Class level 5 alone doesn't unlock them.
+  - **Mastery perks** *(confirmed, 2026-11-12)*: every basic and advanced class has one, needing **class level 5**, on *Legendary warrior*'s pattern. With any of that class's skills, **any** manoeuvre can be its strong version (Very precise, Very mighty, Very cunning, Very quick) for the same price: a free one stays free, a paid one still costs its point. It's still the action's one manoeuvre.
+  - *Hundred fights* (Fighter), *Lord of the hunt* (Hunter), *Word of power* (Incantor), *Grand trickster* (Juggler), *Master healer* (Medic), *Legendary warrior* (Warrior), *Legend of the borderlands* (Ranger), *Master witcher* (Witcher), *Grey eminence* (Scout), *Elder shaman* (Shaman), *Archdruid* (Druid), *Prince of thieves* (Rogue), *Magnum opus* (Alchemist), *Master of elements* (Warlock), *Archmage* (Mage).
+  - **The other strong versions** *(confirmed, 2026-11-12; as on the rulebook's Manoeuvres page)*:
+    - **Very precise / Very quick:** DrD2's: the advantage die may be rolled after everyone has rolled, when you see you need it. It adds nothing when the manoeuvre is free anyway; that's accepted.
+    - **Very cunning:** Cunning's effect (prone, grapple, push) and more. Against an **NPC**, 1d4 damage as a bonus action. Against a **player character**, their **Danger Level +2** while the effect lasts (until they stand up, break free or close the distance). *Draft:* the "while the effect lasts" part.
 - **Cruel manoeuvres** come from **perks of the mighty classes**, the top of a character's advancement.
 - **NPCs** get either as **special abilities** in their stat block: the arena champion's Very Mighty, the dragon's Cruelly Mighty.
 
 **NPC manoeuvres** *(confirmed)*
-- **Granted manoeuvres are free:** the weapon's free one, and any listed in the stat block (a wolf's Cunning on every bite, a soldier's shield Defense).
+- **Granted manoeuvres are free:** any listed in the stat block (a wolf's Cunning on every bite, a soldier's shield Defense).
 - **Ungranted manoeuvres cost 1 point of a track,** usually **Soul or Charisma**, whichever fits. Those tracks are small, so paying brings the NPC closer to breaking or giving in.
 
-**The Mighty versions** *(confirmed)*. All are declared before the roll.
+**The Mighty versions** *(confirmed; the not-averting and NPC rows as on the rulebook's Manoeuvres page, 2026-11-12)*. All are declared before the roll.
 
 | | Mighty | Very mighty | Cruelly mighty |
 |---|---|---|---|
 | **Player character averting** | Costs +1 | Costs +2 | Must first take a **level-1 Scar** (a blank payment, no temporary points), then pay the cost |
-| **Player character not averting** | Scar level +1 | Scar level +2 | As Very mighty |
-| **NPC, Body** | +1 damage die | +2 damage dice | If it **defends**, it first takes damage before the challenge roll; if it doesn't, +2 damage dice |
-| **NPC, Soul or Charisma** | Danger Level +1 | Danger Level +2 | As for Body: damage first if it defends |
-| **Who gets it** | Anyone (1 point), or free from a weapon | Class perks; NPC stat blocks | Mighty class perks; NPC stat blocks |
+| **Player character not averting** | On top of the Scar, exhausts **d4** more points of the Scar's pool; if the pool runs out, it stops at 0 | Scar level +1 | Scar level +2 |
+| **NPC, Body** | +1 damage die | +2 damage dice | If it **defends**, it first takes one damage die before the challenge roll; then, either way, +2 damage dice |
+| **NPC, Soul or Charisma** | Danger Level +1 | Danger Level +2 | If it **defends**, it first takes damage equal to the attacker's class level; then, either way, Danger Level +2 |
+| **Who gets it** | Anyone (1 point), or free from a perk | Class perks; NPC stat blocks | Mighty class perks; NPC stat blocks |
 
-- *(Confirmed.)* Very mighty against an NPC's Body adds 2 dice (the same as an undefended Cruelly mighty hit). A player character not averting a Cruelly mighty hit takes the Very mighty +2. The cruel version's extra bite is the forced Scar and the damage before defending, not a bigger number.
+- *(Confirmed, 2026-11-12.)* A player character who doesn't avert plain Mighty keeps the Scar's level but exhausts d4 more points from the pool the Scar hit. It stops at 0: running out costs no extra Scar. Very mighty raises the Scar by 1, Cruelly mighty by 2. Against an NPC, Cruelly mighty is Very mighty plus the damage before defending.
 - **Damage before defending** against Cruelly mighty: **one die** of the attack's damage on Body (no class level; 1d8 against a longsword), or the **attacker's class level** on Soul and Charisma. An important NPC's Fate saves it from the blow, not from this.
 | **Defense** | Defend yourself without spending your action. Usable as many times per round as the character can pay *(confirmed)*; a shield makes one per round free. |
 | **Widespread** | The action affects multiple targets instead of one. |
@@ -424,7 +435,7 @@ Penalties are **another form of condition** and belong with them. Compared with 
 **Answer:** now covered by the general rule that **disadvantage always wins** (see [Rolls](#rolls)). A condition that imposes disadvantage blocks advantage on those rolls, like DrD2's Imprecise:
 - Disadvantage on attacks or skill checks (Blinded, Frightened, Prone, Restrained, Imprecise…) blocks **Precise**.
 - Disadvantage on initiative (Blinded, Deafened, Frightened, Stunned, Slow) blocks **Quick**.
-- **It blocks every source of advantage,** not just paid ones: free manoeuvres from weapons and perks, a Blessing, attacking a prone target, being invisible. The roll stays disadvantaged.
+- **It blocks every source of advantage,** not just paid ones: free manoeuvres from perks, a Blessing, attacking a prone target, being invisible. The roll stays disadvantaged.
 
 #### Conflicts with our manoeuvres and 5E
 
@@ -747,7 +758,7 @@ From 5E's DMG (a d20 check, encounter on 18–20, rolled every few hours or once
 | **Danger Level** | Tracked per character | *Not tracked* |
 | **Damage it deals** | Weapon or spell dice + class level, against hit points | A threat die (d4/d6/d8+), turned into a Scar |
 | **Defeat** | Dying rolls when a Scar overflows a pool | Overpowered at 0 in any track |
-| **Manoeuvres** | 1 point of a pool, or free from a weapon or perk | Free if granted by weapon or stat block; otherwise 1 point of a track, usually Soul or Charisma |
+| **Manoeuvres** | 1 point of a pool, or free from a perk or shield | Free if granted by the stat block or a shield; otherwise 1 point of a track, usually Soul or Charisma |
 
 ### How 5E does it
 
@@ -790,8 +801,9 @@ Many rules already name kinds of creatures. Read them against the categories:
 | Rule | Names | Categories |
 |---|---|---|
 | Fighter, Hunter and Juggler combat skills; Warrior and Scout mounted combat | "humans and beasts" | Humans and humanoids, Animals *(confirmed)* |
-| Ranger: *Close and ranged foot combat vs monsters*, *Monster taming*, *Trophies* | "monsters" | Monsters |
-| Witcher: *Close combat vs monsters, fiends and undead*, *Trophy taking*, *Witcher knowledge* | "monsters, fiends and undead" | Monsters, Fiends, Undead and reanimated |
+| Ranger: *Monster taming*, *Trophies* | "monsters" | Monsters |
+| Ranger: *Ranged foot combat vs monsters, fiends and undead*; Witcher: *Close combat vs monsters, fiends and undead* *(changed 2026-11-12)* | "monsters, fiends and undead" | Monsters, Fiends, Undead and reanimated |
+| Witcher: *Trophy taking*, *Witcher knowledge* | "monsters, fiends and undead" | Monsters, Fiends, Undead and reanimated |
 | Hunter *Animal handling* and *Animal training*; Shaman *Animal healing* and *Animal magic* | "animals" | Animals |
 | Medic poisons | "humans and animals" | Humans and humanoids, Animals |
 | *Dealing with supernatural beings* (Incantor, Witcher, Ranger) | "supernatural beings" | Undead and reanimated, Monsters, Fiends |
@@ -800,6 +812,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 | DrD2 master abilities (Paladin, Necromancer) | "undead and demons" | Undead and reanimated, Fiends |
 | DrD2 master abilities (Žrec: *Basilisk spit*, *Dragon's claw*) | "monsters and demons", "monsters" | Monsters, Fiends |
 
+- **Fighting the supernatural is split by range** *(confirmed, 2026-11-12)*: the **Ranger** shoots, the **Witcher** fights up close, both against monsters, fiends and undead. A perk adds the class level to the other kind: *Up close* (Ranger), *Crossbow and silver* (Witcher). DrD2 split it by creature instead (Ranger monsters, Witcher undead and fiends). *Dealing with supernatural beings* stays with all three of Incantor, Ranger and Witcher.
 - **"Humans and beasts" means exactly Humans and humanoids plus Animals** *(confirmed)*. A troll or a giant is fought with Fighter skills; a wyvern or a lesser vampire needs Ranger's or Witcher's monster combat.
 - **Animals and Monsters** split along magic: a wolf is an animal, a werewolf or a wyvern is a monster. Animal magic and Medic poisons stop at the line; perks like Žrec's *Dragon's claw* carry them across.
 
@@ -843,7 +856,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 | **Hireling** | A sellsword, a squire, a guide | **Its own initiative** |
 
 - **Controlled creatures** keep the control rule: the caster gives up their own actions and rolls initiative only for the creature (see [Control](#magic)).
-- **Familiars come from a spell,** like 5E's *Find Familiar*: an **Incantor perk spell** *(confirmed)*, priced like any other perk. Every full caster who goes through Incantor can reach it.
+- **Familiars come from a spell,** like 5E's *Find Familiar*: an **Incantor perk spell** *(confirmed)*, priced like any other perk. Every full caster who goes through Incantor can reach it. *(Written 2026-11-12: *Familiar*, Incantor 2, 3 Material ritual, Bond 3.)*
 
 **Organizations and units: who gets what** *(confirmed)*
 - **One rule for organizations.** Networks fold into DrD2's organizations and Standing (see [Organizations, Standing and Power](#organizations-standing-and-power-drd2)); there's no separate network rule.
@@ -1546,7 +1559,7 @@ Classes are **bundles of skills**, not a whole identity. Characters are expected
 
 | Class | Magic | Skills (resource) |
 |---|---|---|
-| **Fighter** | None | Foot close combat vs humans and beasts (B), Strength (B), Warrior knowledge (S), Confidence and intimidation (C) |
+| **Fighter** | None | Foot close combat vs humans and beasts (B), Strength (B), Weapon knowledge (S), Confidence and intimidation (C) |
 | **Hunter** | None | Foot ranged combat vs humans and beasts (B), Wilderness movement (B), Wilderness survival (S), Hunting (S), Animal handling (C), Animal training (C) |
 | **Juggler** | None | Foot throwing vs humans and beasts (B), Acrobatics (B), Tricks and sleight of hand (B), Urban survival (S), Influence and deception (C) |
 | **Medic** | None | Endurance (B), Healing the human body (S), Potions and poisons (S), Negotiation (C) |
@@ -1597,16 +1610,16 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 
 | Class | Parents | Magic | Skills (resource) |
 |---|---|---|---|
-| **Warrior** | Fighter + Juggler | None | Mounted combat (B), Ironworks (B), Warrior knowledge (S), High society influence (S), Combat leadership (C) |
-| **Ranger** | Fighter + Hunter | None | Close and ranged foot combat vs monsters (B), Trophies (S), Woodworking (S), Ranger knowledge (S), Monster taming (C, unique), Leading in the wild (C), Dealing with supernatural beings (C) |
-| **Witcher** | Fighter + Medic | Pseudo | Close combat vs monsters, fiends and undead (S), Trophy taking (S), Witcher signs (S, unique), Witcher knowledge (S, unique), Dealing with supernatural beings (C). Core spell: Isa Sign |
+| **Warrior** | Fighter + Juggler | None | Mounted combat (B), Ironworks (B), Warrior knowledge (S), High society influence (C), Combat leadership (C) |
+| **Ranger** | Fighter + Hunter | None | Ranged foot combat vs monsters, fiends and undead (B), Trophies (S), Woodworking (S), Ranger knowledge (S), Monster taming (C, unique), Leading in the wild (C), Dealing with supernatural beings (C) |
+| **Witcher** | Fighter + Medic | Pseudo | Close combat vs monsters, fiends and undead (B), Trophy taking (S), Witcher signs (S, unique), Witcher knowledge (S, unique), Dealing with supernatural beings (C). Core spell: Isa Sign |
 | **Scout** | Hunter + Juggler | None | Ranged mounted combat (B), Hiding information (S), Underground influence (C, unique), Leading people outside combat (C), Healing human charisma (C), Seafaring (S) |
-| **Shaman** | Hunter + Medic | Pseudo | Narcotic substances (S, unique), Foresight (S, unique), Animal healing (S), Animal magic (C, unique) |
+| **Shaman** | Hunter + Medic | Pseudo | Narcotic substances (S, unique), Foresight (S, unique), Animal healing (S), Animal magic (C, unique). Core spell: Spirit walk |
 | **Druid** | Hunter + Incantor | Full | Stone magic, Water magic, Plant magic (all S, unique). Core spells: Earth Bending, Water Bending, Manipulate Plants |
 | **Rogue** | Juggler + Medic | None | Aerial acrobatics (B), Mechanisms (S), Forgery (S), Contact poisons (S, unique) |
 | **Alchemist** | Medic + Incantor | Full | Alchemy knowledge (S), Explosives, corrosives and gases (S, unique), Elixirs (S, unique), Artificial life (C, unique) |
-| **Warlock** | Fighter + Incantor | Full | Fire, Wind, Evocation and Abjuration magic (all S, unique). Core spells: Fire Bending, Air Bending |
-| **Mage** | Juggler + Incantor | Full | Illusion, Enchantment and Conjuration magic (all S, unique) |
+| **Warlock** | Fighter + Incantor | Full | Fire, Wind, Evocation and Abjuration magic (all S, unique). Core spells: Fire Bending, Air Bending, Evoke, Ward |
+| **Mage** | Juggler + Incantor | Full | Illusion, Enchantment and Conjuration magic (all S, unique). Core spells: Illusion, Mind touch, Conjure |
 
 ### Mighty classes
 
@@ -2001,7 +2014,7 @@ Concentration and until dismissed are deliberately separate: concentration ties 
 - **The roll is a defense roll** (a challenge against the attacker) with the **caster's magic class level** as the bonus. It replaces 5E's Constitution save.
 - Losing it ends the spell, unless the caster **averts the failure** like any other: exhausting points equal to the Danger Level, or taking a Scar.
 - **It costs the Defense manoeuvre** (1 point), since the caster's action is already spent on concentrating.
-- *Planned (to be added by Michal):* an **Incantor perk** that helps with concentration rolls, e.g. a free Defense manoeuvre for them. Every full caster can reach it through their Incantor levels; Witcher and Shaman can't.
+- **Steady mind** *(Incantor perk, 2026-11-12)*: concentration rolls don't cost the Defense manoeuvre. Every full caster can reach it through their Incantor levels; Witcher and Shaman can't.
 - **It also ends** (as in 5E):
   - when the caster **starts another concentration spell**: one at a time;
   - when the caster is **incapacitated** (Incapacitated, Paralyzed, Petrified, Stunned, Unconscious);
@@ -2102,6 +2115,83 @@ Most Incantors carry a staff, an amulet or talisman, a holy symbol or their orde
   - Points already stored aren't lost when a bigger occasion allows more. If the item already holds as many as the occasion allows, nothing more can be added.
 - **Using it:** stored points pay **perk activation prices and manoeuvres when casting**, for any magic the Incantor has, including advanced magic classes' schools.
 - **Mighty Amulets** (old Incantor perk: "no Material to charge your amulet") waives the 1 Material per stored point. It doesn't raise how many points can be stored or how often; the sunrise, sunset, solstice and wellspring limits still apply.
+
+**The spirit world** *(confirmed, 2026-11-11; DrD2's *snový svět*, also called the dream world)*
+
+- **What it is:** a **reflection of our world**, and the **gateway between our plane and the others**. Places, people and things here have their reflections there. **Information and secrets shape it**: what happened, what's remembered and what's hidden all take form there.
+- **An endless spiral, not a place.** It shows itself as a world with ground and sky, but it isn't crossed like one. Travellers go **down the spiral**, one long hallway that only goes deeper: the further down, the older the knowledge.
+  - **Tone:** the rulebook page can use a little eldritch language here: the veil, the spiral, things that shouldn't have shapes. Only here; everywhere else stays dry.
+  - **One peculiarity** marks every spirit world, so anyone knows where they are: no colours, only grey; ground of sharp glass; everything a twisted parody of ours. DrD2's examples (*Ice plains*, *Bone forest*, *Twisted kingdom*) can stay as inspiration for DMs.
+- **Only souls enter.** Nobody goes in with their body; it stays behind in a trance, breathing slowed, looking dead on long trips.
+  - **Everything there is Soul.** Fighting, running, climbing: every action there exhausts **Soul**, and every Scar taken there is a **Soul Scar**, as running in a dream wears the mind out. Class levels apply as usual.
+  - **Overflowing** Soul there means Soul's dying stage (madness, catatonia) like anywhere.
+  - **The body left behind** *(confirmed)* is treated as **Unconscious**. Any harm to it pulls the soul back at once, ending the trip: an ambush on the sleeping party is a way to cut a trip short.
+  - **The one exception:** the Zhrets's *Soultrap* at Zhrets 4 traps a living being whole, body and soul.
+- **Who uses it:**
+  - **Shamans** are the only ones who **enter** it, and the only ones who **summon human spirits** from it.
+  - **Other classes tap it slightly,** without a direct connection: the Incantor's familiar comes into the world through it. Others case by case.
+  - **The Mage's Conjuration** pulls spirit-world creatures into our world (*Through the veil*), one way only; *Both ways* (Mage 5) sends them back. Calling the souls of the dead stays with Shamans, and later the Black Priest.
+
+**Layers** *(confirmed)*: how deep down the spiral, by what's asked. The deeper, the longer the trip takes in our world.
+
+| Asking about | Who knows | Time passing in our world |
+|---|---|---|
+| What's happening now | Most beings | A few heartbeats |
+| Since the last sunrise or sunset | Fewer | Minutes |
+| Since the last solstice or equinox | Fewer still | Hours |
+| Since the Shaman was born | A few, hard to find | Up to days |
+| Before the Shaman was born | Out of reach | — |
+
+**Foresight** *(confirmed, 2026-11-11; the Shaman's *Foresight* skill, S, unique; DrD2 *hadačství*)*
+
+**In the app** it's the Shaman's core spell ***Spirit walk*** *(2026-11-12)*, so the sheet and the class page carry these rules.
+
+**Two ways:**
+
+| | Summoning | Venturing in |
+|---|---|---|
+| **What** | The Shaman calls one spirit to answer questions, using the spirit world as an agent | The Shaman's soul goes down the spiral, with companions if they like |
+| **Price** | 1 Material | 2 Material, +1 for every companion |
+| **Who answers** | A **relative's** spirit, or someone the Shaman had a **strong bond** with, an animal too. Anyone else needs *Voice of the dead* (and a symbolic touch: something they owned) | Whoever and whatever the party finds down there |
+| **What it can tell** | Only what's **unguarded**, only what happened **after the spirit was born**, and only **general** things: *did* men walk through here, not *how many* | Anything the party can find, fight or talk out of the spirit world: specifics, and guarded secrets once their guardian is past |
+| **How long** | Only the questions asked, and only as long as the spirit is willing | Until the trip ends |
+
+- **Contact with what the question is about:**
+  - **A person:** a symbolic touch (their hair, their ring).
+  - **A place or an item:** **only with *Dream runes***, carved into it (a diary's cover, a tavern room's wall). Without the perk, Foresight reaches only people.
+- **A ritual:** drugs, song, drumming. It takes time to prepare, so it's not for combat (the Ritual component).
+- **Magic mode** first: a level-1 Scar in **any pool** the player likes, as for any pseudo-magic. A trip down the spiral counts as one stretch. Companions take no Scar.
+- **Answers:** each successful roll gets **one simple question** and a **short, true answer**.
+- **Only as far back as the Shaman's own life.**
+- **Great seer** (DrD2 specialisation, strong manoeuvres in Foresight): covered by the Shaman's mastery perk, *Elder shaman*.
+
+**The spirit world skews everything** *(confirmed)*. Answers are true, but bent: partial, symbolic, faces and names twisted. Each way gives a different piece.
+
+*Example:* a spy was murdered in his tavern room, and the party wants the killer.
+
+| Way | What it gives |
+|---|---|
+| Summoning the Shaman's grandmother, with the spy's ring | A murder happened; blood was spilled |
+| Summoning the murdered spy (*Voice of the dead* and his ring) | When and how he died, but not the killer's face or name |
+| *Dream runes* carved into the wall | A blurry memory of the murder, faces grotesquely deformed; the room can now be searched |
+| Venturing in | An animated suit of armour guards the room's reflection; defeated, it describes the killer's face |
+
+**Secrets** *(confirmed)*
+- **Any secret can be guarded** by a spirit-world creature: a guardian a caster set there (a *Veil sigil*, a fed wolf's soul in a cave), or one that lives there. Summoned spirits won't reveal what it guards, so the Shaman has to venture in and get past it. The guardian rolls with its maker's class level.
+- **Beyond the veil:** the mightiest, most ancient keepers can banish information out of the spirit world entirely. A one-way wall: nothing in the spiral can find it. Only for mighty class perks and ancient NPCs (a stat-block ability).
+- *Example (DrD2):* the Shaman Brana drums herself, the hunter Domabor and the minstrel Milorad down the spiral (2 + 2 = 4 Material) to find where renegades fled. Her ancestor's spirit says powerful forces guard it. In a cave up a snowy gorge, a huge wolf's soul set there by an enemy shaman blocks the way; the friends keep it busy, and Brana touches the dove imprisoned inside: "They went up the river Ostrá into the mountains."
+
+**Perks** *(in the database, 2026-11-11)*
+- ***Voice of the dead*** (Shaman, passive): summon the spirit of any dead person, with a symbolic touch (something they owned).
+- ***Dream runes*** (Shaman, +1 Material per carving): the **only way** to search a place or an item. Runes carved into it let Foresight reach it (summoning or venturing in), and show a blurry memory of what happened there, faces and names grotesquely deformed.
+- ***Nightmare sigil*** (Shaman): a sigil in our world and its reflection. Its alarm works across the veil; through it the Shaman pulls the soul of someone standing in it into the spirit world (an unwilling target makes a defense roll); a spirit-world creature walking into its reflection is pulled into our world, unbound. **Lasts until the next solstice or equinox.**
+- ***Veil sigil*** (Shaman): drawn in the spirit world around one piece of information, during a trance. Summoned spirits can't reveal it; when someone tries to reach it, the alarm wakes the Shaman, who puts obstacles in the way from the sigil's pool, or ventures down to fight. **Lasts until the next solstice or equinox.** *(DrD2's Znak můry.)*
+- ***Soul base*** (Shaman) *(confirmed, 2026-11-12; set up like a sigil or a unit)*: the Shaman's own room in the spirit world, made during a Spirit walk.
+  - **Setting up:** 5 Material, plus Material for its **pool**, 1 per point, up to the Shaman's Soul pool.
+  - **Uses:** trips start and end there, spirit-world beings can be invited in, and the party's secrets kept there. Seekers have to find the room first.
+  - **Paid from the pool:** 1 point to invite a being or to act against an intruder (rolled with the Shaman level, averted from the pool). Refilled during any Spirit walk, 1 Material per point.
+  - **Renewal:** the bond is renewed at every solstice or equinox with a Spirit walk. Skipped, the room fades: everything kept there is loose in the spirit world, unguarded, and trapped souls go free.
+- ***Soultrap*** (Zhrets, 2 Soul; needs *Soul base*): traps a soul in the Soul base. A dead person's soul can't be summoned; a living person's (defense roll) leaves the body catatonic. At **Zhrets 4**, a living being whole, body and soul. **Holding** costs 1 point of the base's pool per soul at every renewal *(confirmed, 2026-11-12)*; unpaid, or if the room fades, the soul goes free.
 
 **Defense against magic**
 
@@ -2335,7 +2425,7 @@ This is the poison rule already confirmed (strength d6 against NPCs, the same th
 | **Hard to detect** | No taste, smell or colour | Poisons, narcotics, gases | *Unusual poison* (Medic) |
 | **Bare skin** (+1; +2 if the maker is immune) | A contact poison that works through unbroken skin | Contact poisons | *Your lips are venomous poison* (Rogue) |
 | **On a word** | Goes off at a sound or a spoken word | Explosives, gases | *To write:* Alchemist (DrD2 *Neobvyklé třaskaviny*) |
-| **First one met** | The victim acts a set way towards the first person they meet once it takes effect (fall in love, try to kill) | Narcotics | *To write:* Shaman (DrD2 *Čarovné nápoje*) |
+| **First one met** | The victim acts a set way towards the first person they meet once it takes effect (fall in love, try to kill) | Narcotics | *Philtres* (Shaman) |
 
 *Example:* a strength-3 fast, hard-to-detect sleeping poison costs 3 + 3 + 3 = **9 Material** a dose.
 
@@ -2429,7 +2519,7 @@ The same for hazards, potions, elixirs and plain gear.
 2. **Pseudo-magic essences** (the Witcher's elixir, the Shaman's drum or amulet) are already our magic mode: a level-1 Scar, no Material. They aren't substances in this sense.
 3. **Sigils** are hazards too in a way (they act on intruders), but they're live magic, paid from their own pool. They stay as they are.
 4. **NPC abilities** use the shorthand: a wyvern's sting, a giant spider's bite.
-5. **Perks to write:** *On a word* (Alchemist), *First one met* (Shaman), *Strengthened elixir* (Alchemist), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
+5. **Perks to write:** *On a word* (Alchemist), *Strengthened elixir* (Alchemist), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
 
 ## Perks and spells
 
@@ -2442,7 +2532,8 @@ The same for hazards, potions, elixirs and plain gear.
     - *Bison skin* (Kroll): armour rating 1 when unarmoured.
     - *Tiwaz sign* (Witcher): free Defense manoeuvres until the end of the conflict; a lost defense roll is still averted as usual.
     - *Berserk* (Ranger): for 5 rounds, advantage on attacks and averting a hit costs 1 less (minimum 1). No extra class level on damage, no resistance. *Later:* maybe a second perk expanding it.
-    - *Legendary warrior* (Warrior): free **Very Mighty** with the chosen weapon type, replacing the weapon's own free manoeuvre. The first strong-manoeuvre perk.
+    - *Legendary warrior* (Warrior) *(changed 2026-11-11)*: any Mighty with a **Warrior skill** can be **Very Mighty** for the same price; needs **Warrior 3**. The first strong-manoeuvre perk, of the class-wide kind. (Was: free Very Mighty with one weapon type.) **Changed again 2026-11-12:** any manoeuvre, not only Mighty, at **Warrior 5**, as every class's mastery perk.
+    - *Weapon of choice* (Fighter, **new**, 2026-11-11): free **Mighty** with one chosen weapon type in foot close combat. Ungated.
     - *Borders walker* (Ranger): **passive**, encumbrance 1 lower in the wilderness (medium free, heavy 1 Body). It was 1 Soul for a 1-point discount.
     - *Two birds* (Juggler): a second throw as a **bonus action**, like Hunter's *Double shot*. It was a paid Widespread, which anyone can already use.
     - *Earthquake* (Druid): shrunk to a **farmstead**, a 5 m radius at up to 30 m, **3d6 bludgeoning** and prone on a lost defense roll; 3 Soul, no Material. A 30 m radius is village scale, kept for master abilities.
@@ -2468,7 +2559,42 @@ The same for hazards, potions, elixirs and plain gear.
     - *Fireball* (Warlock): a **4 m radius** (5E's 20 ft).
     - *Blessings and curses* (Incantor): lasts **until sunset or sunrise**, on every roll of the named kind; **one blessing or curse per target**, a new one replaces the old. The d4 bonus die is used once, as any bonus die.
     - **Ids cleaned:** 24 perks, the *Bard* background and the *Druidic* language had the Czech name in their id (`fury-cs-zbesilost` → `fury`); also `connosieur` → `connoisseur`, and the aspects `brute` → `hire-sword` and `enchanter` → `puppetmaster`. The admin editors now make a new id from the **English** name only.
-    - **Aspect gating:** no class perk has a requirement yet, so the aspects gate nothing. Michal assigns them class by class while finalising the perks.
+    - **Aspect gating** *(in progress, 2026-11-11)*: assigned class by class. Each class keeps one or two perks ungated, so every build has something to pick at level 1. Michal is writing more perks for the thin classes (Rogue, Shaman, Scout, Mage, Alchemist).
+      - **Warrior** *(confirmed)*: **Hire-Sword**: *Mountain that rides*, *Double trouble*, *Bastion*. **Knight**: *Rider*, *Herald*, *Well known*, *Defender of people*. **Monk**: *Parry*, *War dancer*, plus the unarmed perks still to write. **Ungated:** *Jockey*; *Legendary warrior* needs **Warrior 3**.
+      - **Ranger** *(confirmed)*: **Barbarian**: *Berserk*, *Tough of body*, *Borders walker*. **Monster Slayer**: *Hunter instinct*, *Trophy hunter*, *Natural advantage*. **Beastmaster**: *Friend of all monsters*, *Pack leader*, *Animal doctor*. **Ungated:** *Make haste*, *Carpenter*, *Soon may the Wellerman come*.
+    - **DrD2's narrative and sigil perks** *(2026-11-11)*, since most DrD2 perks only grant manoeuvres:
+      - *Lay of the land* (Ranger, 1 Soul): *City guide* for the wild (a gorge, a stream, a thicket, a ford, a ruin). Ungated for now.
+      - *Animal tracks* (Shaman, 1 Soul): signs of an animal that could live there, within sight.
+      - *Philtres* (Shaman): the *First one met* property for narcotics, +1 Material per strength.
+      - **Sigils for every school**, priced like *Salamander sigil*: *Werewolf sigil* (Shaman, Animal magic; needs magic mode), *Vodyanoy sigil* (Druid, water), *Stone spirit sigil* (Druid, stone), *Leshy sigil* (Druid, plants).
+      - *Voice of the dead*, *Dream runes*, *Nightmare sigil*, *Veil sigil*, *Soul base* (Shaman) and *Soultrap* (Zhrets): see [The spirit world](#magic).
+    - **Advantage perks for the basic classes** *(2026-11-12)*: *Know your steel* (Fighter, Weapon knowledge), *Marksman* and *Light foot* (Hunter), *Learned*, *Comforter* and *Iron will* (Incantor), *Gutter wise*, *Smooth talker* and *Showman* (Juggler), *Tough as old boots* and *Apothecary* (Medic). Ritual items gets none: charging needs no roll unless rushed.
+    - **Advantage perks for Warrior, Ranger, Witcher, Scout and Shaman** *(2026-11-12)*: *Anvil-born*, *Old campaigner* (Knight), *Captain* (Hire-Sword); *Beast-breaker* (Monster Slayer), *Monster lore* (knowledge and trophies), *Trailblazer* (Barbarian); *Silver for monsters* (Berserk), *Practised signs* (Hexer), *Old school* (Exorcist; knowledge and trophies); *Horse archer* and *Ringleader* (Outrider), *Cryptographer* (Ghost), *Friend of the guild* (Spymaster), *Fixer*; *Brewer of visions* (Herbalist), *Spiral walker* (Seer), *Beast mender* (the Shaman's ungated level-1 pick), *One of the pack* (Warg). The combat unlocks: *Up close* (Barbarian), *Crossbow and silver* (Hexer).
+    - **Advantage perks for Rogue, Alchemist, Druid, Warlock and Mage** *(2026-11-12)*: *Spider* and *Second hand* (Thief), *Lockbreaker*, *Venom-touched* (Poisoner); *Philosopher*, *Powder monkey* (Mixer), *Distiller* (Transmuter), *Clay father* (Life Moulder); *Stone-sworn* (Stoneshaper), *River-born* (Tidecaller), *Green hand* (Wildheart); *Ember heart* (Battlemage), *Stormcaller*, *Raw power* (Paladin), *Warden* (Abjurer); *Master of mirrors* (Illusionist), *Honeyed mind* (Puppetmaster), *Summoner* (Conjurer). Every basic and advanced class now has an advantage perk for every skill, except the Incantor's *Ritual items*.
+    - **The last sigils** *(2026-11-12)*: every school of every magic class now has one. *Melusine sigil* (Warlock, wind; ungated), *Perun's sigil* (evocation; Paladin), *Domovoi sigil* (abjuration; Abjurer: a ward cast through it covers everything inside, no Widespread), *Will-o'-wisp sigil* (Mage, illusion; Illusionist: illusions anywhere inside), *Fairy sigil* (enchantment; Puppetmaster), *Fiend sigil* (conjuration; Conjurer: what's conjured can appear inside, however far away the Mage is), *Algiz sign* (Witcher signs; Hexer; needs magic mode: sign traps at a distance). *Salamander sigil* now covers all Fire magic, like the Druid sigils. **The Alchemist gets no sigil:** its skills are crafting, not casting.
+    - **Mage spells and perks** *(2026-11-12; from DrD2's mind and illusion magic, and 5E)*. The Mage had no core spells until now.
+      - **Core spells:** *Illusion* (one illusion, one sense, up to a witch's hut, gone in moments, doesn't react; can also hide one sense of something; a suspicious onlooker rolls a challenge against the Mage level, testing it by hand settles it) and *Mind touch* (read and nudge feelings unnoticed; telepathy and visions the target knows come from outside; reading memory and borrowing senses the target senses; a willing target stays linked, a resisting one gives one answer per cast; no knocking out, killing, madness or control).
+      - **Illusion spells** (5E): *Borrowed face* (1 Soul, ungated: face and voice until sunset or sunrise), *Fetch* (1 Soul: two copies take the next two hits), *Unnoticed* (2 Soul, concentration: Invisible to anyone not looking; the only lasting way to hide a living creature), *Marsh lights* (3 Soul, farmstead, concentration: the charmed follow the lights). All but Borrowed face need Illusionist.
+      - **DrD2 perks:** *Many senses* (1 Soul per extra sense), *Phantasms* (1 Soul each: lasting until sunset or sunrise, reacting), *Army of phantoms* (free Widespread for identical illusions), all Illusionist; *Invisible puppeteer* (1 Charisma each: control until sunset or sunrise, senses and telepathy through a friend with a symbolic touch), *Soul eater* (1 Charisma each: a mind spell until sunset or sunrise like a strong blessing or curse, stealing or rewriting one memory), *Mass hysteria* (free Widespread against a crowd that formed on its own), all Puppetmaster.
+      - *Wrong road* (5E's *Hallucinatory Terrain*) was dropped: Illusion with Phantasms already does it.
+      - **Conjuration** *(confirmed, 2026-11-12)*: fiends, small elementals and plain matter. Spirits of the dead are necromancy and go to the Black Priest; so does real teleportation. Nothing extravagant: no Mage Hand.
+        - **Summons:** companions of the Summon kind (right after the caster), ordinary stat blocks, Bond = the Material put in, up to the caster's Charisma pool; gone when it runs out. Unbound fiends are the DM's.
+        - **Core spell *Conjure*:** palm-sized plain matter (no metal, worked, edible or valuable things) that crumbles at sunset or sunrise, Widespread to a hut; or a lesser fiend of the place for one simple act. Changes the Danger Level, can't kill.
+        - **Spells:** *Wayfinder* (1 Material: a light to the nearest road or settlement), *Domovoi* (1 Material: a household imp until sunset or sunrise), *Fiend's grease* (1 Soul: Acrobatics or prone) are ungated. Conjurer: *Guardian spirit* (Material per Bond: an animal spirit guards until sunset or sunrise, fights as a wolf), *Through the veil* (2 Soul + Material per Bond: a spirit-world creature, one way), *Borrowed things* (2 Soul: a wood, rope, cloth or stone object up to human size), *Brimstone smoke* (1 Soul, farmstead), *Spider's lair* (2 Soul: Strength or Restrained); *Elemental servant* (Mage 3; 5E's mephits), *Recall* (Mage 3, 2 Soul + 1 per passenger: step out at your active sigil, which ends), *Bound to the place* (Mage 4, ritual: a fiend tied to a place until the solstice or equinox), *Both ways* (Mage 5, 2 Soul: send a spirit-world creature back, or a fiend's soul across), *Infernal calling* (Mage 5, ritual, 3 Material + the demon's payment: a lesser demon at Bond 3, like 5E's imp or quasit).
+        - *Domovoi* (the spell) and the *Domovoi sigil* (Warlock) share the English name; in Czech they're *Šotek* and *Znak hospodáříčka*.
+    - **Warlock Evocation and Abjuration** *(2026-11-12, added for now)*. Both schools get a core spell, as every school of the Druid and the Mage has.
+      - **Evocation** (raw force, lightning, thunder; Paladin): core *Evoke* (a human's strength of force, 1d6 chip damage). *Thunderclap* (1 Soul, ungated: 2d6 within 2 m and a 3 m push), *Force stones* (1 Soul: 3 × 1d4, no defense, armour counts), *Perun's arrow* (2 Soul: a 12 m line, 4d6, metal armour defends with disadvantage), *Cracked bell* (2 Soul: 3d6 in a hut, a strength-3 hazard against things), *Perun's wrath* (Warlock 4, 3 Soul, concentration: 3d6 a round, only in a thunderstorm).
+      - **Abjuration** (wards, breaking magic; Abjurer): core *Ward* (a resistance bonus 1 against one named harm, one per target; or a warded threshold lesser fiends can't cross). *Shield* (1 Soul, ungated, reaction: armour rating +2 against one hit), *Counterspell* (1 Soul: counter a spell at anyone in sight, Precise), *Break the spell* (1 Soul per point in the spell: any school, without its skill; still needs range, resources and knowing the spell), *Sanctuary* (1 Soul: attackers must win a challenge first), *Circle of salt* (2 Material, ritual: fiends, undead and spirit-world creatures kept out until sunset or sunrise), *Stone skin* (Warlock 3, 2 Soul + 2 Material: rating 3, no encumbrance), *Hidden from sight* (Warlock 3, 3 Material, ritual: seeking magic needs a won challenge, until the solstice or equinox).
+      - **Prices can't be variable** in the database (amount and resource are both set or both empty), so *Break the spell* is priced per point.
+    - **Incantor spells** *(2026-11-12)*: very basic on purpose, since every full caster goes through Incantor. Free: *Witchlight* (a torch-bright cold light in the palm, concentration), *Hedge tricks* (5E's Prestidigitation), *Mending* (small breaks, not item scars), *Whisper* (5E's Message, sound only). 1 Soul: *Soothing word* (ends natural fear, panic or rage; a new defense roll against magical fear or charm), *Last rites* (stabilises Soul or Charisma dying on a Healing of the soul check). 1 Material: *Identify* (what a magic item or substance does and how strong), *Omen* (5E's Augury: good, bad, both or nothing clear). *Familiar* (Incantor 2) and the perk *Steady mind*.
+    - *Read the tongue* (5E's Comprehend Languages; 1 Soul, concentration) went to the **Mage**, ungated.
+    - **Druid spells** *(2026-11-12)*: fixed effects on top of the bending core spells. Gates follow the advantage perks.
+      - **Water** (Tidecaller): *Purify* (free, ungated: rot and sickness, not crafted poisons), *Vodyanoy's breath* (1 Soul, ungated: breathe water until sunset or sunrise), *Walking the water* (2 Soul), *Drowner's grip* (2 Soul, concentration: Restrained under water, 1 Body to attempt anything).
+      - **Stone** (Stoneshaper): *Sling stones* (1 Soul, ungated: 1d6 + Druid level), *Shape stone* (2 Soul: a door's worth, lasting), *Into the rock* (2 Soul: 5E's Meld into Stone), *Stone thorns* (2 Soul, concentration: half-speed ground, d4 threat die or 2d4), *Stone rampart* (Druid 3, 3 Soul: a brick wall 5 × 2 m until sunset or sunrise).
+      - **Plants** (Wildheart): *Thorn whip* (1 Soul, ungated: 1d6 and a 3 m pull), *Good berries* (1 Material, ungated: Druid level berries, each a day's food and 1 exhausted Body back), *Bramble snare* (1 Soul, concentration: Strength or Restrained), *Barkskin* (1 Soul, concentration: rating 2), *Without a trace* (2 Soul: no tracks, Precise sneaking in the wild).
+      - *Tree Stride* was left out: teleportation is the Black Priest's.
+    - **Magic schools differ from DrD2 on purpose:** our magic classes merge DrD2's vague magic with 5E's spells, so they have more, narrower schools (Warlock's Evocation and Abjuration; Mage's Illusion, Enchantment and Conjuration in place of DrD2's mind magic and initiated society).
+    - *Sniper* (Hunter) *(changed 2026-11-12)*: no disadvantage at long range; where it makes sense, shoot at a target that can't be seen at all (a high arc over a wall); free Mighty against an unaware target. The plain advantage moved to *Marksman*.
     - *Monastic school* (Warrior): **removed**. It was "unarmed: Warrior level × d6", which made fists the best weapon. Unarmed fighting comes back as several perks under the **Monk** aspect. Options discussed: an unarmed die growing with Warrior level (d6 at 1–2, d8 at 3–4, d10 at 5, plus the Fighter level), and fists counting as a proper weapon with a free manoeuvre.
   - *Berserk* (Ranger perk) and *Poisoner* (Medic perk) share their names with the Witcher and Rogue aspects; their ids are `ranger-berserk` and `medic-poisoner`.
 - Each belongs to a race (racial perks) or a class (class perks, core spells, spells).
@@ -2482,6 +2608,14 @@ The same for hazards, potions, elixirs and plain gear.
   - Extra resources from Scars.
   - Cheaper scar healing.
   - Narrative "you can determine that…" abilities, e.g. I Know a Guy or Hidden Pocket.
+- **Perk archetypes** *(confirmed, 2026-11-12)*: every class should have these, besides its own flavour perks.
+  - **Advantage ("boring") perks** covering **all** the class's skills, unique and non-unique, so every build has the basic option.
+  - **A sigil for every school of magic** the class has, for casting at a distance.
+  - **A mastery perk at class level 5** for strong manoeuvres, in every basic and advanced class.
+  - **Trophies** get no advantage perk of their own: the Ranger's and Witcher's knowledge perks cover them.
+  - **Skill fixes** *(2026-11-12, against DrD2's lists)*: Witcher close combat is Body (it was Soul, with a knowledge description); Warrior's *High society influence* is Charisma; Ranger and Witcher knowledge lose the intimidation line (that's Fighter's).
+  - **Shared skills:** *Dealing with supernatural beings* gets **one perk for all three** classes that have it (*Old pacts*: Incantor, Ranger, Witcher). Fighter's and Warrior's knowledge are different skills, each with its own perk: Fighter's ***Weapon knowledge*** (renamed from *Warrior knowledge*, 2026-11-12) is weapons and fighting; Warrior's ***Warrior knowledge*** is tactics, how arms and armour are made, and leading soldiers.
+  - **In the app (dev only):** perks carry an `archetype` (advantage, sigil, mastery), shown as a ribbon on perk cards while `SHOW_ARCHETYPES` is on in `components/game/perkCard.tsx`. Switch it off once the gaps are filled.
 - **Spells are perks** *(confirmed)*: every non-core spell takes one of the class's perk slots, on purpose, so casters get no more abilities than anyone else.
 - **Spells** add components, damage, damage type, range, area of effect and duration.
   - **Components:** Verbal, Somatic, Material and/or Ritual (see *Components* under Magic).
@@ -2732,7 +2866,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
 - **Rules still to write:** mighty class perks (no skills; including the Standing 3–5 perks, and Warlord's perks for creating and commanding military units).
 
 **App and data follow-ups:** written into the app on **2026-10-28**: the rulebook pages (rules only; Michal writes the examples), mighty class prerequisites, all 30 aspects, the shared *Dealing with supernatural beings* skill, race speed, each weapon's free manoeuvre (item editor and the `::weapons` block), per-campaign merit points (campaign page) and the pool-under-2 warning. Still to do:
-- Perks still to write: Black Priest perks for crafting lasting magic items, the Incantor concentration perk, the Incantor familiar spell, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, the Monk aspect's unarmed-fighting perks (replacing *Monastic school*). (Done: *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
+- Perks still to write: Black Priest perks for crafting lasting magic items, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, the Monk aspect's unarmed-fighting perks (replacing *Monastic school*). (Done: *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
 - Rulebook examples and story bits for the new pages (Michal).
 - *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
 - **Pricing, modular armour and backgrounds** (2026-10-31): the code is in, but the database part waits in `supabase/migrations/2026103112*.sql` (schema, then items and backgrounds, then the rulebook armour paragraphs); applying it from the session was declined. To confirm: **scarring armour breaks one piece** (replaces "rating drops by 1"), and the background balance.
@@ -2813,7 +2947,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q16a, Cunning**~~: answered. Ours stays (prone, grapple or push); DrD2's Danger Level version isn't used.
     - ~~**Q16b, rules of use**~~: answered. ~~Timing?~~ Answered: DrD2's timing (see *When to declare*). Cunning is declared after the attack lands. Mighty is declared before the roll, with no penalty for missing (changed 2026-11-01). ~~"Free when you have advantage"?~~ Dropped: any advantage on an action is a free Precise, on initiative a free Quick. ~~How many per action?~~ One manoeuvre, free ones and Quick included; Defense and a critical hit's free Mighty don't count (changed 2026-11-01; it was one paid manoeuvre). Conditions are to be reworded to name the manoeuvre ("attacks against a prone target are Precise").
     - ~~**Q16c, Widespread and areas**~~: answered. Every multi-target action needs Widespread. Spells with an unspecified effect (usually core spells) pay for Widespread to reach more targets or a larger amount. Spells with a specific effect (Fireball) have a fixed area, paid for by their activation price (like a 5E spell slot), and Widespread can't change it.
-    - ~~**Q16d, weapon manoeuvres**~~: answered. Each weapon grants one free manoeuvre, chosen by the admin in the item editor (default by damage type: piercing Cunning, slashing Precise, bludgeoning Mighty); shields grant a free Defense once per round. The editor field isn't built yet.
+    - ~~**Q16d, weapon manoeuvres**~~: answered, **changed 2026-11-11**. Weapons grant no free manoeuvre; shields keep a free Defense once per round; a perk's advantage means only Precise; other perks name a manoeuvre (*Got you*) or grant strong manoeuvres across a class's skills (see *Weapons grant no free manoeuvres*). *Got you*, *Flying weapon* and *Legendary warrior* no longer mention replacing the weapon's manoeuvre. (Was: each weapon grants one, defaulting by damage type.)
     - ~~**Q16e, mastery**~~: answered. Strong manoeuvres come from class perks; cruel manoeuvres from mighty class perks; NPCs get either as stat-block abilities. Class level alone unlocks neither.
     - ~~**Q16f, NPC manoeuvres**~~: answered. ~~How do NPCs pay?~~ Answered: manoeuvres granted by their weapon or stat block are free; an ungranted one costs 1 point of a track, usually Soul or Charisma. ~~Cruelly mighty against them?~~ An NPC that defends first takes damage before the challenge roll; one that doesn't takes +2 damage dice. Damage before the roll is one die of the attack (Body) or the attacker's class level (Soul, Charisma). The full Mighty table is under *The Mighty versions*.
     - ~~**Q16g, penalties**~~: answered. Imprecise, Slow, Feeble and Foolish join the conditions under their own names (no Poisoned). A condition's disadvantage blocks every source of advantage. Duration follows the cause. Scope is set by the source: one skill or skill group, or everything.

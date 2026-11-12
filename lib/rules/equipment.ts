@@ -38,29 +38,13 @@ export const ITEM_SETS = [
 export const WEAPON_MANOEUVRES = ["precise", "mighty", "cunning", "defense"] as const;
 
 /**
- * The free manoeuvre a proper weapon grants by default: shields Defense,
- * crossbows Mighty, bows Precise, otherwise by damage type (piercing Cunning,
- * slashing Precise, bludgeoning Mighty). The admin can pick another per item.
+ * The free manoeuvre an item grants by default: only shields, a free Defense
+ * once per round. Weapons grant none (dropped 2026-11-11); free manoeuvres
+ * come from perks.
  */
 export const defaultManoeuvre = (
   item: Pick<Item, "kind" | "damage_type" | "properties">,
-): Item["free_manoeuvre"] => {
-  const properties = item.properties?.toLowerCase() ?? "";
-  if (item.kind === "shield") return "defense";
-  if (item.kind !== "weapon") return null;
-  if (properties.includes("loading")) return "mighty";
-  if (properties.includes("ammunition")) return "precise";
-  switch (item.damage_type?.toLowerCase()) {
-    case "piercing":
-      return "cunning";
-    case "slashing":
-      return "precise";
-    case "bludgeoning":
-      return "mighty";
-    default:
-      return null;
-  }
-};
+): Item["free_manoeuvre"] => (item.kind === "shield" ? "defense" : null);
 
 export const itemsInSet = (items: Item[], set: (typeof ITEM_SETS)[number]) =>
   items

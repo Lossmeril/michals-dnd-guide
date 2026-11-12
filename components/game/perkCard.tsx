@@ -8,9 +8,6 @@ import { RESOURCE_STYLES } from "./resources";
 
 const DEFAULT_IMAGE = "/img/perks/default.webp";
 
-/** Perk pictures are hidden until the art is ready; traits keep theirs */
-const SHOW_PERK_IMAGES = false;
-
 /**
  * Square picture for perks and traits; the images carry their own frames.
  * Size it by width; the square ratio is applied last so a className can't
@@ -39,10 +36,9 @@ export const SquareImage: React.FC<{
 export const PerkImage: React.FC<{
   perk: Tables<"perks">;
   className?: string;
-}> = ({ perk, className }) =>
-  SHOW_PERK_IMAGES ? (
-    <SquareImage src={perk.image_url} className={className} />
-  ) : null;
+}> = ({ perk, className }) => (
+  <SquareImage src={perk.image_url} className={className} />
+);
 
 /** "Passive", "Granted automatically" or the activation price as a coloured pill */
 export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
@@ -78,6 +74,15 @@ const ribbonOf = (perk: Tables<"perks">, core: boolean) =>
       : perk.kind === "spell"
         ? RIBBONS.spell
         : null;
+
+/** Dev only: tags perk archetypes so gaps per class are easy to spot. Switch off before release */
+const SHOW_ARCHETYPES = true;
+
+const ARCHETYPES: Record<string, { text: string; color: string }> = {
+  advantage: { text: "Advantage", color: "bg-accent-green text-dnd-ink" },
+  sigil: { text: "Sigil", color: "bg-accent-purple text-white" },
+  mastery: { text: "Mastery", color: "bg-accent-yellow text-dnd-ink" },
+};
 
 const STATE_STYLES: Record<PerkState, string> = {
   held: "border-dnd-red ring-2 ring-dnd-red/50",
@@ -133,6 +138,8 @@ const PerkCard: React.FC<PerkCardProps> = ({
   className,
 }) => {
   const ribbon = ribbonOf(perk, core);
+  const archetype =
+    SHOW_ARCHETYPES && perk.archetype ? ARCHETYPES[perk.archetype] : null;
 
   return (
     <div
@@ -155,6 +162,19 @@ const PerkCard: React.FC<PerkCardProps> = ({
           )}
         >
           {ribbon.text}
+        </span>
+      )}
+      {archetype && (
+        <span
+          className={twMerge(
+            "absolute top-0 left-0 text-center font-bold uppercase -rotate-45",
+            compact
+              ? "w-24 py-0.5 text-[10px] -translate-x-7 translate-y-3"
+              : "w-32 py-1 text-xs -translate-x-9 translate-y-4",
+            archetype.color,
+          )}
+        >
+          {archetype.text}
         </span>
       )}
 
