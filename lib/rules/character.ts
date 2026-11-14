@@ -170,7 +170,7 @@ export const aspectsOf = (rb: Rulebook, classId: string) =>
     .map((cp) => findPerk(rb, cp.perk_id)!)
     .filter((p) => p.kind === "aspect");
 
-/** An aspect's parent levels in the parents' order, e.g. [4, 2]; 0 if unset */
+/** An aspect's parent levels in the parents' order, e.g. [4, 1]; 0 if unset */
 export const aspectSplit = (rb: Rulebook, classId: string, aspectId: string) =>
   parentsOf(rb, classId).map(
     (parentId) =>

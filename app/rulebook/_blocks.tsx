@@ -187,7 +187,7 @@ const Aspects: React.FC<BlockProps> = ({ rb, t }) => {
     }));
   const columns = Math.max(0, ...rows.map((r) => r.aspects.length));
   if (columns === 0) return <p>{t.blocks.noneYet}</p>;
-  // "4 + 2" heads a column when every class unlocks that aspect the same way
+  // "4 + 1" heads a column when every class unlocks that aspect the same way
   const splits = Array.from({ length: columns }, (_, i) => {
     const all = new Set(rows.map((r) => r.aspects[i]?.split));
     return all.size === 1 ? [...all][0] : undefined;

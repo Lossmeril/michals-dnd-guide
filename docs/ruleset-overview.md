@@ -532,6 +532,7 @@ The old site had a 5E-style travel calculator.
   - Past *Severe*: 3 km at most, or stay put.
 - **Encumbered:** one pace slower (normal becomes slow). **Heavily encumbered:** slow pace and one column right. *(Replaces −2 m and −4 m, near enough.)*
 - **Gallop:** a mounted party can add one hour of gallop, about **+15 km** on a road. The horses then need a slow day or a long rest.
+- **Spare horses** *(2026-11-14)*: with a spare horse for every rider, swapping mounts, the party can gallop a **second hour** (another +15 km), and the horses need no slow day afterwards. The Scout's *Courier* does it on one horse.
 - **Forced march:** each hour past 8 is a [cost to attempt](#cost-to-attempt) of **1 Body**, exhausted before the hour starts. With no Body left, the traveller stops or takes a Scar to go on.
 
 **Ground** *(draft)*: what the ground does in a fight, and which travel column it counts as.
@@ -586,6 +587,7 @@ From 5E's travel activities. Each character picks **one** for the day; the pace 
 | **Track** | *Hunting* (Hunter) | On the trail | Trail lost until a new sign is found |
 | **Forage** (not at fast pace) | *Hunting* (Hunter) | Food for the party today, and **1 Material** of herbs, wood or hides (proper Material) | Nothing found |
 | **Map** | *Warrior knowledge*, *Ranger knowledge* or Scout's skills | Advantage on navigating this route again | — |
+| **Cover the trail** (slow pace only) *(2026-11-14)* | No roll | Tracking the party is disadvantaged (the Scout's *Cold trail* gives it free) | — |
 | **Sneak** (slow or normal pace) | *Acrobatics* (Juggler) or *Wilderness movement* (Hunter), for everyone | Unseen, as above | Seen |
 
 - **The Danger Level** of travel rolls is the region's (see [Random encounters](#random-encounters-confirmed-2026-11-08)): 2 on a patrolled road, 3 in the wilds, 4 in dangerous lands.
@@ -1068,6 +1070,24 @@ Many rules already name kinds of creatures. Read them against the categories:
   - **Soul and Charisma** take damage as for any NPC (the Danger Level the unit faces + the winner's class level), from a widespread speech, threat or terror. 0 means it breaks or gives in, whatever its Body.
   - **Too-small actions** do no track damage: one guard falls, and the band fights on.
   - *Example:* a band of watchmen (average Body 11, from 5E's Guard: 11 hit points) has Body 44. A Fireball reaching most of them deals 28: Body 16, below a handful's 22, so it's now a handful. A Warlord's roar wins a Charisma roll at Danger Level 4 + Warlord 3: 7 off the watch's Charisma of 6, and the survivors flee.
+
+#### Unit types *(draft, 2026-11-14)*
+
+**The stat block comes first.** Every unit already gets bonuses for what it's good at from its stat block: its bonus, its special abilities, its equipment. The type only answers **who is strong against whom**, as one more way to get a free manoeuvre. Each free manoeuvre counts as the action's one manoeuvre as usual. **Light infantry** means levies, missile units, scouts and sappers.
+
+| Type | Examples | Gets | Against it | Ground |
+|---|---|---|---|---|
+| **Levy** | Peasants with pitchforks, town militia | Nothing. Cheap: bonus usually 1 | Heavy infantry and heavy cavalry get a free **Mighty**. Panic hits it at Danger Level 3, not 2 | — |
+| **Heavy infantry** | Men-at-arms, a shield wall | A free **Defense** against every missile volley; a free **Mighty** against levies | — | — |
+| **Spears and pikes** | Pikemen, a spear wall | A free **Precise** and **Defense** against cavalry attacking its front | Missile volleys against it are **Precise** (dense, no shields) | Loses both in dense forest, rubble or a breach |
+| **Missile** | Archers, crossbowmen, slingers | Shoots over friendly units; a free **Precise** against spears and pikes, and levies | Cavalry in melee get a free **Precise**. Can't shoot while engaged | — |
+| **Light cavalry** | Hobilars, horse archers | Withdraws from engagement without spending its action; a free **Precise** against missile units, scouts and supply | Heavy infantry, spears and pikes get a free **Precise** | — |
+| **Heavy cavalry** | Knights, mounted men-at-arms | **Charge:** after moving 2+ squares straight into contact, a free **Mighty** against light infantry and light cavalry | Spears and pikes get **Precise** and **Defense** against its front | Half-speed ground (mud, a ploughed field, a slope): **Slow** and no charge |
+| **Scouts** | Foresters, skirmishers | A free **Quick** in the first round; unseen in forest or hills until it acts or is found | Heavy infantry and heavy cavalry get a free **Mighty** in melee | — |
+| **Sappers** | Miners, engineers | Their work against structures is **Precise**; stakes and ditches make ground half-speed for cavalry | As levies | — |
+| **Supply train** | Wagons, sutlers, the herd | Doesn't attack | Everyone gets a free **Mighty**. Destroyed or captured: every unit of the army takes Charisma damage at Danger Level 2, and the army starts starving | — |
+
+- **The loop:** heavy cavalry beats light troops; spears and pikes beat cavalry; missiles beat spears, pikes and levies; heavy infantry shrugs off missiles and beats levies; light cavalry beats missiles and the rear.
 
 *(Summarised from DrD2's Games of the Mighty. Not yet confirmed.)*
 
@@ -1586,13 +1606,13 @@ Example, Warrior:
 
 | Aspect | Requires |
 |---|---|
-| **Hire-Sword** | Fighter 4 + Juggler 2 |
+| **Hire-Sword** | Fighter 4 + Juggler 1 |
 | **Knight** | Fighter 3 + Juggler 3 |
-| **Monk** | Fighter 2 + Juggler 4 |
+| **Monk** | Fighter 1 + Juggler 4 |
 
-**All advanced classes** *(confirmed)*: every class follows the same pattern. The first aspect leans on the first parent (**4 + 2**), the second is balanced (**3 + 3**), the third leans on the second parent (**2 + 4**). Each is exactly the 6 parent levels that unlock the class, so the split a character used to get in decides which aspect comes first; holding all three needs at least 4 + 4.
+**All advanced classes** *(confirmed; lopsided aspects changed from 4 + 2 to 4 + 1, 2026-11-14)*: every class follows the same pattern. The first aspect leans on the first parent (**4 + 1**), the second is balanced (**3 + 3**), the third leans on the second parent (**1 + 4**). **Every split that unlocks the class gets at least one aspect**: 5 / 1 and 4 / 2 get the lopsided one, 3 / 3 the balanced one. With 4 + 2, a Fighter 5 / Juggler 1 Warrior had none. The split a character used to get in decides which aspect comes first; holding all three needs at least 4 + 4.
 
-| Class | Parents | 4 + 2 | 3 + 3 | 2 + 4 |
+| Class | Parents | 4 + 1 | 3 + 3 | 1 + 4 |
 |---|---|---|---|---|
 | **Warrior** | Fighter + Juggler | Hire-Sword | Knight | Monk |
 | **Ranger** | Fighter + Hunter | Barbarian | Monster Slayer | Beastmaster |
@@ -2424,7 +2444,7 @@ This is the poison rule already confirmed (strength d6 against NPCs, the same th
 | **Two-part** | Sleeps until something wakes it (wine, pipe smoke) | Poisons, narcotics, gases | *Unusual poison* (Medic) |
 | **Hard to detect** | No taste, smell or colour | Poisons, narcotics, gases | *Unusual poison* (Medic) |
 | **Bare skin** (+1; +2 if the maker is immune) | A contact poison that works through unbroken skin | Contact poisons | *Your lips are venomous poison* (Rogue) |
-| **On a word** | Goes off at a sound or a spoken word | Explosives, gases | *To write:* Alchemist (DrD2 *Neobvyklé třaskaviny*) |
+| **On a word** | Goes off at a sound or a spoken word | Explosives, gases | *On a word* (Alchemist, Mixer; DrD2 *Neobvyklé třaskaviny*) |
 | **First one met** | The victim acts a set way towards the first person they meet once it takes effect (fall in love, try to kill) | Narcotics | *Philtres* (Shaman) |
 
 *Example:* a strength-3 fast, hard-to-detect sleeping poison costs 3 + 3 + 3 = **9 Material** a dose.
@@ -2519,7 +2539,7 @@ The same for hazards, potions, elixirs and plain gear.
 2. **Pseudo-magic essences** (the Witcher's elixir, the Shaman's drum or amulet) are already our magic mode: a level-1 Scar, no Material. They aren't substances in this sense.
 3. **Sigils** are hazards too in a way (they act on intruders), but they're live magic, paid from their own pool. They stay as they are.
 4. **NPC abilities** use the shorthand: a wyvern's sting, a giant spider's bite.
-5. **Perks to write:** *On a word* (Alchemist), *Strengthened elixir* (Alchemist), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
+5. **Perks to write:** *Strengthened elixir* (Alchemist; drafted 2026-11-12 but not taken yet), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
 
 ## Perks and spells
 
@@ -2593,6 +2613,52 @@ The same for hazards, potions, elixirs and plain gear.
       - **Stone** (Stoneshaper): *Sling stones* (1 Soul, ungated: 1d6 + Druid level), *Shape stone* (2 Soul: a door's worth, lasting), *Into the rock* (2 Soul: 5E's Meld into Stone), *Stone thorns* (2 Soul, concentration: half-speed ground, d4 threat die or 2d4), *Stone rampart* (Druid 3, 3 Soul: a brick wall 5 × 2 m until sunset or sunrise).
       - **Plants** (Wildheart): *Thorn whip* (1 Soul, ungated: 1d6 and a 3 m pull), *Good berries* (1 Material, ungated: Druid level berries, each a day's food and 1 exhausted Body back), *Bramble snare* (1 Soul, concentration: Strength or Restrained), *Barkskin* (1 Soul, concentration: rating 2), *Without a trace* (2 Soul: no tracks, Precise sneaking in the wild).
       - *Tree Stride* was left out: teleportation is the Black Priest's.
+    - **Alchemist perks** *(2026-11-12)*: Mixer: *Grenadier* (thrown charges 8 / 24 m, a throw can be a bonus action), *On a word* (+1 Material per strength). Transmuter: *Fool's gold* (1 Material per 10 coins: base coins pass as silver until sunset or sunrise). Life Moulder: *Second shem* (two artificial beings at once), *Homunculus* (2 Material per Bond: a rat-sized spy you see and hear through), *Clay mender* (1 Material per 5 Body). Drafted and not taken: *Field laboratory*, *Prima materia*, *Sapper*, *Aqua regia*, *Strengthened elixir*, *Rapid dose*.
+    - **Rogue perks from 5E** *(in the database, 2026-11-14)*. Goal for every class: about everything a 5E character gains by levelling, our characters can do through skills or perks.
+      - **Ungated:** *Sneak attack* (when the situation gives a free Precise on an attack, an ally is within 1 m of the target, or you're alone with it, take a **free Mighty** instead: 5E's Sneak Attack triggers on advantage, which our one-manoeuvre limit would otherwise waste), *Slip away* (Dash, Disengage or hide as a bonus action), *Stroke of luck* (Rogue 4: once a day, a lost roll becomes a win, like Fate).
+      - **Thief:** *Fast hands* (reworked: a bonus action only matters in big fights, so instead your **Cunning** in close combat can also **take an item** from the target's hand or belt: a weapon, a key, a vial), *Uncanny dodge* (once a round, averting a hit you can see costs 2 less, minimum 1), *Evasion* (averting a lost roll against an area costs half the Danger Level, rounded up), *Thief's reflexes* (Rogue 4: act twice in a fight's first round).
+      - **Assassin:** *Assassinate* (free **Very mighty** against a target that **hasn't acted yet or is unaware of you**), *Dirty tricks* (Cunning can also blind the target or make it **Imprecise** on its attacks, until the end of its next turn; Slow was dropped, since initiative is rolled once), *Hit and run* (whoever you attacked in melee gets no free attack when you move away), *Elusive* (Rogue 4: nobody gets Precise against you unless you're incapacitated).
+      - **Poisoner:** *Quick coat* (coat a blade as a bonus action; it lasts 3 hits), *Potent* (your poisons ignore resistance to poison).
+      - **Thieves' cant is a language** *(confirmed)*, not a perk or a skill: knowing it is yes or no, not a roll. It goes in the languages table; Criminal and Urchin can take it as their extra language, and Scout's *Underground influence* is where it gets used.
+      - **Left out:** *Reliable Talent* (advantage perks and no-roll crafting), *Steady Aim* (Hunter's *Marksman*), *Slippery Mind* (Incantor's *Iron will*), *Use Magic Device* (few magic items), *Death Strike* (a cruel manoeuvre: the Shadow), the magic subclasses (Rogue has no magic); *Inquisitive*, *Mastermind* and *Scout* go to our Scout class.
+    - *Marks of corruption* (Incantor, **Michal's**, 2026-11-14): a **level-2 Charisma Scar** (blank payment) that shows: glowing tattoos, a wrongly shaped shadow, unnatural eyes or hair, a reflection that doesn't match, plants wilting nearby. While it lasts, either **one spell** of any of the character's classes with an activation price in Body, Soul or Charisma is free (chosen when the Scar is taken, never changed; Material is still spent), or **one corrupted or wild magic spell** can be taken as a perk, working only while the Scar lasts. Stackable, one effect per Scar. It heals normally, but the effect ends once any part of it is healed. *Still to write:* the corrupted and wild magic spells.
+    - **Monk perks** *(Warrior, in the database, 2026-11-14; from 5E's Monk)*. They replace the removed *Monastic school*.
+      - *Empty hand*: unarmed strikes against humans and beasts roll with the **Warrior level** and deal d6 (Warrior 1–2), d8 (3–4), d10 (5) + Warrior level; doesn't stack with *Rock fist*. *Flurry of blows*: a second unarmed strike as a bonus action. *Step of the wind*: dash or disengage as a bonus action, jumps twice as far. *Arrow catcher*: averting an arrow, bolt or thrown weapon with Body costs 1 less and you catch it, to throw back as a bonus action. *Slow fall*: **with no armour**, a fall's strength drops by the Warrior level. *Inner breath*: once a day, 10 minutes restore **1** exhausted Body point. *Drunken master*: after a drink, a won defense roll in close combat sends the hit into someone else within 1 m, undefended. *Stunning strike* (Warrior 3): an unarmed Cunning can Stun until the start of your next turn; Fate shakes it off. *Still mind* (Warrior 3): end Charmed or Frightened as an action. *Light as a leaf* (Warrior 4): with no armour, +1 m speed, run up walls and across water during a move.
+      - **Scrapped:** *Unarmoured defence* (armour rating without encumbrance was too strong).
+      - **Left out from 5E:** the magic subclasses (Shadow, Four Elements, Sun Soul, Astral Self), *Quivering Palm* (cruel: a mighty class), *Kensei* (*Weapon of choice*), *Mercy* (Medic), *Extra Attack* (*Flurry of blows*), focus points (the pools), *Diamond Soul*, *Evasion* (the Rogue's; a perk can't sit behind two aspects).
+    - *Reinforcements* (**Warlord**, **Michal's**, in the database, 2026-11-14; the first mighty class perk): arriving at a battle already under way, the Warlord spends their action for two rounds on a rallying speech; the units can move but not attack. Each unit then gets a free **Mighty** on its **first round of actual combat** (the first round it attacks or is attacked), since marching to the enemy can take several rounds.
+    - **Training and Tradecraft** *(in the database, 2026-11-14; both ungated; Training is Michal's)*: a companion, unit or network you lead learns one of **your** class skills, +1 per step, priced like raising Bond (a successful roll and 5 payments per +1; units ×5 per size step). Cap: your Charisma pool, and no higher than your own level in that class.
+      - **Training** (Warrior; roll *Combat leadership*): combat companions, units of infantry, heavy cavalry and sappers, and noble societies (networks specialised in high society).
+      - **Tradecraft** (Scout; roll *Leading people outside combat*): non-combat companions, light cavalry, scouts and supply units, spy and underworld networks.
+    - **Scout perks** *(2026-11-14; first drafted 2026-11-12, then checked against 5E's Mastermind, Inquisitive and Scout subclasses)*.
+      - **In the database:** *Listener* (Ghost: lip-reading as far as you see faces, which **nobody else can do**, and hearing through a door or thin wall), *Mimic* (Ghost: after a minute of listening, a voice, accent or dialect **passes by default**; without the perk, every exchange with someone who knows the original is a challenge; only within a reasonable range for your voice), *Turncoat* (Spymaster, 1 Charisma: a won Underground influence challenge turns a captured spy or informant into a companion at Bond 1, still reporting to the old master what you feed them), *Unerring eye* (Spymaster, 1 Soul: sense illusions, magical disguises and shapechangers within 10 m), *Closed book* (Spymaster, Scout 4: mind magic must win a challenge to read you; no magic can tell your lies). *Inside job* (Spymaster, **25 silver**, **Michal's**, after Dishonored's favours: for a **specific planned destination**, arranged at least a day ahead through the underworld, an infiltration opportunity waits there; the DM picks it and tells the player on payment: a bribed servant, blackmail on a guard, a saboteur, a forged invitation. One per destination; spent once the alarm goes up).
+      - **Taken (2026-11-14, second round):**
+        - *Ungated:* *Smuggler's hold* (a chest-sized hidden space in any ship or cart you load; finding it takes a won challenge against your Scout level), *Weather eye* (at sea or in the open, the DM rolls tomorrow's weather tonight and tells you).
+        - *Ghost:* *Ambush master* (5E: free Quick when your side ambushes; allies' attacks are Precise against the first enemy you hit, until your next turn), *Nobody's face* (people who met you can't describe you unless they win a challenge against your Scout level), *Cold trail* (tracking you and your whole party is disadvantaged by default; without it, a party gets that only by covering its trail on purpose).
+        - *Outrider:* *Saddle-born* (mounting and dismounting free during the move; falls from a horse never hurt), *Master of tactics* (5E: bonus action, an ally within 10 m gets a free Precise on their next roll against a target you see), *Courier* (the Scout alone, on one horse: what others need a spare horse for, a second hour of gallop and no slow day after).
+        - *Spymaster* (**Michal's**): *Nose for secrets* (2 Charisma: the DM says truthfully whether there's any dirt to find on an NPC), *Little birdies* (in a place of 40+ people, a day sets up an improvised network: one task at +1, Bond 0, 1 payment; it disbands when you leave unless you build it into a proper network).
+      - **Not taken:** *Ghost's tread*, *Face in the crowd*, *Dead drop*, *Outrider's eye*, *Parthian shot*, *Rally the column*, *Skirmisher*, *Smoke and mirrors*, *Raider*, *Web of whispers*, *Leverage* (*Nose for secrets* covers it), *Misdirection*, *Whisper campaign*, *Spin doctor*.
+      - **Dropped:** *Cover identity* (the Rogue's *Infiltration expertise* already does it). **Left out from 5E:** *Superior Mobility*, *Sudden Strike* (Hunter's *Double shot*), *Survivalist*, *Eye for Detail*, *Ear for Deceit* (advantage perks), *Insightful Fighting*.
+    - **Filling the thin aspects** *(2026-11-14)*. Goal: every aspect has at least 4 perks. Counted before: Witcher's Berserk and Exorcist 1 each, Warlock's Battlemage 1, Alchemist's Transmuter 2, Shaman's Herbalist 2, Scout's Outrider 2 (its drafts are above), Ranger's Beastmaster 3, Witcher's Hexer 3, Alchemist's Mixer 3.
+      - **In the database** (Witcher perks are Michal's; the Alchemist and Herbalist ones were picked from new ideas):
+        - *Witcher, Berserk:* *Whirlwind* (2 Body, sword only: a pirouette as your action; everyone within 1 m, friend or foe, defends or takes your weapon's damage, and so does anyone moving next to you until your next turn; a free Defense against close combat meanwhile; ends at your next turn or when you take a Scar; creatures immune to your attack skip the roll and ignore the free Defense), *Blood rush* (a Body Scar from a monster, fiend or undead gives a free Mighty against that one creature until the end of the conflict), *Mutagen collector* (taking a monster's trophy also gives 1d4 proper Material, on top of the main trophy: what the character came for, a griffin's beak or its head).
+        - *Witcher, Exorcist:* *Witcher oils* (contact poisons, rolled with *Witcher knowledge*, that work only on monsters, fiends and undead, bloodless ones too; the usual substance rules), *Ghostly fireworks* (a silver petard, an explosive rolled with *Witcher knowledge*, that damages only incorporeal beings), *Cursebreaker* (1 Soul, touch: lifts a simple curse or blessing without knowing it; on a complex one, the DM gives one lead), *Dagaz sign* (2 Soul: banish a lesser fiend or a spirit-world creature to its realm; defense roll, Fate as usual).
+        - *Witcher, Hexer:* *Eihwaz sign* (1 Material per strength, carved runestones: a hazard trap; the first monster, fiend or undead in it defends or is Restrained for strength rounds).
+        - *Warlock, Battlemage:* *Flame blade* (1 Soul, until the end of combat: +1d6 fire, lights what burns), *Gale step* (1 Soul, a bonus action: 6 m by gust, no free attacks), *Spellblade* (after casting a spell as your action, one weapon attack as a bonus action), *Dragon's breath* (Fire bending deals 2d6 and sets people alight, a lasting flame), *Playing with fire* (resistance to fire).
+        - *Ranger, Beastmaster:* *Loyal to the end* (animal and monster companions avert at 1 Bond less, minimum 1).
+        - *Shaman, Herbalist:* *Dreamless sleep* (1 Material per sleeper, up to the Shaman level: a quality rest anywhere; a night encounter still breaks it).
+        - *Alchemist, Transmuter:* *Silvering* (10 Material: a weapon or ten arrows, until the next solstice or equinox; a smith's 50 sp lasts), *Solve et coagula* (a broken item or a spare trophy rendered into proper Material, a third of its price), *Tempering oil* (2 Material per piece: +1 Protection, no extra Burden, until sunset or sunrise).
+        - *Alchemist, Mixer:* *Singed eyebrows* (your own charges, corrosives and gases never hurt you; resistance to fire), *Sapper's fuse* (a fuse exact to the minute, up to an hour, or a tripwire, lid or door trigger without *Mechanisms*; no extra Material).
+        - *Shaman, Herbalist:* *Nose for poison* (1 Soul: smelling it, you know for certain whether a poison or narcotic is there and which, Hard to detect ones too; no roll).
+      - **Drafted, not convinced yet:** *Not today* (Witcher: Body dying rolls succeed on 8+), *Cursed wounds* (Witcher: Scars from monsters and curses heal at 3 points per level), *Strengthened elixir*, *Shared dose* (+1 Material, one elixir for two), *Rust and rot* (1 Material, breaks a small thing up to sturdiness 10) for the Transmuter; *Shaped charge* (tamped charges +3 dice) for the Mixer; *Smoke of the ancestors* (narcotic incense for a closed room) for the Herbalist.
+      - **Fuses by default:** a plain fuse costs nothing and burns for a few rounds, give or take, as the DM says. Only *On a word* (a property, +1 Material per strength) and *Sapper's fuse* make the timing exact.
+      - **Ideas not taken:** *Changeling draught*, *Quick mix*, *Bitter cure*.
+      - **Tidecaller and Poisoner** *(2026-11-14; both had 3 perks)*:
+        - **In the database:** *Fog bank* (Druid, 1 Soul, concentration: fog over a farmstead, nothing seen beyond 2 m, navigating disadvantaged), *Scalding steam* (Druid, 1 Soul: water within 2 m of a target flashes to steam, 2d6 fire on a lost defense roll), *Rain-caller* (Druid 3, 3 Material, a ritual at sunset: **tomorrow's** weather over a **region** is rain, snow in winter, or fair, the Druid's choice; no roll), *Mithridate* (Rogue: resistance to poison), *Poisoned well* (Rogue, +1 Material per strength: one dose taints a pot or a barrel).
+        - **Rain-caller sets the weather outright** rather than moving it "one row", because the weather table isn't ordered from fair to foul (11–12 hold heat, floods, first snow and bitter cold). Reordering the table stays an option.
+        - **Not taken:** *Lasting ice*, *Undertow* (Druid); *Slow death*, *Venom milker* (Rogue). Gating the ungated water perks behind Tidecaller wasn't chosen.
+        - **Poisoner, not only poisons:** *Coroner* (in the database, 3 Soul per body: no roll, where a plain *Healing the human body* check only says roughly wound, sickness or poison; you learn the exact poison and strength or weapon, when and how it got in, what was staged, and whether two victims share a poison or a killer). *Not taken:* *Trusted hands*, *Slip of the hand*.
+      - *Whirlwind* for the Warrior (in the database, Hire-Sword, id `warrior-whirlwind`): the same perk, but with a **finesse** weapon instead of a sword.
     - **Magic schools differ from DrD2 on purpose:** our magic classes merge DrD2's vague magic with 5E's spells, so they have more, narrower schools (Warlock's Evocation and Abjuration; Mage's Illusion, Enchantment and Conjuration in place of DrD2's mind magic and initiated society).
     - *Sniper* (Hunter) *(changed 2026-11-12)*: no disadvantage at long range; where it makes sense, shoot at a target that can't be seen at all (a high arc over a wall); free Mighty against an unaware target. The plain advantage moved to *Marksman*.
     - *Monastic school* (Warrior): **removed**. It was "unarmed: Warrior level × d6", which made fists the best weapon. Unarmed fighting comes back as several perks under the **Monk** aspect. Options discussed: an unarmed die growing with Warrior level (d6 at 1–2, d8 at 3–4, d10 at 5, plus the Fighter level), and fists counting as a proper weapon with a free manoeuvre.
@@ -2654,6 +2720,7 @@ Kept deliberately vague for now. A starting list:
 | **Dwarven** | Dwarves, and dwarven runes and holds |
 | **Kroll tongue** | Krolls; primitive and mostly spoken |
 | **Old tongues** | Dead languages of fallen empires; written only, read by scholars |
+| **Thieves' cant** | The underworld: a cant of slang, double meanings and chalk marks on doorposts |
 
 Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages; it has no rules effect yet. Each language can also have a **sample text** (a line written in it, to show how it looks), shown under its name in the rulebook's languages table.
 
@@ -2866,7 +2933,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
 - **Rules still to write:** mighty class perks (no skills; including the Standing 3–5 perks, and Warlord's perks for creating and commanding military units).
 
 **App and data follow-ups:** written into the app on **2026-10-28**: the rulebook pages (rules only; Michal writes the examples), mighty class prerequisites, all 30 aspects, the shared *Dealing with supernatural beings* skill, race speed, each weapon's free manoeuvre (item editor and the `::weapons` block), per-campaign merit points (campaign page) and the pool-under-2 warning. Still to do:
-- Perks still to write: Black Priest perks for crafting lasting magic items, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, the Monk aspect's unarmed-fighting perks (replacing *Monastic school*). (Done: *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
+- Perks still to write: Black Priest perks for crafting lasting magic items, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, (Done: the Monk aspect's unarmed-fighting perks, 2026-11-14; *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
 - Rulebook examples and story bits for the new pages (Michal).
 - *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
 - **Pricing, modular armour and backgrounds** (2026-10-31): the code is in, but the database part waits in `supabase/migrations/2026103112*.sql` (schema, then items and backgrounds, then the rulebook armour paragraphs); applying it from the session was declined. To confirm: **scarring armour breaks one piece** (replaces "rating drops by 1"), and the background balance.
@@ -2889,7 +2956,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
    - ~~What unlocks a mighty class?~~ Answered: its advanced classes total 6 levels, in any spread.
 4. ~~Aspects~~: answered (3 per advanced class, unlocked by parent-class levels, gate perks).
    - ~~Q4a~~: answered (aspects need the advanced class itself; they stack, and all can eventually be unlocked).
-   - Answered: all ten advanced classes have aspects at 4 + 2, 3 + 3 and 2 + 4 (see [Aspects](#aspects)). Aspects for mighty classes still need defining.
+   - Answered: all ten advanced classes have aspects at 4 + 1, 3 + 3 and 1 + 4 (changed from 4 + 2 on 2026-11-14, so a 5 / 1 split isn't left without one) (see [Aspects](#aspects)). Aspects for mighty classes still need defining.
 5. ~~Advantage~~: answered (3d6 keep best two; 2d20 keep higher; "Advantage dice" are now **bonus dice**).
    - ~~Q5a~~: answered (disadvantage mirrors advantage; sources don't stack). **Changed:** disadvantage always wins and cancels advantage; advantage never cancels disadvantage (unlike 5E). The rulebook's Advantage page still says they cancel out.
 6. ~~Non-unique skills~~: answered (anyone can attempt them, with no class bonus).
