@@ -11,11 +11,13 @@ import { useLoad } from "@/lib/hooks/useLoad";
 import { fetchCampaignUpdates } from "@/lib/specialFecthers/campaignUpdates";
 import { UpdateComposer } from "./updateComposer";
 import { UpdatePost } from "./updatePost";
+import { useDict } from "@/lib/i18n/client";
 
 const CampaignUpdatesPage = ({
   params,
 }: PageProps<"/campaigns/[id]/updates">) => {
   const campaignId = Number(use(params).id);
+  const t = useDict().campaigns;
 
   const {
     data: feed,
@@ -30,7 +32,7 @@ const CampaignUpdatesPage = ({
       reload();
       return true;
     } catch {
-      toast.error("Couldn't post the update.");
+      toast.error(t.postFailed);
       return false;
     }
   };
@@ -40,19 +42,19 @@ const CampaignUpdatesPage = ({
       await deleteCampaign_Update(id);
       reload();
     } catch {
-      toast.error("Couldn't delete the update.");
+      toast.error(t.deleteFailed);
     }
   };
 
   return (
     <>
-      <Heading level={1}>Campaign updates</Heading>
+      <Heading level={1}>{t.updatesTitle}</Heading>
       <UpdateComposer campaignId={campaignId} onPost={post} />
 
       {loading ? (
         <SkeletonInlineText width="w-full" height="h-16" />
       ) : !feed || feed.posts.length === 0 ? (
-        <p>No updates yet.</p>
+        <p>{t.noUpdates}</p>
       ) : (
         feed.posts.map(({ update, author }) => (
           <UpdatePost

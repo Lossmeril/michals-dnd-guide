@@ -6,6 +6,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { DISPLAY_NAME_LENGTH, MIN_PASSWORD } from "@/lib/accountRules";
 import Field from "./field";
+import { useDict } from "@/lib/i18n/client";
 
 /** The state most form actions return: an error, or a note that it worked */
 export type FormState = { error: string | null; message?: string };
@@ -48,10 +49,11 @@ export const SubmitButton: React.FC<{
  * `mismatch` is also there to disable the submit button.
  */
 export const usePasswordPair = () => {
+  const t = useDict().account;
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const mismatch =
-    confirm && password !== confirm ? "The passwords don't match." : undefined;
+    confirm && password !== confirm ? t.mismatch : undefined;
   return {
     password,
     setPassword,
@@ -71,16 +73,14 @@ export const PasswordFields: React.FC<{
   labels?: [string, string];
   /** Errors the server sent back */
   errors?: { password?: string; confirm?: string };
-}> = ({
-  pair,
-  labels = ["New password", "Confirm new password"],
-  errors = {},
-}) => (
+}> = ({ pair, labels, errors = {} }) => {
+  const t = useDict().account;
+  return (
   <>
     <Field
-      label={labels[0]}
+      label={labels?.[0] ?? t.newPassword}
       htmlFor="password"
-      hint={`At least ${MIN_PASSWORD} characters.`}
+      hint={t.atLeast(MIN_PASSWORD)}
       error={errors.password}
     >
       <input
@@ -95,7 +95,7 @@ export const PasswordFields: React.FC<{
       />
     </Field>
     <Field
-      label={labels[1]}
+      label={labels?.[1] ?? t.confirmNewPassword}
       htmlFor="confirmPassword"
       error={pair.mismatch ?? errors.confirm}
     >
@@ -110,7 +110,8 @@ export const PasswordFields: React.FC<{
       />
     </Field>
   </>
-);
+  );
+};
 
 /** An email input with its label */
 export const EmailField: React.FC<{
@@ -119,8 +120,10 @@ export const EmailField: React.FC<{
   error?: React.ReactNode;
   defaultValue?: string;
   className?: string;
-}> = ({ label = "Email", hint, error, defaultValue, className }) => (
-  <Field label={label} htmlFor="email" hint={hint} error={error} className={className}>
+}> = ({ label, hint, error, defaultValue, className }) => {
+  const t = useDict().account;
+  return (
+  <Field label={label ?? t.email} htmlFor="email" hint={hint} error={error} className={className}>
     <input
       id="email"
       name="email"
@@ -130,7 +133,8 @@ export const EmailField: React.FC<{
       required
     />
   </Field>
-);
+  );
+};
 
 /** The name other players and the DM see */
 export const DisplayNameField: React.FC<{
@@ -138,16 +142,13 @@ export const DisplayNameField: React.FC<{
   error?: React.ReactNode;
   defaultValue?: string;
   className?: string;
-}> = ({
-  hint = "What other players and your DM see.",
-  error,
-  defaultValue,
-  className,
-}) => (
+}> = ({ hint, error, defaultValue, className }) => {
+  const t = useDict().account;
+  return (
   <Field
-    label="Display name"
+    label={t.displayName}
     htmlFor="displayName"
-    hint={hint}
+    hint={hint ?? t.displayNameHint}
     error={error}
     className={className}
   >
@@ -161,4 +162,5 @@ export const DisplayNameField: React.FC<{
       required
     />
   </Field>
-);
+  );
+};

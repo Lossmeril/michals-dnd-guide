@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Panel from "@/components/ui/panel";
 import { Heading } from "@/components/ui/typography";
+import { getDict } from "@/lib/i18n/server";
+import StoryBox from "@/components/ui/storyBox";
 
 interface AuthShellProps {
   title: string;
@@ -14,20 +16,22 @@ interface AuthShellProps {
 }
 
 /** The gate picture on the side, the guard's story and the form in the middle */
-const AuthShell: React.FC<AuthShellProps> = ({
+const AuthShell = async ({
   title,
   story,
   switchText,
   switchLabel,
   switchHref,
   children,
-}) => (
+}: AuthShellProps) => {
+  const t = (await getDict()).account;
+  return (
   <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-10 items-start max-w-5xl mx-auto">
     <aside className="bg-dnd-bg border border-dnd-red-dark rounded-lg shadow-md overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/img/auth/gate.webp"
-        alt="A city gate with a guard in the archway"
+        alt={t.gateAlt}
         className="w-full aspect-[4/3] object-cover"
       />
       <div className="p-5">
@@ -46,6 +50,16 @@ const AuthShell: React.FC<AuthShellProps> = ({
       <Panel>{children}</Panel>
     </div>
   </div>
+  );
+};
+
+/** The guard's lines, one paragraph each */
+export const GuardStory: React.FC<{ lines: string[] }> = ({ lines }) => (
+  <StoryBox>
+    {lines.map((line) => (
+      <p key={line}>{line}</p>
+    ))}
+  </StoryBox>
 );
 
 export default AuthShell;

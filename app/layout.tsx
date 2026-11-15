@@ -5,6 +5,8 @@ import "./globals.scss";
 import Navbar from "@/components/navbar";
 import MainBox from "@/components/layout/mainBox";
 import Footer from "@/components/layout/footer";
+import AlphaNotice from "@/components/layout/alphaNotice";
+import { needsAlphaNotice } from "@/lib/alphaNotice";
 import { Toaster } from "sonner";
 import { LangProvider } from "@/lib/i18n/client";
 import { getLang } from "@/lib/i18n/server";
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const lang = await getLang();
+  const [lang, showAlphaNotice] = await Promise.all([getLang(), needsAlphaNotice()]);
   return (
     <html
       lang={lang}
@@ -52,6 +54,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <Navbar />
           <MainBox>{children}</MainBox>
           <Footer />
+          {showAlphaNotice && <AlphaNotice />}
         </LangProvider>
       </body>
     </html>

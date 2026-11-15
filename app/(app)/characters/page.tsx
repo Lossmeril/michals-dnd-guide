@@ -9,8 +9,10 @@ import { useLoad } from "@/lib/hooks/useLoad";
 import { fetchCharactersPlayerSees } from "@/lib/specialFecthers/playerCharacters";
 import type { Tables } from "@/lib/types/database.types";
 import { CharacterCard } from "./characterCard";
+import { useDict } from "@/lib/i18n/client";
 
 const CharactersPage = () => {
+  const t = useDict().lists;
   const { data, loading } = useLoad(async () => {
     const { owned, other } = await fetchCharactersPlayerSees();
     const all = [...(owned ?? []), ...(other ?? [])];
@@ -29,20 +31,20 @@ const CharactersPage = () => {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Characters" }]} />
-      <Heading level={1}>Characters</Heading>
+      <Breadcrumbs items={[{ label: t.characters }]} />
+      <Heading level={1}>{t.characters}</Heading>
 
       <Link href="/characters/new" className="button inline-block mb-10">
-        New character
+        {t.newCharacter}
       </Link>
 
-      <Heading level={2}>Your characters</Heading>
-      <CardGrid loading={loading} empty="No owned characters found." className="mb-20">
+      <Heading level={2}>{t.yourCharacters}</Heading>
+      <CardGrid loading={loading} empty={t.noOwned} className="mb-20">
         {data?.owned.map(card)}
       </CardGrid>
 
-      <Heading level={2}>Other people&apos;s characters</Heading>
-      <CardGrid loading={loading} empty="No other characters found." className="mb-20">
+      <Heading level={2}>{t.othersCharacters}</Heading>
+      <CardGrid loading={loading} empty={t.noOthers} className="mb-20">
         {data?.other.map(card)}
       </CardGrid>
     </>

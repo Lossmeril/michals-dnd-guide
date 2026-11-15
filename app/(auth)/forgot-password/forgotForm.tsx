@@ -3,22 +3,23 @@
 import { useActionState } from "react";
 import { EmailField, FormMessage, SubmitButton } from "@/components/ui/form";
 import { requestPasswordReset } from "./actions";
+import { useDict } from "@/lib/i18n/client";
 
 export const ForgotForm = () => {
   const [state, formAction, pending] = useActionState(requestPasswordReset, {
     error: null,
   });
+  const t = useDict().account.forgot;
 
   if (state.sentTo) {
     return (
       <div role="status" className="flex flex-col gap-2 max-w-md text-sm">
         <p>
-          If an account uses <strong>{state.sentTo}</strong>, a link to set a
-          new password is on its way. Open it in this browser.
+          {t.sent[0]}
+          <strong>{state.sentTo}</strong>
+          {t.sent[1]}
         </p>
-        <p className="text-dnd-ink/70">
-          Nothing after a few minutes? Check the spam folder, or try again.
-        </p>
+        <p className="text-dnd-ink/70">{t.nothing}</p>
       </div>
     );
   }
@@ -27,8 +28,8 @@ export const ForgotForm = () => {
     <form action={formAction} className="flex flex-col gap-4 max-w-md">
       <EmailField defaultValue={state.email} />
       <FormMessage state={state} />
-      <SubmitButton pending={pending} pendingLabel="Sending a rider…">
-        Send me a link
+      <SubmitButton pending={pending} pendingLabel={t.pending}>
+        {t.submit}
       </SubmitButton>
     </form>
   );

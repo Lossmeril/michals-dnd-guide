@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { checkPassword } from "@/lib/accountRules";
 import { createClient } from "@/utils/supabase/server";
+import { getLang } from "@/lib/i18n/server";
+import { DICTS } from "@/lib/i18n/dictionaries";
 
 export type ResetState = { error: string | null };
 
@@ -14,16 +16,18 @@ export async function resetPassword(
   formData: FormData,
 ): Promise<ResetState> {
   const password = String(formData.get("password") ?? "");
+  const lang = await getLang();
   const invalid = checkPassword(
     password,
     String(formData.get("confirmPassword") ?? ""),
+    lang,
   );
   if (invalid) return { error: invalid };
 
   const supabase = createClient(await cookies());
   const { error } = await supabase.auth.updateUser({ password });
   if (error?.code === "same_password") {
-    return { error: "That's your current password. Pick a new one." };
+    return { error: DICTS[lang].account.reset.samePassword };
   }
   if (error?.code === "weak_password") return { error: error.message };
   if (error) return { error: error.message };

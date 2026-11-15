@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/types/database.types";
+import { getDict } from "@/lib/i18n/server";
 
 // Bucket names can't contain "/", so ruleset images share one bucket
 // and are separated by folder.
@@ -29,11 +30,12 @@ export const uploadImage = async (
   // Lets storage RLS policies match on the first path segment.
   ownerId: string,
 ) => {
+  const t = (await getDict()).upload;
   if (!file.type.startsWith("image/")) {
-    throw new Error("File must be an image.");
+    throw new Error(t.notImage);
   }
   if (file.size > MAX_SIZE) {
-    throw new Error("Image must be smaller than 5MB.");
+    throw new Error(t.tooBig(MAX_SIZE / 1024 / 1024));
   }
 
   const { bucket, folder } = imageTargets[target];
@@ -48,7 +50,7 @@ export const uploadImage = async (
   });
 
   if (error) {
-    throw new Error(`Error uploading image: ${error.message}`);
+    throw new Error(t.failed(error.message));
   }
 
   const {
@@ -56,4 +58,34 @@ export const uploadImage = async (
   } = supabase.storage.from(bucket).getPublicUrl(path);
 
   return { path, publicUrl };
+};
+
+/**
+ * Removes everything under a folder of a bucket, subfolders too: a campaign's
+ * cover and update pictures, a character's portraits. Run it before deleting
+ * the row, since storage policies check the row is still there.
+ */
+export const removeFolder = async (
+  supabase: SupabaseClient<Database>,
+  target: ImageTarget,
+  ownerId: string,
+) => {
+  const { bucket, folder } = imageTargets[target];
+  const root = folder ? `${folder}/${ownerId}` : ownerId;
+  const files: string[] = [];
+  const walk = async (prefix: string) => {
+    const { data, error } = await supabase.storage.from(bucket).list(prefix, { limit: 1000 });
+    if (error) throw new Error(error.message);
+    for (const entry of data) {
+      const path = `${prefix}/${entry.name}`;
+      // Folders come back without an id
+      if (entry.id === null) await walk(path);
+      else files.push(path);
+    }
+  };
+  await walk(root);
+  if (files.length) {
+    const { error } = await supabase.storage.from(bucket).remove(files);
+    if (error) throw new Error(error.message);
+  }
 };

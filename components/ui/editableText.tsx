@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Heading } from "@/components/ui/typography";
+import { useDict } from "@/lib/i18n/client";
 
 // Keys of T whose value is a string (optionally nullable), e.g. "name" on a Character
 type StringKeys<T> = {
@@ -47,11 +48,12 @@ const EditableText = <T, K extends StringKeys<T>>({
   field,
   onSave,
   headingLevel,
-  placeholder = "Empty",
+  placeholder,
   className = "",
   readOnly = false,
   multiline = false,
 }: EditableTextProps<T, K>) => {
+  const t = useDict().ui;
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
   const [saving, setSaving] = useState(false);
@@ -114,7 +116,7 @@ const EditableText = <T, K extends StringKeys<T>>({
         type="button"
         onClick={save}
         disabled={saving}
-        aria-label="Save"
+        aria-label={t.save}
         className={iconButtonClasses}
       >
         <CheckIcon />
@@ -128,13 +130,13 @@ const EditableText = <T, K extends StringKeys<T>>({
           !current && "opacity-50 italic",
         )}
       >
-        {current || placeholder}
+        {current || (placeholder ?? t.empty)}
       </span>
       {!readOnly && (
         <button
           type="button"
           onClick={startEditing}
-          aria-label="Edit"
+          aria-label={t.edit}
           className={iconButtonClasses}
         >
           <PencilIcon />

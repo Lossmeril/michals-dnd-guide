@@ -15,7 +15,7 @@ const PrintSheetPage = ({ params }: PageProps<"/characters/[id]/print">) => {
   const dict = useDict();
 
   if (loading) return <SkeletonCard />;
-  if (!sheet) return <p>Character not found.</p>;
+  if (!sheet) return <p>{dict.editor.errors.notFound}</p>;
   const { character } = sheet;
 
   return (
@@ -23,25 +23,25 @@ const PrintSheetPage = ({ params }: PageProps<"/characters/[id]/print">) => {
       <div className="print:hidden">
         <Breadcrumbs
           items={[
-            { label: "Characters", href: "/characters" },
+            { label: dict.editor.characters, href: "/characters" },
             { label: character.name, href: `/characters/${character.id}` },
-            { label: "Print" },
+            { label: dict.print.print },
           ]}
         />
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <button type="button" onClick={() => window.print()} className="flex items-center gap-2">
-            <FaPrint /> Print
+            <FaPrint /> {dict.print.print}
           </button>
           <Link href={`/characters/${character.id}`} className="button-link">
-            Back to the sheet →
+            {dict.print.back}
           </Link>
           <p className="text-xs text-dnd-ink/70">
-            A4, portrait. Turn on &ldquo;Background graphics&rdquo; in the print dialog to keep the colours.
+            {dict.print.hint}
           </p>
         </div>
       </div>
       <div className="overflow-x-auto print:overflow-visible">
-        <PrintSheet {...sheet} t={dict.statBlock} />
+        <PrintSheet {...sheet} dict={dict} />
       </div>
     </>
   );

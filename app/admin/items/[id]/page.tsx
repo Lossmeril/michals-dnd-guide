@@ -11,6 +11,7 @@ const AdminItemPage = async ({ params }: PageProps<"/admin/items/[id]">) => {
   return (
     <ItemEditor
       item={item ?? null}
+      items={rb.items}
       nextSort={Math.max(0, ...rb.items.map((i) => i.sort)) + 1}
     />
   );

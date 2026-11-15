@@ -3,19 +3,21 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { Heading } from "@/components/ui/typography";
 import { canRunCampaigns, requireUser } from "@/lib/auth";
 import { NewCampaignForm } from "./newCampaignForm";
+import { getDict } from "@/lib/i18n/server";
 
 const NewCampaignPage = async () => {
   await requireUser();
   if (!(await canRunCampaigns())) redirect("/campaigns");
+  const t = (await getDict()).campaigns;
 
   return (
     <>
       <Breadcrumbs
-        items={[{ label: "Campaigns", href: "/campaigns" }, { label: "New" }]}
+        items={[{ label: t.campaigns, href: "/campaigns" }, { label: t.newCrumb }]}
       />
-      <Heading level={1}>New campaign</Heading>
+      <Heading level={1}>{t.newCampaign}</Heading>
       <p className="mb-6 text-sm">
-        You&apos;ll be its DM. Add a cover and characters once it exists.
+        {t.youllDm}
       </p>
       <NewCampaignForm />
     </>

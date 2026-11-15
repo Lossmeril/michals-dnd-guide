@@ -1,7 +1,10 @@
 // Character-building rules from docs/ruleset-overview.md.
 // Pure functions only, so the editor and the server share one source of truth.
 
+import { DICTS } from "@/lib/i18n/dictionaries";
+import type { Lang } from "@/lib/i18n/localize";
 import type { Tables } from "@/lib/types/database.types";
+import { resourceName } from "./format";
 import {
   type EquipmentPick,
   equipmentErrors,
@@ -229,32 +232,33 @@ export const heldPerkIds = (rb: Rulebook, build: Build) =>
     ...heldAspects(rb, build).map((a) => a.id),
   ]);
 
-export const describeRequirement = (rb: Rulebook, req: Requirement) => {
+export const describeRequirement = (rb: Rulebook, req: Requirement, lang: Lang = "en") => {
+  const t = DICTS[lang].build;
   const names = req.class_ids.map((id) => findClass(rb, id)?.name ?? id);
   switch (req.kind) {
     case "class_level":
     case "class_levels_all":
       return names.map((n) => `${n} ${req.level}`).join(" + ");
     case "class_levels_sum":
-      return `${names.join(" + ")} total ${req.level}`;
+      return t.total(names.join(" + "), req.level ?? 0);
     case "has_perk":
       return findPerk(rb, req.required_perk_id!)?.name ?? req.required_perk_id!;
     case "has_aspect":
-      return `${findPerk(rb, req.required_perk_id!)?.name ?? req.required_perk_id!} aspect`;
+      return t.aspect(findPerk(rb, req.required_perk_id!)?.name ?? req.required_perk_id!);
   }
 };
 
 /** e.g. "Fighter 5, Hire-Sword aspect"; empty when the perk has no requirements */
-export const describeRequirements = (rb: Rulebook, perkId: string) =>
+export const describeRequirements = (rb: Rulebook, perkId: string, lang: Lang = "en") =>
   requirementsOf(rb, perkId)
-    .map((r) => describeRequirement(rb, r))
+    .map((r) => describeRequirement(rb, r, lang))
     .join(", ");
 
-const unmetRequirements = (rb: Rulebook, build: Build, perkId: string) => {
+const unmetRequirements = (rb: Rulebook, build: Build, perkId: string, lang: Lang) => {
   const held = heldPerkIds(rb, build);
   return requirementsOf(rb, perkId)
     .filter((r) => !requirementMet(r, build, held))
-    .map((r) => describeRequirement(rb, r))
+    .map((r) => describeRequirement(rb, r, lang))
     .join(", ");
 };
 
@@ -279,49 +283,51 @@ export const perkStateIn = (
   perkId: string,
   /** Level-up points that may still buy an extra perk */
   extraPoints: number,
+  lang: Lang = "en",
 ): { state: PerkState; note: string | null } => {
+  const t = DICTS[lang].build;
   const perk = findPerk(rb, perkId);
   const level = levelIn(build, classId);
   const className = findClass(rb, classId)?.name ?? classId;
 
   if (perk?.kind === "aspect") {
     return heldAspects(rb, build).some((a) => a.id === perkId)
-      ? { state: "held", note: "Unlocked" }
+      ? { state: "held", note: t.unlocked }
       : {
           state: "locked",
           note: level
-            ? `Unlocks at ${describeRequirements(rb, perkId)}`
-            : `Needs ${className} 1 and ${describeRequirements(rb, perkId)}`,
+            ? t.unlocksAt(describeRequirements(rb, perkId, lang))
+            : t.needsClassAnd(className, describeRequirements(rb, perkId, lang)),
         };
   }
   if (coreSpells(rb, classId).some((p) => p.id === perkId)) {
     return level
-      ? { state: "held", note: "Comes with the class" }
-      : { state: "locked", note: `Comes with ${className}` };
+      ? { state: "held", note: t.comesWithClass }
+      : { state: "locked", note: t.comesWith(className) };
   }
   if (chosenIn(build, classId).some((p) => p.perkId === perkId)) {
-    return { state: "held", note: "Picked" };
+    return { state: "held", note: t.picked };
   }
   const elsewhere = build.perks.find((p) => p.perkId === perkId);
   if (elsewhere) {
     const other = elsewhere.classId && findClass(rb, elsewhere.classId)?.name;
-    return { state: "elsewhere", note: `Picked as a ${other} perk` };
+    return { state: "elsewhere", note: t.pickedAs(other || "") };
   }
-  if (!level) return { state: "locked", note: `Needs ${className} 1` };
-  const unmet = unmetRequirements(rb, build, perkId);
-  if (unmet) return { state: "locked", note: `Needs ${unmet}` };
+  if (!level) return { state: "locked", note: t.needs(`${className} 1`) };
+  const unmet = unmetRequirements(rb, build, perkId, lang);
+  if (unmet) return { state: "locked", note: t.needs(unmet) };
 
   const slotsFull = chosenIn(build, classId).length >= level;
   if (!slotsFull) return { state: "available", note: null };
   // At level 5, extra perks cost a level-up point each
   return level === MAX_CLASS_LEVEL && extraPoints > 0
-    ? { state: "available", note: "Extra perk: costs 1 level-up point" }
+    ? { state: "available", note: t.extraPerk }
     : {
         state: "full",
         note:
           level === MAX_CLASS_LEVEL
-            ? "No level-up points left for extra perks"
-            : `All ${level} ${className} perk slots are used`,
+            ? t.noPointsLeft
+            : t.slotsUsed(level, className),
       };
 };
 
@@ -469,34 +475,43 @@ export const validateBuild = (
   level: number,
   /** Defaults to `level`: a new character, all of whose levels are starting ones */
   startLevel = level,
+  lang: Lang = "en",
 ) => {
+  const e = DICTS[lang].build.errors;
   const errors: string[] = [];
   const warnings: string[] = [];
   const held = heldPerkIds(rb, build);
 
-  if (!build.raceId) errors.push("Pick a race.");
-  if (!build.backgroundId) errors.push("Pick a background.");
-  errors.push(...equipmentErrors(backgroundEquipment(rb, build), build.equipment));
+  if (!build.raceId) errors.push(e.race);
+  if (!build.backgroundId) errors.push(e.background);
+  errors.push(...equipmentErrors(backgroundEquipment(rb, build), build.equipment, lang));
 
   const slots = languageSlots(rb, build);
   const free = freeLanguages(rb, build);
   if (build.languages.some((l) => free.includes(l))) {
-    errors.push("You already speak that language for free.");
+    errors.push(e.freeLanguage);
+  }
+  if (
+    build.languages.some(
+      (id) => rb.languages.find((l) => l.id === id)?.learnable === false,
+    )
+  ) {
+    errors.push(e.unlearnable);
   }
   if (build.languages.length < slots) {
-    errors.push(`Pick ${slots - build.languages.length} more language(s).`);
+    errors.push(e.moreLanguages(slots - build.languages.length));
   } else if (build.languages.length > slots) {
-    errors.push(`You can only pick ${slots} extra language(s).`);
+    errors.push(e.tooManyLanguages(slots));
   }
   for (const id of build.traitIds) {
-    if (!rb.traits.some((t) => t.id === id)) errors.push("Unknown trait.");
+    if (!rb.traits.some((t) => t.id === id)) errors.push(e.unknownTrait);
   }
   const racial = build.perks.filter((p) => p.classId === null);
-  if (build.raceId && racial.length !== 1) errors.push("Pick one racial perk.");
+  if (build.raceId && racial.length !== 1) errors.push(e.racialPerk);
   for (const p of racial) {
     if (findPerk(rb, p.perkId)?.race_id !== build.raceId) {
       errors.push(
-        `${findPerk(rb, p.perkId)?.name ?? p.perkId} isn't a perk of your race.`,
+        e.notRacial(findPerk(rb, p.perkId)?.name ?? p.perkId),
       );
     }
   }
@@ -504,18 +519,18 @@ export const validateBuild = (
   for (const [classId, classLevel] of Object.entries(build.classes)) {
     const cls = findClass(rb, classId);
     if (!cls) {
-      errors.push(`Unknown class ${classId}.`);
+      errors.push(e.unknownClass(classId));
       continue;
     }
     if (classLevel < 1 || classLevel > MAX_CLASS_LEVEL) {
-      errors.push(`${cls.name} must be level 1–${MAX_CLASS_LEVEL}.`);
+      errors.push(e.classLevel(cls.name, MAX_CLASS_LEVEL));
     }
     if (!isClassUnlocked(rb, build, classId)) {
       const parents = parentsOf(rb, classId).map(
         (id) => findClass(rb, id)?.name,
       );
       errors.push(
-        `${cls.name} needs ${parents.join(" + ")} to total ${UNLOCK_LEVELS} levels.`,
+        e.locked(cls.name, parents.join(" + "), UNLOCK_LEVELS),
       );
     }
 
@@ -523,14 +538,14 @@ export const validateBuild = (
     const options = choosablePerks(rb, classId).length;
     if (chosen > classLevel && classLevel < MAX_CLASS_LEVEL) {
       errors.push(
-        `${cls.name} ${classLevel} can only have ${classLevel} perks.`,
+        e.tooManyPerks(cls.name, classLevel),
       );
     } else if (chosen < classLevel) {
       if (options > chosen) {
-        errors.push(`Pick ${classLevel - chosen} more ${cls.name} perk(s).`);
+        errors.push(e.morePerks(cls.name, classLevel - chosen));
       } else {
         warnings.push(
-          `${cls.name} has no more perks to pick yet; ${classLevel - chosen} slot(s) stay empty.`,
+          e.noMorePerks(cls.name, classLevel - chosen),
         );
       }
     }
@@ -543,32 +558,30 @@ export const validateBuild = (
     );
     if (!perk || !allowed) {
       errors.push(
-        `${perk?.name ?? p.perkId} can't be picked as a ${findClass(rb, p.classId!)?.name} perk.`,
+        e.wrongClass(perk?.name ?? p.perkId, findClass(rb, p.classId!)?.name ?? ""),
       );
     } else if (!requirementsMet(rb, build, p.perkId, held)) {
       errors.push(
-        `${perk.name} needs ${requirementsOf(rb, p.perkId)
-          .map((r) => describeRequirement(rb, r))
-          .join(", ")}.`,
+        e.perkNeeds(perk.name, describeRequirements(rb, p.perkId, lang)),
       );
     }
   }
 
   if ([build.body, build.soul, build.charisma].some((v) => v < 0)) {
-    errors.push("Resources can't go below 0.");
+    errors.push(e.negative);
   }
   if (resourcePoints(build) < 0) {
-    errors.push(`Spread all ${BASE_RESOURCES} starting resource points.`);
+    errors.push(e.spread(BASE_RESOURCES));
   }
   // Allowed, but a pool this small overflows on its first Scar
   for (const [name, value] of [
-    ["Body", build.body],
-    ["Soul", build.soul],
-    ["Charisma", build.charisma],
+    [resourceName("body", lang), build.body],
+    [resourceName("soul", lang), build.soul],
+    [resourceName("charisma", lang), build.charisma],
   ] as const) {
     if (value >= 0 && value < LOW_POOL) {
       warnings.push(
-        `${name} ${value} is very low: a single ${name} Scar can leave the character dying.`,
+        e.lowPool(name, value),
       );
     }
   }
@@ -576,14 +589,14 @@ export const validateBuild = (
   if (freePointsLeft(build, level, startLevel) < 0) {
     errors.push(
       level === startLevel
-        ? `Starting levels all go into classes: spread exactly ${BASE_RESOURCES} resource points and take one perk per class level.`
-        : `Only the ${level - startLevel} level(s) gained after creation can go into resources or extra perks.`,
+        ? e.startingLevels(BASE_RESOURCES)
+        : e.gainedLevels(level - startLevel),
     );
   }
 
   const diff = level - characterLevel(build);
-  if (diff > 0) errors.push(`${diff} level-up point(s) left to spend.`);
-  if (diff < 0) errors.push(`${-diff} point(s) over level ${level}.`);
+  if (diff > 0) errors.push(e.pointsLeft(diff));
+  if (diff < 0) errors.push(e.pointsOver(-diff, level));
 
   return { errors, warnings };
 };

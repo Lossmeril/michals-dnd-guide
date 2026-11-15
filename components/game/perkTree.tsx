@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Modal from "@/components/ui/modal";
 import { Overline } from "@/components/ui/typography";
+import { useDict } from "@/lib/i18n/client";
 import PerkCard from "./perkCard";
 import {
   type Build,
@@ -79,7 +80,7 @@ interface PerkTreeProps extends SectionProps {
 
 /**
  * Core spells, then general perks by the class level they need, then one
- * column per aspect with the perks that require it hanging underneath.
+ * row per aspect with the perks that require it in a grid beside it.
  */
 const PerkTree: React.FC<PerkTreeProps> = ({
   rb,
@@ -89,14 +90,15 @@ const PerkTree: React.FC<PerkTreeProps> = ({
   plain = false,
   showAll = !!edit || plain,
 }) => {
+  const t = useDict();
   const tree = useMemo(() => perkTree(rb, classId), [rb, classId]);
   const className = findClass(rb, classId)?.name;
   const stateOf = (
     perkId: string,
   ): { state: PerkState | undefined; note: string | null } => {
     if (plain) {
-      const requires = describeRequirements(rb, perkId);
-      return { state: undefined, note: requires && `Requires ${requires}` };
+      const requires = describeRequirements(rb, perkId, t.lang);
+      return { state: undefined, note: requires && t.build.requires(requires) };
     }
     return perkStateIn(
       rb,
@@ -104,6 +106,7 @@ const PerkTree: React.FC<PerkTreeProps> = ({
       classId,
       perkId,
       edit ? Math.min(edit.remaining, edit.freePoints) : 0,
+      t.lang,
     );
   };
   const visible = (node: PerkNode) =>
@@ -116,48 +119,36 @@ const PerkTree: React.FC<PerkTreeProps> = ({
     if (state === "held")
       return (
         <button type="button" onClick={toggle} className={dropButton}>
-          Drop
+          {t.build.drop}
         </button>
       );
     if (state === "available")
       return (
         <button type="button" onClick={toggle} className={pickButton}>
-          Pick
+          {t.build.pick}
         </button>
       );
   };
 
-  // A plain function, not a component, so tiles keep their modal state across renders
-  const branch = (node: PerkNode, nested = false) => {
-    const { state, note } = stateOf(node.perk.id);
-    const kids = node.children.filter(visible);
+  // Plain functions, not components, so tiles keep their modal state across renders
+  const tile = (perk: Tables<"perks">) => {
+    const { state, note } = stateOf(perk.id);
     return (
-      <li
-        key={node.perk.id}
-        className={twMerge(
-          "relative",
-          // Horizontal connector from the parent's vertical line
-          nested &&
-            "before:absolute before:-left-5 before:top-10 before:w-5 before:border-t-2",
-          nested &&
-            (state === "held" ? "before:border-dnd-red" : "before:border-dnd-gold"),
-        )}
-      >
-        <PerkTile
-          perk={node.perk}
-          state={state}
-          note={note}
-          requires={describeRequirements(rb, node.perk.id)}
-          action={actionFor(node.perk, state)}
-        />
-        {kids.length > 0 && (
-          <ul className="ml-6 pl-5 mt-3 flex flex-col gap-3 border-l-2 border-dnd-gold">
-            {kids.map((child) => branch(child, true))}
-          </ul>
-        )}
-      </li>
+      <PerkTile
+        key={perk.id}
+        perk={perk}
+        state={state}
+        note={note}
+        requires={describeRequirements(rb, perk.id, t.lang)}
+        action={actionFor(perk, state)}
+      />
     );
   };
+  // A node's visible descendants, depth first; their notes name what they need
+  const descendants = (node: PerkNode): PerkNode[] =>
+    node.children
+      .filter(visible)
+      .flatMap((child) => [child, ...descendants(child)]);
 
   const core = tree.core.filter(() => showAll || build.classes[classId]);
   const general = tree.general.filter(visible);
@@ -173,14 +164,14 @@ const PerkTree: React.FC<PerkTreeProps> = ({
   if (core.length + general.length + aspects.length === 0)
     return (
       <p className="text-sm text-dnd-ink/70">
-        {plain ? "None written yet." : "No perks picked yet."}
+        {plain ? t.blocks.noneYet : t.build.nonePicked}
       </p>
     );
 
   return (
     <div className="flex flex-col gap-8">
       {core.length > 0 && (
-        <TreeGroup label="Comes with the class">
+        <TreeGroup label={t.build.comesWithClass}>
           {core.map((perk) => {
             const { state, note } = stateOf(perk.id);
             return (
@@ -199,25 +190,36 @@ const PerkTree: React.FC<PerkTreeProps> = ({
       {[...tiers.entries()].map(([level, nodes]) => (
         <TreeGroup
           key={level}
-          label={level > 1 ? `From ${className} ${level}` : "Perks"}
+          label={level > 1 ? t.build.fromLevel(className ?? "", level) : t.build.perks}
         >
-          {nodes.map((node) => (
-            <ul key={node.perk.id}>
-              {branch(node)}
-            </ul>
-          ))}
+          {nodes
+            .flatMap((node) => [node, ...descendants(node)])
+            .map((node) => tile(node.perk))}
         </TreeGroup>
       ))}
 
       {aspects.length > 0 && (
         <section>
-          <Overline>Aspects</Overline>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
-            {aspects.map((node) => (
-              <ul key={node.perk.id}>
-                {branch(node)}
-              </ul>
-            ))}
+          <Overline>{t.build.aspects}</Overline>
+          <div className="flex flex-col gap-6">
+            {aspects.map((node) => {
+              const kids = descendants(node);
+              return (
+                <div
+                  key={node.perk.id}
+                  className="grid grid-cols-1 md:grid-cols-[13rem_1fr] gap-3 md:gap-4"
+                >
+                  <div className="md:sticky md:top-4 self-start">
+                    {tile(node.perk)}
+                  </div>
+                  {kids.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-3 pl-4 border-l-2 border-dnd-gold">
+                      {kids.map((kid) => tile(kid.perk))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
@@ -231,7 +233,7 @@ const TreeGroup: React.FC<{ label: string; children: React.ReactNode }> = ({
 }) => (
   <section>
     <Overline>{label}</Overline>
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
       {children}
     </div>
   </section>

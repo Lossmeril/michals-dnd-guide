@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { convertToWebp } from "@/lib/convertToWebp";
 import type { Result } from "@/lib/result";
+import { DICTS } from "@/lib/i18n/dictionaries";
 
 /** The storage buckets' size limit (every bucket, the admin ones too) */
 export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
@@ -16,15 +17,17 @@ export const prepareImage = async (
   original: File,
   { maxDimension = 1600, maxBytes = MAX_IMAGE_BYTES } = {},
 ) => {
+  // A plain function, not a hook: the page language is on <html lang>
+  const t = DICTS[document.documentElement.lang === "cs" ? "cs" : "en"].upload;
   let file: File;
   try {
     file = await convertToWebp(original, { maxDimension });
   } catch {
-    toast.error("Couldn't read that image.");
+    toast.error(t.unreadable);
     return null;
   }
   if (file.size > maxBytes) {
-    toast.error(`Image must be smaller than ${maxBytes / 1024 / 1024}MB.`);
+    toast.error(t.tooBig(maxBytes / 1024 / 1024));
     return null;
   }
   return file;

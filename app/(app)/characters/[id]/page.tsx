@@ -4,6 +4,7 @@ import Link from "next/link";
 import { use } from "react";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { SkeletonCard } from "@/components/ui/card";
+import DeleteButton from "@/components/ui/deleteButton";
 import {
   BackgroundSection,
   BackstorySection,
@@ -15,14 +16,17 @@ import {
   RaceSection,
   TraitsSection,
 } from "../_character/sections";
+import { deleteCharacter } from "../_character/actions";
+import { useDict } from "@/lib/i18n/client";
 import { useCharacterSheet } from "./useCharacterSheet";
 
 /** The character sheet; the editor shows the same sections with controls */
 const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
   const { loading, sheet } = useCharacterSheet(Number(use(params).id));
+  const e = useDict().editor;
 
   if (loading) return <SkeletonCard />;
-  if (!sheet) return <p>Character not found.</p>;
+  if (!sheet) return <p>{e.errors.notFound}</p>;
 
   const { rb, character, build, inventory, ownerName, isOwner } = sheet;
   const sectionProps = { rb, build };
@@ -31,7 +35,7 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
     <>
       <Breadcrumbs
         items={[
-          { label: "Characters", href: "/characters" },
+          { label: e.characters, href: "/characters" },
           { label: character.name },
         ]}
       />
@@ -48,15 +52,25 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
                 href={`/characters/${character.id}/editor`}
                 className="button"
               >
-                Edit character
+                {e.editCharacter}
               </Link>
             )}
             <Link
               href={`/characters/${character.id}/print`}
               className="button button-secondary"
             >
-              Print sheet
+              {e.printSheet}
             </Link>
+            {isOwner && (
+              <DeleteButton
+                what="character"
+                name={character.name}
+                consequences={e.deleteConsequences}
+                onDelete={() => deleteCharacter(character.id)}
+                then="/characters"
+                className="button-link"
+              />
+            )}
           </>
         }
       />

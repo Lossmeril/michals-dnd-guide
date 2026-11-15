@@ -1,10 +1,22 @@
+"use client";
+
 import { FaCheck, FaLock } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import type { PerkState } from "@/lib/rules/character";
-import { costOf, DURATION_NAMES } from "@/lib/rules/format";
+import { useDict } from "@/lib/i18n/client";
+import {
+  componentName,
+  costOf,
+  damageTypeName,
+  durationName,
+} from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
 import { Flavour } from "@/components/ui/typography";
 import { RESOURCE_STYLES } from "./resources";
+
+/** Markdown emphasis and line breaks removed, for clamped previews */
+const plainText = (text: string) =>
+  text.replace(/\*\*|\*|__/g, "").replace(/\s*\n+\s*/g, " ");
 
 const DEFAULT_IMAGE = "/img/perks/default.webp";
 
@@ -42,16 +54,16 @@ export const PerkImage: React.FC<{
 
 /** "Passive", "Granted automatically" or the activation price as a coloured pill */
 export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
+  const t = useDict();
   if (perk.kind === "aspect")
-    return (
-      <p className="text-xs italic text-dnd-ink/60">Granted automatically</p>
-    );
-  const cost = costOf(perk);
-  if (!cost) return <p className="text-xs italic text-dnd-ink/60">Passive</p>;
+    return <p className="text-xs italic text-dnd-ink/60">{t.perk.granted}</p>;
+  const cost = costOf(perk, t.lang);
+  if (!cost)
+    return <p className="text-xs italic text-dnd-ink/60">{t.perk.passive}</p>;
   return (
     <p
       className={twMerge(
-        "inline-block text-xs font-semibold rounded-full border px-2 py-0.5",
+        "inline-block text-xs font-semibold leading-tight rounded-lg border px-2 py-0.5",
         RESOURCE_STYLES[perk.cost_resource!].pill,
       )}
     >
@@ -61,28 +73,12 @@ export const PerkCost: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
 };
 
 const RIBBONS = {
-  aspect: { text: "Aspect", color: "bg-dnd-gold text-dnd-red-dark" },
-  core: { text: "Core spell", color: "bg-soul text-white" },
-  spell: { text: "Spell", color: "bg-soul text-white" },
-};
+  core: { text: "core", color: "bg-dnd-red-dark text-white" },
+  spell: { text: "spell", color: "bg-soul text-white" },
+} as const;
 
 const ribbonOf = (perk: Tables<"perks">, core: boolean) =>
-  perk.kind === "aspect"
-    ? RIBBONS.aspect
-    : core
-      ? RIBBONS.core
-      : perk.kind === "spell"
-        ? RIBBONS.spell
-        : null;
-
-/** Dev only: tags perk archetypes so gaps per class are easy to spot. Switch off before release */
-const SHOW_ARCHETYPES = true;
-
-const ARCHETYPES: Record<string, { text: string; color: string }> = {
-  advantage: { text: "Advantage", color: "bg-accent-green text-dnd-ink" },
-  sigil: { text: "Sigil", color: "bg-accent-purple text-white" },
-  mastery: { text: "Mastery", color: "bg-accent-yellow text-dnd-ink" },
-};
+  core ? RIBBONS.core : perk.kind === "spell" ? RIBBONS.spell : null;
 
 const STATE_STYLES: Record<PerkState, string> = {
   held: "border-dnd-red ring-2 ring-dnd-red/50",
@@ -137,15 +133,20 @@ const PerkCard: React.FC<PerkCardProps> = ({
   action,
   className,
 }) => {
+  const t = useDict();
+  if (perk.kind === "aspect")
+    return (
+      <AspectCard
+        {...{ perk, state, note, requires, compact, onOpen, action, className }}
+      />
+    );
+
   const ribbon = ribbonOf(perk, core);
-  const archetype =
-    SHOW_ARCHETYPES && perk.archetype ? ARCHETYPES[perk.archetype] : null;
 
   return (
     <div
       className={twMerge(
         "relative h-full flex flex-col bg-dnd-bg border rounded-lg shadow-md overflow-hidden transition-all",
-        perk.kind === "aspect" && "bg-dnd-accent-yellow",
         state ? STATE_STYLES[state] : "border-dnd-red-dark",
         compact ? "p-3" : "p-5",
         className,
@@ -154,48 +155,44 @@ const PerkCard: React.FC<PerkCardProps> = ({
       {ribbon && (
         <span
           className={twMerge(
-            "absolute top-0 right-0 text-center font-bold uppercase rotate-45",
+            "absolute top-0 right-0 text-center font-bold uppercase whitespace-nowrap rotate-45 shadow-sm",
+            // The band's centre sits on the corner's diagonal, far enough in that the label fits the visible part
             compact
-              ? "w-24 py-0.5 text-[10px] translate-x-7 translate-y-3"
-              : "w-32 py-1 text-xs translate-x-9 translate-y-4",
+              ? "w-32 py-0.5 text-[10px] leading-4 translate-x-[33px] translate-y-[23px]"
+              : "w-40 py-1 text-xs leading-4 translate-x-[43px] translate-y-[25px]",
             ribbon.color,
           )}
         >
-          {ribbon.text}
-        </span>
-      )}
-      {archetype && (
-        <span
-          className={twMerge(
-            "absolute top-0 left-0 text-center font-bold uppercase -rotate-45",
-            compact
-              ? "w-24 py-0.5 text-[10px] -translate-x-7 translate-y-3"
-              : "w-32 py-1 text-xs -translate-x-9 translate-y-4",
-            archetype.color,
-          )}
-        >
-          {archetype.text}
+          {t.perk[ribbon.text]}
         </span>
       )}
 
       {compact ? (
-        <div className="flex flex-col gap-1 flex-1">
-          <PerkImage perk={perk} className="w-16 mb-2" />
-          <div className="min-w-0 flex flex-col gap-1">
-            <p className="font-bold text-dnd-red libre leading-tight">
-              {perk.name}
-            </p>
-            <div>
-              <PerkCost perk={perk} />
-            </div>
-            <Flavour text={perk.flavour} className="text-xs" />
-            {perk.description && (
-              <p className="text-xs text-dnd-ink/80 line-clamp-3">
-                {perk.description}
+        <div className="flex flex-col gap-1.5 flex-1">
+          <div
+            className={twMerge("flex items-center gap-3", ribbon && "pr-12")}
+          >
+            <PerkImage perk={perk} className="w-12" />
+            <div className="min-w-0 flex flex-col gap-1">
+              <p className="font-bold text-dnd-red libre leading-tight line-clamp-2">
+                {perk.name}
               </p>
-            )}
-            {note && <StateNote state={state} note={note} />}
+              <div>
+                <PerkCost perk={perk} />
+              </div>
+            </div>
           </div>
+          <Flavour text={perk.flavour} className="text-xs line-clamp-2" />
+          {perk.description && (
+            <p className="text-xs text-dnd-ink/80 line-clamp-3">
+              {plainText(perk.description)}
+            </p>
+          )}
+          {note && (
+            <div className="mt-auto pt-1">
+              <StateNote state={state} note={note} />
+            </div>
+          )}
         </div>
       ) : (
         <>
@@ -215,7 +212,7 @@ const PerkCard: React.FC<PerkCardProps> = ({
           <SpellDetails perk={perk} />
           {requires && (
             <p className="text-xs mb-1">
-              <span className="font-bold">Requires:</span> {requires}
+              <span className="font-bold">{t.perk.requires}</span> {requires}
             </p>
           )}
           {note && <StateNote state={state} note={note} />}
@@ -226,7 +223,7 @@ const PerkCard: React.FC<PerkCardProps> = ({
         <button
           type="button"
           onClick={onOpen}
-          aria-label={`${perk.name} details`}
+          aria-label={t.perk.details(perk.name)}
           className="absolute inset-0 p-0 rounded-lg bg-transparent hover:bg-transparent"
         />
       )}
@@ -235,18 +232,110 @@ const PerkCard: React.FC<PerkCardProps> = ({
   );
 };
 
+/**
+ * An aspect: a tall picture filling the card's left side, the text beside it.
+ * No ribbon and no flavour line; the picture carries the mood.
+ */
+const AspectCard: React.FC<Omit<PerkCardProps, "core">> = ({
+  perk,
+  state,
+  note,
+  requires,
+  compact = false,
+  onOpen,
+  action,
+  className,
+}) => {
+  const t = useDict();
+  return (
+    <div
+      className={twMerge(
+        "relative h-full flex bg-dnd-accent-yellow border rounded-lg shadow-md overflow-hidden transition-all",
+        state ? STATE_STYLES[state] : "border-dnd-red-dark",
+        className,
+      )}
+    >
+      <div
+        className={twMerge(
+          "relative shrink-0 self-stretch border-r border-dnd-gold",
+          compact ? "w-20 min-h-32" : "w-40 min-h-56",
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={perk.image_url || DEFAULT_IMAGE}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-top"
+        />
+      </div>
+      <div
+        className={twMerge(
+          "min-w-0 flex-1 flex flex-col",
+          compact ? "p-3 gap-1.5" : "p-5 gap-2",
+        )}
+      >
+        <p
+          className={twMerge(
+            "font-bold text-dnd-red libre leading-tight",
+            compact ? "line-clamp-2" : "text-base",
+          )}
+        >
+          {perk.name}
+        </p>
+        <PerkCost perk={perk} />
+        {perk.description && (
+          <p
+            className={twMerge(
+              "text-xs",
+              compact ? "text-dnd-ink/80 line-clamp-4" : "whitespace-pre-line",
+            )}
+          >
+            {compact ? plainText(perk.description) : perk.description}
+          </p>
+        )}
+        {!compact && requires && (
+          <p className="text-xs">
+            <span className="font-bold">{t.perk.requires}</span> {requires}
+          </p>
+        )}
+        {note && (
+          <div className="mt-auto pt-1">
+            <StateNote state={state} note={note} />
+          </div>
+        )}
+        {action && <div className="relative z-10 mt-1">{action}</div>}
+      </div>
+      {onOpen && (
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-label={t.perk.details(perk.name)}
+          className="absolute inset-0 p-0 rounded-lg bg-transparent hover:bg-transparent"
+        />
+      )}
+    </div>
+  );
+};
+
 const SpellDetails: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
+  const t = useDict();
+  const types = perk.damage_types
+    ?.map((d) => damageTypeName(d, t.lang))
+    .join("/");
+  const damage =
+    t.lang === "cs"
+      ? perk.damage?.replace(/(\d|\b)d(\d)/g, "$1k$2")
+      : perk.damage;
   const rows = [
-    ["Components", perk.components?.join(", ")],
-    ["Material", perk.material_note],
-    ["Range", perk.range],
-    ["Area", perk.area],
     [
-      "Damage",
-      perk.damage &&
-        `${perk.damage}${perk.damage_types?.length ? ` ${perk.damage_types.join("/")}` : ""}`,
+      t.perk.components,
+      perk.components?.map((c) => componentName(c, t.lang)).join(", "),
     ],
-    ["Duration", perk.duration && DURATION_NAMES[perk.duration]],
+    [t.perk.material, perk.material_note],
+    [t.perk.range, perk.range],
+    [t.perk.area, perk.area],
+    [t.perk.damage, damage && `${damage}${types ? ` ${types}` : ""}`],
+    [t.perk.duration, perk.duration && durationName(perk.duration, t.lang)],
   ].filter(([, value]) => value);
 
   if (rows.length === 0) return null;

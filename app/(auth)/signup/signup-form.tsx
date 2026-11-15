@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Field from "@/components/ui/field";
 import {
   DisplayNameField,
   EmailField,
@@ -12,26 +13,25 @@ import {
 import StoryBox from "@/components/ui/storyBox";
 import { signup } from "./actions";
 import { ResendConfirmation } from "./resendConfirmation";
+import { useDict } from "@/lib/i18n/client";
 
 export const SignupForm = () => {
   const [state, formAction, pending] = useActionState(signup, { error: null });
   const pair = usePasswordPair();
+  const account = useDict().account;
+  const t = account.signup;
 
   if (state.sentTo) {
     return (
       <>
         <StoryBox className="mt-2">
           <p>
-            The guard writes it all down, slowly, tongue between teeth.
-            &ldquo;Right. A runner will bring a letter to{" "}
-            <span className="not-italic font-bold">{state.sentTo}</span>.
-            Bring me the seal inside and the gate is yours.&rdquo;
+            {t.sentStory[0]}
+            <span className="not-italic font-bold">{state.sentTo}</span>
+            {t.sentStory[1]}
           </p>
         </StoryBox>
-        <p className="mb-4">
-          Open the link in the email to confirm your account. It logs you in
-          straight away.
-        </p>
+        <p className="mb-4">{t.openLink}</p>
         <ResendConfirmation email={state.sentTo} />
       </>
     );
@@ -39,21 +39,36 @@ export const SignupForm = () => {
 
   return (
     <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Field
+        label={t.signupPassword}
+        htmlFor="signupPassword"
+        hint={t.signupPasswordHint}
+        error={state.fieldErrors?.signupPassword}
+        className="md:col-span-2"
+      >
+        <input
+          id="signupPassword"
+          name="signupPassword"
+          type="password"
+          autoComplete="off"
+          required
+        />
+      </Field>
       <DisplayNameField
-        hint="What other players and your DM see. You can change it later."
+        hint={t.nameHint}
         error={state.fieldErrors?.displayName}
         defaultValue={state.values?.displayName}
         className="md:col-span-2"
       />
       <EmailField
-        hint="We send a confirmation link here."
+        hint={t.emailHint}
         error={state.fieldErrors?.email}
         defaultValue={state.values?.email}
         className="md:col-span-2"
       />
       <PasswordFields
         pair={pair}
-        labels={["Password", "Confirm password"]}
+        labels={[account.password, t.confirmPassword]}
         errors={{
           password: state.fieldErrors?.password,
           confirm: state.fieldErrors?.confirmPassword,
@@ -64,10 +79,10 @@ export const SignupForm = () => {
 
       <SubmitButton
         pending={pending}
-        pendingLabel="Signing the ledger…"
+        pendingLabel={t.pending}
         disabled={!!pair.mismatch}
       >
-        Create account
+        {t.submit}
       </SubmitButton>
     </form>
   );

@@ -39,18 +39,19 @@ export const DieIcon: React.FC<{ sides: DieSides; className?: string }> = ({
 };
 
 /**
- * Dice notation with an icon before each die, e.g. "2d6 + 1d4". Text that
+ * Dice notation with an icon before each die, e.g. "2d6 + 1d4" (or the Czech
+ * "2k6"). Text that
  * isn't a die ("+ class level") stays as it is.
  */
 export const DiceNotation: React.FC<{ text: string; className?: string }> = ({
   text,
   className,
 }) => {
-  const parts = text.split(/(\b\d*d(?:4|6|8|10|12|20)\b)/i);
+  const parts = text.split(/(\b\d*[dk](?:4|6|8|10|12|20)\b)/i);
   return (
     <span className={twMerge("whitespace-nowrap font-bold", className)}>
       {parts.map((part, i) => {
-        const m = part.match(/^(\d*)d(\d+)$/i);
+        const m = part.match(/^(\d*)[dk](\d+)$/i);
         if (!m || !isDie(Number(m[2]))) return part;
         return (
           <span key={i} className="inline-flex items-baseline gap-0.5">

@@ -23,7 +23,7 @@ import type { Dict } from "@/lib/i18n/dictionaries";
 import type { Lang } from "@/lib/i18n/localize";
 import { type Bestiary, creatureStatBlock } from "@/lib/rules/bestiary";
 import { isArmourPiece } from "@/lib/rules/armour";
-import { formatCoins } from "@/lib/rules/format";
+import { damageTypeName, formatCoins, propertiesText } from "@/lib/rules/format";
 import { hrefOf, type NavChapter } from "@/lib/rulebookNav";
 import type { Tables } from "@/lib/types/database.types";
 import ClassGrid from "./classGrid";
@@ -81,13 +81,13 @@ const Backgrounds: React.FC<BlockProps> = ({ rb, t }) =>
             <div>
               <dt className="font-bold">{t.blocks.background.gear}</dt>
               <dd>
-                <EquipmentList items={rb.items} equipment={b.equipment} />
+                <EquipmentList items={rb.items} equipment={b.equipment} lang={t.lang} />
               </dd>
             </div>
             <div>
               <dt className="font-bold inline">{t.blocks.background.purse}: </dt>
               <dd className="inline">
-                {formatCoins(b.coins_copper)} · {t.blocks.material(b.material)}
+                {formatCoins(b.coins_copper, t.lang)} · {t.blocks.material(b.material)}
               </dd>
             </div>
             <div>
@@ -146,9 +146,9 @@ const Weapons: React.FC<BlockProps> = ({ rb, t }) => (
         <strong key="n" className="libre text-dnd-red">
           {i.name}
         </strong>,
-        i.damage ?? "—",
-        i.damage_type ?? "—",
-        i.properties ?? "—",
+        i.damage ? propertiesText(i.damage, t.lang) : "—",
+        i.damage_type ? damageTypeName(i.damage_type, t.lang) : "—",
+        i.properties ? propertiesText(i.properties, t.lang) : "—",
         i.free_manoeuvre ? t.manoeuvres[i.free_manoeuvre] : "—",
       ])}
   />

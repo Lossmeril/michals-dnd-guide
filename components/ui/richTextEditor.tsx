@@ -22,6 +22,7 @@ import {
 import { LuHeading } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 import FileButton from "./fileButton";
+import { useDict } from "@/lib/i18n/client";
 
 interface RichTextEditorProps {
   /** Markdown to start with; remount (change `key`) to load other text */
@@ -81,6 +82,7 @@ const Toolbar: React.FC<{
       link: e.isActive("link"),
     }),
   });
+  const t = useDict().ui;
   const chain = () => editor.chain().focus();
 
   const setLink = () => {
@@ -88,32 +90,32 @@ const Toolbar: React.FC<{
       chain().unsetLink().run();
       return;
     }
-    const url = window.prompt("Link address", "https://")?.trim();
+    const url = window.prompt(t.linkAddress, "https://")?.trim();
     if (url) chain().extendMarkRange("link").setLink({ href: url }).run();
   };
 
   const tools = [
-    { label: "Bold", icon: <FaBold />, on: active.bold, run: () => chain().toggleBold().run() },
-    { label: "Italic", icon: <FaItalic />, on: active.italic, run: () => chain().toggleItalic().run() },
-    { label: "Strikethrough", icon: <FaStrikethrough />, on: active.strike, run: () => chain().toggleStrike().run() },
-    { label: "Heading", icon: <LuHeading />, on: active.heading, run: () => chain().toggleHeading({ level: 3 }).run() },
-    { label: "Bulleted list", icon: <FaListUl />, on: active.bullet, run: () => chain().toggleBulletList().run() },
-    { label: "Numbered list", icon: <FaListOl />, on: active.ordered, run: () => chain().toggleOrderedList().run() },
-    { label: "Quote", icon: <FaQuoteLeft />, on: active.quote, run: () => chain().toggleBlockquote().run() },
-    { label: active.link ? "Remove link" : "Link", icon: <FaLink />, on: active.link, run: setLink },
+    { label: t.tools.bold, icon: <FaBold />, on: active.bold, run: () => chain().toggleBold().run() },
+    { label: t.tools.italic, icon: <FaItalic />, on: active.italic, run: () => chain().toggleItalic().run() },
+    { label: t.tools.strike, icon: <FaStrikethrough />, on: active.strike, run: () => chain().toggleStrike().run() },
+    { label: t.tools.heading, icon: <LuHeading />, on: active.heading, run: () => chain().toggleHeading({ level: 3 }).run() },
+    { label: t.tools.bullets, icon: <FaListUl />, on: active.bullet, run: () => chain().toggleBulletList().run() },
+    { label: t.tools.numbers, icon: <FaListOl />, on: active.ordered, run: () => chain().toggleOrderedList().run() },
+    { label: t.tools.quote, icon: <FaQuoteLeft />, on: active.quote, run: () => chain().toggleBlockquote().run() },
+    { label: active.link ? t.tools.unlink : t.tools.link, icon: <FaLink />, on: active.link, run: setLink },
   ];
 
   return (
     <div className="flex flex-wrap items-center gap-1 px-2 py-1 border-b border-dnd-gold/60">
-      {tools.map((t) => (
+      {tools.map((tool) => (
         <ToolButton
-          key={t.label}
-          label={t.label}
-          active={t.on}
+          key={tool.label}
+          label={tool.label}
+          active={tool.on}
           disabled={disabled}
-          onClick={t.run}
+          onClick={tool.run}
         >
-          {t.icon}
+          {tool.icon}
         </ToolButton>
       ))}
       {onUploadImage && (
@@ -128,7 +130,7 @@ const Toolbar: React.FC<{
             if (url) chain().setImage({ src: url, alt: "" }).run();
           }}
         >
-          <FaImage /> {uploading ? "Uploading…" : "Picture"}
+          <FaImage /> {uploading ? t.uploading : t.picture}
         </FileButton>
       )}
     </div>

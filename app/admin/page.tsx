@@ -88,6 +88,20 @@ const AdminDashboard = async () => {
       text: "Premade traits, and players' custom ones waiting for approval.",
       stat: `${count(rb.traits.length, "trait")}${awaiting ? ` · ${awaiting} awaiting approval` : ""}`,
     },
+    {
+      title: "Credits",
+      href: "/admin/credits",
+      image: "/img/neidhart.webp",
+      text: "Harvard references, book covers and the images each source covers.",
+      stat: "Sources",
+    },
+    {
+      title: "Users",
+      href: "/admin/users",
+      image: "/img/auth/gate.webp",
+      text: "Who's a player, who's a DM and who's an admin.",
+      stat: "Roles",
+    },
   ];
 
   return (

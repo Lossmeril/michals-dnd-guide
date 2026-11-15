@@ -30,7 +30,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   const crumbs = home ? [{ label: dict.site.home, href: "/" }, ...items] : items;
 
   return (
-    <nav aria-label="Breadcrumb" className={twMerge("mb-4 text-sm", className)}>
+    <nav aria-label={dict.ui.breadcrumb} className={twMerge("mb-4 text-sm", className)}>
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         {crumbs.map((crumb, i) => {
           const current = i === crumbs.length - 1;

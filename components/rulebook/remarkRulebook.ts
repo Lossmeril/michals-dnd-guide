@@ -47,8 +47,8 @@ const textOf = (node: Nodes): string =>
       ? (node.children as Nodes[]).map(textOf).join("")
       : "";
 
-// "2d6", "d20", "1d8": not inside words like "and6"
-const DICE = /(?<![\w/])(\d*d(?:4|6|8|10|12|20))(?!\w)/gi;
+// "2d6", "d20", "1d8" (and the Czech "2k6"): not inside words like "and6"
+const DICE = /(?<![\w/])(\d*[dk](?:4|6|8|10|12|20))(?!\w)/gi;
 
 /** Splits "roll 2d6 + 1" into text and dice nodes */
 const splitDice = (node: Text): PhrasingContent[] => {

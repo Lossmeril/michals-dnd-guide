@@ -1,144 +1,51 @@
 /**
- * Everything the credits page (/credits) lists. Add an entry whenever a
- * picture, rule or library comes from someone else; leave `by` empty while
- * the source is unknown and the page shows it as missing.
+ * The credits page (/credits) lists the `credits` table, edited at
+ * /admin/credits. Each row is a Harvard reference, what it's used for, and a
+ * gallery of the images it covers.
  */
 
-export interface Credit {
-  /** What is credited: "Class portraits", "Dračí Doupě 2" */
-  what: string;
-  /** Who made it, or where it came from */
-  by?: string;
-  href?: string;
-  license?: string;
-  licenseHref?: string;
-  /** What we took from it, or anything else worth saying */
-  note?: string;
-  /** A picture in /public, shown as a thumbnail */
-  image?: string;
-}
+import type { Tables } from "@/lib/types/database.types";
 
-export interface CreditSection {
-  title: string;
-  intro?: string;
-  items: Credit[];
-}
+export type Credit = Tables<"credits">;
 
-export const CREDITS: CreditSection[] = [
+export const CREDIT_SECTIONS = [
   {
-    title: "Rules",
-    intro:
-      "The ruleset is Michal's own, stitched together from games we love. These are the ones it borrows from.",
-    items: [
-      {
-        what: "Dračí Doupě 2",
-        by: "Altar",
-        href: "https://www.altar.cz/drd2/",
-        note: "The backbone: resources instead of attributes, Danger Level, exhaustion and Scars, classes as bundles of skills.",
-      },
-      {
-        what: "Dungeons & Dragons 5th Edition",
-        by: "Wizards of the Coast",
-        href: "https://dnd.wizards.com/resources/systems-reference-document",
-        license: "SRD 5.1, CC BY 4.0",
-        licenseHref: "https://creativecommons.org/licenses/by/4.0/legalcode",
-        note: "Advantage and disadvantage, conditions, the weapon table, death saves and backgrounds. This work includes material taken from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC, licensed under the Creative Commons Attribution 4.0 International License.",
-      },
-      {
-        what: "Kingdom Come: Deliverance II",
-        by: "Warhorse Studios",
-        note: "The negative perks of its hardcore mode inspired traits.",
-      },
-      {
-        what: "The Witcher",
-        by: "Andrzej Sapkowski",
-        note: "The Witcher class and its signs.",
-      },
-    ],
+    id: "rules",
+    title: { en: "Rules", cs: "Pravidla" },
+    intro: {
+      en: "The ruleset is Michal's own, stitched together from games we love. These are the ones it borrows from.",
+      cs: "Pravidla jsou Michalova vlastní, sešitá z her, které máme rádi. Tady jsou ty, ze kterých si půjčují.",
+    },
   },
   {
-    title: "Pictures",
-    intro:
-      "Pictures uploaded through the admin pages (classes, perks, races, items, rulebook pages) belong here too.",
-    items: [
-      { what: "Class portraits", note: "public/img/classes" },
-      { what: "Race portraits", note: "public/img/races" },
-      { what: "Perk and spell art", note: "public/img/perks" },
-      { what: "Rulebook illustrations", note: "public/img/rulebook" },
-      {
-        what: "City gate",
-        note: "The login and sign-up pages",
-        image: "/img/auth/gate.webp",
-      },
-      { what: "Parchment background", image: "/img/bg.webp" },
-      {
-        what: "Neidhart von Reuental",
-        by: "Codex Manesse (Heidelberg University Library, Cod. Pal. germ. 848)",
-        href: "https://digi.ub.uni-heidelberg.de/diglit/cpg848",
-        license: "Public domain",
-        note: "The site icon and the navbar picture",
-        image: "/img/neidhart.webp",
-      },
-      {
-        what: "Home page cards",
-        by: "Wizards of the Coast, via D&D Beyond",
-        href: "https://www.dndbeyond.com",
-        note: "Linked straight from D&D Beyond.",
-      },
-      { what: "Die faces", note: "public/img/dice, from the old site" },
-    ],
+    id: "pictures",
+    title: { en: "Pictures", cs: "Obrázky" },
+    intro: {
+      en: "No AI images have been used. All rights belong to their rightful authors; here they're decoration only.",
+      cs: "Nebyly použity žádné obrázky z AI. Všechna práva patří jejich autorům; tady slouží jen jako výzdoba.",
+    },
   },
+  { id: "icons", title: { en: "Icons and fonts", cs: "Ikony a písma" } },
   {
-    title: "Icons and fonts",
-    items: [
-      {
-        what: "Game Icons",
-        by: "Lorc, Delapouite and contributors",
-        href: "https://game-icons.net",
-        license: "CC BY 3.0",
-        licenseHref: "https://creativecommons.org/licenses/by/3.0/",
-      },
-      {
-        what: "Font Awesome",
-        by: "Fonticons",
-        href: "https://fontawesome.com",
-        license: "CC BY 4.0",
-        licenseHref: "https://creativecommons.org/licenses/by/4.0/",
-      },
-      {
-        what: "Lucide",
-        by: "Lucide contributors",
-        href: "https://lucide.dev",
-        license: "ISC",
-      },
-      {
-        what: "Libre Baskerville and Merriweather",
-        by: "Impallari Type and Sorkin Type, via Google Fonts",
-        href: "https://fonts.google.com",
-        license: "SIL Open Font License",
-      },
-    ],
+    id: "code",
+    title: { en: "Code", cs: "Kód" },
+    intro: {
+      en: "Built quickly with AI-assisted development, on a human-designed architecture and UI components.",
+      cs: "Postaveno rychle s pomocí AI, na architektuře a komponentách rozhraní navržených člověkem.",
+    },
   },
-  {
-    title: "Code",
-    intro:
-      "The design, the components and the rules were set by a human. Much of the code was then written with an AI assistant.",
-    items: [
-      {
-        what: "Design and components",
-        by: "Michal Špitálský",
-        note: "The visual language and the components it's built from.",
-      },
-      {
-        what: "Code assistance",
-        by: "Claude, by Anthropic",
-        href: "https://www.anthropic.com/claude",
-        note: "Written with Claude Code.",
-      },
-      {
-        what: "Next.js, React, Supabase, Tailwind CSS and TipTap",
-        note: "The open-source stack the app runs on.",
-      },
-    ],
-  },
-];
+] as const;
+
+export type CreditSectionId = (typeof CREDIT_SECTIONS)[number]["id"];
+
+/** "15 November 2026", as Harvard's "(Accessed: …)" wants it */
+export const accessedDate = (iso: string, lang: "en" | "cs" = "en") =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString(lang === "cs" ? "cs-CZ" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+/** "Warsaw: CD PROJEKT", "Gollancz", "Praha" or null */
+export const imprint = (c: Pick<Credit, "place" | "publisher">) =>
+  [c.place, c.publisher].filter(Boolean).join(": ") || null;

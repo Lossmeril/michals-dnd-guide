@@ -228,6 +228,7 @@ export type Database = {
       character_items: {
         Row: {
           broken: boolean
+          bundle_id: string | null
           carried: boolean
           character_id: number
           created_at: string
@@ -240,6 +241,7 @@ export type Database = {
         }
         Insert: {
           broken?: boolean
+          bundle_id?: string | null
           carried?: boolean
           character_id: number
           created_at?: string
@@ -252,6 +254,7 @@ export type Database = {
         }
         Update: {
           broken?: boolean
+          bundle_id?: string | null
           carried?: boolean
           character_id?: number
           created_at?: string
@@ -557,6 +560,63 @@ export type Database = {
         }
         Relationships: []
       }
+      credits: {
+        Row: {
+          accessed: string | null
+          authors: string | null
+          cover_url: string | null
+          id: number
+          images: string[]
+          license: string | null
+          license_url: string | null
+          medium: string | null
+          place: string | null
+          publisher: string | null
+          section: string
+          sort: number
+          title: string
+          url: string | null
+          used_for: string | null
+          year: string | null
+        }
+        Insert: {
+          accessed?: string | null
+          authors?: string | null
+          cover_url?: string | null
+          id?: number
+          images?: string[]
+          license?: string | null
+          license_url?: string | null
+          medium?: string | null
+          place?: string | null
+          publisher?: string | null
+          section: string
+          sort?: number
+          title: string
+          url?: string | null
+          used_for?: string | null
+          year?: string | null
+        }
+        Update: {
+          accessed?: string | null
+          authors?: string | null
+          cover_url?: string | null
+          id?: number
+          images?: string[]
+          license?: string | null
+          license_url?: string | null
+          medium?: string | null
+          place?: string | null
+          publisher?: string | null
+          section?: string
+          sort?: number
+          title?: string
+          url?: string | null
+          used_for?: string | null
+          year?: string | null
+        }
+        Relationships: []
+      }
       creatures: {
         Row: {
           category_id: string
@@ -599,6 +659,7 @@ export type Database = {
         Row: {
           burden: number | null
           category: string | null
+          contents: Json
           damage: string | null
           damage_type: string | null
           description: string | null
@@ -617,6 +678,7 @@ export type Database = {
         Insert: {
           burden?: number | null
           category?: string | null
+          contents?: Json
           damage?: string | null
           damage_type?: string | null
           description?: string | null
@@ -635,6 +697,7 @@ export type Database = {
         Update: {
           burden?: number | null
           category?: string | null
+          contents?: Json
           damage?: string | null
           damage_type?: string | null
           description?: string | null
@@ -686,6 +749,7 @@ export type Database = {
         Row: {
           description: string | null
           id: string
+          learnable: boolean
           name: string
           sample: string | null
           sort: number
@@ -693,6 +757,7 @@ export type Database = {
         Insert: {
           description?: string | null
           id: string
+          learnable?: boolean
           name: string
           sample?: string | null
           sort?: number
@@ -700,6 +765,7 @@ export type Database = {
         Update: {
           description?: string | null
           id?: string
+          learnable?: boolean
           name?: string
           sample?: string | null
           sort?: number
@@ -854,6 +920,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          alpha_notice_seen_at: string | null
           avatar_url: string | null
           created_at: string
           display_name: string | null
@@ -861,6 +928,7 @@ export type Database = {
           role: Database["public"]["Enums"]["user_role"] | null
         }
         Insert: {
+          alpha_notice_seen_at?: string | null
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
@@ -868,6 +936,7 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"] | null
         }
         Update: {
+          alpha_notice_seen_at?: string | null
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
@@ -1098,6 +1167,29 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      list_users: {
+        Args: never
+        Returns: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+        }[]
+      }
+      set_signup_password: {
+        Args: { p_password: string }
+        Returns: undefined
+      }
+      signup_password_set_at: { Args: never; Returns: string | null }
+      set_user_role: {
+        Args: {
+          p_role: Database["public"]["Enums"]["user_role"]
+          p_user: string
+        }
+        Returns: undefined
+      }
       set_merit_points: {
         Args: { p_campaign_player_id: number; p_points: number }
         Returns: undefined
@@ -1125,7 +1217,7 @@ export type Database = {
       }
     }
     Enums: {
-      class_magic: "none" | "full" | "pseudo"
+      class_magic: "dormant" | "awakened" | "latent"
       class_rank: "basic" | "advanced" | "mighty"
       cost_resource: "body" | "soul" | "charisma" | "material" | "coin"
       damage_type:
@@ -1295,7 +1387,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      class_magic: ["none", "full", "pseudo"],
+      class_magic: ["dormant", "awakened", "latent"],
       class_rank: ["basic", "advanced", "mighty"],
       cost_resource: ["body", "soul", "charisma", "material", "coin"],
       damage_type: [

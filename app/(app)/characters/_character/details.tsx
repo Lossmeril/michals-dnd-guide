@@ -21,7 +21,8 @@ import {
   withRace,
   withRacialPerk,
 } from "@/lib/rules/character";
-import { RESOURCE_NAMES } from "@/lib/rules/format";
+import { useDict } from "@/lib/i18n/client";
+import { resourceName } from "@/lib/rules/format";
 import PerkTree, {
   dropButton,
   pickButton,
@@ -49,13 +50,14 @@ const ClassLevelStepper: React.FC<ClassProps> = ({
   edit,
   classId,
 }) => {
+  const t = useDict();
   if (!edit) return null;
   const level = build.classes[classId] ?? 0;
   const unlocked = isClassUnlocked(rb, build, classId);
   return (
     <>
       <span className="text-xs uppercase tracking-wider text-dnd-ink/60">
-        Level
+        {t.sheet.levelLabel}
       </span>
       <NumberStepper
         label={findClass(rb, classId)?.name}
@@ -108,19 +110,21 @@ const ClassDetails: React.FC<ClassProps> = (props) => {
   const level = build.classes[classId] ?? 0;
   const skills = rb.skills.filter((s) => s.class_id === classId);
   const parents = parentNames(rb, classId);
+  const t = useDict();
 
   return (
     <>
       <MediaObject image={cls.image_url} className="mb-10">
         <div className="flex flex-wrap gap-2 mb-3">
-          <Eyebrow text={cls.rank} />
+          <Eyebrow text={t.classPage.ranks[cls.rank]} />
           <MagicBadge magic={cls.magic} />
         </div>
         {parents && (
           <p className="text-xs text-dnd-ink/70 mb-3">
-            Unlocks when {parents} total {UNLOCK_LEVELS} levels
+            {t.classPage.unlocksWhen} {parents}{" "}
+            {t.classPage.total(UNLOCK_LEVELS).replace(/\.$/, "")}
             {!isClassUnlocked(rb, build, classId) &&
-              ` (now ${parentLevels(rb, build, classId)})`}
+              t.sheet.nowAt(parentLevels(rb, build, classId))}
           </p>
         )}
         {cls.description && (
@@ -133,7 +137,8 @@ const ClassDetails: React.FC<ClassProps> = (props) => {
         )}
 
         <Heading level={4} className="mb-2">
-          Skills{level > 0 && ` (+${level})`}
+          {t.classPage.skills}
+          {level > 0 && ` (+${level})`}
         </Heading>
         <ul>
           {skills.map((s) => (
@@ -142,21 +147,19 @@ const ClassDetails: React.FC<ClassProps> = (props) => {
               className="py-2 border-b border-dnd-gold/40 last:border-b-0"
             >
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-dnd-red libre">
-                  {s.name}
-                </span>
-                <Eyebrow text={RESOURCE_NAMES[s.resource]} />
-                {s.is_unique && <Eyebrow text="unique" color="red" />}
+                <span className="font-bold text-dnd-red libre">{s.name}</span>
+                <Eyebrow text={resourceName(s.resource, t.lang)} />
+                {s.is_unique && (
+                  <Eyebrow text={t.classPage.unique} color="red" />
+                )}
               </div>
-              {s.description && (
-                <p className="text-xs mt-1">{s.description}</p>
-              )}
+              {s.description && <p className="text-xs mt-1">{s.description}</p>}
             </li>
           ))}
         </ul>
       </MediaObject>
 
-      <Heading level={3}>Perks</Heading>
+      <Heading level={3}>{t.classPage.perks}</Heading>
       <PerkTree {...props} showAll />
     </>
   );
@@ -167,6 +170,7 @@ const ClassDetails: React.FC<ClassProps> = (props) => {
 type RaceProps = SectionProps & { raceId: string };
 
 const RaceChooseButton: React.FC<RaceProps> = ({ build, edit, raceId }) => {
+  const t = useDict();
   if (!edit) return null;
   const chosen = build.raceId === raceId;
   return (
@@ -176,7 +180,7 @@ const RaceChooseButton: React.FC<RaceProps> = ({ build, edit, raceId }) => {
       onClick={() => edit.setBuild(withRace(build, raceId))}
       className={chosen ? `${dropButton} cursor-default` : pickButton}
     >
-      {chosen ? "Chosen" : "Choose"}
+      {chosen ? t.sheet.chosen : t.sheet.choose}
     </button>
   );
 };
@@ -212,6 +216,7 @@ export const RaceCard: React.FC<RaceProps> = (props) => {
 const RaceDetails: React.FC<RaceProps> = (props) => {
   const { rb, edit, raceId } = props;
   const race = rb.races.find((r) => r.id === raceId)!;
+  const t = useDict();
 
   return (
     <>
@@ -227,7 +232,7 @@ const RaceDetails: React.FC<RaceProps> = (props) => {
         )}
       </MediaObject>
 
-      <Heading level={3}>Racial perks (pick one)</Heading>
+      <Heading level={3}>{t.blocks.racialPerks}</Heading>
       <RacialPerks {...props} />
     </>
   );
@@ -240,40 +245,45 @@ export const RacialPerks: React.FC<RaceProps & { onlyHeld?: boolean }> = ({
   edit,
   raceId,
   onlyHeld = false,
-}) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
-    {racialPerks(rb, raceId)
-      .map((perk) => ({
-        perk,
-        held: build.perks.some((p) => p.perkId === perk.id),
-      }))
-      .filter(({ held }) => held || !onlyHeld)
-      .map(({ perk, held }) => (
-        <PerkTile
-          key={perk.id}
-          perk={perk}
-          state={held ? "held" : edit ? "available" : undefined}
-          note={held ? "Picked" : null}
-          action={
-            edit &&
-            !held && (
-              <button
-                type="button"
-                className={pickButton}
-                onClick={() =>
-                  edit.setBuild(
-                    withRacialPerk(
-                      build.raceId === raceId ? build : withRace(build, raceId),
-                      perk.id,
-                    ),
-                  )
-                }
-              >
-                Pick
-              </button>
-            )
-          }
-        />
-      ))}
-  </div>
-);
+}) => {
+  const t = useDict();
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
+      {racialPerks(rb, raceId)
+        .map((perk) => ({
+          perk,
+          held: build.perks.some((p) => p.perkId === perk.id),
+        }))
+        .filter(({ held }) => held || !onlyHeld)
+        .map(({ perk, held }) => (
+          <PerkTile
+            key={perk.id}
+            perk={perk}
+            state={held ? "held" : edit ? "available" : undefined}
+            note={held ? t.build.picked : null}
+            action={
+              edit &&
+              !held && (
+                <button
+                  type="button"
+                  className={pickButton}
+                  onClick={() =>
+                    edit.setBuild(
+                      withRacialPerk(
+                        build.raceId === raceId
+                          ? build
+                          : withRace(build, raceId),
+                        perk.id,
+                      ),
+                    )
+                  }
+                >
+                  {t.build.pick}
+                </button>
+              )
+            }
+          />
+        ))}
+    </div>
+  );
+};

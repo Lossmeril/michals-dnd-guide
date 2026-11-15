@@ -8,6 +8,8 @@ import { confirmUrl } from "@/lib/siteUrl";
 import type { FormState } from "@/components/ui/form";
 import { fileFrom, toResult } from "@/lib/result";
 import { uploadImage } from "@/lib/uploadImage";
+import { getLang } from "@/lib/i18n/server";
+import { DICTS } from "@/lib/i18n/dictionaries";
 
 export async function uploadAvatar(formData: FormData) {
   const user = await requireUser();
@@ -34,7 +36,8 @@ export async function updateDisplayName(
 ): Promise<FormState> {
   const user = await requireUser();
   const displayName = String(formData.get("displayName") ?? "").trim();
-  const invalid = checkDisplayName(displayName);
+  const lang = await getLang();
+  const invalid = checkDisplayName(displayName, lang);
   if (invalid) return { error: invalid };
 
   const supabase = createClient(await cookies());
@@ -46,7 +49,7 @@ export async function updateDisplayName(
 
   // The navbar shows the name on every page
   revalidatePath("/", "layout");
-  return { error: null, message: "Saved." };
+  return { error: null, message: DICTS[lang].account.profile.saved };
 }
 
 export async function changeEmail(
@@ -55,8 +58,9 @@ export async function changeEmail(
 ): Promise<FormState> {
   const user = await requireUser();
   const email = String(formData.get("email") ?? "").trim();
-  if (!email.includes("@")) return { error: "That isn't an email address." };
-  if (email === user.email) return { error: "That's your current email." };
+  const t = DICTS[await getLang()].account;
+  if (!email.includes("@")) return { error: t.notEmail };
+  if (email === user.email) return { error: t.profile.sameEmail };
 
   const supabase = createClient(await cookies());
   // Nothing changes until the link in the email is clicked
@@ -69,7 +73,7 @@ export async function changeEmail(
   revalidatePath("/profile");
   return {
     error: null,
-    message: `We sent a confirmation link to ${email}. If a link also arrives at ${user.email}, confirm that one too.`,
+    message: t.profile.emailSent(email, user.email ?? ""),
   };
 }
 
@@ -79,16 +83,18 @@ export async function changePassword(
 ): Promise<FormState> {
   await requireUser();
   const password = String(formData.get("password") ?? "");
+  const lang = await getLang();
   const invalid = checkPassword(
     password,
     String(formData.get("confirmPassword") ?? ""),
+    lang,
   );
   if (invalid) return { error: invalid };
 
   const supabase = createClient(await cookies());
   const { error } = await supabase.auth.updateUser({ password });
   if (error?.code === "same_password")
-    return { error: "That's your current password." };
+    return { error: DICTS[lang].account.profile.samePassword };
   if (error) return { error: error.message };
-  return { error: null, message: "Password changed." };
+  return { error: null, message: DICTS[lang].account.profile.passwordChanged };
 }

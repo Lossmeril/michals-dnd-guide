@@ -6,19 +6,21 @@ import Field from "@/components/ui/field";
 import { EmailField, FormMessage, SubmitButton } from "@/components/ui/form";
 import { ResendConfirmation } from "../signup/resendConfirmation";
 import { login } from "./actions";
+import { useDict } from "@/lib/i18n/client";
 
 export const LoginForm = () => {
   const [state, formAction, pending] = useActionState(login, { error: null });
+  const t = useDict().account;
 
   return (
     <form action={formAction} className="flex flex-col gap-4 max-w-md">
       <EmailField defaultValue={state.email} />
       <Field
-        label="Password"
+        label={t.password}
         htmlFor="password"
         hint={
           <Link href="/forgot-password" className="link">
-            Forgot your password?
+            {t.login.forgot}
           </Link>
         }
       >
@@ -36,8 +38,8 @@ export const LoginForm = () => {
         <ResendConfirmation email={state.email} />
       )}
 
-      <SubmitButton pending={pending} pendingLabel="Showing your papers…">
-        Log in
+      <SubmitButton pending={pending} pendingLabel={t.login.pending}>
+        {t.login.submit}
       </SubmitButton>
     </form>
   );

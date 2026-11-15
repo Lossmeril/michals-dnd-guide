@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { SkeletonCard } from "@/components/ui/card";
 import IssueList from "@/components/ui/issueList";
 import StickyBar from "@/components/ui/stickyBar";
+import { useDict } from "@/lib/i18n/client";
 import { prepareImage } from "@/lib/hooks/useImageUpload";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
@@ -35,13 +36,13 @@ import {
 } from "./sections";
 
 const SECTION_LINKS = [
-  ["race", "Race"],
-  ["classes", "Classes"],
-  ["perks", "Perks"],
-  ["background", "Background"],
-  ["traits", "Traits"],
-  ["personality", "Personality"],
-  ["backstory", "Backstory"],
+  "race",
+  "classes",
+  "perks",
+  "background",
+  "traits",
+  "personality",
+  "backstory",
 ] as const;
 
 interface CharacterEditorProps {
@@ -52,6 +53,8 @@ interface CharacterEditorProps {
 /** The character sheet's sections, with their editing controls switched on */
 const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   const router = useRouter();
+  const t = useDict();
+  const e = t.editor;
   const [rb, setRb] = useState<Rulebook | null>(null);
   const [build, setBuild] = useState<Build>(emptyBuild);
   const [name, setName] = useState("");
@@ -87,10 +90,12 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         setRb(rulebook);
       } catch (error) {
         console.error("Error loading the editor:", error);
-        toast.error("Couldn't load the character editor.");
+        toast.error(e.loadFailed);
       }
     };
     load();
+    // Messages follow the language; loading doesn't depend on it
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characterId]);
 
   if (!rb) return <SkeletonCard />;
@@ -98,8 +103,8 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   const start = startLevel ?? level;
   const remaining = level - characterLevel(build);
   const freePoints = freePointsLeft(build, level, start);
-  const { errors, warnings } = validateBuild(rb, build, level, start);
-  const problems = [...errors, ...(name.trim() ? [] : ["Name your character."])];
+  const { errors, warnings } = validateBuild(rb, build, level, start, t.lang);
+  const problems = [...errors, ...(name.trim() ? [] : [e.nameIt])];
   const sectionProps = {
     rb,
     build,
@@ -132,10 +137,10 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       const fd = new FormData();
       fd.append("file", portrait);
       const upload = await uploadCharacterPortrait(data, fd);
-      if (upload.error !== null) toast.error(`Portrait: ${upload.error}`);
+      if (upload.error !== null) toast.error(e.portraitError(upload.error));
     }
     setSaving(false);
-    toast.success("Character saved");
+    toast.success(e.saved);
     router.push(`/characters/${data}`);
   };
 
@@ -143,27 +148,25 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
     <>
       <Breadcrumbs
         items={[
-          { label: "Characters", href: "/characters" },
+          { label: e.characters, href: "/characters" },
           ...(characterId
             ? [
                 {
-                  label: savedName || "Unnamed",
+                  label: savedName || e.unnamed,
                   href: `/characters/${characterId}`,
                 },
-                { label: "Edit" },
+                { label: e.edit },
               ]
-            : [{ label: "New character" }]),
+            : [{ label: e.newCharacter }]),
         ]}
       />
       <StickyBar position="top">
         <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-          {[...(characterId ? [] : [["start", "Start"]]), ...SECTION_LINKS].map(
-            ([id, label]) => (
-              <a key={id} href={`#${id}`} className="link no-underline">
-                {label}
-              </a>
-            ),
-          )}
+          {[...(characterId ? [] : (["start"] as const)), ...SECTION_LINKS].map((id) => (
+            <a key={id} href={`#${id}`} className="link no-underline">
+              {e.sections[id]}
+            </a>
+          ))}
         </nav>
         <div className="flex flex-wrap items-center gap-4">
           <p className="text-sm">
@@ -174,11 +177,11 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             >
               {remaining}
             </span>{" "}
-            level-up point{remaining === 1 ? "" : "s"} left
+            {e.pointsLeft(remaining)}
           </p>
           {problems.length > 0 && (
             <a href="#checklist" className="link text-sm">
-              {problems.length} to fix
+              {e.toFix(problems.length)}
             </a>
           )}
           {characterId && (
@@ -186,7 +189,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
               href={`/characters/${characterId}`}
               className="button button-secondary"
             >
-              Cancel
+              {e.cancel}
             </Link>
           )}
           <button
@@ -194,7 +197,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             onClick={save}
             disabled={saving || problems.length > 0}
           >
-            {saving ? "Saving…" : "Save"}
+            {saving ? e.saving : e.save}
           </button>
         </div>
       </StickyBar>
@@ -225,8 +228,8 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       />
       <BackstorySection backstory={backstory} onChange={setBackstory} />
 
-      <Section id="checklist" title="Before saving">
-        {problems.length === 0 && <p>All set.</p>}
+      <Section id="checklist" title={e.beforeSaving}>
+        {problems.length === 0 && <p>{e.allSet}</p>}
         <IssueList errors={problems} warnings={warnings} />
       </Section>
     </>

@@ -19,8 +19,17 @@ import {
   type Build,
   type Rulebook,
 } from "@/lib/rules/character";
-import { costOf, DURATION_NAMES, formatCoins, RESOURCE_NAMES } from "@/lib/rules/format";
-import { itemName } from "@/lib/rules/equipment";
+import { useL } from "@/lib/i18n/client";
+import {
+  componentName,
+  costOf,
+  damageTypeName,
+  durationName,
+  formatCoins,
+  propertiesText,
+  resourceName,
+} from "@/lib/rules/format";
+import { groupByBundle, itemName } from "@/lib/rules/equipment";
 import type { Tables } from "@/lib/types/database.types";
 
 const POOLS: Pool[] = ["body", "soul", "charisma"];
@@ -32,8 +41,8 @@ type Props = {
   character: Tables<"characters">;
   build: Build;
   inventory: Tables<"character_items">[];
-  /** The stat blocks' words, for the ritual item card */
-  t: Dict["statBlock"];
+  /** The reader's language: the sheet's own words, and the ritual item card's */
+  dict: Dict;
 };
 
 // -----------------------------------------------------------------------------
@@ -137,30 +146,13 @@ const skillsByPool = (rb: Rulebook, build: Build) => {
   >;
 };
 
-const MANOEUVRE_NAMES: Record<string, string> = {
-  precise: "Precise",
-  mighty: "Mighty",
-  cunning: "Cunning",
-  quick: "Quick",
-  defense: "Defense",
-  widespread: "Widespread",
-};
-
 /** Danger Level 1–5 at the side of the pools: the player moves a token on it */
-const DANGER_FEEL = [
-  [5, "The fuck did I stumble into?"],
-  [4, "The danger is real"],
-  [3, "Time to file a safety report"],
-  [2, "Same shit, different day"],
-  [1, "Walk in a park"],
-] as const;
-
-const DangerTrack = () => (
+const DangerTrack: React.FC<{ p: Dict["print"] }> = ({ p }) => (
   <div className="flex flex-col items-center gap-[1.5mm]">
     <span className="text-[6.5pt] uppercase tracking-wider font-bold text-dnd-red-dark text-center leading-tight">
-      Danger
+      {p.danger}
     </span>
-    {DANGER_FEEL.map(([level, feel]) => (
+    {[5, 4, 3, 2, 1].map((level) => [level, p.feel[level - 1]] as const).map(([level, feel]) => (
       <div
         key={level}
         className={twMerge(
@@ -174,7 +166,7 @@ const DangerTrack = () => (
         <span className="text-[5pt] italic leading-tight text-dnd-ink/60 mt-0.5">{feel}</span>
       </div>
     ))}
-    <span className="text-[6pt] italic text-dnd-ink/60 text-center leading-tight">Default 3. Mark it with a token.</span>
+    <span className="text-[6pt] italic text-dnd-ink/60 text-center leading-tight">{p.dangerHint}</span>
   </div>
 );
 
@@ -182,7 +174,9 @@ const DangerTrack = () => (
 // Page 1: the front
 // -----------------------------------------------------------------------------
 
-const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
+const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
+  const p = dict.print;
+  const lang = dict.lang;
   const race = rb.races.find((r) => r.id === build.raceId);
   const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
   const classes = rb.classes.filter((c) => build.classes[c.id]);
@@ -213,7 +207,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
           )}
         </div>
         <div className="flex-1 min-w-0 flex flex-col">
-          <p className="text-[7pt] uppercase tracking-[0.2em] text-dnd-ink/60">Character sheet</p>
+          <p className="text-[7pt] uppercase tracking-[0.2em] text-dnd-ink/60">{p.title}</p>
           <h1 className="libre caps text-[22pt] font-bold text-dnd-red-dark leading-tight border-b-2 border-dnd-gold pb-1 mb-1">
             {character.name}
           </h1>
@@ -225,23 +219,23 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
                     {c.name} {build.classes[c.id]}
                   </Fragment>
                 ))
-              : "No classes yet"}
+              : dict.sheet.noClasses}
           </p>
           <dl className="grid grid-cols-[auto_1fr_auto_1fr] gap-x-[3mm] gap-y-0.5 mt-1">
-            <dt className="font-bold text-dnd-red-dark">Race</dt>
+            <dt className="font-bold text-dnd-red-dark">{p.race}</dt>
             <dd>{race?.name ?? "—"}</dd>
-            <dt className="font-bold text-dnd-red-dark">Background</dt>
+            <dt className="font-bold text-dnd-red-dark">{p.background}</dt>
             <dd>{background?.name ?? "—"}</dd>
-            <dt className="font-bold text-dnd-red-dark">Speed</dt>
+            <dt className="font-bold text-dnd-red-dark">{p.speed}</dt>
             <dd className="col-span-3">{race ? `${race.speed} m` : "—"}</dd>
-            <dt className="font-bold text-dnd-red-dark">Languages</dt>
+            <dt className="font-bold text-dnd-red-dark">{p.languages}</dt>
             <dd className="col-span-3">{languages || "—"}</dd>
             {background?.known_settings && (
               <>
-                <dt className="font-bold text-dnd-red-dark">Known settings</dt>
+                <dt className="font-bold text-dnd-red-dark">{p.knownSettings}</dt>
                 <dd className="col-span-3">
                   {background.known_settings}{" "}
-                  <span className="italic text-dnd-ink/70">(+1 to Soul and Charisma rolls there)</span>
+                  <span className="italic text-dnd-ink/70">{p.knownHint}</span>
                 </dd>
               </>
             )}
@@ -249,7 +243,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
         </div>
         <div className="w-[20mm] shrink-0 self-start flex flex-col items-center border-2 border-dnd-red-dark rounded-sm py-1">
           <span className="libre text-[20pt] font-bold leading-none text-dnd-red-dark">{character.level}</span>
-          <span className="text-[6.5pt] uppercase tracking-wider font-bold">Level</span>
+          <span className="text-[6.5pt] uppercase tracking-wider font-bold">{p.level}</span>
         </div>
       </header>
 
@@ -262,7 +256,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
             <div key={pool} className={twMerge("border-t-[5px] border border-dnd-gold rounded-sm p-[2mm] flex flex-col gap-1", style.border)}>
               <div className="flex items-center justify-between">
                 <span className={twMerge("flex items-center gap-1 libre font-bold uppercase tracking-wider text-[10pt]", style.text)}>
-                  {style.icon} {RESOURCE_NAMES[pool]}
+                  {style.icon} {resourceName(pool, lang)}
                 </span>
                 <span className="libre text-[18pt] font-bold leading-none">{value}</span>
               </div>
@@ -284,7 +278,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
                     <tr key={skill.name} className="border-b border-dnd-gold/40 last:border-0 align-top">
                       <td className="py-[0.3mm] pr-1">
                         {skill.name}
-                        {skill.is_unique && <span title="Unique" className="text-dnd-red"> ★</span>}
+                        {skill.is_unique && <span title={p.unique} className="text-dnd-red"> ★</span>}
                         <span className="block text-[6.5pt] italic text-dnd-ink/60 leading-tight">{from.join(", ")}</span>
                       </td>
                       <td className="py-[0.3mm] text-right font-bold libre w-[7mm]">+{level}</td>
@@ -292,7 +286,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
                   ))}
                   {skills[pool].length === 0 && (
                     <tr>
-                      <td className="italic text-dnd-ink/60">No {RESOURCE_NAMES[pool]} skills</td>
+                      <td className="italic text-dnd-ink/60">{p.noSkills(resourceName(pool, lang))}</td>
                     </tr>
                   )}
                 </tbody>
@@ -300,38 +294,37 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
             </div>
           );
         })}
-        <DangerTrack />
+        <DangerTrack p={p} />
       </div>
       <p className="text-[6.5pt] italic text-dnd-ink/70 -mt-[2mm]">
-        Strike a box <strong>/</strong> when you exhaust a point, <strong>X</strong> when a Scar blocks it.
-        ★ unique: only your class can try it. Any other non-unique skill: roll with no bonus.
+        {p.boxHint}
       </p>
 
       {/* Armour, weapons, purse */}
       <div className="grid grid-cols-[38mm_1fr_40mm] gap-[3mm]">
         <Box>
-          <Label>Armour</Label>
+          <Label>{p.armour}</Label>
           <div className="flex items-baseline gap-2">
             <span className="libre text-[18pt] font-bold leading-none">{armour.rating}</span>
-            <span>rating <span className="italic text-dnd-ink/70">({armour.protectionTier})</span></span>
+            <span>{p.rating} <span className="italic text-dnd-ink/70">({dict.sheet.armour.tiers[armour.protectionTier]})</span></span>
           </div>
           <p>
-            <strong>Encumbrance:</strong> {armour.encumbrance ? `exhaust ${armour.encumbrance} Body` : "none"}
+            <strong>{p.encumbrance}</strong> {armour.encumbrance ? p.exhaustBody(armour.encumbrance) : p.none}
           </p>
           <p className="text-[6.5pt] text-dnd-ink/70 leading-tight mt-1">
-            Protection {armour.protection}, burden {armour.burden}
-            {armour.fullHarness && ", fitted harness"}. Scar = damage − rating; averting a hit costs Danger − rating, at least 1.
+            {p.armourNote(armour.protection, armour.burden, armour.fullHarness)}
           </p>
         </Box>
         <Box>
-          <Label>Weapons</Label>
+          <Label>{p.weapons}</Label>
           <table className="w-full">
             <thead>
               <tr className="text-left text-[6.5pt] uppercase tracking-wider text-dnd-ink/70">
-                <th className="font-bold">Weapon</th>
-                <th className="font-bold">Damage</th>
-                <th className="font-bold">Free</th>
-                <th className="font-bold">Properties</th>
+                {p.weaponHead.map((h) => (
+                  <th key={h} className="font-bold">
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -339,13 +332,13 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
                 <tr key={w.id} className="border-b border-dnd-gold/40 last:border-0 align-top">
                   <td className="pr-1 font-bold">{w.name}</td>
                   <td className="pr-1 whitespace-nowrap">
-                    {w.damage ? `${w.damage} + lvl` : "—"}
-                    {w.damage_type && <span className="text-dnd-ink/70"> {w.damage_type}</span>}
+                    {w.damage ? `${propertiesText(w.damage, lang)} ${p.plusLevel}` : "—"}
+                    {w.damage_type && <span className="text-dnd-ink/70"> {damageTypeName(w.damage_type, lang)}</span>}
                   </td>
                   <td className="pr-1">
-                    {w.kind === "shield" ? "Defense / round" : w.free_manoeuvre ? MANOEUVRE_NAMES[w.free_manoeuvre] : "—"}
+                    {w.kind === "shield" ? p.shieldDefense : w.free_manoeuvre ? dict.manoeuvres[w.free_manoeuvre] : "—"}
                   </td>
-                  <td className="text-[7pt]">{w.properties ?? ""}</td>
+                  <td className="text-[7pt]">{w.properties ? propertiesText(w.properties, lang) : ""}</td>
                 </tr>
               ))}
               {Array.from({ length: Math.max(0, 3 - weapons.length) }, (_, i) => (
@@ -357,16 +350,16 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
           </table>
         </Box>
         <Box className="flex flex-col gap-1">
-          <Label>Purse</Label>
+          <Label>{p.purse}</Label>
           <div className="grid grid-cols-3 gap-1">
-            <WriteIn label="Gold" />
-            <WriteIn label="Silver" />
-            <WriteIn label="Copper" />
+            <WriteIn label={p.gold} />
+            <WriteIn label={p.silver} />
+            <WriteIn label={p.copper} />
           </div>
-          <WriteIn label="Material" hint="1 Material = 1 silver" />
+          <WriteIn label={p.material} hint={p.materialHint} />
           {background && (
             <p className="text-[6.5pt] italic text-dnd-ink/60 leading-tight">
-              Started with {formatCoins(background.coins_copper)}, {background.material} Material
+              {p.startedWith(formatCoins(background.coins_copper, lang), background.material)}
             </p>
           )}
         </Box>
@@ -375,14 +368,14 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
       {/* Scars and dying */}
       <div className="grid grid-cols-[1fr_42mm] gap-[3mm] items-start">
         <Box>
-          <Label>Scars</Label>
+          <Label>{p.scars}</Label>
           <table className="w-full">
             <thead>
               <tr className="text-left text-[6.5pt] uppercase tracking-wider text-dnd-ink/70">
-                <th className="font-bold w-[16mm]">Pool</th>
-                <th className="font-bold w-[10mm]">Level</th>
-                <th className="font-bold">What happened</th>
-                <th className="font-bold w-[30mm]">Healing (5 a level)</th>
+                <th className="font-bold w-[16mm]">{p.scarHead[0]}</th>
+                <th className="font-bold w-[10mm]">{p.scarHead[1]}</th>
+                <th className="font-bold">{p.scarHead[2]}</th>
+                <th className="font-bold w-[30mm]">{p.scarHead[3]}</th>
               </tr>
             </thead>
             <tbody>
@@ -398,14 +391,14 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
           </table>
         </Box>
         <Box className="flex flex-col gap-2">
-          <Label>Dying</Label>
+          <Label>{p.dying}</Label>
           <p className="text-[6.5pt] leading-tight">
-            A Scar bigger than its pool, or one on a fully blocked pool. d20 each turn: 10+ succeeds.
+            {p.dyingHint}
           </p>
-          <p className="flex items-center justify-between"><strong>Successes</strong> <Circles count={3} /></p>
-          <p className="flex items-center justify-between"><strong>Failures</strong> <Circles count={3} /></p>
+          <p className="flex items-center justify-between"><strong>{p.successes}</strong> <Circles count={3} /></p>
+          <p className="flex items-center justify-between"><strong>{p.failures}</strong> <Circles count={3} /></p>
           <p className="text-[6.5pt] italic text-dnd-ink/70 leading-tight">
-            Body: dying. Soul: madness. Charisma: ruined name.
+            {p.dyingPools}
           </p>
         </Box>
       </div>
@@ -418,20 +411,24 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory }) => {
 // Perks and spells
 // -----------------------------------------------------------------------------
 
-const SpellLine: React.FC<{ perk: Tables<"perks"> }> = ({ perk }) => {
+const SpellLine: React.FC<{ perk: Tables<"perks">; dict: Dict }> = ({ perk, dict }) => {
+  const p = dict.print;
+  const lang = dict.lang;
   const parts = [
-    perk.components?.length && `Components: ${perk.components.map((c) => c[0].toUpperCase()).join(", ")}${perk.material_note ? ` (${perk.material_note})` : ""}`,
-    perk.range && `Range: ${perk.range}`,
-    perk.area && `Area: ${perk.area}`,
-    perk.duration && `Duration: ${DURATION_NAMES[perk.duration] ?? perk.duration}`,
-    perk.damage && `Damage: ${perk.damage}${perk.damage_types?.length ? ` ${perk.damage_types.join(", ")}` : ""}`,
+    perk.components?.length &&
+      `${p.components}: ${perk.components.map((c) => componentName(c, lang)[0]).join(", ")}${perk.material_note ? ` (${perk.material_note})` : ""}`,
+    perk.range && `${p.range}: ${perk.range}`,
+    perk.area && `${p.area}: ${perk.area}`,
+    perk.duration && `${p.duration}: ${durationName(perk.duration, lang)}`,
+    perk.damage &&
+      `${p.damage}: ${perk.damage}${perk.damage_types?.length ? ` ${perk.damage_types.map((d) => damageTypeName(d, lang)).join(", ")}` : ""}`,
   ].filter(Boolean);
   if (!parts.length) return null;
   return <p className="text-[7pt] text-dnd-ink/80">{parts.join(" · ")}</p>;
 };
 
-const PerkEntry: React.FC<{ perk: Tables<"perks">; tag?: string }> = ({ perk, tag }) => {
-  const cost = perk.kind === "aspect" ? null : costOf(perk);
+const PerkEntry: React.FC<{ perk: Tables<"perks">; tag?: string; dict: Dict }> = ({ perk, tag, dict }) => {
+  const cost = perk.kind === "aspect" ? null : costOf(perk, dict.lang);
   return (
     <article className="break-inside-avoid mb-[3mm]">
       <h4 className="flex flex-wrap items-baseline gap-x-2">
@@ -447,18 +444,19 @@ const PerkEntry: React.FC<{ perk: Tables<"perks">; tag?: string }> = ({ perk, ta
             {cost}
           </span>
         ) : (
-          perk.kind !== "aspect" && <span className="text-[7pt] italic text-dnd-ink/60">Passive</span>
+          perk.kind !== "aspect" && <span className="text-[7pt] italic text-dnd-ink/60">{dict.print.passive}</span>
         )}
-        {perk.cost_resource && <span className="inline-block w-[3mm] h-[3mm] border border-dnd-ink/60" title="Used" />}
+        {perk.cost_resource && <span className="inline-block w-[3mm] h-[3mm] border border-dnd-ink/60" title={dict.print.used} />}
       </h4>
       {perk.flavour && <p className="font-bold italic">{perk.flavour}</p>}
-      {perk.kind === "spell" && <SpellLine perk={perk} />}
+      {perk.kind === "spell" && <SpellLine perk={perk} dict={dict} />}
       {perk.description && <p className="whitespace-pre-line">{perk.description}</p>}
     </article>
   );
 };
 
-const PerkPages: React.FC<Props> = ({ rb, build }) => {
+const PerkPages: React.FC<Props> = ({ rb, build, dict }) => {
+  const p = dict.print;
   const classes = rb.classes.filter((c) => build.classes[c.id]);
   const aspects = new Set(heldAspects(rb, build).map((a) => a.id));
   const racial = build.perks
@@ -470,34 +468,36 @@ const PerkPages: React.FC<Props> = ({ rb, build }) => {
   return (
     <Page className="text-[8pt] leading-snug">
       <h2 className="libre caps text-[16pt] font-bold text-dnd-red-dark border-b-2 border-dnd-gold mb-[3mm]">
-        Perks and spells
+        {p.perksAndSpells}
       </h2>
       <div className="columns-2 gap-[6mm]">
         {racial.length > 0 && (
           <>
-            <Label className="break-after-avoid">{race?.name ?? "Race"}</Label>
-            {racial.map((p) => (
-              <PerkEntry key={p.id} perk={p} tag="Racial" />
+            <Label className="break-after-avoid">{race?.name ?? p.race}</Label>
+            {racial.map((perk) => (
+              <PerkEntry key={perk.id} perk={perk} tag={p.tags.racial} dict={dict} />
             ))}
           </>
         )}
         {classes.map((cls) => {
           const held = [
-            ...aspectsOf(rb, cls.id).filter((a) => aspects.has(a.id)).map((p) => ({ p, tag: "Aspect" })),
-            ...coreSpells(rb, cls.id).map((p) => ({ p, tag: "Core spell" })),
+            ...aspectsOf(rb, cls.id)
+              .filter((a) => aspects.has(a.id))
+              .map((perk) => ({ perk, tag: p.tags.aspect })),
+            ...coreSpells(rb, cls.id).map((perk) => ({ perk, tag: p.tags.core })),
             ...chosenIn(build, cls.id)
               .map((c) => findPerk(rb, c.perkId))
-              .filter((p) => p !== undefined)
-              .map((p) => ({ p, tag: p.kind === "spell" ? "Spell" : undefined })),
+              .filter((perk) => perk !== undefined)
+              .map((perk) => ({ perk, tag: perk.kind === "spell" ? p.tags.spell : undefined })),
           ];
           return (
             <Fragment key={cls.id}>
               <Label className="break-after-avoid mt-[2mm]">
                 {cls.name} {build.classes[cls.id]}
               </Label>
-              {held.length === 0 && <p className="italic text-dnd-ink/60 mb-[3mm]">No perks yet.</p>}
-              {held.map(({ p, tag }) => (
-                <PerkEntry key={p.id} perk={p} tag={tag} />
+              {held.length === 0 && <p className="italic text-dnd-ink/60 mb-[3mm]">{p.noPerks}</p>}
+              {held.map(({ perk, tag }) => (
+                <PerkEntry key={perk.id} perk={perk} tag={tag} dict={dict} />
               ))}
             </Fragment>
           );
@@ -515,34 +515,55 @@ const PerkPages: React.FC<Props> = ({ rb, build }) => {
 const hasRitualItem = (rb: Rulebook, build: Build) =>
   rb.skills.some((s) => build.classes[s.class_id] && /ritual items|rituální předměty/i.test(s.name));
 
-const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, t }) => {
-  const traits = rb.traits.filter((t) => build.traitIds.includes(t.id));
+const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
+  const t = dict.statBlock;
+  const p = dict.print;
+  const l = useL();
+  const traits = rb.traits.filter((trait) => build.traitIds.includes(trait.id));
   const nameOf = (row: Tables<"character_items">) =>
-    row.name ?? (row.item_id ? itemName(rb.items, row.item_id) : "Unknown item");
+    row.name ?? (row.item_id ? itemName(rb.items, row.item_id) : p.unknownItem);
   const groups = [
-    { label: "Carried", rows: inventory.filter((i) => i.carried) },
-    { label: "Left behind", rows: inventory.filter((i) => !i.carried) },
+    { label: p.carried, rows: inventory.filter((i) => i.carried) },
+    { label: p.leftBehind, rows: inventory.filter((i) => !i.carried) },
   ];
 
   return (
     <Page className="text-[8pt] leading-snug flex flex-col gap-[4mm]">
       <h2 className="libre caps text-[16pt] font-bold text-dnd-red-dark border-b-2 border-dnd-gold">
-        Gear and story
+        {p.gearAndStory}
       </h2>
       <div className="grid grid-cols-2 gap-[6mm]">
         {groups.map((g) => (
           <div key={g.label}>
             <Label>{g.label}</Label>
             <ul>
-              {g.rows.map((row) => (
-                <li key={row.id} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-center">
-                  <span className="w-[6mm] text-right font-bold">{row.quantity > 1 ? `${row.quantity}×` : ""}</span>
-                  <span className={row.broken ? "line-through text-dnd-ink/60" : ""}>{nameOf(row)}</span>
-                  {row.broken && <span className="italic text-dnd-ink/60">(broken)</span>}
-                  {row.note && <span className="text-dnd-ink/60">· {row.note}</span>}
-                </li>
-              ))}
-              {Array.from({ length: Math.max(3, 8 - g.rows.length) }, (_, i) => (
+              {groupByBundle(g.rows).map((group) =>
+                group.bundle ? (
+                  <li key={`bundle-${group.rows[0].id}`} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-baseline py-[0.5mm]">
+                    <span className="w-[6mm] shrink-0" />
+                    <span>
+                      <span className="font-bold">{itemName(rb.items, group.bundle)}:</span>{" "}
+                      {group.rows.map((row, i) => (
+                        <span key={row.id} className={row.broken ? "line-through text-dnd-ink/60" : ""}>
+                          {i > 0 && ", "}
+                          {row.quantity > 1 && `${row.quantity}× `}
+                          {nameOf(row)}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                ) : (
+                  group.rows.map((row) => (
+                    <li key={row.id} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-center">
+                      <span className="w-[6mm] text-right font-bold">{row.quantity > 1 ? `${row.quantity}×` : ""}</span>
+                      <span className={row.broken ? "line-through text-dnd-ink/60" : ""}>{nameOf(row)}</span>
+                      {row.broken && <span className="italic text-dnd-ink/60">{p.broken}</span>}
+                      {row.note && <span className="text-dnd-ink/60">· {l(row.note)}</span>}
+                    </li>
+                  ))
+                ),
+              )}
+              {Array.from({ length: Math.max(3, 8 - groupByBundle(g.rows).length) }, (_, i) => (
                 <li key={`blank-${i}`} className="border-b border-dnd-ink/25 h-[5.5mm]" />
               ))}
             </ul>
@@ -552,14 +573,14 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, t }) => {
 
       {traits.length > 0 && (
         <div>
-          <Label>Traits</Label>
+          <Label>{p.traits}</Label>
           <div className="grid grid-cols-2 gap-x-[6mm] gap-y-[2mm]">
-            {traits.map((t) => (
-              <div key={t.id} className="break-inside-avoid">
-                <p className="libre font-bold text-dnd-red-dark">{t.name}</p>
-                {t.flavour && <p className="font-bold italic">{t.flavour}</p>}
-                <p><strong>+</strong> {t.upside}</p>
-                <p><strong>−</strong> {t.downside}</p>
+            {traits.map((trait) => (
+              <div key={trait.id} className="break-inside-avoid">
+                <p className="libre font-bold text-dnd-red-dark">{trait.name}</p>
+                {trait.flavour && <p className="font-bold italic">{trait.flavour}</p>}
+                <p><strong>+</strong> {trait.upside}</p>
+                <p><strong>−</strong> {trait.downside}</p>
               </div>
             ))}
           </div>
@@ -572,9 +593,9 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, t }) => {
           <div className="grid grid-cols-[1fr_60mm] gap-[6mm] items-start">
             <RitualCharging t={t.ritual} className="text-[7.5pt]" />
             <div>
-              <p className="font-bold">Name and form</p>
+              <p className="font-bold">{p.nameAndForm}</p>
               <Lines count={2} />
-              <p className="font-bold mt-2">What of you it holds</p>
+              <p className="font-bold mt-2">{p.holds}</p>
               <Lines count={1} />
               <ul className="mt-2 list-disc pl-4 text-[7pt] text-dnd-ink/80 flex flex-col gap-0.5">
                 <li>{t.rules.ritualUse}</li>
@@ -587,29 +608,29 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, t }) => {
 
       <div className="grid grid-cols-2 gap-[6mm]">
         <div>
-          <Label>Companions and networks</Label>
+          <Label>{p.companions}</Label>
           <Lines count={4} />
         </div>
         <div>
-          <Label>Organizations and Standing</Label>
+          <Label>{p.organizations}</Label>
           <Lines count={4} />
         </div>
       </div>
 
       {character.personality && (
         <div className="break-inside-avoid">
-          <Label>Personality</Label>
+          <Label>{p.personality}</Label>
           <p className="libre italic whitespace-pre-line">{character.personality}</p>
         </div>
       )}
       {character.backstory && (
         <div>
-          <Label>Backstory</Label>
+          <Label>{p.backstory}</Label>
           <p className="whitespace-pre-line text-justify">{character.backstory}</p>
         </div>
       )}
       <div>
-        <Label className="break-after-avoid">Notes</Label>
+        <Label className="break-after-avoid">{p.notes}</Label>
         <Lines count={hasRitualItem(rb, build) ? 3 : NOTE_LINES} />
       </div>
     </Page>

@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { confirmUrl } from "@/lib/siteUrl";
 import { createClient } from "@/utils/supabase/server";
+import { getDict } from "@/lib/i18n/server";
 
 export type ForgotState = { error: string | null; sentTo?: string; email?: string };
 
@@ -12,8 +13,9 @@ export async function requestPasswordReset(
   formData: FormData,
 ): Promise<ForgotState> {
   const email = String(formData.get("email") ?? "").trim();
+  const t = (await getDict()).account;
   if (!email.includes("@")) {
-    return { error: "That isn't an email address.", email };
+    return { error: t.notEmail, email };
   }
 
   const supabase = createClient(await cookies());
@@ -21,7 +23,7 @@ export async function requestPasswordReset(
     redirectTo: await confirmUrl("/reset-password"),
   });
   if (error?.code === "over_email_send_rate_limit") {
-    return { error: "Too many emails just now. Try again in a minute.", email };
+    return { error: t.forgot.rateLimit, email };
   }
   if (error) return { error: error.message, email };
 

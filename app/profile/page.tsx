@@ -7,37 +7,37 @@ import { requireUser } from "@/lib/auth";
 import { fetchProfile } from "@/lib/endpoints/profiles";
 import { AvatarUpload } from "./avatarUpload";
 import { DisplayNameForm, EmailForm, PasswordForm } from "./profileForms";
+import { getDict } from "@/lib/i18n/server";
 
 const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
   const user = await requireUser();
   const profile = await fetchProfile(user.id);
   const { email, error } = await searchParams;
   const name = profile?.display_name || user.email!;
+  const dict = await getDict();
+  const t = dict.account.profile;
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Profile" }]} />
-      <Heading level={1}>Profile</Heading>
+      <Breadcrumbs items={[{ label: t.title }]} />
+      <Heading level={1}>{t.title}</Heading>
 
       {email === "confirmed" && (
         <StoryBox>
           {user.new_email ? (
-            <p>
-              One seal down. The clerk wants the other one too: confirm the
-              link sent to {user.new_email} as well.
-            </p>
+            <p>{t.emailPending(user.new_email)}</p>
           ) : (
             <p>
-              The clerk scratches out the old address and writes in{" "}
-              <span className="not-italic font-bold">{user.email}</span>. Your
-              letters go there from now on.
+              {t.emailChanged[0]}
+              <span className="not-italic font-bold">{user.email}</span>
+              {t.emailChanged[1]}
             </p>
           )}
         </StoryBox>
       )}
       {error === "confirm" && (
         <Alert kind="danger" className="mb-8">
-          That link is invalid or has expired. Request the change again.
+          {t.expired}
         </Alert>
       )}
 
@@ -48,7 +48,7 @@ const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={profile.avatar_url}
-                alt="Avatar"
+                alt={t.avatar}
                 className="w-full h-full object-cover"
               />
             )}
@@ -61,22 +61,22 @@ const ProfilePage = async ({ searchParams }: PageProps<"/profile">) => {
           </p>
           {profile?.role && (
             <p className="text-xs uppercase tracking-wider text-dnd-ink/60">
-              {profile.role}
+              {t.roles[profile.role] ?? profile.role}
             </p>
           )}
         </Panel>
 
         <div className="flex flex-col gap-8 min-w-0">
           <Panel as="section">
-            <Heading level={3}>Display name</Heading>
+            <Heading level={3}>{dict.account.displayName}</Heading>
             <DisplayNameForm current={profile?.display_name ?? ""} />
           </Panel>
           <Panel as="section">
-            <Heading level={3}>Email</Heading>
+            <Heading level={3}>{dict.account.email}</Heading>
             <EmailForm current={user.email!} pending={user.new_email ?? null} />
           </Panel>
           <Panel as="section">
-            <Heading level={3}>Password</Heading>
+            <Heading level={3}>{dict.account.password}</Heading>
             <PasswordForm />
           </Panel>
         </div>

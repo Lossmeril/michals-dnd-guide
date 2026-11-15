@@ -1,10 +1,11 @@
 "use client";
 
-// EN | CS in the navbar; the choice is kept in a cookie
+// A flag per language in the navbar; the choice is kept in a cookie
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { twMerge } from "tailwind-merge";
+import Flag from "@/components/ui/flag";
 import { setLang } from "@/lib/i18n/actions";
 import { useDict, useLang } from "@/lib/i18n/client";
 import { LANG_NAMES, LANGS } from "@/lib/i18n/localize";
@@ -16,7 +17,7 @@ const LangSwitch = () => {
   const [pending, start] = useTransition();
 
   return (
-    <div role="group" aria-label={dict.site.language} className="flex text-xs font-bold">
+    <div role="group" aria-label={dict.site.language} className="flex items-center gap-1">
       {LANGS.map((lang) => (
         <button
           key={lang}
@@ -31,13 +32,14 @@ const LangSwitch = () => {
             })
           }
           className={twMerge(
-            "px-2 py-1 rounded-none uppercase first:rounded-l-full last:rounded-r-full border border-dnd-red",
+            "p-1 rounded-sm border-2 bg-transparent transition",
             lang === current
-              ? "bg-dnd-red text-white"
-              : "bg-transparent text-dnd-red hover:bg-dnd-red/10",
+              ? "border-dnd-red"
+              : "border-transparent opacity-50 grayscale hover:opacity-100 hover:grayscale-0",
           )}
         >
-          {lang}
+          <Flag lang={lang} className="block w-6 h-3 shadow-sm" />
+          <span className="sr-only">{LANG_NAMES[lang]}</span>
         </button>
       ))}
     </div>

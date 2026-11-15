@@ -4,6 +4,7 @@ import { useState } from "react";
 import RichTextEditor from "@/components/ui/richTextEditor";
 import { useImageUpload } from "@/lib/hooks/useImageUpload";
 import { uploadUpdateImage } from "./actions";
+import { useDict } from "@/lib/i18n/client";
 
 interface UpdateComposerProps {
   campaignId: number;
@@ -15,6 +16,7 @@ export const UpdateComposer: React.FC<UpdateComposerProps> = ({
   campaignId,
   onPost,
 }) => {
+  const t = useDict().campaigns;
   const [body, setBody] = useState("");
   const [posting, setPosting] = useState(false);
   // Bumped after posting, so the editor starts empty again
@@ -35,13 +37,13 @@ export const UpdateComposer: React.FC<UpdateComposerProps> = ({
       <RichTextEditor
         key={editorKey}
         onChange={setBody}
-        placeholder="Share an update with the party…"
+        placeholder={t.sharePlaceholder}
         disabled={posting}
         onUploadImage={upload}
         className="w-full"
       />
       <button type="button" onClick={post} disabled={posting || !body.trim()}>
-        {posting ? "Posting…" : "Post update"}
+        {posting ? t.posting : t.post}
       </button>
     </div>
   );

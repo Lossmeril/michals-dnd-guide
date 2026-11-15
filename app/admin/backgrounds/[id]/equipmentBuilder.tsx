@@ -69,6 +69,13 @@ const EntryRow: React.FC<{
           options={ITEM_SETS.map((s) => ({ value: s.label, label: s.label }))}
           className="w-auto"
         />
+        <input
+          aria-label="Note"
+          placeholder="Note (e.g. Silvered)"
+          value={entry.note ?? ""}
+          onChange={(e) => onChange({ ...entry, note: e.target.value || undefined })}
+          className="w-40"
+        />
         <IconButton label="Remove line" onClick={() => onChange(null)}>
           <FaTrash />
         </IconButton>

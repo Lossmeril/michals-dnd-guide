@@ -7,8 +7,15 @@ import { revalidatePath } from "next/cache";
 import { checkDisplayName, MIN_PASSWORD } from "@/lib/accountRules";
 import { confirmUrl } from "@/lib/siteUrl";
 import { createClient } from "@/utils/supabase/server";
+import { getLang } from "@/lib/i18n/server";
+import { DICTS } from "@/lib/i18n/dictionaries";
 
-type SignupField = "displayName" | "email" | "password" | "confirmPassword";
+type SignupField =
+  | "displayName"
+  | "email"
+  | "password"
+  | "confirmPassword"
+  | "signupPassword";
 
 export type SignupState = {
   error: string | null;
@@ -27,17 +34,20 @@ export async function signup(
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const confirmPassword = String(formData.get("confirmPassword") ?? "");
+  const signupPassword = String(formData.get("signupPassword") ?? "");
   const values = { displayName, email };
+  const lang = await getLang();
+  const t = DICTS[lang].account;
 
   const fieldErrors: SignupState["fieldErrors"] = {};
-  const nameError = checkDisplayName(displayName);
+  const nameError = checkDisplayName(displayName, lang);
   if (nameError) fieldErrors.displayName = nameError;
-  if (!email.includes("@")) fieldErrors.email = "That isn't an email address.";
+  if (!email.includes("@")) fieldErrors.email = t.notEmail;
   if (password.length < MIN_PASSWORD) {
-    fieldErrors.password = `Use at least ${MIN_PASSWORD} characters.`;
+    fieldErrors.password = t.useAtLeast(MIN_PASSWORD);
   }
   if (password !== confirmPassword) {
-    fieldErrors.confirmPassword = "The passwords don't match.";
+    fieldErrors.confirmPassword = t.mismatch;
   }
   if (Object.keys(fieldErrors).length) {
     return { error: null, fieldErrors, values };
@@ -48,8 +58,9 @@ export async function signup(
     email,
     password,
     options: {
-      // Read by the handle_new_user trigger to fill in the profile
-      data: { display_name: displayName },
+      // display_name fills in the profile (handle_new_user); signup_password is
+      // checked by the before-user-created hook, then stripped from the metadata
+      data: { display_name: displayName, signup_password: signupPassword },
       emailRedirectTo: await confirmUrl("/"),
     },
   });
@@ -57,6 +68,13 @@ export async function signup(
     return {
       error: null,
       fieldErrors: { password: error.message },
+      values,
+    };
+  }
+  if (error?.message.includes("Wrong sign-up password")) {
+    return {
+      error: null,
+      fieldErrors: { signupPassword: t.signup.wrongSignupPassword },
       values,
     };
   }

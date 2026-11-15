@@ -3,6 +3,7 @@
 import { useL } from "@/lib/i18n/client";
 import { useState } from "react";
 import {
+  Checkbox,
   CheckboxGroup,
   NumberField,
   TextField,
@@ -31,7 +32,7 @@ const LanguageEditor: React.FC<{
   const { row, id, set, save, remove, pending } = useRowEditor<
     Tables<"languages">
   >({
-    initial: language ?? { id: "", name: "", description: null, sample: null, sort: nextSort },
+    initial: language ?? { id: "", name: "", description: null, sample: null, sort: nextSort, learnable: true },
     isNew,
     table: "languages",
     listHref: "/admin/languages",
@@ -73,6 +74,12 @@ const LanguageEditor: React.FC<{
             hint="Dialects, deviations and bastard mixes. The link shows on both languages."
           />
         </div>
+        <Checkbox
+          label="Player characters can learn it"
+          checked={row.learnable}
+          onChange={(learnable) => set({ learnable })}
+          className="md:col-span-2"
+        />
         <NumberField label="Sort order" id="sort" value={row.sort} onChange={(v) => set({ sort: v ?? 0 })} />
       </Panel>
       <SaveBar

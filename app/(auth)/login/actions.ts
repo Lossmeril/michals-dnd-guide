@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/utils/supabase/server";
+import { getDict } from "@/lib/i18n/server";
 
 export type LoginState = {
   error: string | null;
@@ -19,21 +20,22 @@ export async function login(
 ): Promise<LoginState> {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const t = (await getDict()).account.login;
   if (!email || !password) {
-    return { error: "Email and password are required.", email };
+    return { error: t.required, email };
   }
 
   const supabase = createClient(await cookies());
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error?.code === "email_not_confirmed") {
     return {
-      error: "Confirm your email first; the link is in your inbox.",
+      error: t.unconfirmed,
       email,
       unconfirmed: true,
     };
   }
   if (error?.code === "invalid_credentials") {
-    return { error: "That email and password don't match.", email };
+    return { error: t.wrong, email };
   }
   if (error) return { error: error.message, email };
 

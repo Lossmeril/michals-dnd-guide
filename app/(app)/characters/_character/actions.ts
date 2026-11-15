@@ -4,13 +4,14 @@ import { createClient } from "@/utils/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
+import { getDict, getLang } from "@/lib/i18n/server";
 import {
   backgroundEquipment,
   validateBuild,
   type Build,
 } from "@/lib/rules/character";
 import { startingItems } from "@/lib/rules/equipment";
-import { uploadImage } from "@/lib/uploadImage";
+import { removeFolder, uploadImage } from "@/lib/uploadImage";
 import { check, fileFrom, type Result, toResult } from "@/lib/result";
 import type { Tables } from "@/lib/types/database.types";
 
@@ -31,7 +32,7 @@ export async function saveCharacter(
   const user = await requireUser();
   return toResult(async () => {
     const name = input.name.trim();
-    if (!name) throw new Error("Give your character a name.");
+    if (!name) throw new Error((await getDict()).editor.errors.name);
 
     // Levels come from the stored character, never from the browser
     let level = input.startLevel;
@@ -39,19 +40,14 @@ export async function saveCharacter(
     if (input.characterId) {
       const existing = await fetchCharacterBuild(input.characterId);
       if (existing?.character.owner !== user.id) {
-        throw new Error("Character not found.");
+        throw new Error((await getDict()).editor.errors.notFound);
       }
       level = existing.character.level;
       startLevel = existing.character.start_level;
     }
 
-    const rb = await fetchRulebook();
-    const { errors } = validateBuild(
-      rb,
-      input.build,
-      level,
-      startLevel,
-    );
+    const [rb, rawRb, lang] = await Promise.all([fetchRulebook(), fetchRulebook(true), getLang()]);
+    const { errors } = validateBuild(rb, input.build, level, startLevel, lang);
     if (errors.length) throw new Error(errors[0]);
 
     const { build } = input;
@@ -65,7 +61,8 @@ export async function saveCharacter(
       p_languages: build.languages,
       p_equipment_picks: build.equipment,
       // Resolved here from the checked picks, never sent by the browser
-      p_items: startingItems(backgroundEquipment(rb, build), build.equipment),
+      // Raw, so notes keep both languages
+      p_items: startingItems(rawRb.items, backgroundEquipment(rawRb, build), build.equipment),
       p_traits: build.traitIds,
       p_level: level,
       p_start_level: startLevel,
@@ -111,7 +108,7 @@ export async function createCustomTrait(input: {
       input.downside,
     ].map((v) => v.trim());
     if (!name || !upside || !downside)
-      throw new Error("A trait needs a name, an upside and a downside.");
+      throw new Error((await getDict()).editor.errors.trait);
 
     const supabase = createClient(await cookies());
     const { data, error } = await supabase
@@ -140,7 +137,7 @@ export async function uploadCharacterPortrait(
     const file = fileFrom(formData);
     const existing = await fetchCharacterBuild(characterId);
     if (existing?.character.owner !== user.id)
-      throw new Error("Character not found.");
+      throw new Error((await getDict()).editor.errors.notFound);
 
     const supabase = createClient(await cookies());
     const { publicUrl } = await uploadImage(
@@ -156,5 +153,22 @@ export async function uploadCharacterPortrait(
         .eq("id", characterId),
     );
     return publicUrl;
+  });
+}
+
+/**
+ * The owner deletes the character: its portraits, build, inventory and its
+ * place in every campaign (on delete cascade)
+ */
+export async function deleteCharacter(characterId: number): Promise<Result<null>> {
+  const user = await requireUser();
+  return toResult(async () => {
+    const existing = await fetchCharacterBuild(characterId);
+    if (existing?.character.owner !== user.id)
+      throw new Error((await getDict()).editor.errors.notFound);
+    const supabase = createClient(await cookies());
+    await removeFolder(supabase, "characters", String(characterId));
+    check(await supabase.from("characters").delete().eq("id", characterId));
+    return null;
   });
 }

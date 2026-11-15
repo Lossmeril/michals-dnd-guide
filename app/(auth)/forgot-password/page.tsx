@@ -1,33 +1,24 @@
 import Alert from "@/components/ui/alert";
-import StoryBox from "@/components/ui/storyBox";
-import AuthShell from "../authShell";
+import { getDict } from "@/lib/i18n/server";
+import AuthShell, { GuardStory } from "../authShell";
 import { ForgotForm } from "./forgotForm";
 
 const ForgotPasswordPage = async ({
   searchParams,
 }: PageProps<"/forgot-password">) => {
   const { error } = await searchParams;
+  const t = (await getDict()).account.forgot;
 
   return (
     <AuthShell
-      title="Forgot your password?"
-      switchText="Remembered it after all?"
-      switchLabel="Log in"
+      title={t.title}
+      switchText={t.switchText}
+      switchLabel={t.switchLabel}
       switchHref="/login"
-      story={
-        <StoryBox>
-          <p>The guard squints at you, then at his list.</p>
-          <p>
-            &ldquo;Lost your papers? Happens to the best of us. Mostly to the
-            drunk ones. Tell me where you live and I&apos;ll send word.&rdquo;
-          </p>
-        </StoryBox>
-      }
+      story={<GuardStory lines={t.story} />}
     >
       {error === "expired" && (
-        <Alert kind="danger">
-          That link is invalid or has expired. Ask for a new one below.
-        </Alert>
+        <Alert kind="danger">{t.expired}</Alert>
       )}
       <ForgotForm />
     </AuthShell>

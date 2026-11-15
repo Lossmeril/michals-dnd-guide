@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/formControls";
 import Panel from "@/components/ui/panel";
 import { ARMOUR_SLOTS, type ArmourSlot } from "@/lib/rules/armour";
-import { defaultManoeuvre, WEAPON_MANOEUVRES } from "@/lib/rules/equipment";
+import {
+  bundleContents,
+  type BundlePiece,
+  defaultManoeuvre,
+  WEAPON_MANOEUVRES,
+} from "@/lib/rules/equipment";
 import { formatCoins } from "@/lib/rules/format";
 import { Constants, type Tables } from "@/lib/types/database.types";
 import { saveItem } from "../../actions";
@@ -26,13 +31,78 @@ import {
 
 const CATEGORIES: Partial<Record<Tables<"items">["kind"], string[]>> = {
   weapon: ["simple", "martial"],
-  tool: ["instrument"],
+  tool: ["instrument", "kit"],
+};
+
+/**
+ * A bundle's pieces (thieves' tools: file, lockpicks, …). Backgrounds offer
+ * the bundle as one line; the inventory gets the pieces.
+ */
+const ContentsEditor: React.FC<{
+  items: Tables<"items">[];
+  selfId: string;
+  value: BundlePiece[];
+  onChange: (pieces: BundlePiece[]) => void;
+}> = ({ items, selfId, value, onChange }) => {
+  const l = useL();
+  // A bundle holds ordinary items only, never another bundle or itself
+  const options = items
+    .filter((i) => i.id !== selfId && bundleContents(i).length === 0)
+    .map((i) => ({ value: i.id, label: l(i.name) }));
+  const update = (index: number, piece: Partial<BundlePiece>) =>
+    onChange(value.map((p, i) => (i === index ? { ...p, ...piece } : p)));
+
+  return (
+    <div className="md:col-span-2 flex flex-col gap-2">
+      <p className="text-sm font-bold">Contents</p>
+      <p className="text-xs text-dnd-ink/60">
+        Makes this item a bundle, like 5E&apos;s kits. Backgrounds offer it as one line; the
+        character&apos;s inventory gets the pieces, grouped under its name.
+      </p>
+      {value.map((piece, i) => (
+        <div key={i} className="flex items-center gap-2">
+          <NumberField
+            label="Quantity"
+            id={`piece-${i}-quantity`}
+            min={1}
+            value={piece.quantity}
+            onChange={(q) => update(i, { quantity: q ?? 1 })}
+            className="w-24"
+          />
+          <SelectField
+            label="Item"
+            id={`piece-${i}-item`}
+            value={piece.item}
+            options={options}
+            onChange={(item) => item && update(i, { item })}
+            className="flex-1"
+          />
+          <button
+            type="button"
+            className="button-secondary self-end"
+            onClick={() => onChange(value.filter((_, j) => j !== i))}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        className="button-link self-start"
+        disabled={options.length === 0}
+        onClick={() => onChange([...value, { item: options[0].value, quantity: 1 }])}
+      >
+        Add a piece →
+      </button>
+    </div>
+  );
 };
 
 const ItemEditor: React.FC<{
   item: Tables<"items"> | null;
+  items: Tables<"items">[];
   nextSort: number;
-}> = ({ item, nextSort }) => {
+}> = ({ item, items, nextSort }) => {
   const isNew = !item;
   const l = useL();
   const { row, id, set, save, remove, pending } = useRowEditor<Tables<"items">>({
@@ -52,6 +122,7 @@ const ItemEditor: React.FC<{
       price_copper: 0,
       free_manoeuvre: null,
       image_url: null,
+      contents: [],
       sort: nextSort,
     },
     isNew,
@@ -171,6 +242,14 @@ const ItemEditor: React.FC<{
           onChange={(v) => set({ properties: v || null })}
           className="md:col-span-2"
         />
+        {(row.kind === "tool" || row.kind === "gear") && (
+          <ContentsEditor
+            items={items}
+            selfId={id}
+            value={bundleContents(row)}
+            onChange={(pieces) => set({ contents: pieces })}
+          />
+        )}
         <TextField
           label="Description" localized
           id="description"

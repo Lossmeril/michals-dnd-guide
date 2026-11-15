@@ -11,19 +11,21 @@ import {
   usePasswordPair,
 } from "@/components/ui/form";
 import { changeEmail, changePassword, updateDisplayName } from "./actions";
+import { useDict } from "@/lib/i18n/client";
 
 const initial: FormState = { error: null };
 const formClass = "flex flex-col gap-3 max-w-md";
 
 export const DisplayNameForm: React.FC<{ current: string }> = ({ current }) => {
   const [state, action, pending] = useActionState(updateDisplayName, initial);
+  const t = useDict().account.profile;
 
   return (
     <form action={action} className={formClass}>
       <DisplayNameField defaultValue={current} />
       <FormMessage state={state} />
-      <SubmitButton pending={pending} pendingLabel="Saving…">
-        Save name
+      <SubmitButton pending={pending} pendingLabel={t.saving}>
+        {t.saveName}
       </SubmitButton>
     </form>
   );
@@ -35,26 +37,27 @@ export const EmailForm: React.FC<{
   pending: string | null;
 }> = ({ current, pending: pendingEmail }) => {
   const [state, action, pending] = useActionState(changeEmail, initial);
+  const t = useDict().account.profile;
 
   return (
     <form action={action} className={formClass}>
       <p className="text-sm">
-        Current email: <span className="font-bold">{current}</span>
+        {t.currentEmail} <span className="font-bold">{current}</span>
       </p>
       {pendingEmail && !state.message && (
         <p className="text-sm text-dnd-ink/80">
-          Waiting for you to confirm{" "}
-          <span className="font-bold">{pendingEmail}</span>. Check that inbox
-          for the link.
+          {t.waiting[0]}
+          <span className="font-bold">{pendingEmail}</span>
+          {t.waiting[1]}
         </p>
       )}
       <EmailField
-        label="New email"
-        hint="Your email stays the same until you click the link we send."
+        label={t.newEmail}
+        hint={t.newEmailHint}
       />
       <FormMessage state={state} />
-      <SubmitButton pending={pending} pendingLabel="Sending…">
-        Change email
+      <SubmitButton pending={pending} pendingLabel={t.sending}>
+        {t.changeEmail}
       </SubmitButton>
     </form>
   );
@@ -62,6 +65,7 @@ export const EmailForm: React.FC<{
 
 export const PasswordForm = () => {
   const [state, action, pending] = useActionState(changePassword, initial);
+  const t = useDict().account.profile;
   const pair = usePasswordPair();
   // Empty the fields once a change goes through (adjusting state during render)
   const [seen, setSeen] = useState(state);
@@ -76,10 +80,10 @@ export const PasswordForm = () => {
       <FormMessage state={state} />
       <SubmitButton
         pending={pending}
-        pendingLabel="Changing…"
+        pendingLabel={t.changing}
         disabled={!!pair.mismatch}
       >
-        Change password
+        {t.changePassword}
       </SubmitButton>
     </form>
   );

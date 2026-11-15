@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useDict } from "@/lib/i18n/client";
 
 interface AddCharacterSelectProps {
   options: { id: number; label: string }[];
@@ -13,17 +14,17 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
   onAdd,
 }) => {
   const [selected, setSelected] = useState("");
+  const t = useDict().campaigns;
 
   // Say why there's nothing to add, instead of showing nothing
   if (options.length === 0) {
     return (
       <p className="text-sm text-dnd-ink/70 mb-8">
-        No characters to add yet. Players join a campaign with a character,
-        so someone has to{" "}
+        {t.noneToAdd}{" "}
         <Link href="/characters/new" className="link">
-          create one
-        </Link>{" "}
-        first.
+          {t.createOne}
+        </Link>
+        {t.first}
       </p>
     );
   }
@@ -32,7 +33,7 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
     <div className="flex items-center gap-2 mb-8">
       <select value={selected} onChange={(e) => setSelected(e.target.value)}>
         <option value="" disabled>
-          Choose a character…
+          {t.choose}
         </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
@@ -48,7 +49,7 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
           setSelected("");
         }}
       >
-        Add to campaign
+        {t.add}
       </button>
     </div>
   );

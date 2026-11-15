@@ -5,9 +5,10 @@ import { requireUser } from "@/lib/auth";
 import { fetchCampaign, updateCampaign } from "@/lib/endpoints/campaigns";
 import { createCampaign_Player } from "@/lib/endpoints/campaign_players";
 import { fetchCharacter } from "@/lib/endpoints/characters";
-import { uploadImage } from "@/lib/uploadImage";
+import { removeFolder, uploadImage } from "@/lib/uploadImage";
 import { check, fileFrom, toResult } from "@/lib/result";
 import type { CampaignUpdate } from "@/lib/types/campaign";
+import { getDict } from "@/lib/i18n/server";
 
 // The page hides edits from players; this enforces it on the server too
 const asDm = async <T>(campaignId: number, run: () => Promise<T>) => {
@@ -15,7 +16,7 @@ const asDm = async <T>(campaignId: number, run: () => Promise<T>) => {
   return toResult(async () => {
     const campaign = await fetchCampaign(campaignId);
     if (campaign?.dm !== user.id) {
-      throw new Error("Only the DM can edit this campaign.");
+      throw new Error((await getDict()).campaigns.errors.onlyDm);
     }
     return run();
   });
@@ -45,6 +46,18 @@ export async function uploadCampaignCover(
   });
 }
 
+/** The DM deletes the campaign: its pictures, its updates and who was in it */
+export async function deleteCampaign(campaignId: number) {
+  return asDm(campaignId, async () => {
+    const supabase = createClient(await cookies());
+    await removeFolder(supabase, "campaigns", String(campaignId));
+    // Updates and the character list go with it (on delete cascade);
+    // the characters themselves stay with their players
+    check(await supabase.from("campaigns").delete().eq("id", campaignId));
+    return null;
+  });
+}
+
 export async function addCharacterToCampaign(
   campaignId: number,
   characterId: number,
@@ -69,7 +82,7 @@ export async function removeCharacterFromCampaign(
       fetchCharacter(characterId),
     ]);
     if (campaign?.dm !== user.id && character?.owner !== user.id) {
-      throw new Error("Only the DM or the character's player can do that.");
+      throw new Error((await getDict()).campaigns.errors.dmOrPlayer);
     }
     const supabase = createClient(await cookies());
     check(

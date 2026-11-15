@@ -30,8 +30,9 @@ import {
   STARTS,
 } from "@/lib/rules/character";
 import { armourTotals } from "@/lib/rules/armour";
-import { defaultPicks, equipmentOf, itemName } from "@/lib/rules/equipment";
-import { formatCoins, RESOURCE_NAMES } from "@/lib/rules/format";
+import { defaultPicks, equipmentOf, groupByBundle, itemName } from "@/lib/rules/equipment";
+import { useDict, useL } from "@/lib/i18n/client";
+import { formatCoins, resourceName } from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
 import { createCustomTrait } from "./actions";
 import { ClassCard, RaceCard, RacialPerks } from "./details";
@@ -78,6 +79,8 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
   onNameChange,
   onPortraitChange,
 }) => {
+  const t = useDict();
+  const s = t.sheet;
   const race = rb.races.find((r) => r.id === build.raceId);
   const classes = rb.classes.filter((c) => build.classes[c.id]);
   const total = build.body + build.soul + build.charisma;
@@ -94,7 +97,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-dnd-ink/60">
-            No portrait
+            {s.noPortrait}
           </div>
         )}
         {onPortraitChange && (
@@ -102,7 +105,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
             onFile={onPortraitChange}
             className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs shadow"
           >
-            {imageUrl ? "Change portrait" : "Add portrait"}
+            {imageUrl ? s.changePortrait : s.addPortrait}
           </FileButton>
         )}
       </div>
@@ -111,9 +114,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
         <div className="flex flex-wrap gap-2">
           <Eyebrow
             text={
-              edit
-                ? `Level ${characterLevel(build)} of ${level}`
-                : `Level ${level}`
+              edit ? s.levelOf(characterLevel(build), level) : s.level(level)
             }
             color="yellow"
           />
@@ -121,8 +122,8 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
         </div>
         {onNameChange ? (
           <input
-            aria-label="Name"
-            placeholder="Name your character"
+            aria-label={s.name}
+            placeholder={s.namePlaceholder}
             value={name}
             onChange={(e) => onNameChange(e.target.value)}
             className="libre text-2xl font-bold text-dnd-red-dark"
@@ -133,11 +134,11 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
           </Heading>
         )}
         {ownerName && (
-          <p className="text-xs text-dnd-ink/75">Played by {ownerName}</p>
+          <p className="text-xs text-dnd-ink/75">{s.playedBy(ownerName)}</p>
         )}
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
           {classes.length === 0
-            ? "No classes yet"
+            ? s.noClasses
             : classes.map((c) => (
                 <span key={c.id} className="font-bold libre">
                   {c.name} {build.classes[c.id]} <MagicBadge magic={c.magic} />
@@ -151,7 +152,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
             <div key={pool} className="flex items-center gap-4">
               {edit && (
                 <NumberStepper
-                  label={RESOURCE_NAMES[pool]}
+                  label={resourceName(pool, t.lang)}
                   value={build[pool]}
                   canIncrease={
                     total < BASE_RESOURCES ||
@@ -166,12 +167,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
         </div>
         {edit && (
           <p className="text-xs text-dnd-ink/70">
-            Spread {BASE_RESOURCES} points between the pools. Starting levels
-            all go into classes; only levels gained later can add resource
-            points or extra perks. {total} spent
-            {total > BASE_RESOURCES &&
-              `, ${total - BASE_RESOURCES} from level-ups`}
-            .
+            {s.spread(BASE_RESOURCES, total, total - BASE_RESOURCES)}
           </p>
         )}
         {actions && <div className="flex gap-2 mt-2">{actions}</div>}
@@ -185,40 +181,44 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
 export const StartSection: React.FC<{
   level: number;
   onChange: (level: number) => void;
-}> = ({ level, onChange }) => (
-  <Section id="start" title="Starting level">
-    <div className={grid}>
-      {STARTS.map((start) => (
-        <ChoiceCard
-          key={start.level}
-          title={start.name}
-          note={`Level ${start.level}`}
-          checked={level === start.level}
-          onSelect={() => onChange(start.level)}
-        />
-      ))}
-    </div>
-  </Section>
-);
+}> = ({ level, onChange }) => {
+  const t = useDict();
+  return (
+    <Section id="start" title={t.sheet.startingLevel}>
+      <div className={grid}>
+        {STARTS.map((start, i) => (
+          <ChoiceCard
+            key={start.level}
+            title={t.build.starts[i]}
+            note={t.sheet.level(start.level)}
+            checked={level === start.level}
+            onSelect={() => onChange(start.level)}
+          />
+        ))}
+      </div>
+    </Section>
+  );
+};
 
 // ----- Race -----
 
 export const RaceSection: React.FC<SectionProps> = (props) => {
   const { rb, build, edit } = props;
+  const s = useDict().sheet;
 
   if (!edit) {
     if (!build.raceId)
       return (
-        <Section id="race" title="Race">
-          <p>No race picked yet.</p>
+        <Section id="race" title={s.race}>
+          <p>{s.noRace}</p>
         </Section>
       );
     return (
-      <Section id="race" title="Race">
+      <Section id="race" title={s.race}>
         <div className="grid grid-cols-1 sm:grid-cols-[13rem_1fr] gap-6 items-start">
           <RaceCard {...props} raceId={build.raceId} />
           <div>
-            <Overline>Racial perk</Overline>
+            <Overline>{s.racialPerk}</Overline>
             <RacialPerks {...props} raceId={build.raceId} onlyHeld />
           </div>
         </div>
@@ -227,7 +227,7 @@ export const RaceSection: React.FC<SectionProps> = (props) => {
   }
 
   return (
-    <Section id="race" title="Race">
+    <Section id="race" title={s.race}>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
         {rb.races.map((race) => (
           <RaceCard key={race.id} {...props} raceId={race.id} />
@@ -235,7 +235,7 @@ export const RaceSection: React.FC<SectionProps> = (props) => {
       </div>
       {build.raceId && (
         <>
-          <Heading level={3}>Racial perk (pick one)</Heading>
+          <Heading level={3}>{s.racialPerkPick}</Heading>
           <RacialPerks {...props} raceId={build.raceId} />
         </>
       )}
@@ -245,23 +245,21 @@ export const RaceSection: React.FC<SectionProps> = (props) => {
 
 // ----- Classes -----
 
-const RANKS = [
-  ["basic", "Basic classes"],
-  ["advanced", "Advanced classes"],
-  ["mighty", "Mighty classes"],
-] as const;
+const RANKS = ["basic", "advanced", "mighty"] as const;
 
 const classGrid = "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4";
 
 export const ClassesSection: React.FC<SectionProps> = (props) => {
   const { rb, build, edit } = props;
+  const t = useDict();
+  const s = t.sheet;
 
   if (!edit) {
     const taken = rb.classes.filter((c) => build.classes[c.id]);
     return (
-      <Section id="classes" title="Classes">
+      <Section id="classes" title={s.classes}>
         {taken.length === 0 ? (
-          <p>No classes yet.</p>
+          <p>{s.noClassesYet}</p>
         ) : (
           <div className={classGrid}>
             {taken.map((c) => (
@@ -274,15 +272,13 @@ export const ClassesSection: React.FC<SectionProps> = (props) => {
   }
 
   return (
-    <Section id="classes" title="Classes">
+    <Section id="classes" title={s.classes}>
       <p className="text-sm mb-8">
-        Each level costs one level-up point and comes with one perk. Advanced
-        and mighty classes unlock once their parent classes total 6 levels.
-        Click a picture for the class&apos;s skills and perks.
+        {s.classesHelp}
       </p>
-      {RANKS.map(([rank, title]) => (
+      {RANKS.map((rank) => (
         <div key={rank} className="mb-10">
-          <Heading level={3}>{title}</Heading>
+          <Heading level={3}>{t.classPage.rankPages[rank]}</Heading>
           <div className={classGrid}>
             {rb.classes
               .filter((c) => c.rank === rank)
@@ -300,6 +296,7 @@ export const ClassesSection: React.FC<SectionProps> = (props) => {
 
 export const PerksSection: React.FC<SectionProps> = (props) => {
   const { rb, build, edit } = props;
+  const s = useDict().sheet;
   const [showAll, setShowAll] = useState(false);
   const taken = rb.classes.filter((c) => build.classes[c.id]);
 
@@ -308,20 +305,20 @@ export const PerksSection: React.FC<SectionProps> = (props) => {
       id="perks"
       title={
         <span className="flex flex-wrap items-center justify-between gap-4">
-          Perks
+          {s.perks}
           {!edit && taken.length > 0 && (
             <button
               type="button"
               onClick={() => setShowAll(!showAll)}
               className="text-xs normal-case font-normal py-1"
             >
-              {showAll ? "Only held perks" : "Show every perk"}
+              {showAll ? s.onlyHeld : s.showEvery}
             </button>
           )}
         </span>
       }
     >
-      {taken.length === 0 && <p>Pick some classes first.</p>}
+      {taken.length === 0 && <p>{s.classesFirst}</p>}
       {taken.map((cls) => {
         const level = build.classes[cls.id];
         const chosen = chosenIn(build, cls.id).length;
@@ -335,7 +332,7 @@ export const PerksSection: React.FC<SectionProps> = (props) => {
               <span
                 className={`text-sm normal-case font-normal ${edit && chosen < level ? "text-dnd-red font-bold" : "text-dnd-ink/60"}`}
               >
-                {chosen} of {level} perks picked
+                {s.perksPicked(chosen, level)}
               </span>
             </Heading>
             <PerkTree {...props} classId={cls.id} showAll={!!edit || showAll} />
@@ -353,6 +350,8 @@ export const BackgroundSection: React.FC<SectionProps> = ({
   build,
   edit,
 }) => {
+  const t = useDict();
+  const s = t.sheet;
   const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
   const free = freeLanguages(rb, build);
   const slots = languageSlots(rb, build);
@@ -361,7 +360,7 @@ export const BackgroundSection: React.FC<SectionProps> = ({
 
   if (!edit) {
     return (
-      <Section id="background" title="Background">
+      <Section id="background" title={s.background}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {background ? (
             <dl className="text-sm flex flex-col gap-2">
@@ -372,25 +371,24 @@ export const BackgroundSection: React.FC<SectionProps> = ({
                 {background.description && <dd>{background.description}</dd>}
               </div>
               <div>
-                <dt className="font-bold">Starting purse</dt>
+                <dt className="font-bold">{s.purse}</dt>
                 <dd>
-                  {formatCoins(background.coins_copper)} · {background.material}{" "}
-                  Material
+                  {formatCoins(background.coins_copper, t.lang)} · {s.material(background.material)}
                 </dd>
               </div>
               {background.known_settings && (
                 <div>
-                  <dt className="font-bold">+1 to rolls in</dt>
+                  <dt className="font-bold">{s.knownSettings}</dt>
                   <dd>{background.known_settings}</dd>
                 </div>
               )}
             </dl>
           ) : (
-            <p>No background picked yet.</p>
+            <p>{s.noBackground}</p>
           )}
           <div>
             <Heading level={4} className="mb-2">
-              Languages
+              {s.languages}
             </Heading>
             <p className="text-sm">
               {[...free, ...build.languages].map(languageName).join(", ")}
@@ -403,17 +401,17 @@ export const BackgroundSection: React.FC<SectionProps> = ({
 
   const full = build.languages.length >= slots;
   return (
-    <Section id="background" title="Background">
+    <Section id="background" title={s.background}>
       <div className={`${grid} mb-10`}>
         {rb.backgrounds.map((bg) => (
           <ChoiceCard
             key={bg.id}
             title={bg.name}
-            note={`${formatCoins(bg.coins_copper)} · ${bg.material} Material · ${bg.extra_languages} extra language(s)`}
+            note={`${formatCoins(bg.coins_copper, t.lang)} · ${s.material(bg.material)} · ${s.extraLanguages(bg.extra_languages)}`}
             description={
               <>
-                <EquipmentList items={rb.items} equipment={bg.equipment} className="mb-1" />
-                {bg.known_settings && `+1 in: ${bg.known_settings}`}
+                <EquipmentList items={rb.items} equipment={bg.equipment} className="mb-1" lang={t.lang} />
+                {bg.known_settings && s.knownIn(bg.known_settings)}
               </>
             }
             checked={build.backgroundId === bg.id}
@@ -434,7 +432,7 @@ export const BackgroundSection: React.FC<SectionProps> = ({
 
       {background && (
         <>
-          <Heading level={3}>Starting gear</Heading>
+          <Heading level={3}>{s.gear}</Heading>
           <div className="mb-10">
             <EquipmentPicker
               items={rb.items}
@@ -447,17 +445,17 @@ export const BackgroundSection: React.FC<SectionProps> = ({
       )}
 
       <Heading level={3}>
-        Languages{" "}
+        {s.languages}{" "}
         <span className="text-sm normal-case font-normal text-dnd-ink/60">
-          {build.languages.length} of {slots} extra picked
+          {s.extraPicked(build.languages.length, slots)}
         </span>
       </Heading>
       <p className="text-sm mb-4">
-        You speak {free.map(languageName).join(" and ")} already.
+        {s.youSpeak(free.map(languageName).join(s.and))}
       </p>
       <div className={grid}>
         {rb.languages
-          .filter((l) => !free.includes(l.id))
+          .filter((l) => l.learnable && !free.includes(l.id))
           .map((lang) => {
             const checked = build.languages.includes(lang.id);
             return (
@@ -467,7 +465,7 @@ export const BackgroundSection: React.FC<SectionProps> = ({
                 title={lang.name}
                 note={
                   relatedLanguageNames(rb, lang.id) &&
-                  `Related to ${relatedLanguageNames(rb, lang.id)}`
+                  s.relatedTo(relatedLanguageNames(rb, lang.id))
                 }
                 description={lang.description}
                 checked={checked}
@@ -495,8 +493,10 @@ export const InventorySection: React.FC<{
   items: Tables<"items">[];
   inventory: Tables<"character_items">[];
 }> = ({ items, inventory }) => {
+  const s = useDict().sheet;
+  const l = useL();
   const nameOf = (row: Tables<"character_items">) =>
-    row.name ?? (row.item_id ? itemName(items, row.item_id) : "Unknown item");
+    row.name ?? (row.item_id ? itemName(items, row.item_id) : s.unknownItem);
   // Carried, unbroken armour pieces count as worn
   const armour = armourTotals(
     inventory
@@ -505,22 +505,26 @@ export const InventorySection: React.FC<{
       .filter((i) => i !== undefined),
   );
   const groups = [
-    { label: "Carried", rows: inventory.filter((i) => i.carried) },
-    { label: "Left behind", rows: inventory.filter((i) => !i.carried) },
+    { label: s.carried, rows: inventory.filter((i) => i.carried) },
+    { label: s.leftBehind, rows: inventory.filter((i) => !i.carried) },
   ].filter((g) => g.rows.length > 0);
 
   return (
-    <Section id="inventory" title="Inventory">
-      {groups.length === 0 && <p className="text-sm">Nothing yet.</p>}
+    <Section id="inventory" title={s.inventory}>
+      {groups.length === 0 && <p className="text-sm">{s.nothingYet}</p>}
       {armour.protection > 0 && (
         <p className="text-sm mb-6">
-          <strong>Armour:</strong> rating {armour.rating} ({armour.protectionTier}, protection{" "}
-          {armour.protection}) · encumbrance{" "}
-          {armour.encumbrance ? `${armour.encumbrance} Body` : "none"} ({armour.burdenTier},
-          burden {armour.burden}
-          {armour.fullHarness && ", fitted harness"})
-          {armour.doubled.length > 0 &&
-            ` · only one piece counts on: ${armour.doubled.join(", ")}`}
+          <strong>{s.armour.label}</strong>{" "}
+          {s.armour.line({
+            rating: armour.rating,
+            protection: armour.protection,
+            protectionTier: s.armour.tiers[armour.protectionTier],
+            encumbrance: armour.encumbrance,
+            burden: armour.burden,
+            burdenTier: s.armour.tiers[armour.burdenTier],
+            harness: armour.fullHarness,
+          })}
+          {armour.doubled.length > 0 && s.armour.onePiece(armour.doubled.join(", "))}
         </p>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -528,21 +532,45 @@ export const InventorySection: React.FC<{
           <div key={g.label}>
             <Overline>{g.label}</Overline>
             <ul className="text-sm flex flex-col gap-2">
-              {g.rows.map((row) => (
-                <li
-                  key={row.id}
-                  className={`flex items-center gap-2 ${row.broken ? "text-dnd-ink/60" : ""}`}
-                >
-                  <ItemIcon
-                    item={items.find((i) => i.id === row.item_id)}
-                    className={row.broken ? "grayscale opacity-60" : ""}
-                  />
-                  {row.quantity > 1 && `${row.quantity}× `}
-                  <span className={row.broken ? "line-through" : ""}>{nameOf(row)}</span>
-                  {row.broken && " (broken)"}
-                  {row.note && <span className="text-dnd-ink/60"> · {row.note}</span>}
-                </li>
-              ))}
+              {groupByBundle(g.rows).map((group) =>
+                group.bundle ? (
+                  // A bundle: its name, then what's in it, each piece breakable on its own
+                  <li key={`bundle-${group.rows[0].id}`} className="flex gap-2">
+                    <ItemIcon item={items.find((i) => i.id === group.bundle)} />
+                    <div className="min-w-0">
+                      <p>{itemName(items, group.bundle)}</p>
+                      <p className="text-xs text-dnd-ink/70">
+                        {group.rows.map((row, i) => (
+                          <span key={row.id}>
+                            {i > 0 && ", "}
+                            <span className={row.broken ? "line-through text-dnd-ink/50" : ""}>
+                              {row.quantity > 1 && `${row.quantity}× `}
+                              {nameOf(row)}
+                            </span>
+                            {row.broken && s.broken}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </li>
+                ) : (
+                  group.rows.map((row) => (
+                    <li
+                      key={row.id}
+                      className={`flex items-center gap-2 ${row.broken ? "text-dnd-ink/60" : ""}`}
+                    >
+                      <ItemIcon
+                        item={items.find((i) => i.id === row.item_id)}
+                        className={row.broken ? "grayscale opacity-60" : ""}
+                      />
+                      {row.quantity > 1 && `${row.quantity}× `}
+                      <span className={row.broken ? "line-through" : ""}>{nameOf(row)}</span>
+                      {row.broken && s.broken}
+                      {row.note && <span className="text-dnd-ink/60"> · {l(row.note)}</span>}
+                    </li>
+                  ))
+                ),
+              )}
             </ul>
           </div>
         ))}
@@ -565,20 +593,19 @@ const EMPTY_TRAIT = {
 };
 
 const TRAIT_FIELDS = [
-  { field: "name", placeholder: "Name", required: true },
-  {
-    field: "flavour",
-    placeholder: 'Flavour, e.g. "Counts every coin twice."',
-    required: false,
-  },
-  { field: "description", placeholder: "What it does", required: false },
-  { field: "upside", placeholder: "Upside", required: true },
-  { field: "downside", placeholder: "Downside", required: true },
+  { field: "name", required: true },
+  { field: "flavour", required: false },
+  { field: "description", required: false },
+  { field: "upside", required: true },
+  { field: "downside", required: true },
 ] as const;
 
 export const TraitsSection: React.FC<
   SectionProps & { onTraitCreated?: (trait: Tables<"traits">) => void }
 > = ({ rb, build, edit, onTraitCreated }) => {
+  const dict = useDict();
+  const s = dict.sheet;
+  const ct = dict.customTrait;
   const [draft, setDraft] = useState(EMPTY_TRAIT);
   const [saving, setSaving] = useState(false);
 
@@ -586,7 +613,7 @@ export const TraitsSection: React.FC<
     const traits = rb.traits.filter((t) => build.traitIds.includes(t.id));
     if (traits.length === 0) return null;
     return (
-      <Section id="traits" title="Traits">
+      <Section id="traits" title={s.traits}>
         <TraitList traits={traits} showApproval />
       </Section>
     );
@@ -611,10 +638,9 @@ export const TraitsSection: React.FC<
   };
 
   return (
-    <Section id="traits" title="Traits">
+    <Section id="traits" title={s.traits}>
       <p className="mb-6">
-        Traits are optional challenges with an upside and a downside, and a good
-        base for roleplaying. Take as many as you like.
+        {s.traitsHelp}
       </p>
       <div className={`${grid} mb-10`}>
         {rb.traits.map((trait) => (
@@ -624,9 +650,9 @@ export const TraitsSection: React.FC<
             title={trait.name}
             note={
               trait.is_custom && !trait.approved_by
-                ? "Custom · awaiting DM approval"
+                ? s.awaiting
                 : trait.is_custom
-                  ? "Custom"
+                  ? s.custom
                   : null
             }
             image={<SquareImage src={trait.image_url} className="w-14" />}
@@ -639,15 +665,13 @@ export const TraitsSection: React.FC<
 
       {CUSTOM_TRAITS_ENABLED && (
         <>
-          <Heading level={3}>Write your own</Heading>
+          <Heading level={3}>{ct.heading}</Heading>
           <div className="flex flex-col gap-3 max-w-xl">
-            {TRAIT_FIELDS.map(({ field, placeholder, required }) => (
+            {TRAIT_FIELDS.map(({ field, required }) => (
               <input
                 key={field}
                 aria-label={field}
-                placeholder={
-                  required ? placeholder : `${placeholder} (optional)`
-                }
+                placeholder={required ? ct[field] : ct.optional(ct[field])}
                 value={draft[field]}
                 onChange={(e) =>
                   setDraft({ ...draft, [field]: e.target.value })
@@ -665,7 +689,7 @@ export const TraitsSection: React.FC<
               }
               className="self-start"
             >
-              {saving ? "Adding…" : "Add trait"}
+              {saving ? ct.adding : ct.add}
             </button>
           </div>
         </>
@@ -680,19 +704,19 @@ export const PersonalitySection: React.FC<{
   personality: string;
   onChange?: (personality: string) => void;
 }> = ({ personality, onChange }) => {
+  const s = useDict().sheet;
   if (!onChange && !personality) return null;
   return (
-    <Section id="personality" title="Personality">
+    <Section id="personality" title={s.personality}>
       {onChange ? (
         <>
           <p className="text-sm mb-3">
-            A few words to roleplay from: how they talk, what they want, what
-            they can&apos;t stand.
+            {s.personalityHelp}
           </p>
           <textarea
             rows={3}
             maxLength={500}
-            placeholder="Gruff, loyal to a fault, can't resist a bet…"
+            placeholder={s.personalityPlaceholder}
             value={personality}
             onChange={(e) => onChange(e.target.value)}
             className="w-full"
@@ -711,13 +735,14 @@ export const BackstorySection: React.FC<{
   backstory: string;
   onChange?: (backstory: string) => void;
 }> = ({ backstory, onChange }) => {
+  const s = useDict().sheet;
   if (!onChange && !backstory) return null;
   return (
-    <Section id="backstory" title="Backstory">
+    <Section id="backstory" title={s.backstory}>
       {onChange ? (
         <textarea
           rows={8}
-          placeholder="Where they come from, what drives them…"
+          placeholder={s.backstoryPlaceholder}
           value={backstory}
           onChange={(e) => onChange(e.target.value)}
           className="w-full"

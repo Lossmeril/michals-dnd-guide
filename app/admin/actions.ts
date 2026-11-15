@@ -239,3 +239,42 @@ export async function deleteTrait(id: number) {
     return null;
   });
 }
+
+/** Makes someone a player, a DM or an admin; the database refuses non-admins */
+export async function setUserRole(
+  userId: string,
+  role: Enums<"user_role">,
+) {
+  return run(async () => {
+    check(await (await db()).rpc("set_user_role", { p_user: userId, p_role: role }));
+    return null;
+  });
+}
+
+/** Sets the password new accounts need; an empty one opens sign-ups to anyone */
+export async function setSignupPassword(password: string) {
+  return run(async () => {
+    check(await (await db()).rpc("set_signup_password", { p_password: password }));
+    return password.trim() ? new Date().toISOString() : null;
+  });
+}
+
+/** Inserts a credit (no id) or updates one; returns its id */
+export async function saveCredit(row: TablesInsert<"credits">) {
+  return run(async () => {
+    const t = (await db()).from("credits");
+    const { id, ...fields } = row;
+    const { data, error } = id
+      ? await t.update(fields).eq("id", id).select("id").single()
+      : await t.insert(fields).select("id").single();
+    if (error) throw error;
+    return data.id;
+  });
+}
+
+export async function deleteCredit(id: number) {
+  return run(async () => {
+    check(await (await db()).from("credits").delete().eq("id", id));
+    return null;
+  });
+}

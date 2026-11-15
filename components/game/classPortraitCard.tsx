@@ -12,7 +12,7 @@ const ClassPortraitCard: React.FC<
     title={cls.name || "Unnamed"}
     imageUrl={cls.image_url}
     badges={
-      cls.magic !== "none" && (
+      cls.magic !== "dormant" && (
         <span className="rounded-full bg-dnd-bg/90">
           <MagicBadge magic={cls.magic} />
         </span>

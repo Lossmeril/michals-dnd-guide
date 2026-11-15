@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { useDict } from "@/lib/i18n/client";
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const Modal: React.FC<ModalProps> = ({
   className,
   children,
 }) => {
+  const closeLabel = useDict().ui.close;
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close"
+              aria-label={closeLabel}
               className="w-8 h-8 p-0 shrink-0 text-xl leading-none"
             >
               &times;

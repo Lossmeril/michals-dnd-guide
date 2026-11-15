@@ -15,10 +15,12 @@ import {
   fetchPlayersInCampaign,
 } from "@/lib/specialFecthers/playerCampaigns";
 import { Tables } from "@/lib/types/database.types";
+import { useDict } from "@/lib/i18n/client";
 
 const CampaignCard: React.FC<{
   campaign: Tables<"campaigns">;
 }> = ({ campaign }) => {
+  const t = useDict().campaigns;
   const { data, loading } = useLoad(async () => {
     const [players, dm] = await Promise.all([
       fetchPlayersInCampaign(campaign.id),
@@ -30,19 +32,16 @@ const CampaignCard: React.FC<{
 
   return (
     <Card
-      title={campaign.name || "Unnamed Campaign"}
+      title={campaign.name || t.unnamed}
       link={`/campaigns/${campaign.id}`}
       imageUrl={cover.src}
       imageClassName={cover.className}
       eyebrows={
-        <>
-          <Eyebrow text="Novinka" color="green" />
-          <Eyebrow text="New" color="blue" />
-        </>
+<Eyebrow text={t.newCrumb} color="green" />
       }
     >
       <p className="text-xs text-dnd-ink/75 mb-4">
-        DMed by {data?.dmName || <SkeletonInlineText />}
+        {t.dmedBy} {data?.dmName || <SkeletonInlineText />}
       </p>
 
       {loading ? (
@@ -52,7 +51,7 @@ const CampaignCard: React.FC<{
         data.players.length > 0 && (
           <AvatarGroup
             avatars={data.players.map((player) => ({
-              name: player.display_name || "Unknown",
+              name: player.display_name || t.unknown,
               imgSrc: player.avatar_url || undefined,
             }))}
           />
@@ -63,6 +62,7 @@ const CampaignCard: React.FC<{
 };
 
 const CampaignsPage = () => {
+  const t = useDict().campaigns;
   const { data, loading } = useLoad(async () => {
     const user = await requireUser();
     const [player, canCreate] = await Promise.all([
@@ -79,25 +79,23 @@ const CampaignsPage = () => {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Campaigns" }]} />
-      <Heading level={1}>Campaigns</Heading>
+      <Breadcrumbs items={[{ label: t.campaigns }]} />
+      <Heading level={1}>{t.campaigns}</Heading>
       {data?.canCreate && (
         <Link href="/campaigns/new" className="button inline-block mb-10">
-          New campaign
+          {t.newCampaign}
         </Link>
       )}
 
-      <Heading level={2}>
-        Campaigns you are <span style={{ fontSize: "larger" }}>DM</span>ing
-      </Heading>
-      <CardGrid loading={loading} empty="No campaigns found." className="mb-20">
+      <Heading level={2}>{t.youDm}</Heading>
+      <CardGrid loading={loading} empty={t.none} className="mb-20">
         {data?.dm.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
         ))}
       </CardGrid>
 
-      <Heading level={2}>Campaigns you are a player in</Heading>
-      <CardGrid loading={loading} empty="No campaigns found." className="mb-20">
+      <Heading level={2}>{t.youPlay}</Heading>
+      <CardGrid loading={loading} empty={t.none} className="mb-20">
         {data?.player.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
         ))}

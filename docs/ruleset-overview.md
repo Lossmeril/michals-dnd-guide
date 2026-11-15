@@ -71,6 +71,12 @@ The class level added is that of the class the skill belongs to.
 
 Weapons use the D&D 5E simple and martial weapon table: dice, damage type and properties such as Light, Finesse, Thrown (4/12 m, converted from 20/60 ft), Versatile, Heavy, Reach and Two-Handed.
 
+**Weapon properties on Michal's Weapons page** *(confirmed)*:
+- **Finesse:** the attack and its damage use either the Fighter or the Juggler level, the same one for both.
+- **Heavy:** halflings attack with it **Feeble**, unless a perk says otherwise; a free manoeuvre from a perk doesn't cancel it.
+- **Light:** krolls attack with it **Imprecise**, on the same terms.
+- **Loading:** reloading takes an action.
+
 **Unarmed strikes** *(confirmed, 2026-11-08)*: a punch, kick or headbutt deals a flat **1 + Fighter level** bludgeoning damage, with no die (5E's 1 + Strength modifier). It's foot close combat, a Fighter skill. The Fighter perk *Rock fist* raises it to **d4 + Fighter level**. Improvised weapons stay at d4.
 
 ### Resources
@@ -98,7 +104,7 @@ Weapons use the D&D 5E simple and martial weapon table: dice, damage type and pr
 
 - A single number for how risky the current situation is. **Default: 3.**
 - To **avoid a bad outcome** (getting hurt, failing a task, losing an item, triggering a trap), a character spends resources from the skill's pool equal to the Danger Level.
-- The DM raises it for hostile, urgent or chaotic situations. Players lower it with cover, distractions, negotiation and so on.
+- The DM raises it for hostile, urgent or chaotic situations. Players lower it by calming the situation: distractions, negotiation and so on. Taking cover can help, but the DM decides (see [Cover](#cover-confirmed-2026-11-15-from-5e-and-fateforge)).
 - It can differ per character in the same scene. A knocked-down warrior might face 5 while a spellcaster on a hill faces 2.
 
 | Level | Feel | Body example | Soul example | Charisma example |
@@ -124,12 +130,15 @@ Some activities are hard before they even start. In those, the character pays a 
 - **Scar:** taken when the pool is too low. A scar gives **2 temporary points** that must be spent immediately; leftovers are lost. The scarred point is crossed out until healed, and sleep doesn't heal it.
   - Example: Danger Level 3, 1 Charisma left, take 1 Scar → 1 + 2 = 3, failure averted.
   - Scars are story consequences. Body: wounds, illness, sprains, trembling hands. Soul: insomnia, anxiety, guilt, nightmares. Charisma: mockery, ruined reputation, being outlawed.
+- **One Scar, one level** *(confirmed, 2026-11-14)*: a character never takes several Scars to avert one failure; a bigger need means one Scar of a higher level (in crossed-out boxes it comes to the same thing).
+- **Scars can cross out exhausted boxes** *(confirmed, 2026-11-14)*. Players usually scar exhausted boxes first, so the points they still have stay available.
 - **Healing exhaustion:** a **poor rest** restores 3 exhausted points of the player's choice; a **quality rest** (safe, comfortable, stress-free) restores all of them.
 - **Healing a scar:** costs **5 resource points per scar level**, plus meaningfully addressing the cause (treating the wound, therapy, reparations). A level-2 scar costs 10. The points can come from any mix of:
   - **The bearer's own pools,** any of the three. Body: it hurts. Soul: the pain wears them out. Charisma: recovering leaves them unsociable.
   - **A healer's resources,** usually Soul, when a perk allows it (e.g. *Good Samaritan*). *It's Not a Sacrifice* is different: it hands over exhausted points, not Scar healing.
   - **Healing substances** such as ointments and elixirs. Each holds a fixed number of resource points; a Medic's burn ointment might be worth 5. Each treats only the kind of Scar it was made for (see [Our potion rules](#our-potion-rules-confirmed)).
   - **Material,** at 1 point each, where it makes sense and only after consulting the DM; for example, 5 Material for a bandage.
+  - **Coins,** only when the DM allows it *(confirmed, 2026-11-14)*: drinks in a tavern against a Soul or Charisma Scar, a bribe against a Charisma one.
 
   Healing also needs **one successful skill check per scar level**, e.g. treating the wound.
 
@@ -144,7 +153,7 @@ Items can take scars too.
 - **Only proper items** can be scarred. An improvised item, like a chair leg used as a club, can't be scarred for points, though some perks may allow it: the Fighter's *Headcracker* scars an improvised weapon for the usual **2 points** *(confirmed, 2026-11-09)*.
 - **Armour scars:** when the DM scars armour, one piece of it breaks and stops counting until repaired *(draft, replaces "its rating drops by 1"; see [Modular armour](#modular-armour-draft-from-the-central-european-pricelist))*.
 - **Repair** works like healing a scar: **5 resources**, usually Material, plus a successful **skill check**. It must be plausible: an old map or an antique sword can't be restored to its former glory.
-- Pseudo-magic classes deal themselves a Scar to enter magic mode for a conflict (see [Magic](#magic)).
+- Latent classes deal themselves a Scar to enter magic mode for a conflict (see [Magic](#magic)).
 
 **Scars imposed by the DM**
 
@@ -157,7 +166,7 @@ A level-N scar **blocks N points** of its resource until it's healed, and the ch
 
 Healing costs 5 points per level (see Healing a scar above).
 
-**Overflow and dying:** if a scar's level exceeds the pool, the scar blocks the **entire pool** and the character immediately enters the **dying** stage, as in 5E. The same happens if a character takes a scar while that pool is already fully blocked. This applies to all three pools, and each leads to an adventure-ending state if not resolved:
+**Overflow and dying:** if a scar's level exceeds the pool's boxes that aren't scarred yet (exhausted ones count) *(confirmed, 2026-11-14)*, the scar blocks the **entire pool** and the character immediately enters the **dying** stage, as in 5E. The same happens if a character takes a scar while that pool is already fully blocked. This applies to all three pools, and each leads to an adventure-ending state if not resolved:
 
 | Pool | What "dying" looks like |
 |---|---|
@@ -167,13 +176,14 @@ Healing costs 5 points per level (see Healing a scar above).
 
 **Dying rolls** work like 5E death saving throws, for all three pools. Each turn the character rolls a d20: 10 or more is a success, three successes stabilise them, and three failures mean the end.
 
-Planned: perks that let another character within **touch distance** intervene and roll a **skill check** in the dying character's place.
+**Dying details** *(confirmed; Michal's Dying page)*: a natural 20 counts as two successes and a natural 1 as two failures; a hit taken while dying counts as a failure; another character within touch can help with a skill check (Medic, Incantor or Scout, by the pool).
 
 **Absorbed hits:** if armour reduces the scar level to 0 or less, the hit is absorbed and there's no scar. A DM who wants to punish the player a little can scar the **armour** instead (see [Item scars](#item-scars)).
 
 ### Combat
 
 - Combat is in **rounds**, ordered by initiative.
+- **Reactions** *(confirmed, 2026-11-14)*: by default the only reaction a player chooses to take part in is defending; the free attack is granted by a trigger. Perks may add more.
 - Each turn: **one action** and **one movement**. Movement can be split around the action. Some abilities grant bonus actions or reactions.
 - Actions include **attacking** one target in reach (more with Widespread) and **casting a spell**.
 - **Free attacks** *(confirmed, 2026-11-08; 5E's opportunity attack)*: when an enemy leaves a character's reach, that character may make **one melee attack** against it, **once per round**, as a reaction. The target can defend as usual.
@@ -186,7 +196,7 @@ Planned: perks that let another character within **touch distance** intervene an
 
 When a character is targeted by an attack, spell or other hostile effect, they can **react** with a **defense roll**. This is a challenge (d20 + class level vs the attacker's d20 + class level) using whichever skill fits the defense.
 
-- A defense roll uses the character's **action** for the turn, or the **Defense manoeuvre** to defend without spending it.
+- A defense roll **always takes an action** *(confirmed, 2026-11-14)*: defending before your turn uses up the action you were about to take. To keep it, pay for the **Defense manoeuvre** (or have it free, from a shield or a perk), or don't defend at all, and the attacker makes a skill check instead of a challenge (see *Undefended attacks* below).
 - **Losing a defense roll** is a failure like any other: the defender can **exhaust** resources equal to the Danger Level, or take a self-inflicted Scar, to avert it.
 - **Undefended attacks:** if the target doesn't or can't defend, the attack goes unchallenged. The attacker makes a **skill check** (2d6 + class level ≥ 9) to see if it lands. A landed hit **can't be averted** with Exhaustion, because there was no roll of the target's to save. The attacker rolls damage, and the target takes a Scar:
 
@@ -196,6 +206,28 @@ When a character is targeted by an attack, spell or other hostile effect, they c
 
   For example, a normal enemy (d6) rolls 5 against armour rating 2, giving a level-3 Scar.
 - **Old 5E texts:** against an attacker or caster, read "saving throw" as **defense roll**. "Automatically fails saving throws" means the target automatically loses defense rolls. Against the environment it's our own [saving throw](#saving-throws-confirmed), a skill check.
+
+### Cover *(confirmed, 2026-11-15; from 5E and Fateforge)*
+
+Something solid between the target and the attacker: a wall, a barrel, a tree, another fighter. It counts against attacks and effects from the other side, **melee too** (as 5E), for player characters and NPCs alike. The target doesn't need to defend to get it.
+
+| Cover | Body hidden | The attack | Against the hit |
+|---|---|---|---|
+| **Half** | Half: a low wall, a barrel, someone in the way | Disadvantaged | — |
+| **Three-quarters** | All but a sliver: an arrow slit, a thick trunk | Disadvantaged | Armour rating +1 |
+| **Total** | All: a closed door, a full wall | Can't be targeted | — |
+
+- **Why not 5E's +2 / +5:** we have no AC, and a flat bonus means very different things on our two rolls. At class level 3, +5 drops an undefended attack (2d6) from 72% to 8%, but a challenge (d20) only from 47% to 26%. Disadvantage works on both alike (72% → 48%, 47% → 31%), needs no defense roll, and blocks the attacker's Precise.
+- **The Defense manoeuvre changes nothing:** it only pays for defending without the action.
+- **Armour rating +1** works as worn armour: off the Scar level and the averting cost, off an NPC's damage.
+- **Area effects** (a fireball, a bomb): behind half or three-quarters cover, the defense roll or saving throw against them is **advantaged** (5E's bonus to Dexterity saves).
+- **Total cover:** no ranged attack of any kind, and no spell aimed at the target (it needs sight).
+  - **Area effects** still reach if their area gets round the cover; the cover may still shield the target (a blast on the far side of a solid wall). The DM decides.
+  - **A symbolic touch** gets a direct spell through: it needs no sight.
+  - **Perks** can shoot over it: the Hunter's *Sniper* (a high arc over a wall).
+- **Portable cover** *(2026-11-15)*: a **pavise** carried on the arm is a shield (free Defense once per round); planted, it gives **half cover**. Planting or picking it up is an **action** (a bonus action with the Warrior's *Bastion*). **Mantlets** can't be worn: a mantlet (planks or wicker, 15 sp *(est.)*) gives **three-quarters** to one or two people; a wheeled **siege mantlet** (60 sp *(est.)*, half speed) gives **total** cover from the front to four. In the item list as `pavise`, `mantlet`, `siege-mantlet`.
+- **The Danger Level** doesn't drop just for cover; the disadvantage does that job. It's how hard the heart is racing: if taking cover really calms things, the DM can lower it; under a rain of arrows it stays the same or goes up.
+- **In the rulebook:** *Cover* on the Defending page.
 
 ### Saving throws *(confirmed)*
 
@@ -297,9 +329,9 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 | Manoeuvre | Effect |
 |---|---|
 | **Precise** | Advantaged roll on the action. |
-| **Mighty** | Against an NPC: an extra damage die (or Danger Level +1 on Soul and Charisma). Against a player character: averting costs +1, or on top of the Scar they exhaust d4 more from the same pool. See [The Mighty versions](#the-mighty-versions-confirmed). |
+| **Mighty** | Against an NPC: an extra damage die (or +1 at stake on Soul and Charisma). Against a player character: averting costs +1, or on top of the Scar they exhaust d4 more from the same pool. See [The Mighty versions](#the-mighty-versions-confirmed). |
 | **Cunning** | Once the attack lands, the manoeuvre buys a triggered bonus action *(confirmed)*: the target is knocked prone, or **in close combat** grappled or pushed in any direction *(confirmed, 2026-11-11: a thrown or shot weapon can't grapple or push)*. No perk-granted bonus action is needed. |
-| **Quick** | Advantaged initiative roll. |
+| **Quick** | Advantaged initiative roll. Always costs **1 Soul** *(confirmed, 2026-11-15)*: the action isn't chosen yet, so there's no governing resource. |
 
 **Precise and Quick are advantage.** Any advantage on an action, from a perk, a Blessing or a prone target, **is** a free Precise; advantage on initiative is a free Quick. **A perk that grants advantage always means Precise** *(confirmed, 2026-11-11)*; a perk that helps initiative names Quick. Paying for one when you already have advantage changes nothing.
 
@@ -351,7 +383,7 @@ Each costs **1 point of the governing resource**, unless an ability makes it fre
 | **Player character averting** | Costs +1 | Costs +2 | Must first take a **level-1 Scar** (a blank payment, no temporary points), then pay the cost |
 | **Player character not averting** | On top of the Scar, exhausts **d4** more points of the Scar's pool; if the pool runs out, it stops at 0 | Scar level +1 | Scar level +2 |
 | **NPC, Body** | +1 damage die | +2 damage dice | If it **defends**, it first takes one damage die before the challenge roll; then, either way, +2 damage dice |
-| **NPC, Soul or Charisma** | Danger Level +1 | Danger Level +2 | If it **defends**, it first takes damage equal to the attacker's class level; then, either way, Danger Level +2 |
+| **NPC, Soul or Charisma** | +1 at stake | +2 at stake | If it **defends**, it first takes damage equal to the attacker's class level; then, either way, +2 at stake |
 | **Who gets it** | Anyone (1 point), or free from a perk | Class perks; NPC stat blocks | Mighty class perks; NPC stat blocks |
 
 - *(Confirmed, 2026-11-12.)* A player character who doesn't avert plain Mighty keeps the Scar's level but exhausts d4 more points from the pool the Scar hit. It stops at 0: running out costs no extra Scar. Very mighty raises the Scar by 1, Cruelly mighty by 2. Against an NPC, Cruelly mighty is Very mighty plus the damage before defending.
@@ -426,6 +458,15 @@ Penalties are **another form of condition** and belong with them. Compared with 
 
 **Answer:** the four penalties join the conditions as they are, under their own names: **Imprecise, Slow, Feeble and Foolish**. No Poisoned (that came from 5E's own condition list, which our list had left out), and Feeble stays a condition rather than being rewritten as a resistance bonus.
 
+**Reworked as mirrors of the manoeuvres** *(2026-11-14; DrD2's Feeble and Foolish leaned on NPCs averting and having a Danger Level, which ours don't)*. Each penalty blocks one manoeuvre, even a free one, and turns its effect against the character. There's no penalty for Defense or Widespread: conditions already cover those (Incapacitated, Restrained, …).
+
+| Penalty | Blocks | Effect |
+|---|---|---|
+| **Imprecise** | Precise | The character's rolls with that skill are disadvantaged |
+| **Slow** | Quick | The character's initiative is disadvantaged |
+| **Feeble** | Mighty | Against an NPC: one damage die fewer (minimum 1), or 1 less at stake for Soul and Charisma damage. Against a player character: averting the feeble character's action costs 1 less (minimum 1) |
+| **Foolish** | Cunning | The character can't knock prone, grapple or push. **Opponents who land a hit on them get a free Cunning** (the bonus action: prone, or in close combat a grapple or push). Like a condition's free Precise, it's that action's one manoeuvre |
+
 **Scope:** set by the source. A penalty can name a skill or skill group (*Imprecise: ranged weapons* from a curse of trembling hands) or apply to everything the character does (*Slow* from a numbing poison).
 
 **Duration:** like any condition, a penalty lasts **as long as its cause**, which the DM sets. From a spell, it lasts the spell's duration; otherwise, until the condition no longer holds. (DrD2's default of "until the next sunset or sunrise" isn't used.) More conditions may be added later.
@@ -464,6 +505,8 @@ Penalties are **another form of condition** and belong with them. Compared with 
 | Resistance | Halved | Halved |
 | Resistance bonus | — | Reduced by the bonus |
 | Immunity | Negated | None |
+
+**Rounding** *(confirmed, 2026-11-14)*: halving always rounds in the character's favour, so the harm is less: damage and averting costs round down. Averting still costs at least 1. *Evasion* follows it.
 
 **Damage types:** fire, ice, lightning, poison, psychic, necrotic, radiant, force, thunder, acid, piercing, slashing and bludgeoning.
 
@@ -587,9 +630,20 @@ From 5E's travel activities. Each character picks **one** for the day; the pace 
 | **Track** | *Hunting* (Hunter) | On the trail | Trail lost until a new sign is found |
 | **Forage** (not at fast pace) | *Hunting* (Hunter) | Food for the party today, and **1 Material** of herbs, wood or hides (proper Material) | Nothing found |
 | **Map** | *Warrior knowledge*, *Ranger knowledge* or Scout's skills | Advantage on navigating this route again | — |
+| **Hunt** (not at fast pace) *(2026-11-15)* | The game d10, then *Hunting* (Hunter) | Tiny animals, small or large game, as rolled | The game gets away |
 | **Cover the trail** (slow pace only) *(2026-11-14)* | No roll | Tracking the party is disadvantaged (the Scout's *Cold trail* gives it free) | — |
 | **Sneak** (slow or normal pace) | *Acrobatics* (Juggler) or *Wilderness movement* (Hunter), for everyone | Unseen, as above | Seen |
 
+- **Hunting** *(2026-11-15)*: a d10 on the land's row says what's around, then a *Hunting* roll takes it. Large game can be run as a fight. In settled land and a lord's reserve, it's poaching. The Hunter's ***Fresh tracks*** (1 Soul) skips the d10: the hunter decides which animal the region could hold is nearby and finds its tracks. *(It replaces the Shaman's *Animal tracks*, dropped 2026-11-15.)*
+
+  | Land | For example | Nothing | Tiny animals | Small game | Large game |
+  |---|---|---|---|---|---|
+  | **Lush** | Old forest, river meadows, a lord's reserve | 1 | 2–3 | 4–7 | 8–10 |
+  | **Settled** | Fields, pastures, managed woods | 1–2 | 3–5 | 6–9 | 10 |
+  | **Devastated** | A war zone, burnt or hunted-out land | 1–4 | 5–7 | 8–9 | 10 |
+  | **Barren** | Bare mountains, heath, winter wastes | 1–5 | 6–8 | 9 | 10 |
+
+  Tiny animals (mice, frogs, eggs) feed one person today; small game (hares, fowl, fish) the party today; large game (deer, boar, bear) the party for three days, plus 2 Material of hides and horn.
 - **The Danger Level** of travel rolls is the region's (see [Random encounters](#random-encounters-confirmed-2026-11-08)): 2 on a patrolled road, 3 in the wilds, 4 in dangerous lands.
 - **Weather** makes some rolls disadvantaged (see [Weather](#weather-confirmed-2026-11-08)).
 
@@ -858,7 +912,7 @@ Many rules already name kinds of creatures. Read them against the categories:
 | **Hireling** | A sellsword, a squire, a guide | **Its own initiative** |
 
 - **Controlled creatures** keep the control rule: the caster gives up their own actions and rolls initiative only for the creature (see [Control](#magic)).
-- **Familiars come from a spell,** like 5E's *Find Familiar*: an **Incantor perk spell** *(confirmed)*, priced like any other perk. Every full caster who goes through Incantor can reach it. *(Written 2026-11-12: *Familiar*, Incantor 2, 3 Material ritual, Bond 3.)*
+- **Familiars come from a spell,** like 5E's *Find Familiar*: an **Incantor perk spell** *(confirmed)*, priced like any other perk. Every awakened caster who goes through Incantor can reach it. *(Written 2026-11-12: *Familiar*, Incantor 2, 3 Material ritual, Bond 3.)*
 
 **Organizations and units: who gets what** *(confirmed)*
 - **One rule for organizations.** Networks fold into DrD2's organizations and Standing (see [Organizations, Standing and Power](#organizations-standing-and-power-drd2)); there's no separate network rule.
@@ -1275,7 +1329,7 @@ DrD2's reach rule, in squares. Only an action reaching enough members harms a un
 5. **Fortifications as stat blocks** *(confirmed: see [Structures and siege engines](#structures-and-siege-engines-draft) and [Stores and the storm](#stores-and-the-storm-confirmed-2026-11-08))*.
    - Each wall section, tower and gate has a **Body track** that only siege engines, mining and magic can harm. That's the same idea as 5E's damage threshold for objects; ours is called sturdiness.
    - **Stores** are counted in weeks.
-   - **The storm** maps onto our rules: defenders on a wall get a free Defense, and attackers climbing face a higher Danger Level. A breach lowers it.
+   - **The storm** maps onto our rules: defenders on a wall have three-quarters cover, and attackers climbing face a higher Danger Level. A breach lowers it.
 6. **Siege engines** (ballista, mangonel, trebuchet, ram, siege tower) as small stat blocks: structure damage, range, crew. 5E's DMG has numbers to convert.
 7. **Morale and scattering on our tracks** *(confirmed: see [Battles](#battles-confirmed-2026-11-08))*.
    - A unit **overpowered through Charisma** has scattered and can be gathered after the battle. One **overpowered through Body** is gone.
@@ -1428,7 +1482,7 @@ In the rulebook as *Battles* (Companions and power). From the old book's armies,
 2. **Units already exist** (handful, band, horde). The old book's battle-scale ladder (squad → company → regiment → division) matches the unit sizes.
 3. **Siege engines** deal structure damage; see [Structures and siege engines](#structures-and-siege-engines-draft).
 4. **Mining** fits Rogue's *Mechanisms* or a perk for sappers; a countermine is a challenge. Tunnelling speeds are in [Digging and mining](#digging-and-mining-draft).
-5. **Mighty classes:** Warlord (armies, commanding, the duel), Zhrets and Black Priest (disasters), Shadow (assassins, mining in, sabotage) and Inquisitor (outlaw heroes, revolts) all get late-game uses.
+5. **Mighty classes:** Warlord (armies, commanding, the duel), Zhrets and Necromancer (disasters), Shadow (assassins, mining in, sabotage) and Inquisitor (outlaw heroes, revolts) all get late-game uses.
 
 ### Structures and siege engines *(draft)*
 
@@ -1521,11 +1575,11 @@ In the rulebook as *Sieges* (World).
 - **Starving:** each week with no food, the garrison takes Charisma damage at Danger Level 3, and the defending unit drops a size (desertion and death).
 
 **The storm:**
-- **On the wall,** defenders get a **free Defense once per round**, like a shield.
+- **On the wall,** defenders have **three-quarters [cover](#cover-confirmed-2026-11-15-from-5e-and-fateforge)**: attacks at them are disadvantaged, +1 armour rating against the hit *(2026-11-15; replaces a free Defense once per round)*.
 - **Climbing a ladder** is a [cost to attempt](#cost-to-attempt) of **1 Body**. A climber can't defend: attacks at them are undefended.
 - **Pushing a ladder off** is a **Cunning** manoeuvre (the push); everyone on it falls.
 - **A siege tower** reaches the top of the wall with no climbing cost and no ladder to push.
-- **A breach** is rubble: half-speed ground, and no wall bonus for the defenders. The fight moves to the breach.
+- **A breach** is rubble: half-speed ground, and no cover for the defenders. The fight moves to the breach.
 
 **Falling** is a [hazard](#substances-and-traps) whose strength is set by height (Acrobatics saving throw; armour doesn't help):
 
@@ -1554,10 +1608,10 @@ Race has little mechanical impact beyond one racial perk, but it matters a lot f
 | Race | Description | Speed | Racial perk options |
 |---|---|---|---|
 | **Human** | Diverse and courageous, living life to the fullest | 6 m | Everywhere at Home, For the King!, I Know a Guy, Maiden Fair, Sticks and Stones |
-| **Elf** | Secluded, ancient, ageless beauty and wisdom | 6 m | Behind Blue Eyes, Dusk Veil, Eternal Nobility |
+| **Elf** | Secluded, ancient, ageless beauty and wisdom | 6 m | Behind Blue Eyes, Dusk Veil, Eternal Nobility, Fey Blood, Pearls in Their Hair |
 | **Dwarf** | Hearty and proud; honour and their word are everything | 5 m | Ancient Artisan, Call of the Mine, Clan Bond, Iron Liver, Steel in Our Bones |
 | **Halfling** | Hospitable, jovial, braver than they look | 5 m | Connoisseur, Good Spirits, Scrappy, Silent Feet, Sixth Sense |
-| **Kroll** | Unique to this system: brawny, primitive, attuned to the wild | 7 m | Bison Skin, Echolocation, Fury, Magic Roots |
+| **Kroll** | Unique to this system: brawny, primitive, attuned to the wild | 7 m | Bison Skin, Echolocation, Fury, Magic Roots, Tokens of Heroism |
 
 **Speed** is how far a character moves in one movement on their turn, from 5E (SRD 5.1) at 5 ft = 1 m:
 - **Human and Elf** 30 ft → 6 m.
@@ -1572,7 +1626,7 @@ Classes are **bundles of skills**, not a whole identity. Characters are expected
 - Each class has **skills**, each tied to a resource. Rolls for a skill add that class's level.
 - A **unique** skill can only be attempted by characters with that class.
 - Anyone can attempt a **non-unique** skill from a class they don't have, just without the class bonus. For example, a pure Medic attempting Acrobatics rolls a plain 2d6.
-- **Magic:** *none*; *full* (core spells from the start, more unlocked as perks); *pseudo* (also core spells, but the caster deals themselves a Scar to enter magic mode until the end of the conflict).
+- **Magic:** *dormant* (no magic); *awakened* (core spells from the start, more unlocked as perks); *latent* (also core spells, but the caster deals themselves a Scar to enter magic mode until the end of the conflict). *(Renamed 2026-11-14 from full and pseudo; explained on the rulebook's Casting magic page.)*
 - **Maximum class level is 5.**
 
 ### Basic classes
@@ -1632,9 +1686,9 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 |---|---|---|---|
 | **Warrior** | Fighter + Juggler | None | Mounted combat (B), Ironworks (B), Warrior knowledge (S), High society influence (C), Combat leadership (C) |
 | **Ranger** | Fighter + Hunter | None | Ranged foot combat vs monsters, fiends and undead (B), Trophies (S), Woodworking (S), Ranger knowledge (S), Monster taming (C, unique), Leading in the wild (C), Dealing with supernatural beings (C) |
-| **Witcher** | Fighter + Medic | Pseudo | Close combat vs monsters, fiends and undead (B), Trophy taking (S), Witcher signs (S, unique), Witcher knowledge (S, unique), Dealing with supernatural beings (C). Core spell: Isa Sign |
+| **Witcher** | Fighter + Medic | Latent | Close combat vs monsters, fiends and undead (B), Trophy taking (S), Witcher signs (S, unique), Witcher knowledge (S, unique), Dealing with supernatural beings (C). Core spell: Isa Sign |
 | **Scout** | Hunter + Juggler | None | Ranged mounted combat (B), Hiding information (S), Underground influence (C, unique), Leading people outside combat (C), Healing human charisma (C), Seafaring (S) |
-| **Shaman** | Hunter + Medic | Pseudo | Narcotic substances (S, unique), Foresight (S, unique), Animal healing (S), Animal magic (C, unique). Core spell: Spirit walk |
+| **Shaman** | Hunter + Medic | Latent | Narcotic substances (S, unique), Foresight (S, unique), Animal healing (S), Animal magic (C, unique). Core spells: Spirit walk, Beast mind |
 | **Druid** | Hunter + Incantor | Full | Stone magic, Water magic, Plant magic (all S, unique). Core spells: Earth Bending, Water Bending, Manipulate Plants |
 | **Rogue** | Juggler + Medic | None | Aerial acrobatics (B), Mechanisms (S), Forgery (S), Contact poisons (S, unique) |
 | **Alchemist** | Medic + Incantor | Full | Alchemy knowledge (S), Explosives, corrosives and gases (S, unique), Elixirs (S, unique), Artificial life (C, unique) |
@@ -1645,16 +1699,16 @@ The 10 advanced classes are exactly every pair of the 5 basic classes:
 
 Each combines 3–4 advanced classes. A mighty class unlocks once **its advanced classes total 6 levels**, spread in any way. All of them can contribute, or only some. For Warlord, Warrior 5 / Rogue 1, Warrior 3 / Rogue 3 and Warrior 2 / Rogue 2 / Scout 2 all qualify. A single class can't do it alone, because classes cap at 5. As with advanced classes, that is the only gate.
 
-**Mighty classes have no skills, only perks** *(confirmed, 2026-11-08)*. Their rolls use the level of the lower class whose skill the perk builds on, as DrD2's master skills do. None of the perks are written yet, and Black Priest has no description (**Q8**).
+**Mighty classes have no skills, only perks** *(confirmed, 2026-11-08)*. Their rolls use the level of the lower class whose skill the perk builds on, as DrD2's master skills do. None of the perks are written yet, and Necromancer has no description (**Q8**).
 
 | Class | Built from | Magic | Fantasy |
 |---|---|---|---|
 | **Warlord** | Warrior, Rogue, Scout | None | Leadership, strategy, armies and political power |
-| **Ravager** | Warrior, Ranger, Witcher | Full | Raw martial destruction: dragon riders, legendary skinchangers |
+| **Ravager** | Warrior, Ranger, Witcher | Latent *(2026-11-14: built on the Witcher)* | Raw martial destruction: dragon riders, legendary skinchangers |
 | **Shadow** | Rogue, Scout, Mage, Alchemist | Full | Supernatural stealth: vanishing, bypassing barriers |
 | **Inquisitor** | Warrior, Warlock, Witcher, Mage | Full | Blood magic that uncovers truth; counters and reflects spells |
 | **Zhrets** | Ranger, Druid, Shaman | Full | Pagan priest commanding whole regions of nature |
-| **Black Priest** | Warlock, Alchemist, Shaman, Druid | Full | *(no description yet)* |
+| **Necromancer** *(renamed from Black Priest, 2026-11-15; Czech Černokněžník; the id stays `black-priest`)* | Warlock, Alchemist, Shaman, Druid | Full | *(no description yet)* |
 
 Michal's six mighty classes are a **reduced version of DrD2's ten master classes** (*mistrovská povolání*), merged because there were too many. Which DrD2 class goes where is **Q19**.
 
@@ -1835,10 +1889,10 @@ Michal's six mighty classes are a **reduced version of DrD2's ten master classes
 | **Shadow** | Shadow + the Avenger's assassin abilities (unseen presence, supernatural agility, treacherous attacks) |
 | **Inquisitor** | Inquisitor + Paladin + the Necromancer's **investigative blood magic** |
 | **Zhrets** | Žrec + the Elementalist's **water and earth** (through Druid) |
-| **Black Priest** | Necromancer + Wonderworker + the Elementalist's **fire and air** (through Warlock) |
+| **Necromancer** | Necromancer + Wonderworker + the Elementalist's **fire and air** (through Warlock) |
 
 - Each leftover ability goes to the class that shares its prerequisites.
-- **Blood magic for the Inquisitor:** the Necromancer's blood reading is an investigator's tool, which matches our Inquisitor's "blood magic that uncovers truth". *Draft:* *Last memory* and the Mage version of *Necrolog* move; *Blood toll* stays with Black Priest. Perks are settled later.
+- **Blood magic for the Inquisitor:** the Necromancer's blood reading is an investigator's tool, which matches our Inquisitor's "blood magic that uncovers truth". *Draft:* *Last memory* and the Mage version of *Necrolog* move; *Blood toll* stays with Necromancer. Perks are settled later.
 
 **Prerequisites** *(confirmed)*
 - **Goal:** every advanced class leads to **two** mighty classes, with no forced pairing that doesn't make sense. **Warrior** is the exception, leading to three: it's meant to be slightly more useful.
@@ -1851,16 +1905,66 @@ Michal's six mighty classes are a **reduced version of DrD2's ten master classes
 | **Shadow** | Rogue, Scout, Mage, Alchemist | Shadow + Scout (from the Avenger) | Ranger → Scout |
 | **Inquisitor** | Warrior, Warlock, Witcher, Mage | Inquisitor + Paladin, without Scout | none |
 | **Zhrets** | Ranger, Druid, Shaman | Žrec, exactly | none |
-| **Black Priest** | Warlock, Alchemist, Shaman, Druid | Wonderworker, exactly | Mage → Shaman, Druid (the Necromancer's spirits and dreams come through Shaman, its bodies and plagues through Alchemist; the corpse-reading Mage part goes to the Inquisitor anyway) |
+| **Necromancer** | Warlock, Alchemist, Shaman, Druid | Wonderworker, exactly | Mage → Shaman, Druid (the Necromancer's spirits and dreams come through Shaman, its bodies and plagues through Alchemist; the corpse-reading Mage part goes to the Inquisitor anyway) |
 
-- Each advanced class: Warrior (Warlord, Ravager, Inquisitor), Ranger (Ravager, Zhrets), Rogue (Warlord, Shadow), Scout (Warlord, Shadow), Witcher (Ravager, Inquisitor), Shaman (Zhrets, Black Priest), Druid (Zhrets, Black Priest), Alchemist (Shadow, Black Priest), Warlock (Inquisitor, Black Priest), Mage (Shadow, Inquisitor).
-- **The Elementalist stays split** *(confirmed)*: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe a purchasable Zhrets perk for all four elements.
+- Each advanced class: Warrior (Warlord, Ravager, Inquisitor), Ranger (Ravager, Zhrets), Rogue (Warlord, Shadow), Scout (Warlord, Shadow), Witcher (Ravager, Inquisitor), Shaman (Zhrets, Necromancer), Druid (Zhrets, Necromancer), Alchemist (Shadow, Necromancer), Warlock (Inquisitor, Necromancer), Mage (Shadow, Inquisitor).
+- **The Elementalist stays split** *(confirmed)*: fire and air to Necromancer, water and earth to Zhrets. *Later:* maybe a purchasable Zhrets perk for all four elements.
 
 **Conflicts with ours**
 1. ~~**10 classes into 6.**~~ Answered: see *Our merge*.
 2. ~~**Levels.**~~ Answered: mighty classes have levels 1–5 and one perk per level, but **no skills**. Master abilities become perks; "master skills" become perks that extend a lower class's skill, rolled with that class's level.
 3. **Talent, proficiency, mastery.** DrD2's tiers of free manoeuvres have no equivalent here; strong and cruel manoeuvres come from perks.
 4. **Paladin** is already a Warlock aspect name.
+
+### Hidden classes *(draft, 2026-11-14)*
+
+A **hidden class** is a basic class a player **can't choose**. The story gives it: a bite, a curse, a pact. Michal has one in mind, the **Vampire**, and it will probably stay the only one.
+
+- **Like a basic class:** a bundle of skills, levels 1–5, and rolls add the class level.
+- **Doesn't combine:** it counts towards no advanced or mighty class.
+- **Few skills, many base perks.** Base perks come free with the class, like core spells, and **add the class level** to their rolls. More perks are taken as usual, one per level.
+- **It grows with the character:** higher levels unlock stronger perks.
+
+#### Vampire
+
+Vampiric skills grow over time, marking the change from a **thrall** to a **vampire lord**.
+
+**Skill:** *Vampire knowledge* (S, unique).
+
+**Base perks** (free with the class):
+
+| Perk | Effect |
+|---|---|
+| **Sun afflicted** | In broad daylight, all your actions are **Imprecise** |
+| **Bloodthirst** | You must drink human blood at least once a day. If you don't, you take **double damage**. Drinking blood counts as a **poor rest** (restores 3 exhausted points) |
+| **Slumber** | Sleeping with a bit of your homeland's dirt counts as a **quality rest**. Each day you stay in slumber heals **one level of a Scar**. Being killed while in slumber **breaks your immortality** |
+| **Immortal** | When you would die, you instead appear at the place of your **last slumber**, in slumber. You can't wake until at least one resource point is back (neither scarred nor exhausted) |
+| **Bat form** | You can turn into a bat |
+
+**Perks:**
+
+| Perk | Effect |
+|---|---|
+| **Mist** | You can turn into mist |
+| **Wolf form** | You can turn into a wolf |
+| **Blood resourceful** | Animal blood quenches your thirst instead of human blood |
+| **Enlightened abstinence** | Needs *Blood resourceful*. You no longer need to drink blood; drinking it still restores your resources |
+| **Daywalker** | The sun no longer affects you |
+| **Hypnosis** | You can use mind magic, like the Mage's *Mind touch* |
+
+**Where it meets our rules** (to settle):
+1. **Getting it:** who grants the first level (the DM, through the story), and whether later levels are bought with level-up points like any class or come from the story too.
+2. **Other classes:** "doesn't combine" could mean only that it makes no advanced classes (the vampire keeps their old classes and can still raise them), or that a vampire takes no other classes at all.
+3. **Races:** the Races section says "No fairies, vampires or ghosts". A hidden class gets around that: a human becomes a vampire, they aren't born one.
+4. **Bestiary:** a lesser vampire is a **Monster**, a higher vampire a **Fiend**. If a Vampire player character counts as a monster, then Fighter's "humans and beasts" skills don't work against them, but the Ranger's and Witcher's do. Medic poisons (humans and animals only) and *Witcher senses* are affected too. The lord at Vampire 5 might count as a Fiend.
+5. **Double damage:** player characters have no hit points. The closest rule is **weakness to all damage**: Scar levels and the cost of averting doubled. That's harsh; a milder option is weakness bonus 1 (averting costs 1 more).
+6. **Slumber's healing** is free: no 5 points per Scar level and no skill check. It's balanced by time, since a day in slumber is a day out of the story.
+7. **"When you would die":** the moment the third dying roll fails, or the moment a pool overflows into dying. The first is closer to 5E.
+8. **Transformations:** the Shaman's *Skinchanger* (2 Body) is the model: keep pools and class levels, gain the form's abilities, limited by its body. Prices for bat, mist and wolf are still to set. Mist could be the rules' only way through a keyhole.
+9. **Hypnosis** uses Mage mind magic (*Mind touch*, and *Charm*?), rolled with the **Vampire** level and paid like the Mage's.
+10. **Level gating:** which perks need which Vampire level (*Mist*, *Daywalker* and *Enlightened abstinence* feel like lord-level).
+11. **Level validation:** base perks don't count towards level, like core spells.
+12. **Vampire lords keep familiars and thralls** (Bestiary), so a lord-level perk could give thralls as companions.
 
 ## Leveling
 
@@ -1910,14 +2014,14 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 
 ### As it stands
 
-- **Three kinds of class:** *none*, *full* and *pseudo*.
-  - **Full** (Incantor, Druid, Alchemist, Warlock, Mage, and every mighty class except Warlord): **core spells** come free with the class, and more spells are taken as class perks.
-  - **Pseudo** (Witcher, Shaman): the same, but the caster must first **enter magic mode** by dealing themselves a **Scar**.
+- **Three kinds of class:** *dormant*, *awakened* and *latent* *(renamed 2026-11-14 from none, full and pseudo)*.
+  - **Awakened** (Incantor, Druid, Alchemist, Warlock, Mage, and every mighty class except Warlord and Ravager): **core spells** come free with the class, and more spells are taken as class perks.
+  - **Latent** (Witcher, Shaman, Ravager): the same, but the caster must first **enter magic mode** by dealing themselves a **Scar**.
     - **Magic mode lasts until the end of the conflict,** or outside combat a **reasonable continuous stretch of time**, such as searching one ruin. The DM judges when it ends. Until then, they cast their spells normally, paying each spell's own price.
     - **The Scar is narrative and can be anything:** a Witcher drinking a toxic elixir, a Shaman slicing their palm with a ritual dagger.
     - **It's a level-1 Scar, a blank payment:** it gives **no** temporary points, unlike a Scar taken to avert a failure.
     - **Any pool the player likes** *(confirmed)*, matching the story: slicing a palm with a sacrificial dagger is a Body Scar; a Witcher elixir that eats at the mind is a Soul Scar.
-- **Magic skills:** full classes' skills are their schools, e.g. Warlock's *Fire, Wind, Evocation and Abjuration magic*, Mage's *Illusion, Enchantment and Conjuration magic*. They're all Soul and unique. Witcher signs and Shaman's Animal magic (Charisma) are the pseudo equivalents.
+- **Magic skills:** awakened classes' skills are their schools, e.g. Warlock's *Fire, Wind, Evocation and Abjuration magic*, Mage's *Illusion, Enchantment and Conjuration magic*. They're all Soul and unique. Witcher signs and Shaman's Animal magic (Charisma) are the pseudo equivalents.
 - **Casting is an action** in combat. The old Danger Level page has a caster on a hill "facing Danger Level 2 to cast a spell", which suggests a failed cast is averted with exhaustion like any other failure. Nothing says what roll casting uses.
 - **Core spells** are open-ended tools rather than fixed effects:
   - *Bending* (Druid: earth, water, plants; Warlock: fire, air) works "in a limited manner" on what already exists, and does no direct damage. The exception is Fire Bending, which deals 1d6.
@@ -2001,7 +2105,7 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 | **A palm** | A cup, a candle, a handful of earth | Part of a square | Light a pipe, chill a drink, wilt a flower |
 | **A witch's hut** (the base) | A small cottage: about 5 m across | One battle square (5 m), a handful | A wave that capsizes a raft but only rocks a ship; a shallow stream frozen to the bed for 5 m, as a dam or a bridge; one tree; walking 5 m across water; one illusion of a hut-sized thing |
 | **A farmstead** (Widespread) | A yard with its buildings: about 10 m across | 2 × 2 battle squares, a band's footprint | Fog over a small harbour; a riverbank sliding into the water; a whole grove swaying |
-| **A village** (Very widespread: only master abilities that name it) | A fort, a village green, a city district | One field square (50 m), a horde's | Catastrophe-scale nature magic: Zhrets, Black Priest |
+| **A village** (Very widespread: only master abilities that name it) | A fort, a village green, a city district | One field square (50 m), a horde's | Catastrophe-scale nature magic: Zhrets, Necromancer |
 
 - **The ladder is also a unit's reach.** A base spell reaches a handful, Widespread a band, Very widespread a horde (see [Units](#units-drd2)).
 - **Several things within one step** (three torches, four puddles) also take Widespread, as for any multi-target action.
@@ -2034,7 +2138,7 @@ Concentration and until dismissed are deliberately separate: concentration ties 
 - **The roll is a defense roll** (a challenge against the attacker) with the **caster's magic class level** as the bonus. It replaces 5E's Constitution save.
 - Losing it ends the spell, unless the caster **averts the failure** like any other: exhausting points equal to the Danger Level, or taking a Scar.
 - **It costs the Defense manoeuvre** (1 point), since the caster's action is already spent on concentrating.
-- **Steady mind** *(Incantor perk, 2026-11-12)*: concentration rolls don't cost the Defense manoeuvre. Every full caster can reach it through their Incantor levels; Witcher and Shaman can't.
+- **Steady mind** *(Incantor perk, 2026-11-12)*: concentration rolls don't cost the Defense manoeuvre. Every awakened caster can reach it through their Incantor levels; Witcher and Shaman can't.
 - **It also ends** (as in 5E):
   - when the caster **starts another concentration spell**: one at a time;
   - when the caster is **incapacitated** (Incapacitated, Paralyzed, Petrified, Stunned, Unconscious);
@@ -2150,7 +2254,7 @@ Most Incantors carry a staff, an amulet or talisman, a holy symbol or their orde
 - **Who uses it:**
   - **Shamans** are the only ones who **enter** it, and the only ones who **summon human spirits** from it.
   - **Other classes tap it slightly,** without a direct connection: the Incantor's familiar comes into the world through it. Others case by case.
-  - **The Mage's Conjuration** pulls spirit-world creatures into our world (*Through the veil*), one way only; *Both ways* (Mage 5) sends them back. Calling the souls of the dead stays with Shamans, and later the Black Priest.
+  - **The Mage's Conjuration** pulls spirit-world creatures into our world (*Through the veil*), one way only; *Both ways* (Mage 5) sends them back. Calling the souls of the dead stays with Shamans, and later the Necromancer.
 
 **Layers** *(confirmed)*: how deep down the spiral, by what's asked. The deeper, the longer the trip takes in our world.
 
@@ -2161,6 +2265,16 @@ Most Incantors carry a staff, an amulet or talisman, a holy symbol or their orde
 | Since the last solstice or equinox | Fewer still | Hours |
 | Since the Shaman was born | A few, hard to find | Up to days |
 | Before the Shaman was born | Out of reach | — |
+
+**Animal magic** *(confirmed, 2026-11-15; the Shaman's *Animal magic* skill, C, unique; DrD2 *magie zvířat*)*
+
+**In the app** it's the Shaman's core spell ***Beast mind***, the animal twin of the Mage's *Mind touch*.
+
+- **Target:** one ordinary, non-magical animal in sight (beasts, birds, fish, reptiles). Never a monster, however dim. Needs **magic mode** (DrD2's *essence*, whose Charisma Scar is our level-1 Scar in any pool).
+- **Unnoticed:** read and nudge mood, intentions and feelings: calm it, make it ignore a passing group, let you ride it, cut a lock of its fur.
+- **Noticed** (the animal may howl or rage to throw the Shaman out): talk with it, read thoughts and memories, see and hear through its senses. Animals don't understand speech: they pass on smells, sounds, a tone of voice, not what was said.
+- **Duration:** a willing animal stays linked while in sight and attended to; a resisting one gives one feeling for a moment, or one answer, per successful cast.
+- **In the rules:** changes the Danger Level through feelings (fear, fury, dullness; pride for a pack leader); Soul or Charisma damage against NPC animals. Can't knock out, kill, madden or take over the will on its own. Full control is the separate [control](#magic) rule.
 
 **Foresight** *(confirmed, 2026-11-11; the Shaman's *Foresight* skill, S, unique; DrD2 *hadačství*)*
 
@@ -2180,7 +2294,7 @@ Most Incantors carry a staff, an amulet or talisman, a holy symbol or their orde
   - **A person:** a symbolic touch (their hair, their ring).
   - **A place or an item:** **only with *Dream runes***, carved into it (a diary's cover, a tavern room's wall). Without the perk, Foresight reaches only people.
 - **A ritual:** drugs, song, drumming. It takes time to prepare, so it's not for combat (the Ritual component).
-- **Magic mode** first: a level-1 Scar in **any pool** the player likes, as for any pseudo-magic. A trip down the spiral counts as one stretch. Companions take no Scar.
+- **Magic mode** first: a level-1 Scar in **any pool** the player likes, as for any latent magic. A trip down the spiral counts as one stretch. Companions take no Scar.
 - **Answers:** each successful roll gets **one simple question** and a **short, true answer**.
 - **Only as far back as the Shaman's own life.**
 - **Great seer** (DrD2 specialisation, strong manoeuvres in Foresight): covered by the Shaman's mastery perk, *Elder shaman*.
@@ -2261,7 +2375,7 @@ When a spell is stopped, all resources put into it are lost.
 **Amulets and talismans** (sidebar)
 - **Amulets** are pendants made of herbs, animal parts, monster or undead trophies, sometimes gems or crystals. Always with something of the maker in them. *A pouch of jasper dust and myrtle leaves picked at midnight on the solstice; a shard of dragon horn hung with eagle feathers; a wrist cord rattling with an executed criminal's finger bones.*
 - **Talismans** carry writing: runes, signs, words or whole incantations. *An amethyst engraved with a moonlight rune; a wooden box holding a prayer written by a holy man decades ago.*
-- Anyone can own them as flavour. Incantors store resources in them (see [Ritual items](#magic)). For Shamans and Witchers an amulet can be the tool that **awakens their magic**, DrD2's *essence*. That fits our pseudo-magic mode.
+- Anyone can own them as flavour. Incantors store resources in them (see [Ritual items](#magic)). For Shamans and Witchers an amulet can be the tool that **awakens their magic**, DrD2's *essence*. That fits our latent magic mode.
 
 **Poisons** (Medic: ingested)
 - **Effects in the story:** shivers, watering eyes, rashes, cramps, pain. Dangerous ones paralyse, cause deep sleep or kill.
@@ -2341,7 +2455,7 @@ When a spell is stopped, all resources put into it are lost.
 5. ~~**Charm.**~~ Answered: Charmed and control stay separate. The old Charm spell uses 5E's charmed condition. DrD2 control turns the target into a companion paid for with the caster's Charisma. We have no companion rules yet. → **Q14l**
 6. ~~**Components.**~~ Answered: Verbal, Somatic, Material (spent Material, named by the spell) and Ritual (a long ceremony, not in combat). The old set is Verbal, Somatic and "Material and/or Ritual". "Material" clashes with the Material resource, and "Ritual" means something else in 5E (a slow cast without a slot). DrD2 has four kinds: words, gestures, sigils, substances. → **Q14h**
 7. ~~**Unique Incantor skills.**~~ Answered: *Ritual items* stays unique; *Dealing with supernatural beings* is open to anyone with intelligent, speaking beings, and Incantor-only with the rest. Our class table marks *Ritual items* and *Dealing with supernatural beings* as unique. In DrD2, anyone can attempt Incantor magic. Blessings and Curses would also be a skill anyone can try, not a core spell. → **Q14m**
-8. ~~**Price.**~~ Answered: spells are priced like perks (core spells only unlocked free), hard circumstances add a cost to attempt, and pseudo-magic needs a Scar to enter magic mode for the conflict. → **Q14b**, **Q14c**
+8. ~~**Price.**~~ Answered: spells are priced like perks (core spells only unlocked free), hard circumstances add a cost to attempt, and latent magic needs a Scar to enter magic mode for the conflict. → **Q14b**, **Q14c**
 9. **Hard-circumstance cost.** DrD2's "costs 1 to attempt" for ice on a hot day has no general rule in ours. The closest is the armour encumbrance cost paid before acting. → **Q14b**
 10. ~~**Scale.**~~ Answered with conflict 2. Base magic is one target, hut-sized and human-strength. Our Widespread manoeuvre already covers more targets. Earthquake (30 m radius) and Fly (10 m per turn) go beyond the base scale and would need to be perks. → **Q14k**
 11. ~~**Schools.**~~ Answered: Arcane/Divine/Eldritch are unused for now; the magic skills act as schools. DrD2 has no Arcane/Divine/Eldritch. It groups magic by class domain, like our skill names. → **Q14i**
@@ -2504,8 +2618,8 @@ The same for hazards, potions, elixirs and plain gear.
 - **It lasts** until the next solstice or equinox, and can be renewed then.
 - **The creature** is a companion with an NPC stat block in the *Undead and reanimated* category: mute, literal-minded, good at simple tasks.
 
-**Lasting magic items** *(confirmed, 2026-11-08)*: only the **Black Priest** makes them, through its mighty class perks. Everyone else, Alchemists included, makes things that run out. Other lasting artefacts (a dwarven runesmith's axe, a fairy's circlet) come from masters and the DM, as loot and story rewards.
-- **Why Black Priest:** it's built from DrD2's Wonderworker, whose *Runesmith* (a rune item holding an elixir's effect) and *Eternal spells* (a spell lasting until broken) are exactly this. The perks are still to write.
+**Lasting magic items** *(confirmed, 2026-11-08)*: only the **Necromancer** makes them, through its mighty class perks. Everyone else, Alchemists included, makes things that run out. Other lasting artefacts (a dwarven runesmith's axe, a fairy's circlet) come from masters and the DM, as loot and story rewards.
+- **Why Necromancer:** it's built from DrD2's Wonderworker, whose *Runesmith* (a rune item holding an elixir's effect) and *Eternal spells* (a spell lasting until broken) are exactly this. The perks are still to write.
 - 5E lets anyone craft magic items by rarity, with a formula, money and time. We don't.
 
 ### Next to 5E
@@ -2536,7 +2650,7 @@ The same for hazards, potions, elixirs and plain gear.
 ### Where it meets our rules
 
 1. **Poisons** keep every confirmed rule; this only adds the hazard line, the shorthand and the cap.
-2. **Pseudo-magic essences** (the Witcher's elixir, the Shaman's drum or amulet) are already our magic mode: a level-1 Scar, no Material. They aren't substances in this sense.
+2. **Latent-magic essences** (the Witcher's elixir, the Shaman's drum or amulet) are already our magic mode: a level-1 Scar, no Material. They aren't substances in this sense.
 3. **Sigils** are hazards too in a way (they act on intruders), but they're live magic, paid from their own pool. They stay as they are.
 4. **NPC abilities** use the shorthand: a wyvern's sting, a giant spider's bite.
 5. **Perks to write:** *Strengthened elixir* (Alchemist; drafted 2026-11-12 but not taken yet), a Medic improvisation perk, and the crafting specialities DrD2 gives as free or strong manoeuvres (*Medicinman*, *Výrobce elixírů*, *Ohněstrůjce*).
@@ -2584,7 +2698,7 @@ The same for hazards, potions, elixirs and plain gear.
       - **Ranger** *(confirmed)*: **Barbarian**: *Berserk*, *Tough of body*, *Borders walker*. **Monster Slayer**: *Hunter instinct*, *Trophy hunter*, *Natural advantage*. **Beastmaster**: *Friend of all monsters*, *Pack leader*, *Animal doctor*. **Ungated:** *Make haste*, *Carpenter*, *Soon may the Wellerman come*.
     - **DrD2's narrative and sigil perks** *(2026-11-11)*, since most DrD2 perks only grant manoeuvres:
       - *Lay of the land* (Ranger, 1 Soul): *City guide* for the wild (a gorge, a stream, a thicket, a ford, a ruin). Ungated for now.
-      - *Animal tracks* (Shaman, 1 Soul): signs of an animal that could live there, within sight.
+      - ~~*Animal tracks* (Shaman, 1 Soul)~~: dropped 2026-11-15 for the Hunter's *Fresh tracks*.
       - *Philtres* (Shaman): the *First one met* property for narcotics, +1 Material per strength.
       - **Sigils for every school**, priced like *Salamander sigil*: *Werewolf sigil* (Shaman, Animal magic; needs magic mode), *Vodyanoy sigil* (Druid, water), *Stone spirit sigil* (Druid, stone), *Leshy sigil* (Druid, plants).
       - *Voice of the dead*, *Dream runes*, *Nightmare sigil*, *Veil sigil*, *Soul base* (Shaman) and *Soultrap* (Zhrets): see [The spirit world](#magic).
@@ -2597,7 +2711,7 @@ The same for hazards, potions, elixirs and plain gear.
       - **Illusion spells** (5E): *Borrowed face* (1 Soul, ungated: face and voice until sunset or sunrise), *Fetch* (1 Soul: two copies take the next two hits), *Unnoticed* (2 Soul, concentration: Invisible to anyone not looking; the only lasting way to hide a living creature), *Marsh lights* (3 Soul, farmstead, concentration: the charmed follow the lights). All but Borrowed face need Illusionist.
       - **DrD2 perks:** *Many senses* (1 Soul per extra sense), *Phantasms* (1 Soul each: lasting until sunset or sunrise, reacting), *Army of phantoms* (free Widespread for identical illusions), all Illusionist; *Invisible puppeteer* (1 Charisma each: control until sunset or sunrise, senses and telepathy through a friend with a symbolic touch), *Soul eater* (1 Charisma each: a mind spell until sunset or sunrise like a strong blessing or curse, stealing or rewriting one memory), *Mass hysteria* (free Widespread against a crowd that formed on its own), all Puppetmaster.
       - *Wrong road* (5E's *Hallucinatory Terrain*) was dropped: Illusion with Phantasms already does it.
-      - **Conjuration** *(confirmed, 2026-11-12)*: fiends, small elementals and plain matter. Spirits of the dead are necromancy and go to the Black Priest; so does real teleportation. Nothing extravagant: no Mage Hand.
+      - **Conjuration** *(confirmed, 2026-11-12)*: fiends, small elementals and plain matter. Spirits of the dead are necromancy and go to the Necromancer; so does real teleportation. Nothing extravagant: no Mage Hand.
         - **Summons:** companions of the Summon kind (right after the caster), ordinary stat blocks, Bond = the Material put in, up to the caster's Charisma pool; gone when it runs out. Unbound fiends are the DM's.
         - **Core spell *Conjure*:** palm-sized plain matter (no metal, worked, edible or valuable things) that crumbles at sunset or sunrise, Widespread to a hut; or a lesser fiend of the place for one simple act. Changes the Danger Level, can't kill.
         - **Spells:** *Wayfinder* (1 Material: a light to the nearest road or settlement), *Domovoi* (1 Material: a household imp until sunset or sunrise), *Fiend's grease* (1 Soul: Acrobatics or prone) are ungated. Conjurer: *Guardian spirit* (Material per Bond: an animal spirit guards until sunset or sunrise, fights as a wolf), *Through the veil* (2 Soul + Material per Bond: a spirit-world creature, one way), *Borrowed things* (2 Soul: a wood, rope, cloth or stone object up to human size), *Brimstone smoke* (1 Soul, farmstead), *Spider's lair* (2 Soul: Strength or Restrained); *Elemental servant* (Mage 3; 5E's mephits), *Recall* (Mage 3, 2 Soul + 1 per passenger: step out at your active sigil, which ends), *Bound to the place* (Mage 4, ritual: a fiend tied to a place until the solstice or equinox), *Both ways* (Mage 5, 2 Soul: send a spirit-world creature back, or a fiend's soul across), *Infernal calling* (Mage 5, ritual, 3 Material + the demon's payment: a lesser demon at Bond 3, like 5E's imp or quasit).
@@ -2606,13 +2720,13 @@ The same for hazards, potions, elixirs and plain gear.
       - **Evocation** (raw force, lightning, thunder; Paladin): core *Evoke* (a human's strength of force, 1d6 chip damage). *Thunderclap* (1 Soul, ungated: 2d6 within 2 m and a 3 m push), *Force stones* (1 Soul: 3 × 1d4, no defense, armour counts), *Perun's arrow* (2 Soul: a 12 m line, 4d6, metal armour defends with disadvantage), *Cracked bell* (2 Soul: 3d6 in a hut, a strength-3 hazard against things), *Perun's wrath* (Warlock 4, 3 Soul, concentration: 3d6 a round, only in a thunderstorm).
       - **Abjuration** (wards, breaking magic; Abjurer): core *Ward* (a resistance bonus 1 against one named harm, one per target; or a warded threshold lesser fiends can't cross). *Shield* (1 Soul, ungated, reaction: armour rating +2 against one hit), *Counterspell* (1 Soul: counter a spell at anyone in sight, Precise), *Break the spell* (1 Soul per point in the spell: any school, without its skill; still needs range, resources and knowing the spell), *Sanctuary* (1 Soul: attackers must win a challenge first), *Circle of salt* (2 Material, ritual: fiends, undead and spirit-world creatures kept out until sunset or sunrise), *Stone skin* (Warlock 3, 2 Soul + 2 Material: rating 3, no encumbrance), *Hidden from sight* (Warlock 3, 3 Material, ritual: seeking magic needs a won challenge, until the solstice or equinox).
       - **Prices can't be variable** in the database (amount and resource are both set or both empty), so *Break the spell* is priced per point.
-    - **Incantor spells** *(2026-11-12)*: very basic on purpose, since every full caster goes through Incantor. Free: *Witchlight* (a torch-bright cold light in the palm, concentration), *Hedge tricks* (5E's Prestidigitation), *Mending* (small breaks, not item scars), *Whisper* (5E's Message, sound only). 1 Soul: *Soothing word* (ends natural fear, panic or rage; a new defense roll against magical fear or charm), *Last rites* (stabilises Soul or Charisma dying on a Healing of the soul check). 1 Material: *Identify* (what a magic item or substance does and how strong), *Omen* (5E's Augury: good, bad, both or nothing clear). *Familiar* (Incantor 2) and the perk *Steady mind*.
+    - **Incantor spells** *(2026-11-12)*: very basic on purpose, since every awakened caster goes through Incantor. Free: *Witchlight* (a torch-bright cold light in the palm, concentration), *Hedge tricks* (5E's Prestidigitation), *Mending* (small breaks, not item scars), *Whisper* (5E's Message, sound only). 1 Soul: *Soothing word* (ends natural fear, panic or rage; a new defense roll against magical fear or charm), *Last rites* (stabilises Soul or Charisma dying on a Healing of the soul check). 1 Material: *Identify* (what a magic item or substance does and how strong), *Omen* (5E's Augury: good, bad, both or nothing clear). *Familiar* (Incantor 2) and the perk *Steady mind*.
     - *Read the tongue* (5E's Comprehend Languages; 1 Soul, concentration) went to the **Mage**, ungated.
     - **Druid spells** *(2026-11-12)*: fixed effects on top of the bending core spells. Gates follow the advantage perks.
       - **Water** (Tidecaller): *Purify* (free, ungated: rot and sickness, not crafted poisons), *Vodyanoy's breath* (1 Soul, ungated: breathe water until sunset or sunrise), *Walking the water* (2 Soul), *Drowner's grip* (2 Soul, concentration: Restrained under water, 1 Body to attempt anything).
       - **Stone** (Stoneshaper): *Sling stones* (1 Soul, ungated: 1d6 + Druid level), *Shape stone* (2 Soul: a door's worth, lasting), *Into the rock* (2 Soul: 5E's Meld into Stone), *Stone thorns* (2 Soul, concentration: half-speed ground, d4 threat die or 2d4), *Stone rampart* (Druid 3, 3 Soul: a brick wall 5 × 2 m until sunset or sunrise).
       - **Plants** (Wildheart): *Thorn whip* (1 Soul, ungated: 1d6 and a 3 m pull), *Good berries* (1 Material, ungated: Druid level berries, each a day's food and 1 exhausted Body back), *Bramble snare* (1 Soul, concentration: Strength or Restrained), *Barkskin* (1 Soul, concentration: rating 2), *Without a trace* (2 Soul: no tracks, Precise sneaking in the wild).
-      - *Tree Stride* was left out: teleportation is the Black Priest's.
+      - *Tree Stride* was left out: teleportation is the Necromancer's.
     - **Alchemist perks** *(2026-11-12)*: Mixer: *Grenadier* (thrown charges 8 / 24 m, a throw can be a bonus action), *On a word* (+1 Material per strength). Transmuter: *Fool's gold* (1 Material per 10 coins: base coins pass as silver until sunset or sunrise). Life Moulder: *Second shem* (two artificial beings at once), *Homunculus* (2 Material per Bond: a rat-sized spy you see and hear through), *Clay mender* (1 Material per 5 Body). Drafted and not taken: *Field laboratory*, *Prima materia*, *Sapper*, *Aqua regia*, *Strengthened elixir*, *Rapid dose*.
     - **Rogue perks from 5E** *(in the database, 2026-11-14)*. Goal for every class: about everything a 5E character gains by levelling, our characters can do through skills or perks.
       - **Ungated:** *Sneak attack* (when the situation gives a free Precise on an attack, an ally is within 1 m of the target, or you're alone with it, take a **free Mighty** instead: 5E's Sneak Attack triggers on advantage, which our one-manoeuvre limit would otherwise waste), *Slip away* (Dash, Disengage or hide as a bonus action), *Stroke of luck* (Rogue 4: once a day, a lost roll becomes a win, like Fate).
@@ -2681,7 +2795,7 @@ The same for hazards, potions, elixirs and plain gear.
   - **Trophies** get no advantage perk of their own: the Ranger's and Witcher's knowledge perks cover them.
   - **Skill fixes** *(2026-11-12, against DrD2's lists)*: Witcher close combat is Body (it was Soul, with a knowledge description); Warrior's *High society influence* is Charisma; Ranger and Witcher knowledge lose the intimidation line (that's Fighter's).
   - **Shared skills:** *Dealing with supernatural beings* gets **one perk for all three** classes that have it (*Old pacts*: Incantor, Ranger, Witcher). Fighter's and Warrior's knowledge are different skills, each with its own perk: Fighter's ***Weapon knowledge*** (renamed from *Warrior knowledge*, 2026-11-12) is weapons and fighting; Warrior's ***Warrior knowledge*** is tactics, how arms and armour are made, and leading soldiers.
-  - **In the app (dev only):** perks carry an `archetype` (advantage, sigil, mastery), shown as a ribbon on perk cards while `SHOW_ARCHETYPES` is on in `components/game/perkCard.tsx`. Switch it off once the gaps are filled.
+  - **In the app:** perks carry an `archetype` (advantage, sigil, mastery) for tracking gaps. The cards no longer show it (removed 2026-11-14).
 - **Spells are perks** *(confirmed)*: every non-core spell takes one of the class's perk slots, on purpose, so casters get no more abilities than anyone else.
 - **Spells** add components, damage, damage type, range, area of effect and duration.
   - **Components:** Verbal, Somatic, Material and/or Ritual (see *Components* under Magic).
@@ -2713,32 +2827,38 @@ Kept deliberately vague for now. A starting list:
 | Language | Spoken by |
 |---|---|
 | **Common tongue** | Everyone; the everyday language of the realm |
-| **Liturgic** | Clergy and scholars; the language of rites, scripture and old records |
-| **Oriental tongues** | Merchants and travellers from the far east and south (one language family) |
-| **Northern tongues** | The northern clans and raiders |
-| **Elven** | Elves, and old elven ruins and songs |
-| **Dwarven** | Dwarves, and dwarven runes and holds |
-| **Kroll tongue** | Krolls; primitive and mostly spoken |
-| **Old tongues** | Dead languages of fallen empires; written only, read by scholars |
+| **Tongue of the kings** | *Not learnable by player characters.* Nobody any more. The universal language of the pre-cataclysmic empire, whose name nobody remembers; survives in Liturgic and in bits on ruins, coins and seals. Royalty learns a few lines to sound legitimate, mostly for show *(sample: Classical Latin)* |
+| **Liturgic** | The Star God's clergy; a bastard form of the Tongue of the kings *(Ecclesiastical Latin)* |
+| **First elvish** | *Not learnable by player characters.* The oldest elves, who remember the world before the cataclysm; elven songs *(Scottish Gaelic)* |
+| **Second elvish** | Elven clans and nations everywhere; grew out of First elvish after the cataclysm *(Irish)* |
+| **Druidic** | Druids; a bastard mix of First and Second elvish *(Welsh)* |
+| **Dwarven runes** | Written only: runes that vary by clan (elder futhark, younger futhark, other Germanic runes). Dwarves speak the local tongue. The runes come with dwarven customs: their maps have east at the top |
+| **Language of the Isles** | The northern island nations *(Old Norse)*. Written in elder futhark, so a speaker can read some dwarven; a dwarven scribe can only read it aloud, sound by sound, without understanding |
+| **Kroll clan dialects** | Krolls; mostly spoken, grammar differs by clan |
+| **Old tongues** | Dead languages of unnamed empires from the far corners of the world; written only, read by scholars |
 | **Thieves' cant** | The underworld: a cant of slang, double meanings and chalk marks on doorposts |
 
-Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages; it has no rules effect yet. Each language can also have a **sample text** (a line written in it, to show how it looks), shown under its name in the rulebook's languages table.
+Languages can be linked as **related** (dialects, deviations, bastard mixes) in the language editor. A link shows on both languages. **Related languages** *(confirmed, 2026-11-15)*: a character can try to understand a language they don't know if it's related to one they speak, with a fitting skill check at **disadvantage** (a failure averted as usual). Understanding isn't speaking: they can't answer in it. **Not learnable** (`languages.learnable`, 2026-11-15): Tongue of the kings and First elvish; the character editor hides them. Links: Liturgic ↔ Tongue of the kings; First elvish ↔ Second elvish; Druidic ↔ First and Second elvish. Each language can also have a **sample text** (a line written in it, to show how it looks), shown under its name in the rulebook's languages table.
 
-Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also speak their **racial language**. Humans and Halflings, who have none, instead pick **one extra language** of their choice. A background then adds the number of extra languages shown below.
+Every character speaks the **Common tongue**. Elves (Second elvish) and Krolls also speak their **racial language**; Dwarves read and write their clan's **runes** (their racial language in the app). Humans and Halflings, who have none, instead pick **one extra language** of their choice. A background then adds the number of extra languages shown below.
 
 ### Starter backgrounds
 
-*(Draft, to be edited.)* **All 5E backgrounds**, from the 2014 PHB and the 2024 PHB, merged where they overlap (2014 Guild Artisan and 2024 Artisan are one; Guild Merchant is the Merchant). The 2014 variants (Spy, Gladiator, Knight, Pirate) are left out: they only change a feature. 19 in all, in the database and in the rulebook's `::backgrounds` block.
+*(Draft, to be edited.)* **All 5E backgrounds**, from the 2014 PHB and the 2024 PHB, merged where they overlap (2014 Guild Artisan and 2024 Artisan are one; Guild Merchant is the Merchant). The 2014 variants (Spy, Gladiator, Knight, Pirate) are left out: they only change a feature. The Entertainer is our **Bard**. Plus one of our own, the **Monster hunter**: 20 in all, in the database and in the rulebook's `::backgrounds` block.
 
 **How the 5E gear was adapted:**
 - **Classes give no gear here**, so every background brings its own weapon, usually as a choice ("quarterstaff, mace or club"). A few carry armour pieces: Soldier and Guard (gambeson and a helmet), Folk hero (gambeson), Criminal and Sailor (leather jerkin), Guide and Outlander (hide jerkin).
-- **Kits are split into the items in them**, as listed in the PHB: thieves' tools = file, lockpicks, small mirror on a handle, scissors, pliers; a herbalism kit = leather gloves, clippers, mortar and pestle, three glass jars, two pouches; and so on (healer's kit, disguise, forgery, calligrapher's, cartographer's tools).
+- **Kits are bundles** *(2026-11-15; were split into separate items)*, as 5E's kits: a bundle is an item with **contents** (`items.contents`), set in the item editor. A background offers it as one line ("Thieves' tools"); the inventory gets its **pieces**, each tagged with the bundle (`character_items.bundle_id`), and the sheet and the printed sheet show them under the bundle's name, so one broken lockpick can be marked on its own. A bundle's price is the sum of its pieces.
+  - Thieves' tools = file, lockpicks, small mirror on a handle, scissors, pliers; herbalism kit = leather gloves, clippers, mortar and pestle, three glass jars, two pouches; also the disguise and forgery kits, calligrapher's supplies, cartographer's and navigator's tools, a healer's kit, a merchant's kit, and the nine artisan's tools.
+  - The Artisan and the Folk hero pick one artisan's bundle from a single list; the Charlatan picks the disguise or the forgery kit.
   - **Consumables become Material:** herbs, salves, bandages, incense, nails, hops. That's what Material is for. Tools stay items.
   - **Artisan's tools:** the Artisan and the Folk hero pick a craft (smith, carpenter, leatherworker, weaver, brewer, mason, potter, jeweller, cook), each its own set of tools.
   - **Navigator's tools** (no sextants here; spyglasses don't exist) become a lodestone compass, a sounding line, a ruler and writing things. The Merchant gets balance scales, a counting cloth and a ledger instead.
   - **Gaming set:** bone dice or playing cards.
 - **The 2024 "50 gp instead of equipment" option is dropped.**
-- **Swords are expensive** (a longsword is four months' wages), so the Soldier picks from spears, axes, maces, flails and polearms. Nobody starts with a sword except by buying one.
+- **Swords are expensive** (a longsword is four months' wages), but **almost unsellable** *(confirmed, 2026-11-15)*: only a knight, a noble or an armourer pays what one is worth; ordinary tradespeople pay for its iron, about a tenth, in Material or coin. So the **Soldier** and the **Noble** may start with one, and the balance counts a sword at its melt value. The rulebook's Backgrounds page has it as a note (*Swords don't sell*).
+- **Monster hunter** *(2026-11-15)*: one **silvered** weapon of their choice, a sword too (the silvering is 50 sp), and little else: poor on purpose.
+- **Notes on starting items:** an equipment entry can carry a note ("Silvered"); it goes on the inventory row, and a noted item stays its own row.
 
 **Balance** *(draft)*. Starting value = gear + coins + Material, with **clothes counted at half** (you can't sell the shirt off your back at full price). Coins compensate, so gear-rich backgrounds get little cash and poor ones a bit more than the pricelist suggests. The spread is roughly **1 : 3** (urchin 86 sp, noble about 260 sp) instead of the pricelist's raw allowances (5 sp to 150 sp on top of gear). The scholars sit high because a book is worth 150 sp, but nobody sells their only book.
 
@@ -2748,21 +2868,22 @@ Every character speaks the **Common tongue**. Elves, Dwarves and Krolls also spe
 | **Artisan** | One craft's tools; light hammer, handaxe or dagger; guild letter | 70 sp | 5 | 0 | 115–155 sp |
 | **Charlatan** | Disguise or forgery kit; a con (bottles, weighted dice, marked cards, fake signet); dagger, fine clothes | 20 sp | 1 | 1 | ~210 sp |
 | **Criminal** | Two daggers (or dagger and club), leather jerkin, crowbar, thieves' tools, dark hooded clothes | 50 sp | 1 | 1 | ~145 sp |
-| **Entertainer** | An instrument; dagger, quarterstaff or club; two costumes, mirror, perfume, admirer's favour | 35 sp | 1 | 1 | 145–205 sp |
+| **Bard** (5E's Entertainer) | A simple weapon; an instrument; two costumes, steel mirror, perfume, admirer's favour, traveller's clothes | 10 sp | 3 | 1 | 120–220 sp |
 | **Farmer** | Spear, quarterstaff or flail; sickle, carpentry tools, healer's things, iron pot, shovel | 30 sp | 6 | 0 | 95–115 sp |
 | **Folk hero** | One craft's tools; spear, handaxe, quarterstaff or flail; gambeson, shovel, iron pot | 30 sp | 2 | 0 | 100–155 sp |
 | **Guard** | Spear and light crossbow, or spear and shield; gambeson, iron cap, hooded lantern, manacles | 30 sp | 1 | 0 | 140–180 sp |
 | **Guide** | Shortbow, or sling and spear or handaxe; hide jerkin, cartographer's tools, tent, bedroll | 25 sp | 2 | 1 | ~125 sp |
 | **Hermit** | Quarterstaff, herbalism tools, book of philosophy, notes, lamp and oil, bedroll, blanket | 5 sp | 6 | 1 | ~210 sp |
-| **Merchant** | Dagger, shortsword or mace; scales, counting cloth, ledger, writing things | 50 sp | 3 | 1 | 130–185 sp |
-| **Noble** | Dagger, spear or mace; fine clothes, signet ring, pedigree, perfume, gaming set | 20 sp | 0 | 1 | ~260 sp |
+| **Merchant** | Dagger, mace or club; scales, counting cloth, ledger, writing things | 50 sp | 3 | 1 | 125–140 sp |
+| **Noble** | Dagger, spear, mace, or a longsword, shortsword or rapier; fine clothes, signet ring, pedigree, perfume, gaming set | 20 sp | 0 | 1 | 255–275 sp |
 | **Outlander** | Quarterstaff, spear, handaxe or greatclub, or a shortbow; hide jerkin, hunting trap, animal trophy | 30 sp | 6 | 1 | 95–110 sp |
 | **Sage** | Quarterstaff, small knife, book of history, letter from a dead colleague, writing things, scholar's robe | 5 sp | 2 | 2 | ~220 sp |
 | **Sailor** | Club, dagger or handaxe; leather jerkin, navigation things, hemp rope, lucky charm | 35 sp | 2 | 1 | ~120 sp |
 | **Scribe** | Dagger or quarterstaff; small knife, writing things, extra parchment, lamp and oil, scholar's robe | 60 sp | 2 | 1 | ~120 sp |
-| **Soldier** | Spear and shortbow, two military weapons, or one and a shield; gambeson, kettle hat, insignia, trophy, healer's things | 25 sp | 4 | 0 | 130–200 sp |
+| **Soldier** | Spear and shortbow, two military weapons (swords included), or one and a shield; gambeson, kettle hat, insignia, trophy, healer's things | 25 sp | 4 | 0 | 120–180 sp |
 | **Urchin** | Sling or club; dagger, map of the home town, pet mouse, token of the parents | 60 sp | 1 | 0 | ~85 sp |
 | **Wayfarer** | Two daggers, thieves' tools, gaming set, bedroll, pouches | 25 sp | 1 | 1 | ~100 sp |
+| **Monster hunter** | One **silvered** weapon (dagger, spear, axe, mace, warhammer, flail, shortsword or longsword); hide jerkin, torches, rope, a trophy, bedroll, waterskin | 3 sp | 2 | 0 | 105–125 sp (55–75 without the silvering) |
 
 **Known settings** (the +1): as in the database; e.g. Guard: town watches and gatehouses, law and its enforcers; Scribe: town halls and chanceries, records and those who keep them.
 
@@ -2838,7 +2959,8 @@ Every item has `price_copper`, set in the item editor (admin only) and never sho
 - **How many:** no limit; a player can take as many as they like.
 - **Custom traits need approval** from the campaign DM, who checks that the downside balances the upside.
 - **Later:** the DM can grant traits as a **story event**, and a trait can be **removed**, e.g. by overcoming it in the story.
-- *(Draft.)* Eight premade traits are in the database as a starting point: Hothead, Light sleeper, Glutton, Pious, Coward, Show-off, Bookworm, Superstitious. Rewrite or replace them freely.
+- **They must affect play,** not only roleplay: the upside and downside hook into the rules (rests, the Danger Level, Scars, advantage, costs to attempt). Illnesses are typical, but not required.
+- **Premade traits** *(2026-11-15)*: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive (a d20 after every rest: even, Soul and Charisma Danger Level starts 1 lower; odd, 1 higher), Pious (advantage resisting seduction and temptation; disadvantage resisting alcohol, and anything immoral costs 1 Soul to attempt).
 - Traits are flavour and challenge. They don't count towards level (see [Validating a character's level](#validating-a-characters-level)).
 
 ## Roles in the app
@@ -2888,16 +3010,18 @@ Drafted while writing the pages, to confirm:
 
 **Structure** (built):
 
-- **Basics:** What this game is · Dice rolls (including saving throws) · Advantage · Bonuses
+**Consolidated 2026-11-14:** every page after Manoeuvres rewritten in prose with explanatory examples and notes; each rule stated once (poisons on *Traps and hazards*, armour in a hit on *Defending and getting hit*, travel rules on *Travel* with the tables in *Useful tables*). English only for now: the old Czech halves of these pages were dropped and get rewritten once the English settles.
+
+- **Introduction** *(the chapter was called "Finished" until 2026-11-15)*: What this game is · Dice rolls (including saving throws) · Advantage · Bonuses
 - **Classes:** How classes work · Basic classes · Advanced classes and aspects · Mighty classes · one page per class (skills, aspects, perks)
 - **Resources:** Resources · Danger Level · Cost to attempt · Exhaustion · Scars · Healing · Item scars · Dying
-- **Combat:** Turns and actions · Defending · Damage and armour · Manoeuvres · Conditions · NPCs
+- **Combat:** Turns and actions · Manoeuvres · Defending and getting hit (the defense roll, undefended attacks, threat dice and armour in a hit, resistances) · Conditions (with penalties as mirrors of the manoeuvres) · NPCs
 - **Magic:** Casting magic · Durations and concentration · Sigils · Ritual items · Control and mind reading · Countering magic · Substances (poisons, narcotics, potions, elixirs, with a table of what works on what)
 - **Equipment:** Weapons · Armour · Item scars · Traps and hazards · Crafting
 - **Characters:** Creating a character · Races · Backgrounds · Languages · Traits · Leveling
-- **Companions and power:** Companions · Organizations and Standing · Networks · Units · Battles
+- **Companions and power:** Companions · Organizations and Standing · Networks · Units · Battles and the map (the grid and scales merged in, 2026-11-14)
 - **World:** Coins and Material · Travel (pace, tasks, weather, encounters, the calculator) · Sieges
-- **Useful tables** *(draft, 2026-11-08)*: Speeds · A day's travel · Ground · Weather · Random encounters · Digging and mining · Walls and gates · Roofs · Siege engines · Grid and scales. Lookup tables for the DM, from the drafts under [Travel](#travel), [Digging and mining](#digging-and-mining-draft) and [Structures and siege engines](#structures-and-siege-engines-draft); keep both in step.
+- **Useful tables** *(draft, 2026-11-08)*: Speeds · A day's travel · Ground · Weather · Random encounters · Digging and mining · Fortifications (walls and gates, roofs and small things, merged 2026-11-15) · Siege engines. Lookup tables for the DM, from the drafts under [Travel](#travel), [Digging and mining](#digging-and-mining-draft) and [Structures and siege engines](#structures-and-siege-engines-draft); keep both in step.
 
 The pages added on 2026-10-28 hold rules only; their examples and story bits are Michal's to write. The weapon table on *Dice rolls* is the `::weapons` block, filled from the item list.
 
@@ -2933,7 +3057,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
 - **Rules still to write:** mighty class perks (no skills; including the Standing 3–5 perks, and Warlord's perks for creating and commanding military units).
 
 **App and data follow-ups:** written into the app on **2026-10-28**: the rulebook pages (rules only; Michal writes the examples), mighty class prerequisites, all 30 aspects, the shared *Dealing with supernatural beings* skill, race speed, each weapon's free manoeuvre (item editor and the `::weapons` block), per-campaign merit points (campaign page) and the pool-under-2 warning. Still to do:
-- Perks still to write: Black Priest perks for crafting lasting magic items, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, (Done: the Monk aspect's unarmed-fighting perks, 2026-11-14; *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
+- Perks still to write: Necromancer perks for crafting lasting magic items, strong manoeuvre perks, cruel manoeuvre perks for mighty classes, the Ravager's armour-ignoring perk, (Done: the Monk aspect's unarmed-fighting perks, 2026-11-14; *Omni potion*, *Unusual poison*, *Trophy hunter*'s bonus dice, *Your lips are venomous poison*'s price, *Iron liver*.)
 - Rulebook examples and story bits for the new pages (Michal).
 - *Power* (organizations) isn't in the rulebook, since it isn't confirmed.
 - **Pricing, modular armour and backgrounds** (2026-10-31): the code is in, but the database part waits in `supabase/migrations/2026103112*.sql` (schema, then items and backgrounds, then the rulebook armour paragraphs); applying it from the session was declined. To confirm: **scarring armour breaks one piece** (replaces "rating drops by 1"), and the background balance.
@@ -2968,7 +3092,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
    - ~~Metres or feet?~~ Answered: **metres**, for player legibility.
    - ~~Q7b~~: answered (simplified 5 ft = 1 m).
 8. **Content gaps:**
-   - Skills and perks for the mighty classes, and a description for Black Priest.
+   - Skills and perks for the mighty classes, and a description for Necromancer.
    - ~~Armour~~: answered (none 0, light 1, medium 2, heavy 3; heavy costs 2 Body before acrobatic tasks).
    - ~~Q8a~~: answered (light 0, medium 1, heavy 2 Body, for any activity the armour would hinder).
    - ~~Q8b~~: answered (only for activities the item is reasonably involved in, creative uses allowed; the points are unspecified and leftovers are lost).
@@ -2987,7 +3111,7 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - DrD2's magic chapter is the proposed base (see [Proposed base](#proposed-base-dračí-doupě-2)); its clashes with 5E and the old spells are listed under [Conflicts](#conflicts-with-5e-and-our-current-rules).
     - ~~**Q14a, casting roll**~~: answered. A skill check when unopposed, a challenge against a resisting target. A failed cast can be averted with exhaustion or a Scar.
     - **Q14b, price:** ~~common scale?~~ Answered: a spell's price works like any other perk's (none, or an activation price). Core spells are only unlocked from the start, not automatically free. A free spell still needs its components. ~~Hard circumstances?~~ Answered: a DM-set cost to attempt, paid before rolling, like armour encumbrance. Sigils' 1 point per action is the same rule.
-    - ~~**Q14c, pseudo-magic Scars**~~: answered. A level-1 Scar, as a blank payment with no temporary points, enters **magic mode**. It lasts until the end of the conflict, or a reasonable continuous stretch of time outside combat. The Scar's story is free (an elixir, a cut palm), and it goes into any pool the player likes.
+    - ~~**Q14c, latent magic Scars**~~: answered. A level-1 Scar, as a blank payment with no temporary points, enters **magic mode**. It lasts until the end of the conflict, or a reasonable continuous stretch of time outside combat. The Scar's story is free (an elixir, a cut palm), and it goes into any pool the player likes.
     - **Q14d, damage:** ~~can basic magic kill?~~ Answered: core spells can't kill directly, at most chip damage; perk spells can have damage dice. ~~Scale against player characters?~~ Answered: the DM translates spell damage into a threat die (d4 chip, d6 small, d8 big area, d10+ legendary), confirmed for now.
     - ~~**Q14e, area spells**~~: answered for now. A won defense roll halves the damage for NPCs (rounded down) and avoids it completely for player characters.
     - ~~**Q14f, core spell limits**~~: answered. Core spells may be free; they're limited by the action, the roll (failed casts cost exhaustion, which adds up), the base scale, Widespread and costs to attempt. Stronger NPCs can be immune to simple curses. Blessings and Curses stays free. Eye Sigil's "sigil strength" is the Material put into its pool (see *Sigils*).
@@ -3039,10 +3163,10 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q18m, unit damage**~~: answered. The Body track is the unit's hit points; one damage roll per qualifying action; the unit drops a size when Body falls to the next smaller size's maximum.
     - ~~**Q18d, familiars**~~: answered. From an Incantor perk spell, like *Find Familiar*.
 19. **Mighty classes from DrD2's master classes** (see [Master classes in DrD2](#master-classes-in-drd2)):
-    - ~~**Q19a, merging**~~: answered (see *Our merge*). Warlord ← Leader; Ravager ← Destroyer; Shadow ← Shadow + Avenger's assassin side; Inquisitor ← Inquisitor + Paladin + the Necromancer's investigative blood magic; Zhrets ← Žrec + Elementalist water and earth; Black Priest ← Necromancer + Wonderworker + Elementalist fire and air.
-    - **Q19b, blood magic:** draft only: *Last memory* and the Mage *Necrolog* to the Inquisitor, *Blood toll* stays with Black Priest. Perks are settled later.
-    - ~~**Q19c, prerequisites**~~: answered. Warlord: Warrior, Rogue, Scout. Ravager: Warrior, Ranger, Witcher. Shadow: Rogue, Scout, Mage, Alchemist. Inquisitor: Warrior, Warlock, Witcher, Mage. Zhrets: Ranger, Druid, Shaman. Black Priest: Warlock, Alchemist, Shaman, Druid. Every advanced class leads to two, Warrior to three.
-    - ~~**Q19d, Elementalist**~~: answered. Kept split: fire and air to Black Priest, water and earth to Zhrets. *Later:* maybe let Zhrets reach all four elements through a purchasable perk, even without Warlock.
+    - ~~**Q19a, merging**~~: answered (see *Our merge*). Warlord ← Leader; Ravager ← Destroyer; Shadow ← Shadow + Avenger's assassin side; Inquisitor ← Inquisitor + Paladin + the Necromancer's investigative blood magic; Zhrets ← Žrec + Elementalist water and earth; Necromancer ← Necromancer + Wonderworker + Elementalist fire and air.
+    - **Q19b, blood magic:** draft only: *Last memory* and the Mage *Necrolog* to the Inquisitor, *Blood toll* stays with Necromancer. Perks are settled later.
+    - ~~**Q19c, prerequisites**~~: answered. Warlord: Warrior, Rogue, Scout. Ravager: Warrior, Ranger, Witcher. Shadow: Rogue, Scout, Mage, Alchemist. Inquisitor: Warrior, Warlock, Witcher, Mage. Zhrets: Ranger, Druid, Shaman. Necromancer: Warlock, Alchemist, Shaman, Druid. Every advanced class leads to two, Warrior to three.
+    - ~~**Q19d, Elementalist**~~: answered. Kept split: fire and air to Necromancer, water and earth to Zhrets. *Later:* maybe let Zhrets reach all four elements through a purchasable perk, even without Warlock.
 20. **Bestiary** (see [Bestiary](#bestiary)): five root categories confirmed: Animals, Humans and humanoids, Undead and reanimated, Monsters, Fiends.
     - ~~**Q20a, combat skills**~~: answered. "Humans and beasts" (Fighter, Hunter, Juggler, Warrior, Scout) means exactly Humans and humanoids plus Animals. Trolls and giants are Fighter's; wyverns and lesser vampires need Ranger or Witcher.
     - ~~**Q20b, subgroups**~~: answered. The draft subgroups are confirmed and in the app (see [Subgroups](#subgroups)).
@@ -3060,5 +3184,6 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
     - ~~**Q22d, Alchemist prices**~~: answered. Explosives, corrosives and gases cost 2 Material per strength and lose 1 strength per metre from where they go off.
     - ~~**Q22h, sturdiness**~~: answered. The structures' threshold is renamed **sturdiness** and stays a threshold against rolled damage, for hazards too (the slight randomness is wanted). Tamped charges roll 2 more dice. DrD2's *Odolnost* isn't used.
     - ~~**Q22e, elixirs**~~: answered. Skill elixir (a free Precise, Mighty or Cunning with one named skill, 2 Material), master elixir (the Very version, 3), wonder elixir (an ability no human has, 5); each for the drinker's next action.
-    - ~~**Q22f, lasting magic items**~~: answered. Only the Black Priest crafts them, through mighty class perks (from DrD2's Wonderworker: *Runesmith*, *Eternal spells*). Others make consumables; lasting artefacts otherwise come from the DM.
+    - ~~**Q22f, lasting magic items**~~: answered. Only the Necromancer crafts them, through mighty class perks (from DrD2's Wonderworker: *Runesmith*, *Eternal spells*). Others make consumables; lasting artefacts otherwise come from the DM.
     - ~~**Q22g, crafting**~~: answered. Automatic with time, tools and a rest; otherwise a skill check; 1 Material a round in a hurry; improvised materials (0 Material) make strength-1 hazards that end at sunrise or sunset, and consumables with no effect. *Garden of Eden* harvests proper Material.
+23. **Hidden classes** (see [Hidden classes](#hidden-classes-draft-2026-11-14)): a basic class the story grants, which doesn't combine into advanced classes. The Vampire is drafted; the twelve points under *Where it meets our rules* are open.

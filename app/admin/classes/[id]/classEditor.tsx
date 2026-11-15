@@ -41,7 +41,7 @@ const blank: Tables<"classes"> = {
   id: "",
   name: "",
   rank: "basic",
-  magic: "none",
+  magic: "dormant",
   description: null,
   image_url: null,
   color: null,
@@ -111,7 +111,7 @@ const ClassEditor: React.FC<{ rb: Rulebook; cls: Tables<"classes"> | null }> = (
             value={row.magic}
             onChange={(magic) => set({ magic: magic as Tables<"classes">["magic"] })}
             options={enumOptions(ENUMS.class_magic)}
-            hint="Pseudo-magic casters pay with Scars."
+            hint="Awakened casters have their magic awake; Latent ones wake it with a Scar; Dormant ones have none."
           />
           {parentRank && (
             <div className="md:col-span-2">

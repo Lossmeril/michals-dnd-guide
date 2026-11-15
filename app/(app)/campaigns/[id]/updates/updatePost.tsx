@@ -1,8 +1,11 @@
+"use client";
+
 import { Avatar } from "@/components/ui/avatar";
 import Eyebrow from "@/components/ui/eyebrow";
 import MarkdownText from "@/components/ui/markdownText";
 import type { Campaign_Update } from "@/lib/types/campaign_update";
 import type { Profile } from "@/lib/types/profile";
+import { useDict } from "@/lib/i18n/client";
 
 interface UpdatePostProps {
   update: Campaign_Update;
@@ -17,7 +20,9 @@ export const UpdatePost: React.FC<UpdatePostProps> = ({
   byDm,
   onDelete,
 }) => {
-  const name = author?.display_name || "Unknown";
+  const t = useDict().campaigns;
+  const lang = useDict().lang;
+  const name = author?.display_name || t.unknown;
 
   return (
     <article className="flex gap-4 py-6 border-b border-dnd-gold/50">
@@ -27,7 +32,7 @@ export const UpdatePost: React.FC<UpdatePostProps> = ({
           <span className="font-bold text-dnd-red">{name}</span>
           {byDm && <Eyebrow text="DM" color="red" />}
           <time className="text-xs text-dnd-ink/50">
-            {new Date(update.created_at).toLocaleString()}
+            {new Date(update.created_at).toLocaleString(lang === "cs" ? "cs-CZ" : "en-GB")}
           </time>
           {onDelete && (
             <button
@@ -35,7 +40,7 @@ export const UpdatePost: React.FC<UpdatePostProps> = ({
               onClick={onDelete}
               className="ml-auto bg-transparent text-xs text-dnd-ink/50 hover:bg-transparent hover:text-dnd-red px-0 py-0"
             >
-              Delete
+              {t.deletePost}
             </button>
           )}
         </div>

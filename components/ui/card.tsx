@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { FaImage } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 
 interface CardProps {
   title: string;
-  /** Omit, or pass null, for a "No image" placeholder */
+  /** Omit, or pass null, for a blank picture placeholder */
   imageUrl?: string | null;
   imageClassName?: string;
   /** Tags above the title, e.g. <Eyebrow />s */
@@ -38,7 +39,7 @@ const Card: React.FC<CardProps> = ({
         />
       ) : (
         <div className="w-full h-48 bg-gray-200 border-b border-b-gray-300 flex items-center justify-center">
-          <span className="text-gray-500">No Image</span>
+          <FaImage aria-hidden className="text-gray-400 text-4xl" />
         </div>
       )}
       <div className="p-4">
