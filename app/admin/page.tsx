@@ -14,84 +14,87 @@ const AdminDashboard = async () => {
   const pageCount = nav.reduce((n, c) => n + c.pages.length, 0);
   const count = (n: number, one: string, many = `${one}s`) =>
     `${n} ${n === 1 ? one : many}`;
-  const kinds = (kind: string) => rb.perks.filter((p) => p.kind === kind).length;
-  const awaiting = rb.traits.filter((t) => t.is_custom && !t.approved_by).length;
+  const kinds = (kind: string) =>
+    rb.perks.filter((p) => p.kind === kind).length;
+  const awaiting = rb.traits.filter(
+    (t) => t.is_custom && !t.approved_by,
+  ).length;
 
   const cards = [
     {
       title: "Rulebook pages",
       href: "/admin/rulebook",
-      image: "/img/rulebook/classes.webp",
+      image: "/img/dashboard/rulebook.jpg",
       text: "The rules text: chapters, pages, examples, pictures and dice.",
       stat: `${count(nav.length, "chapter")} · ${count(pageCount, "page")}`,
     },
     {
       title: "Races",
       href: "/admin/races",
-      image: "/img/races/dwarf.webp",
+      image: "/img/dashboard/races.jpg",
       text: "Descriptions, pictures, racial languages and their perks.",
       stat: count(rb.races.length, "race"),
     },
     {
       title: "Classes",
       href: "/admin/classes",
-      image: "/img/classes/warrior.webp",
+      image: "/img/dashboard/classes.jpg",
       text: "Skills, parent classes, core spells and which perks belong where.",
       stat: count(rb.classes.length, "class", "classes"),
     },
     {
       title: "Perks and spells",
       href: "/admin/perks",
-      image: "/img/classes/mage.webp",
+      image: "/img/dashboard/spells.jpg",
       text: "Descriptions, activation prices, spell details and requirements.",
       stat: `${count(kinds("perk"), "perk")} · ${count(kinds("spell"), "spell")} · ${kinds("racial")} racial`,
     },
     {
       title: "Aspects",
       href: "/admin/perks?kind=aspect",
-      image: "/img/classes/witcher.webp",
+      image: "/img/dashboard/aspects.jpg",
       text: "The roots of each advanced class's perk tree, and what unlocks them.",
       stat: count(kinds("aspect"), "aspect"),
     },
     {
       title: "Backgrounds",
       href: "/admin/backgrounds",
-      image: "/img/classes/scout.webp",
+      image: "/img/dashboard/backgrounds.jpg",
       text: "Starting gear and its choices, coins, Material, languages and known settings.",
       stat: count(rb.backgrounds.length, "background"),
     },
     {
       title: "Items",
       href: "/admin/items",
-      image: "/img/classes/warrior.webp",
+      image: "/img/dashboard/equipment.jpg",
       text: "Weapons, armour, tools and gear that backgrounds hand out.",
       stat: count(rb.items.length, "item"),
     },
     {
       title: "Languages",
       href: "/admin/languages",
-      image: "/img/classes/incantor.webp",
+      image: "/img/dashboard/langs.jpg",
       text: "Who speaks what.",
       stat: count(rb.languages.length, "language"),
     },
     {
       title: "Bestiary",
       href: "/admin/bestiary",
-      image: "/img/races/kroll.webp",
+      image: "/img/dashboard/bestiary.jpg",
       text: "Creature categories and subgroups, and each creature's lore and stat block.",
       stat: `${count(bestiary.categories.length, "category", "categories")} · ${count(bestiary.creatures.length, "creature")}`,
     },
     {
       title: "Traits",
       href: "/admin/traits",
-      image: "/img/races/kroll.webp",
+      image: "/img/dashboard/traits.jpg",
       text: "Premade traits, and players' custom ones waiting for approval.",
       stat: `${count(rb.traits.length, "trait")}${awaiting ? ` · ${awaiting} awaiting approval` : ""}`,
     },
     {
       title: "Credits",
       href: "/admin/credits",
-      image: "/img/neidhart.webp",
+      image: "/img/dashboard/credits.jpg",
       text: "Harvard references, book covers and the images each source covers.",
       stat: "Sources",
     },
@@ -114,7 +117,7 @@ const AdminDashboard = async () => {
             key={c.title}
             title={c.title}
             imageUrl={c.image}
-            imageClassName="object-top"
+            imageClassName="object-[50%_30%]"
             link={c.href}
           >
             <p className="text-sm mb-2">{c.text}</p>
