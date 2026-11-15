@@ -9,9 +9,9 @@ export const tableClasses = {
   wrap: "overflow-x-auto bg-dnd-bg border border-dnd-gold rounded-lg shadow-md",
   table: "w-full text-sm",
   headRow: "text-left border-b-2 border-dnd-gold",
-  th: "px-3 py-2 libre font-bold text-dnd-red-dark",
+  th: "px-2 sm:px-3 py-2 libre font-bold text-dnd-red-dark",
   row: "border-b border-dnd-gold/40 last:border-b-0 align-top",
-  td: "px-3 py-2",
+  td: "px-2 sm:px-3 py-2",
 };
 
 export interface Column<T> {

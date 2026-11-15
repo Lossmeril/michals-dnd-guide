@@ -524,6 +524,7 @@ const en = {
     home: "Home",
     language: "Language",
     /** Shown only on the Czech side */
+    rulebookContents: "Contents",
     translationNotice: null as null | { title: string; text: string },
   },
   rulebook: {
@@ -1310,6 +1311,7 @@ const cs: Dict = {
     logOut: "Odhlásit se",
     home: "Domů",
     language: "Jazyk",
+    rulebookContents: "Obsah",
     translationNotice: {
       title: "Strojový překlad",
       text: "Český překlad je strojový a pořád se na něm pracuje. Oficiální verze pravidel je ta anglická: pokud se v překladu objeví nesrovnalosti, řiďte se anglickým zněním.",

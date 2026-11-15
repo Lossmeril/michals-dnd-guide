@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({
     >
       {isOpen && (
         <>
-          <div className="sticky top-0 z-20 flex items-center justify-between gap-4 px-6 py-3 bg-dnd-bg/95 border-b border-dnd-gold">
+          <div className="sticky top-0 z-20 flex items-center justify-between gap-4 px-4 sm:px-6 py-3 bg-dnd-bg/95 border-b border-dnd-gold">
             <div className="libre font-bold text-dnd-red-dark text-lg min-w-0 truncate">
               {title}
             </div>
@@ -57,7 +57,7 @@ const Modal: React.FC<ModalProps> = ({
               &times;
             </button>
           </div>
-          <div className="p-6">{children}</div>
+          <div className="p-4 sm:p-6">{children}</div>
         </>
       )}
     </dialog>

@@ -27,7 +27,7 @@ const AuthShell = async ({
   const t = (await getDict()).account;
   return (
   <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-10 items-start max-w-5xl mx-auto">
-    <aside className="bg-dnd-bg border border-dnd-red-dark rounded-lg shadow-md overflow-hidden">
+    <aside className="order-last lg:order-none bg-dnd-bg border border-dnd-red-dark rounded-lg shadow-md overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/img/auth/gate.webp"

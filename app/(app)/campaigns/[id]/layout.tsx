@@ -1,4 +1,4 @@
-import SidebarNav from "@/components/layout/sidebarNav";
+import SidebarNav, { TabsNav } from "@/components/layout/sidebarNav";
 import { fetchCampaign } from "@/lib/endpoints/campaigns";
 import CampaignCrumbs from "./campaignCrumbs";
 import { getDict } from "@/lib/i18n/server";
@@ -10,17 +10,21 @@ const CampaignLayout = async ({
   const { id } = await params;
   const [campaign, dict] = await Promise.all([fetchCampaign(Number(id)), getDict()]);
   const t = dict.campaigns;
+  const items = [
+    { label: t.overview, href: `/campaigns/${id}` },
+    { label: t.updates, href: `/campaigns/${id}/updates` },
+  ];
 
   return (
     <>
       <CampaignCrumbs id={id} name={campaign?.name || t.unnamed} />
+      <div className="md:hidden">
+        <TabsNav items={items} />
+      </div>
       <div className="flex gap-10">
-        <SidebarNav
-          items={[
-            { label: t.overview, href: `/campaigns/${id}` },
-            { label: t.updates, href: `/campaigns/${id}/updates` },
-          ]}
-        />
+        <div className="hidden md:block">
+          <SidebarNav items={items} />
+        </div>
         <div className="flex-1 min-w-0">{children}</div>
       </div>
     </>
