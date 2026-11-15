@@ -66,7 +66,7 @@ const Navbar = async () => {
             </>
           )}
           {!user && (
-            <a href="/login" className="text-dnd-red button">
+            <a href="/login" className="button">
               {dict.site.logIn}
             </a>
           )}

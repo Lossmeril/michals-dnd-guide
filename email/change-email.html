@@ -1,0 +1,35 @@
+<!-- Subject: Confirm the new address | Potvrď novou adresu -->
+<!-- Paste everything below into Supabase: Authentication › Emails › the matching template (Source view). -->
+<div style="margin:0;padding:0;background:#efe4c8;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#efe4c8;">Confirm the change of your email address.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#efe4c8" style="background:#efe4c8;">
+<tr><td align="center" style="padding:32px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+<tr><td align="center" style="padding:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#68211b;">Michal&#39;s D&amp;D Guide</td></tr>
+<tr><td bgcolor="#fff7df" style="background:#fff7df;border:1px solid #68211b;border-radius:8px;padding:32px 28px;">
+<p style="margin:0 0 12px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a6f63;">English</p>
+<h1 style="margin:0 0 20px 0;padding:0 0 8px 0;border-bottom:2px solid #cdb37a;font-family:Georgia, 'Times New Roman', Times, serif;font-size:24px;line-height:1.3;font-weight:bold;color:#68211b;text-transform:uppercase;letter-spacing:1px;">A new address</h1><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px 0;">
+<tr><td style="background:#d1e2b6;border-top:2px solid #4a4138;border-bottom:2px solid #4a4138;padding:16px 20px;font-family:Georgia, 'Times New Roman', Times, serif;font-style:italic;font-size:15px;line-height:1.6;color:#4a4138;">The clerk dips the quill and waits, the old address half crossed out.</td></tr>
+</table><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:15px;line-height:1.6;color:#4a4138;">Confirm that your account&rsquo;s email should change from <strong>{{ .Email }}</strong> to <strong>{{ .NewEmail }}</strong>. Nothing changes until you do.</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px 0;">
+<tr><td align="center" bgcolor="#a3201b" style="background:#a3201b;border-radius:999px;">
+<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed" target="_blank" style="display:inline-block;padding:12px 28px;font-family:Georgia, 'Times New Roman', Times, serif;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px;">Confirm the change</a>
+</td></tr>
+</table><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">If the button doesn&rsquo;t work, open this link:<br><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed" style="color:#a3201b;word-break:break-all;">{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed</a></p><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">If this email comes to both addresses, confirm it in both.</p><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">Didn&rsquo;t ask for this? Ignore this email and change your password.</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:16px 0 28px 0;"><tr><td style="border-top:1px solid #cdb37a;font-size:0;line-height:0;">&nbsp;</td></tr></table>
+<p style="margin:0 0 12px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a6f63;">Česky</p>
+<h1 style="margin:0 0 20px 0;padding:0 0 8px 0;border-bottom:2px solid #cdb37a;font-family:Georgia, 'Times New Roman', Times, serif;font-size:24px;line-height:1.3;font-weight:bold;color:#68211b;text-transform:uppercase;letter-spacing:1px;">Nová adresa</h1><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px 0;">
+<tr><td style="background:#d1e2b6;border-top:2px solid #4a4138;border-bottom:2px solid #4a4138;padding:16px 20px;font-family:Georgia, 'Times New Roman', Times, serif;font-style:italic;font-size:15px;line-height:1.6;color:#4a4138;">Písař namočí brk a čeká, stará adresa napůl přeškrtnutá.</td></tr>
+</table><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:15px;line-height:1.6;color:#4a4138;">Potvrď, že se e-mail tvého účtu má změnit z <strong>{{ .Email }}</strong> na <strong>{{ .NewEmail }}</strong>. Dokud to neuděláš, nic se nezmění.</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px 0;">
+<tr><td align="center" bgcolor="#a3201b" style="background:#a3201b;border-radius:999px;">
+<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed" target="_blank" style="display:inline-block;padding:12px 28px;font-family:Georgia, 'Times New Roman', Times, serif;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px;">Potvrdit změnu</a>
+</td></tr>
+</table><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">Pokud tlačítko nefunguje, otevři tento odkaz:<br><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed" style="color:#a3201b;word-break:break-all;">{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=email_change&amp;next=%2Fprofile%3Femail%3Dconfirmed</a></p><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">Pokud tenhle e-mail přišel na obě adresy, potvrď ho v obou.</p><p style="margin:0 0 16px 0;font-family:Georgia, 'Times New Roman', Times, serif;font-size:13px;line-height:1.6;color:#7a6f63;">Nečekáš tenhle e-mail? Ignoruj ho a změň si heslo.</p>
+</td></tr>
+<tr><td align="center" style="padding:16px 8px 0 8px;font-family:Georgia, 'Times New Roman', Times, serif;font-size:12px;line-height:1.5;color:#7a6f63;">
+You get this email because someone used this address at Michal&#39;s D&amp;D Guide.<br>
+Tento e-mail přišel, protože někdo použil tuto adresu v Michalových D&amp;D pravidlech.
+</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
