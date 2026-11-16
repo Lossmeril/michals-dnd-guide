@@ -13,7 +13,7 @@ const AdminItemsPage = async ({ searchParams }: PageProps<"/admin/items">) => {
   // Which backgrounds hand an item out, to see what deleting it would affect
   const givenBy = (id: string) =>
     rb.backgrounds
-      .filter((b) => JSON.stringify(b.equipment).includes(`"${id}"`))
+      .filter((b) => JSON.stringify(b.variants).includes(`"${id}"`))
       .map((b) => b.name)
       .join(", ");
 

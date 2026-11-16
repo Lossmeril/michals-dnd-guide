@@ -12,6 +12,7 @@ import { armourTotals } from "@/lib/rules/armour";
 import {
   aspectsOf,
   chosenIn,
+  backgroundVariant,
   coreSpells,
   findPerk,
   freeLanguages,
@@ -179,6 +180,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
   const lang = dict.lang;
   const race = rb.races.find((r) => r.id === build.raceId);
   const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  const variant = backgroundVariant(rb, build);
   const classes = rb.classes.filter((c) => build.classes[c.id]);
   const skills = skillsByPool(rb, build);
   const carried = inventory.filter((row) => row.carried && !row.broken);
@@ -357,9 +359,9 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
             <WriteIn label={p.copper} />
           </div>
           <WriteIn label={p.material} hint={p.materialHint} />
-          {background && (
+          {variant && (
             <p className="text-[6.5pt] italic text-dnd-ink/60 leading-tight">
-              {p.startedWith(formatCoins(background.coins_copper, lang), background.material)}
+              {p.startedWith(formatCoins(variant.coins_copper, lang), variant.material)}
             </p>
           )}
         </Box>
@@ -598,8 +600,8 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, dict }) =
               <p className="font-bold mt-2">{p.holds}</p>
               <Lines count={1} />
               <ul className="mt-2 list-disc pl-4 text-[7pt] text-dnd-ink/80 flex flex-col gap-0.5">
-                <li>{t.rules.ritualUse}</li>
-                <li>{t.rules.ritualLost}</li>
+                <li>{t.ritual.use}</li>
+                <li>{t.ritual.lost}</li>
               </ul>
             </div>
           </div>

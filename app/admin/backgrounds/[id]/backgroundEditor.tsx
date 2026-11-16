@@ -6,7 +6,8 @@ import { useState } from "react";
 import { Overline } from "@/components/ui/typography";
 import { NumberField, TextField } from "@/components/ui/formControls";
 import Panel from "@/components/ui/panel";
-import { equipmentOf, type Item } from "@/lib/rules/equipment";
+import { type EquipmentGroup, equipmentOf, type Item } from "@/lib/rules/equipment";
+import { type Fortune, FORTUNES, JUMPSTART_TABLES, type Variant, variantsOf } from "@/lib/rules/fortune";
 import { formatCoins } from "@/lib/rules/format";
 import type { Json, Tables } from "@/lib/types/database.types";
 import { saveBackground } from "../../actions";
@@ -18,6 +19,12 @@ import {
   useRowEditor,
 } from "../../_components";
 import EquipmentBuilder from "./equipmentBuilder";
+
+const FORTUNE_LABELS: Record<Fortune, string> = {
+  poor: "Poor",
+  commoner: "Commoner",
+  fortunate: "Fortunate",
+};
 
 const BackgroundEditor: React.FC<{
   background: Tables<"backgrounds"> | null;
@@ -33,9 +40,12 @@ const BackgroundEditor: React.FC<{
       id: "",
       name: "",
       description: null,
-      equipment: [],
-      coins_copper: 0,
-      material: 0,
+      variants: {},
+      archetypes: null,
+      quirks: null,
+      ideals: null,
+      bonds: null,
+      flaws: null,
       extra_languages: 0,
       known_settings: null,
       sort: nextSort,
@@ -46,8 +56,13 @@ const BackgroundEditor: React.FC<{
     save: (r) => saveBackground(isNew, r),
   });
 
+  const variants = variantsOf(row);
+  const setVariant = (fortune: Fortune, patch: Partial<Variant>) =>
+    set({ variants: { ...variants, [fortune]: { ...variants[fortune], ...patch } } as unknown as Json });
   // Kept apart from the row so lines without items yet stay on screen
-  const [groups, setGroups] = useState(() => equipmentOf(items, row.equipment));
+  const [groups, setGroups] = useState(
+    () => Object.fromEntries(FORTUNES.map((f) => [f, equipmentOf(items, variants[f].equipment)])) as Record<Fortune, EquipmentGroup[]>,
+  );
 
   return (
     <>
@@ -67,15 +82,6 @@ const BackgroundEditor: React.FC<{
           className="md:col-span-2"
         />
         <NumberField
-          label="Coins (in copper)"
-          id="coins"
-          min={0}
-          value={row.coins_copper}
-          onChange={(v) => set({ coins_copper: v ?? 0 })}
-          hint={`${formatCoins(row.coins_copper)}. 1 gold = 100 silver = 1000 copper.`}
-        />
-        <NumberField label="Material" id="material" min={0} value={row.material} onChange={(v) => set({ material: v ?? 0 })} />
-        <NumberField
           label="Extra languages"
           id="languages"
           min={0}
@@ -92,21 +98,67 @@ const BackgroundEditor: React.FC<{
           className="md:col-span-2"
         />
       </Panel>
+      {FORTUNES.map((fortune) => (
+        <section key={fortune} className="mt-10">
+          <Overline>{FORTUNE_LABELS[fortune]}</Overline>
+          <Panel className={`${formGrid} mb-4`}>
+            <TextField
+              label="Who they were" localized
+              id={`${fortune}-label`}
+              value={variants[fortune].label}
+              onChange={(label) => setVariant(fortune, { label })}
+              hint="One line, e.g. a veteran of a few campaigns."
+              className="md:col-span-2"
+            />
+            <NumberField
+              label="Coins (in copper)"
+              id={`${fortune}-coins`}
+              min={0}
+              value={variants[fortune].coins_copper}
+              onChange={(v) => setVariant(fortune, { coins_copper: v ?? 0 })}
+              hint={`${formatCoins(variants[fortune].coins_copper)}. 1 gold = 100 silver = 1000 copper.`}
+            />
+            <NumberField
+              label="Material"
+              id={`${fortune}-material`}
+              min={0}
+              value={variants[fortune].material}
+              onChange={(v) => setVariant(fortune, { material: v ?? 0 })}
+            />
+          </Panel>
+          <EquipmentBuilder
+            items={items}
+            groups={groups[fortune]}
+            onChange={(next) => {
+              setGroups({ ...groups, [fortune]: next });
+              setVariant(fortune, { equipment: next as unknown as Json });
+            }}
+          />
+        </section>
+      ))}
       <section className="mt-10">
-        <Overline>Starting gear</Overline>
+        <Overline>Jumpstart tables</Overline>
         <p className="text-sm mb-4">
-          Lines are given as they are; a line with several items lets the player pick one.
-          Add a choice for things like &ldquo;two weapons, or a weapon and a shield&rdquo;.
-          Items themselves are in <Link href="/admin/items" className="link">Items</Link>.
+          Eight lines each, one per d8 result; the ninth, &ldquo;make up your own&rdquo;, is
+          added on its own. Archetypes are <code>Name | text | recommended</code>, ideals{" "}
+          <code>Name | text</code>. Gear lines are given as they are; a line with several
+          items lets the player pick one. Items are in{" "}
+          <Link href="/admin/items" className="link">Items</Link>.
         </p>
-        <EquipmentBuilder
-          items={items}
-          groups={groups}
-          onChange={(next) => {
-            setGroups(next);
-            set({ equipment: next as unknown as Json });
-          }}
-        />
+        <Panel className={formGrid}>
+          {JUMPSTART_TABLES.map((table) => (
+            <TextField
+              key={table}
+              label={table[0].toUpperCase() + table.slice(1)}
+              localized
+              multiline
+              id={table}
+              value={row[table]}
+              onChange={(v) => set({ [table]: v || null })}
+              className="md:col-span-2"
+            />
+          ))}
+        </Panel>
       </section>
       <SaveBar
         onSave={save}

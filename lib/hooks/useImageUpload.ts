@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { convertToWebp } from "@/lib/convertToWebp";
+import { convertToWebp, type Trim } from "@/lib/convertToWebp";
 import type { Result } from "@/lib/result";
 import { DICTS } from "@/lib/i18n/dictionaries";
 
@@ -15,13 +15,17 @@ export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
  */
 export const prepareImage = async (
   original: File,
-  { maxDimension = 1600, maxBytes = MAX_IMAGE_BYTES } = {},
+  {
+    maxDimension = 1600,
+    maxBytes = MAX_IMAGE_BYTES,
+    trim = false as Trim,
+  } = {},
 ) => {
   // A plain function, not a hook: the page language is on <html lang>
   const t = DICTS[document.documentElement.lang === "cs" ? "cs" : "en"].upload;
   let file: File;
   try {
-    file = await convertToWebp(original, { maxDimension });
+    file = await convertToWebp(original, { maxDimension, trim });
   } catch {
     toast.error(t.unreadable);
     return null;

@@ -113,6 +113,60 @@ export const RuleImage: React.FC<{
   );
 };
 
+/** The video id of a YouTube link (watch, youtu.be, shorts, embed), or null */
+export const youtubeId = (src: string) => {
+  const m =
+    /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(src);
+  return m ? m[1] : null;
+};
+
+/** Seconds from a link's t= or start= ("90", "1m30s") */
+const startOf = (src: string) => {
+  const m = /[?&](?:t|start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)?s?/.exec(src);
+  if (!m) return 0;
+  return (+(m[1] ?? 0)) * 3600 + (+(m[2] ?? 0)) * 60 + +(m[3] ?? 0);
+};
+
+/**
+ * A video in a rulebook page: a YouTube link becomes an embedded player
+ * (youtube-nocookie, so nothing is tracked until it plays); any other link is
+ * played as a file, e.g. one uploaded to the videos bucket.
+ */
+export const RuleVideo: React.FC<{
+  src: string;
+  title?: string;
+  caption?: string;
+  width?: string | number;
+  poster?: string;
+}> = ({ src, title = "", caption, width, poster }) => {
+  const id = youtubeId(src);
+  const start = startOf(src);
+  const w = cssLength(width);
+  const frame = "w-full aspect-video rounded-lg border border-dnd-gold shadow-md bg-black";
+  return (
+    <figure className="my-6 clear-both mx-auto" style={w !== undefined ? { maxWidth: w } : undefined}>
+      {id ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${id}${start ? `?start=${start}` : ""}`}
+          title={title || caption || "YouTube"}
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className={frame}
+        />
+      ) : (
+        <video src={src} poster={poster} controls preload="metadata" playsInline className={frame}>
+          {title}
+        </video>
+      )}
+      {caption && (
+        <figcaption className="mt-2 text-xs italic text-dnd-ink/70 text-center">{caption}</figcaption>
+      )}
+    </figure>
+  );
+};
+
 /**
  * A titled card, e.g. one condition; several sit in a grid. The picture is
  * the card's header, and the text is small so narrow columns still read well.

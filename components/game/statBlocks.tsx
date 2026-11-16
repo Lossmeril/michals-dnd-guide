@@ -1,7 +1,7 @@
 // 5E-style stat blocks for NPCs, companions, units, networks, organizations
 // and Incantors' ritual items. Any of them can carry an emblem (a coat of
 // arms, a guild mark) to show whose side it's on. Each prints on its own (the print button) with boxes to tick
-// in play and the rules it needs printed underneath.
+// in play. No rules reminders: the rulebook explains how to run them.
 
 import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
@@ -125,18 +125,6 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({
   </section>
 );
 
-/** The rules the block needs in play, printed in small type at the bottom */
-const Reminders: React.FC<{ t: T; items: React.ReactNode[] }> = ({ t, items }) => (
-  <aside className="break-inside-avoid mt-4 px-3 py-2 bg-dnd-accent-yellow/80 border-l-4 border-dnd-gold text-[11px] leading-snug">
-    <p className="libre font-bold text-dnd-red-dark mb-1">{t.runningIt}</p>
-    <ul className="list-disc pl-4 flex flex-col gap-0.5">
-      {items.map((item, i) => (
-        <li key={i}>{item}</li>
-      ))}
-    </ul>
-  </aside>
-);
-
 /**
  * The block's frame: name, the `top` lines, then the rest. The picture is a
  * column down the right side (a strip on top on phones), cropped to the
@@ -240,7 +228,7 @@ const keysOf = (t: T, ...keys: readonly LabelKey[]): [string, string][] =>
   keys.map((k) => [k, t.labels[k]]);
 
 /** Fields the frame itself uses */
-const FRAME_KEYS = ["image", "emblem", "allegiance", "rules"];
+const FRAME_KEYS = ["image", "emblem", "allegiance"];
 
 const titleOf = (key: string) => key.charAt(0).toUpperCase() + key.slice(1);
 
@@ -296,13 +284,11 @@ const Sections: React.FC<{ data: StatBlockData; md: RenderMd; wide?: boolean }> 
 const Counter: React.FC<{
   label: string;
   value: number | undefined;
-  note?: string;
   round?: boolean;
-}> = ({ label, value, note, round }) =>
+}> = ({ label, value, round }) =>
   value ? (
     <Prop label={label}>
       <span className="font-bold">{value}</span> <Ticks count={value} round={round} />
-      {note && <span className="text-xs italic text-dnd-ink/70"> {note}</span>}
     </Prop>
   ) : null;
 
@@ -310,21 +296,18 @@ const Counter: React.FC<{
 // The kinds
 // -----------------------------------------------------------------------------
 
-type KindProps = { t: T; data: StatBlockData; md: RenderMd; wide?: boolean; rules: boolean };
+type KindProps = { t: T; data: StatBlockData; md: RenderMd; wide?: boolean };
 
 const NpcBlock: React.FC<KindProps & { companion?: boolean }> = ({
   t,
   data,
   md,
   wide,
-  rules,
   companion,
 }) => {
   const fate = numberOf(fieldOf(data, "fate"));
   const bond = numberOf(fieldOf(data, "bond"));
   const roleKey = companionRoleOf(fieldOf(data, "role"));
-  const threat = fieldOf(data, "threat");
-  const r = t.rules;
 
   return (
     <Frame t={t} data={data} md={md} wide={wide}
@@ -339,11 +322,11 @@ const NpcBlock: React.FC<KindProps & { companion?: boolean }> = ({
           <Props data={data} md={md} keys={keysOf(t, "master", "armour", "speed", "threat")} />
           {companion ? (
             <>
-              <Counter label={t.labels.bond} value={bond} note={t.notes.bond} />
+              <Counter label={t.labels.bond} value={bond} />
               <Props data={data} md={md} keys={keysOf(t, "payment")} />
             </>
           ) : (
-            <Counter label={t.labels.fate} value={fate} note={t.notes.fate} round />
+            <Counter label={t.labels.fate} value={fate} round />
           )}
         </div>
       }
@@ -359,30 +342,15 @@ const NpcBlock: React.FC<KindProps & { companion?: boolean }> = ({
         data={data}
         md={md}
         keys={keysOf(t, ...COMMON_AFTER)}
-        used={["role", "master", "armour", "speed", "threat", "fate", "bond", "payment", "body", "soul", "charisma", "rules"]}
+        used={["role", "master", "armour", "speed", "threat", "fate", "bond", "payment", "body", "soul", "charisma"]}
         rest
       />
       <Sections data={data} md={md} wide={wide} />
-      {rules && (
-        <Reminders
-          t={t}
-          items={[
-            md(r.rolls, true),
-            md(r.hit(threat), true),
-            r.armourDamage,
-            companion ? r.companionManoeuvres : r.npcManoeuvres,
-            companion ? r.companionBond : fate ? r.fate : r.noFate,
-            ...(companion ? [r.bondHealing] : []),
-            r.socialDamage,
-            r.zeroTracks,
-          ]}
-        />
-      )}
     </Frame>
   );
 };
 
-const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
+const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide }) => {
   const sizeKey = unitSizeOf(fieldOf(data, "size"));
   const size = sizeKey && UNIT_SIZES[sizeKey];
   const member = numberOf(fieldOf(data, "body"));
@@ -393,7 +361,6 @@ const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
     (k) => size && UNIT_SIZES[k].body < size.body,
   );
   const payment = fieldOf(data, "payment");
-  const r = t.rules;
 
   return (
     <Frame t={t} data={data} md={md} wide={wide}
@@ -406,7 +373,7 @@ const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
             </Prop>
           )}
           <Props data={data} md={md} keys={keysOf(t, "members", "master", "armour", "speed", "threat")} />
-          <Counter label={t.labels.bond} value={bond} note={t.notes.unitBond} />
+          <Counter label={t.labels.bond} value={bond} />
           {(payment || (bond && size && bonus)) && (
             <Prop label={t.labels.payment}>
               {payment ? md(payment, true) : t.notes.unitPayment(bonus!, size!.payment)}
@@ -435,46 +402,29 @@ const UnitBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
             ) : undefined
           }
         />
-        <Track t={t} pool="soul" value={numberOf(fieldOf(data, "soul"))} note={t.notes.average} />
-        <Track t={t} pool="charisma" value={numberOf(fieldOf(data, "charisma"))} note={t.notes.average} />
+        <Track t={t} pool="soul" value={numberOf(fieldOf(data, "soul"))} />
+        <Track t={t} pool="charisma" value={numberOf(fieldOf(data, "charisma"))} />
       </Tracks>
       <Taper />
       <Props
         data={data}
         md={md}
         keys={keysOf(t, ...COMMON_AFTER)}
-        used={["size", "members", "master", "armour", "speed", "threat", "bond", "payment", "body", "soul", "charisma", "rules"]}
+        used={["size", "members", "master", "armour", "speed", "threat", "bond", "payment", "body", "soul", "charisma"]}
         rest
       />
       <Sections data={data} md={md} wide={wide} />
-      {rules && (
-        <Reminders
-          t={t}
-          items={[
-            r.unitAction,
-            r.unitHarm(sizeKey ? t.sizes[sizeKey].harmedBy : r.enoughMembers),
-            r.unitDamage,
-            r.armourDamage,
-            r.unitDefense,
-            r.unitCounter,
-            r.unitDouble,
-            bond ? r.unitBond : r.unitNoFate,
-            r.socialDamage,
-          ]}
-        />
-      )}
     </Frame>
   );
 };
 
-const NetworkBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
+const NetworkBlock: React.FC<KindProps> = ({ t, data, md, wide }) => {
   const bond = numberOf(fieldOf(data, "bond"));
   const bonus = numberOf(fieldOf(data, "bonus"));
   const tracks = (["body", "soul", "charisma"] as const).map((p) => numberOf(fieldOf(data, p)));
   const total = tracks.reduce<number>((sum, v) => sum + (v ?? 0), 0);
   const payment =
     fieldOf(data, "payment") ?? (bonus ? t.notes.silver(Math.max(1, bonus)) : undefined);
-  const r = t.rules;
 
   return (
     <Frame t={t} data={data} md={md} wide={wide}
@@ -483,20 +433,19 @@ const NetworkBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
           <Props data={data} md={md} keys={keysOf(t, "master", "bonus", "specialisation")} />
           {payment && <Prop label={t.labels.payment}>{md(payment, true)}</Prop>}
           <Prop label={t.labels.bond}>
-            <span className="font-bold">{bond ?? 0}</span> <Ticks count={bond ?? 0} />{" "}
-            <span className="text-xs italic text-dnd-ink/70">{t.notes.networkBond}</span>
+            <span className="font-bold">{bond ?? 0}</span> <Ticks count={bond ?? 0} />
           </Prop>
           <Prop label={t.labels.upkeep}>
-            <Ticks count={8} /> <span className="text-xs italic text-dnd-ink/70">{t.notes.upkeep}</span>
+            <Ticks count={8} />
           </Prop>
         </div>
       }
     >
       <Taper />
       <Tracks>
-        <Track t={t} pool="body" value={tracks[0]} note={t.notes.muscle} boxes />
-        <Track t={t} pool="soul" value={tracks[1]} note={t.notes.information} />
-        <Track t={t} pool="charisma" value={tracks[2]} note={t.notes.influence} />
+        <Track t={t} pool="body" value={tracks[0]} boxes />
+        <Track t={t} pool="soul" value={tracks[1]} />
+        <Track t={t} pool="charisma" value={tracks[2]} />
       </Tracks>
       {total !== NETWORK_TRACK_POINTS && (
         <p className="text-xs text-dnd-red print:hidden">
@@ -508,35 +457,20 @@ const NetworkBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
         data={data}
         md={md}
         keys={[]}
-        used={["master", "bonus", "specialisation", "payment", "bond", "body", "soul", "charisma", "rules"]}
+        used={["master", "bonus", "specialisation", "payment", "bond", "body", "soul", "charisma"]}
         rest
       />
       <Sections data={data} md={md} wide={wide} />
-      {rules && (
-        <Reminders
-          t={t}
-          items={[
-            r.networkElsewhere,
-            md(r.networkRolls, true),
-            r.networkAvert,
-            r.networkUpkeep,
-            r.networkRefill,
-            r.networkCap,
-            r.zeroTracks,
-          ]}
-        />
-      )}
     </Frame>
   );
 };
 
-const OrganizationBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) => {
+const OrganizationBlock: React.FC<KindProps> = ({ t, data, md, wide }) => {
   const reach = numberOf(fieldOf(data, "reach"));
   const ranks = data.fields
     .map(([k, v]) => [k.match(/^rank (\d)$/)?.[1], v] as const)
     .filter((r): r is [string, string] => r[0] !== undefined)
     .sort((a, b) => Number(b[0]) - Number(a[0]));
-  const r = t.rules;
 
   return (
     <Frame t={t} data={data} md={md} wide={wide}
@@ -577,27 +511,19 @@ const OrganizationBlock: React.FC<KindProps> = ({ t, data, md, wide, rules }) =>
         data={data}
         md={md}
         keys={keysOf(t, "companions", "network", "allies", "rivals")}
-        used={["reach", "seat", "leader", "structure", "rules", ...ranks.map(([n]) => `rank ${n}`)]}
+        used={["reach", "seat", "leader", "structure", ...ranks.map(([n]) => `rank ${n}`)]}
         rest
       />
       <Sections data={data} md={md} wide={wide} />
-      {rules && (
-        <Reminders
-          t={t}
-          items={[r.orgNoActions, r.orgPossibilities, r.orgNetwork, r.orgCompanions, r.orgMighty]}
-        />
-      )}
     </Frame>
   );
 };
 
 /** A small printable card: the Incantor fills in the charging by hand */
-const RitualItemBlock: React.FC<KindProps> = ({ t, data, md, rules }) => {
-  const r = t.rules;
+const RitualItemBlock: React.FC<KindProps> = ({ t, data, md }) => {
   return (
     <Frame t={t} data={data} md={md} compact top={null}>
       <RitualCharging t={t.ritual} />
-      {rules && <Reminders t={t} items={[r.ritualUse, r.ritualOwner, r.ritualLink, r.ritualLost]} />}
     </Frame>
   );
 };
@@ -610,10 +536,8 @@ const StatBlockCard: React.FC<{
   wide?: boolean;
   lang: Lang;
 }> = ({ data, md, wide, lang }) => {
-  // "rules: no" leaves out the reminders
-  const rules = !/^(no|off|false)$/i.test(fieldOf(data, "rules") ?? "");
   const t = { ...DICTS[lang].statBlock, resources: DICTS[lang].resources };
-  const props = { t, data, md, wide, rules };
+  const props = { t, data, md, wide };
   switch (data.kind) {
     case "npc":
       return <NpcBlock {...props} />;

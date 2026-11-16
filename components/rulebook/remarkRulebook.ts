@@ -17,6 +17,7 @@ export const KNOWN = {
   textDirective: ["body", "soul", "charisma", "coins", "material", "roll"],
   leafDirective: [
     "image",
+    "video",
     "formula",
     "stat",
     // Filled from the database or code by the page
@@ -158,7 +159,7 @@ const transform = (node: Nodes, lang: Lang) => {
       props.roll = textOf(child);
       child.children = [];
     }
-    if (child.name === "image" || child.name === "stat") {
+    if (child.name === "image" || child.name === "video" || child.name === "stat") {
       child.children = [];
     }
 

@@ -233,8 +233,9 @@ const PerkCard: React.FC<PerkCardProps> = ({
 };
 
 /**
- * An aspect: a tall picture filling the card's left side, the text beside it.
- * No ribbon and no flavour line; the picture carries the mood.
+ * An aspect: a vertical card with its picture across the top, fading into the
+ * card, and the name and text under it. It stands at the head of its perks,
+ * in the first column of their grid. No ribbon and no flavour line.
  */
 const AspectCard: React.FC<Omit<PerkCardProps, "core">> = ({
   perk,
@@ -250,34 +251,33 @@ const AspectCard: React.FC<Omit<PerkCardProps, "core">> = ({
   return (
     <div
       className={twMerge(
-        "relative h-full flex bg-dnd-accent-yellow border rounded-lg shadow-md overflow-hidden transition-all",
+        "relative h-full flex flex-col bg-dnd-accent-yellow border rounded-lg shadow-md overflow-hidden transition-all",
         state ? STATE_STYLES[state] : "border-dnd-red-dark",
         className,
       )}
     >
-      <div
-        className={twMerge(
-          "relative shrink-0 self-stretch border-r border-dnd-gold",
-          compact ? "w-20 min-h-32" : "w-40 min-h-56",
-        )}
-      >
+      <div className="relative w-full aspect-[4/3] shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={perk.image_url || DEFAULT_IMAGE}
           alt=""
           className="absolute inset-0 w-full h-full object-cover object-top"
         />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-dnd-accent-yellow to-transparent" />
       </div>
       <div
         className={twMerge(
-          "min-w-0 flex-1 flex flex-col",
-          compact ? "p-3 gap-1.5" : "p-5 gap-2",
+          "min-w-0 flex-1 flex flex-col -mt-2 relative",
+          compact ? "px-3 pb-3 gap-1.5" : "px-5 pb-5 gap-2",
         )}
       >
+        <p className="text-[10px] font-bold uppercase tracking-widest text-dnd-ink/60">
+          {t.print.tags.aspect}
+        </p>
         <p
           className={twMerge(
             "font-bold text-dnd-red libre leading-tight",
-            compact ? "line-clamp-2" : "text-base",
+            compact ? "text-lg line-clamp-2" : "text-xl",
           )}
         >
           {perk.name}
@@ -287,7 +287,7 @@ const AspectCard: React.FC<Omit<PerkCardProps, "core">> = ({
           <p
             className={twMerge(
               "text-xs",
-              compact ? "text-dnd-ink/80 line-clamp-4" : "whitespace-pre-line",
+              compact ? "text-dnd-ink/80 line-clamp-6" : "whitespace-pre-line",
             )}
           >
             {compact ? plainText(perk.description) : perk.description}

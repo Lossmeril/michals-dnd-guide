@@ -16,37 +16,46 @@ export type Database = {
     Tables: {
       backgrounds: {
         Row: {
-          coins_copper: number
+          archetypes: string | null
+          bonds: string | null
           description: string | null
-          equipment: Json
           extra_languages: number
+          flaws: string | null
           id: string
+          ideals: string | null
           known_settings: string | null
-          material: number
           name: string
+          quirks: string | null
           sort: number
+          variants: Json
         }
         Insert: {
-          coins_copper?: number
+          archetypes?: string | null
+          bonds?: string | null
           description?: string | null
-          equipment?: Json
           extra_languages?: number
+          flaws?: string | null
           id: string
+          ideals?: string | null
           known_settings?: string | null
-          material?: number
           name: string
+          quirks?: string | null
           sort?: number
+          variants?: Json
         }
         Update: {
-          coins_copper?: number
+          archetypes?: string | null
+          bonds?: string | null
           description?: string | null
-          equipment?: Json
           extra_languages?: number
+          flaws?: string | null
           id?: string
+          ideals?: string | null
           known_settings?: string | null
-          material?: number
           name?: string
+          quirks?: string | null
           sort?: number
+          variants?: Json
         }
         Relationships: []
       }
@@ -390,11 +399,14 @@ export type Database = {
       }
       characters: {
         Row: {
+          arms_picks: Json
           background_id: string | null
           backstory: string | null
           body: number
           charisma: number
+          clothes: string | null
           equipment_picks: Json
+          fortunes: Json
           id: number
           image_url: string | null
           level: number
@@ -406,11 +418,14 @@ export type Database = {
           start_level: number
         }
         Insert: {
+          arms_picks?: Json
           background_id?: string | null
           backstory?: string | null
           body?: number
           charisma?: number
+          clothes?: string | null
           equipment_picks?: Json
+          fortunes?: Json
           id?: number
           image_url?: string | null
           level?: number
@@ -422,11 +437,14 @@ export type Database = {
           start_level?: number
         }
         Update: {
+          arms_picks?: Json
           background_id?: string | null
           backstory?: string | null
           body?: number
           charisma?: number
+          clothes?: string | null
           equipment_picks?: Json
+          fortunes?: Json
           id?: number
           image_url?: string | null
           level?: number
@@ -668,6 +686,7 @@ export type Database = {
           id: string
           image_url: string | null
           kind: Database["public"]["Enums"]["item_kind"]
+          min_fortune: Database["public"]["Enums"]["fortune"]
           name: string
           price_copper: number
           properties: string | null
@@ -687,6 +706,7 @@ export type Database = {
           id: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
+          min_fortune?: Database["public"]["Enums"]["fortune"]
           name: string
           price_copper?: number
           properties?: string | null
@@ -706,6 +726,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           kind?: Database["public"]["Enums"]["item_kind"]
+          min_fortune?: Database["public"]["Enums"]["fortune"]
           name?: string
           price_copper?: number
           properties?: string | null
@@ -1202,7 +1223,9 @@ export type Database = {
           p_character_id?: number
           p_charisma: number
           p_classes: Json
+          p_arms_picks?: Json
           p_equipment_picks: Json
+          p_fortunes?: Json
           p_items: Json
           p_languages: Json
           p_level: number
@@ -1235,6 +1258,7 @@ export type Database = {
         | "slashing"
         | "bludgeoning"
       armour_slot: "under" | "body" | "head" | "arms" | "legs"
+      fortune: "poor" | "commoner" | "fortunate"
       item_kind: "weapon" | "armour" | "shield" | "clothing" | "tool" | "gear"
       manoeuvre:
         | "precise"
@@ -1406,6 +1430,7 @@ export const Constants = {
         "bludgeoning",
       ],
       armour_slot: ["under", "body", "head", "arms", "legs"],
+      fortune: ["poor", "commoner", "fortunate"],
       item_kind: ["weapon", "armour", "shield", "clothing", "tool", "gear"],
       manoeuvre: [
         "precise",

@@ -6,6 +6,7 @@ import { localize } from "@/lib/i18n/localize";
 import { getLang } from "@/lib/i18n/server";
 import type { Build } from "@/lib/rules/character";
 import { parsePicks } from "@/lib/rules/equipment";
+import { parseArms, parseFortunes } from "@/lib/rules/fortune";
 
 const db = async () => createClient(await cookies());
 
@@ -29,6 +30,8 @@ export const fetchCharacterBuild = async (characterId: number) => {
   const build: Build = {
     raceId: character.race_id,
     backgroundId: character.background_id,
+    fortunes: parseFortunes(character.fortunes),
+    arms: parseArms(character.arms_picks),
     equipment: parsePicks(character.equipment_picks),
     languages: character_languages.map((l) => l.language_id),
     traitIds: character_traits.map((t) => t.trait_id),

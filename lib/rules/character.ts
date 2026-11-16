@@ -10,6 +10,14 @@ import {
   equipmentErrors,
   equipmentOf,
 } from "./equipment";
+import {
+  armsErrors,
+  FORTUNE_SECTIONS,
+  FORTUNES_BY_START,
+  type Fortunes,
+  fortunesLeft,
+  variantsOf,
+} from "./fortune";
 
 export const MAX_CLASS_LEVEL = 5;
 // Parent classes' levels must total this to unlock an advanced or mighty class
@@ -48,7 +56,11 @@ export type ChosenPerk = { perkId: string; classId: string | null };
 export type Build = {
   raceId: string | null;
   backgroundId: string | null;
-  /** What the player took from the background's equipment, one pick per group */
+  /** How fortunate the character has been in arms, the background and a mount */
+  fortunes: Fortunes;
+  /** Weapons, shields and armour pieces taken with the arms fortune */
+  arms: string[];
+  /** What the player took from the background variant's equipment, one pick per group */
   equipment: EquipmentPick[];
   /** Extra languages the player picked; Common and the racial language are free */
   languages: string[];
@@ -65,6 +77,8 @@ export type Build = {
 export const emptyBuild = (): Build => ({
   raceId: null,
   backgroundId: null,
+  fortunes: {},
+  arms: [],
   equipment: [],
   languages: [],
   traitIds: [],
@@ -123,12 +137,16 @@ export const languageSlots = (rb: Rulebook, build: Build) => {
 
 // ----- Background equipment -----
 
-/** The equipment groups of the build's background */
+/** The background variant the build's fortune picks; null until both are chosen */
+export const backgroundVariant = (rb: Rulebook, build: Build) => {
+  const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  const fortune = build.fortunes.background;
+  return background && fortune ? variantsOf(background)[fortune] : null;
+};
+
+/** The equipment groups of the build's background variant */
 export const backgroundEquipment = (rb: Rulebook, build: Build) =>
-  equipmentOf(
-    rb.items,
-    rb.backgrounds.find((b) => b.id === build.backgroundId)?.equipment,
-  );
+  equipmentOf(rb.items, backgroundVariant(rb, build)?.equipment);
 
 // ----- Classes -----
 
@@ -469,6 +487,18 @@ export const characterLevel = (build: Build) =>
 
 // ----- Validation -----
 
+/** The editor's pages that build problems belong to */
+export type BuildStep =
+  | "start"
+  | "race"
+  | "classes"
+  | "perks"
+  | "resources"
+  | "background"
+  | "gear"
+  | "traits";
+export type BuildIssue = { step: BuildStep; message: string };
+
 export const validateBuild = (
   rb: Rulebook,
   build: Build,
@@ -478,39 +508,49 @@ export const validateBuild = (
   lang: Lang = "en",
 ) => {
   const e = DICTS[lang].build.errors;
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const issues: BuildIssue[] = [];
+  const softIssues: BuildIssue[] = [];
+  const err = (step: BuildStep, ...messages: string[]) =>
+    issues.push(...messages.map((message) => ({ step, message })));
+  const warn = (step: BuildStep, ...messages: string[]) =>
+    softIssues.push(...messages.map((message) => ({ step, message })));
   const held = heldPerkIds(rb, build);
 
-  if (!build.raceId) errors.push(e.race);
-  if (!build.backgroundId) errors.push(e.background);
-  errors.push(...equipmentErrors(backgroundEquipment(rb, build), build.equipment, lang));
+  if (!build.raceId) err("race", e.race);
+  if (!build.backgroundId) err("background", e.background);
+  const f = DICTS[lang].fortune.errors;
+  if (FORTUNE_SECTIONS.some((s) => !build.fortunes[s])) err("background", f.assign);
+  else if (FORTUNES_BY_START[startLevel] && fortunesLeft(startLevel, build.fortunes).length) {
+    err("background", f.wrongSet);
+  }
+  if (build.fortunes.arms) err("gear", ...armsErrors(rb.items, build.arms, build.fortunes.arms, lang));
+  err("gear", ...equipmentErrors(backgroundEquipment(rb, build), build.equipment, lang));
 
   const slots = languageSlots(rb, build);
   const free = freeLanguages(rb, build);
   if (build.languages.some((l) => free.includes(l))) {
-    errors.push(e.freeLanguage);
+    err("background", e.freeLanguage);
   }
   if (
     build.languages.some(
       (id) => rb.languages.find((l) => l.id === id)?.learnable === false,
     )
   ) {
-    errors.push(e.unlearnable);
+    err("background", e.unlearnable);
   }
   if (build.languages.length < slots) {
-    errors.push(e.moreLanguages(slots - build.languages.length));
+    err("background", e.moreLanguages(slots - build.languages.length));
   } else if (build.languages.length > slots) {
-    errors.push(e.tooManyLanguages(slots));
+    err("background", e.tooManyLanguages(slots));
   }
   for (const id of build.traitIds) {
-    if (!rb.traits.some((t) => t.id === id)) errors.push(e.unknownTrait);
+    if (!rb.traits.some((t) => t.id === id)) err("traits", e.unknownTrait);
   }
   const racial = build.perks.filter((p) => p.classId === null);
-  if (build.raceId && racial.length !== 1) errors.push(e.racialPerk);
+  if (build.raceId && racial.length !== 1) err("race", e.racialPerk);
   for (const p of racial) {
     if (findPerk(rb, p.perkId)?.race_id !== build.raceId) {
-      errors.push(
+      err("race", 
         e.notRacial(findPerk(rb, p.perkId)?.name ?? p.perkId),
       );
     }
@@ -519,17 +559,17 @@ export const validateBuild = (
   for (const [classId, classLevel] of Object.entries(build.classes)) {
     const cls = findClass(rb, classId);
     if (!cls) {
-      errors.push(e.unknownClass(classId));
+      err("classes", e.unknownClass(classId));
       continue;
     }
     if (classLevel < 1 || classLevel > MAX_CLASS_LEVEL) {
-      errors.push(e.classLevel(cls.name, MAX_CLASS_LEVEL));
+      err("classes", e.classLevel(cls.name, MAX_CLASS_LEVEL));
     }
     if (!isClassUnlocked(rb, build, classId)) {
       const parents = parentsOf(rb, classId).map(
         (id) => findClass(rb, id)?.name,
       );
-      errors.push(
+      err("classes", 
         e.locked(cls.name, parents.join(" + "), UNLOCK_LEVELS),
       );
     }
@@ -537,14 +577,14 @@ export const validateBuild = (
     const chosen = chosenIn(build, classId).length;
     const options = choosablePerks(rb, classId).length;
     if (chosen > classLevel && classLevel < MAX_CLASS_LEVEL) {
-      errors.push(
+      err("perks", 
         e.tooManyPerks(cls.name, classLevel),
       );
     } else if (chosen < classLevel) {
       if (options > chosen) {
-        errors.push(e.morePerks(cls.name, classLevel - chosen));
+        err("perks", e.morePerks(cls.name, classLevel - chosen));
       } else {
-        warnings.push(
+        warn("perks", 
           e.noMorePerks(cls.name, classLevel - chosen),
         );
       }
@@ -557,21 +597,21 @@ export const validateBuild = (
       (c) => c.id === p.perkId,
     );
     if (!perk || !allowed) {
-      errors.push(
+      err("perks", 
         e.wrongClass(perk?.name ?? p.perkId, findClass(rb, p.classId!)?.name ?? ""),
       );
     } else if (!requirementsMet(rb, build, p.perkId, held)) {
-      errors.push(
+      err("perks", 
         e.perkNeeds(perk.name, describeRequirements(rb, p.perkId, lang)),
       );
     }
   }
 
   if ([build.body, build.soul, build.charisma].some((v) => v < 0)) {
-    errors.push(e.negative);
+    err("resources", e.negative);
   }
   if (resourcePoints(build) < 0) {
-    errors.push(e.spread(BASE_RESOURCES));
+    err("resources", e.spread(BASE_RESOURCES));
   }
   // Allowed, but a pool this small overflows on its first Scar
   for (const [name, value] of [
@@ -580,14 +620,14 @@ export const validateBuild = (
     [resourceName("charisma", lang), build.charisma],
   ] as const) {
     if (value >= 0 && value < LOW_POOL) {
-      warnings.push(
+      warn("resources", 
         e.lowPool(name, value),
       );
     }
   }
 
   if (freePointsLeft(build, level, startLevel) < 0) {
-    errors.push(
+    err("resources", 
       level === startLevel
         ? e.startingLevels(BASE_RESOURCES)
         : e.gainedLevels(level - startLevel),
@@ -595,8 +635,13 @@ export const validateBuild = (
   }
 
   const diff = level - characterLevel(build);
-  if (diff > 0) errors.push(e.pointsLeft(diff));
-  if (diff < 0) errors.push(e.pointsOver(-diff, level));
+  if (diff > 0) err("classes", e.pointsLeft(diff));
+  if (diff < 0) err("classes", e.pointsOver(-diff, level));
 
-  return { errors, warnings };
+  return {
+    errors: issues.map((i) => i.message),
+    warnings: softIssues.map((i) => i.message),
+    issues,
+    softIssues,
+  };
 };

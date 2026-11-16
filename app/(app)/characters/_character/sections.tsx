@@ -3,7 +3,7 @@
 // Sections shared by the character sheet and the editor. Each one reads the
 // build; given `edit`, it also shows the controls that change it.
 
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
 import MagicBadge from "@/components/game/magicBadge";
 import { SquareImage } from "@/components/game/perkCard";
@@ -11,16 +11,20 @@ import PerkTree, { type SectionProps } from "@/components/game/perkTree";
 import StatBlock from "@/components/game/statBlock";
 import { TraitList } from "@/components/game/traitCard";
 import TraitText from "@/components/game/traitText";
-import EquipmentList from "@/components/game/equipmentList";
 import EquipmentPicker from "@/components/game/equipmentPicker";
+import ArmsPicker from "@/components/game/armsPicker";
+import JumpstartTables from "@/components/game/jumpstartTables";
 import ItemIcon from "@/components/game/itemIcon";
 import { ChoiceCard } from "@/components/ui/choiceCard";
+import StoryBox from "@/components/ui/storyBox";
 import Eyebrow from "@/components/ui/eyebrow";
 import FileButton from "@/components/ui/fileButton";
 import NumberStepper from "@/components/ui/numberStepper";
+import { panelClass } from "@/components/ui/panel";
 import { Heading, Overline } from "@/components/ui/typography";
 import {
   backgroundEquipment,
+  backgroundVariant,
   BASE_RESOURCES,
   chosenIn,
   characterLevel,
@@ -30,7 +34,20 @@ import {
   STARTS,
 } from "@/lib/rules/character";
 import { armourTotals } from "@/lib/rules/armour";
-import { defaultPicks, equipmentOf, groupByBundle, itemName } from "@/lib/rules/equipment";
+import { defaultPicks, groupByBundle, itemName } from "@/lib/rules/equipment";
+import {
+  type Fortune,
+  FORTUNE_SECTIONS,
+  type FortuneSection,
+  type Fortunes,
+  FORTUNES,
+  FORTUNES_BY_START,
+  fortunesLeft,
+  type JumpstartLine,
+  type JumpstartTable,
+  MOUNTS,
+  variantsOf,
+} from "@/lib/rules/fortune";
 import { useDict, useL } from "@/lib/i18n/client";
 import { formatCoins, resourceName } from "@/lib/rules/format";
 import type { Tables } from "@/lib/types/database.types";
@@ -40,19 +57,26 @@ import { ClassCard, RaceCard, RacialPerks } from "./details";
 const grid = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
 const POOLS = ["body", "soul", "charisma"] as const;
 
-/** A titled block with an anchor for the editor's section links */
+/** The editor's guiding text for the page being shown, put under the heading */
+export const StepIntro = createContext<string | null>(null);
+
+/** A titled block with an anchor; in the editor, with the page's guiding text */
 export const Section: React.FC<{
   id: string;
   title: React.ReactNode;
   children: React.ReactNode;
-}> = ({ id, title, children }) => (
-  <section id={id} className="mb-16 scroll-mt-28">
-    <Heading level={2} className="border-b-2 border-dnd-gold pb-2">
-      {title}
-    </Heading>
-    {children}
-  </section>
-);
+}> = ({ id, title, children }) => {
+  const intro = useContext(StepIntro);
+  return (
+    <section id={id} className="mb-16 scroll-mt-28">
+      <Heading level={2} className="border-b-2 border-dnd-gold pb-2">
+        {title}
+      </Heading>
+      {intro && <p className="libre italic text-sm max-w-3xl mb-8 whitespace-pre-line">{intro}</p>}
+      {children}
+    </section>
+  );
+};
 
 // ----- Header: portrait, name, classes and resources -----
 
@@ -176,7 +200,7 @@ export const CharacterHeader: React.FC<HeaderProps> = ({
   );
 };
 
-// ----- Starting level (new characters only) -----
+// ----- Starting level (new characters only), shown on the editor's first page -----
 
 export const StartSection: React.FC<{
   level: number;
@@ -184,7 +208,8 @@ export const StartSection: React.FC<{
 }> = ({ level, onChange }) => {
   const t = useDict();
   return (
-    <Section id="start" title={t.sheet.startingLevel}>
+    <div className="mb-12">
+      <Heading level={3}>{t.sheet.startingLevel}</Heading>
       <div className={grid}>
         {STARTS.map((start, i) => (
           <ChoiceCard
@@ -196,7 +221,7 @@ export const StartSection: React.FC<{
           />
         ))}
       </div>
-    </Section>
+    </div>
   );
 };
 
@@ -343,20 +368,120 @@ export const PerksSection: React.FC<SectionProps> = (props) => {
   );
 };
 
-// ----- Background and languages -----
+// ----- Background, fortune and languages -----
 
-export const BackgroundSection: React.FC<SectionProps> = ({
+interface BackgroundProps extends SectionProps {
+  /** Which fortunes the character gets; the editor passes it */
+  startLevel?: number;
+  clothes?: string;
+  onClothesChange?: (clothes: string) => void;
+}
+
+/** How fortunate the character has been in each section, one choice per section */
+const FortuneChoice: React.FC<{
+  startLevel: number;
+  fortunes: Fortunes;
+  onChange: (fortunes: Fortunes) => void;
+}> = ({ startLevel, fortunes, onChange }) => {
+  const t = useDict();
+  const f = t.fortune;
+  const names = (list: Fortune[]) => list.map((x) => f.names[x].toLowerCase()).join(", ");
+  const given = FORTUNES_BY_START[startLevel] ?? [];
+  const left = fortunesLeft(startLevel, fortunes);
+  return (
+    <div className="mb-10">
+      <p className="text-sm mb-1">{f.help}</p>
+      <p className="text-sm mb-4">
+        {f.yours(names(given))}{" "}
+        <span className="text-dnd-ink/60">{left.length ? f.left(names(left)) : f.allGiven}</span>
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {FORTUNE_SECTIONS.map((section) => (
+          <fieldset key={section} className={`${panelClass} p-3`}>
+            <legend className="font-bold libre text-dnd-red px-1">{f.sections[section]}</legend>
+            <div className="flex flex-col gap-2 text-sm">
+              {FORTUNES.map((fortune) => {
+                const checked = fortunes[section] === fortune;
+                // Free once this section's own fortune is handed back
+                const open = given.length === 0 || fortunesLeft(startLevel, { ...fortunes, [section]: undefined }).includes(fortune);
+                return (
+                  <label
+                    key={fortune}
+                    className={`flex items-start gap-2 rounded p-1 ${checked ? "bg-dnd-accent-yellow" : ""} ${open ? "cursor-pointer" : "opacity-40"}`}
+                  >
+                    <input
+                      type="radio"
+                      className="mt-1"
+                      name={`fortune-${section}`}
+                      checked={checked}
+                      disabled={!open}
+                      onChange={() => onChange({ ...fortunes, [section]: fortune })}
+                      // A radio can't be unticked on its own; a second click hands the fortune back
+                      onClick={() => checked && onChange({ ...fortunes, [section]: undefined })}
+                    />
+                    <span className="flex flex-col">
+                      <span className={checked ? "font-bold" : ""}>{f.names[fortune]}</span>
+                      <span className="text-xs text-dnd-ink/70 leading-snug">{f.hints[section][fortune]}</span>
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/** What the mount fortune gives */
+const MountLine: React.FC<{ rb: SectionProps["rb"]; fortune: Fortune | undefined }> = ({ rb, fortune }) => {
+  const t = useDict();
+  if (!fortune) return <p className="text-sm">{t.fortune.mount.pickFortune}</p>;
+  const mount = rb.items.find((i) => i.id === MOUNTS[fortune]);
+  return (
+    <p className="text-sm flex items-center gap-2">
+      {mount && <ItemIcon item={mount} className="w-7 h-7" />}
+      <strong>{t.fortune.names[fortune]}:</strong> {t.fortune.mount[fortune]}
+    </p>
+  );
+};
+
+/** The three silhouettes for judging load by eye */
+const LoadNote: React.FC = () => {
+  const l = useDict().fortune.load;
+  return (
+    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
+      <p className="text-sm md:max-w-sm">{l.text}</p>
+      {/* Same frame as a picture in the rulebook */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/img/rulebook/load.png"
+        alt={l.alt}
+        className="w-full md:w-auto md:max-w-md rounded-lg border border-dnd-gold shadow-md"
+      />
+    </div>
+  );
+};
+
+export const BackgroundSection: React.FC<BackgroundProps> = ({
   rb,
   build,
   edit,
+  startLevel,
+  clothes = "",
 }) => {
   const t = useDict();
   const s = t.sheet;
+  const f = t.fortune;
   const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  const variant = backgroundVariant(rb, build);
   const free = freeLanguages(rb, build);
   const slots = languageSlots(rb, build);
   const languageName = (id: string) =>
     rb.languages.find((l) => l.id === id)?.name;
+  const fortuneOf = (section: FortuneSection) =>
+    build.fortunes[section] ? f.names[build.fortunes[section]] : "—";
 
   if (!edit) {
     return (
@@ -367,19 +492,32 @@ export const BackgroundSection: React.FC<SectionProps> = ({
               <div>
                 <dt className="font-bold libre text-dnd-red">
                   {background.name}
+                  {variant?.label && <span className="font-normal text-dnd-ink/70"> · {variant.label}</span>}
                 </dt>
                 {background.description && <dd>{background.description}</dd>}
               </div>
               <div>
-                <dt className="font-bold">{s.purse}</dt>
+                <dt className="font-bold">{f.title}</dt>
                 <dd>
-                  {formatCoins(background.coins_copper, t.lang)} · {s.material(background.material)}
+                  {FORTUNE_SECTIONS.map((x) => `${f.sections[x]}: ${fortuneOf(x).toLowerCase()}`).join(" · ")}
                 </dd>
               </div>
+              {variant && (
+                <div>
+                  <dt className="font-bold">{s.purse}</dt>
+                  <dd>{f.purse(formatCoins(variant.coins_copper, t.lang), variant.material)}</dd>
+                </div>
+              )}
               {background.known_settings && (
                 <div>
                   <dt className="font-bold">{s.knownSettings}</dt>
                   <dd>{background.known_settings}</dd>
+                </div>
+              )}
+              {clothes && (
+                <div>
+                  <dt className="font-bold">{f.clothes}</dt>
+                  <dd className="whitespace-pre-line">{clothes}</dd>
                 </div>
               )}
             </dl>
@@ -400,49 +538,59 @@ export const BackgroundSection: React.FC<SectionProps> = ({
   }
 
   const full = build.languages.length >= slots;
+  const setFortunes = (fortunes: Fortunes) =>
+    edit.setBuild({
+      ...build,
+      fortunes,
+      // A different variant has different gear; start its picks over
+      equipment:
+        fortunes.background !== build.fortunes.background
+          ? defaultPicks(backgroundEquipment(rb, { ...build, fortunes }))
+          : build.equipment,
+    });
+
   return (
     <Section id="background" title={s.background}>
-      <div className={`${grid} mb-10`}>
-        {rb.backgrounds.map((bg) => (
-          <ChoiceCard
-            key={bg.id}
-            title={bg.name}
-            note={`${formatCoins(bg.coins_copper, t.lang)} · ${s.material(bg.material)} · ${s.extraLanguages(bg.extra_languages)}`}
-            description={
-              <>
-                <EquipmentList items={rb.items} equipment={bg.equipment} className="mb-1" lang={t.lang} />
-                {bg.known_settings && s.knownIn(bg.known_settings)}
-              </>
-            }
-            checked={build.backgroundId === bg.id}
-            // Fewer language slots may leave too many picked, and the gear
-            // differs; start both over
-            onSelect={() =>
-              build.backgroundId !== bg.id &&
-              edit.setBuild({
-                ...build,
-                backgroundId: bg.id,
-                languages: [],
-                equipment: defaultPicks(equipmentOf(rb.items, bg.equipment)),
-              })
-            }
-          />
-        ))}
-      </div>
-
-      {background && (
+      {startLevel !== undefined && (
         <>
-          <Heading level={3}>{s.gear}</Heading>
-          <div className="mb-10">
-            <EquipmentPicker
-              items={rb.items}
-              groups={backgroundEquipment(rb, build)}
-              picks={build.equipment}
-              onChange={(equipment) => edit.setBuild({ ...build, equipment })}
-            />
-          </div>
+          <Heading level={3}>{f.title}</Heading>
+          <FortuneChoice startLevel={startLevel} fortunes={build.fortunes} onChange={setFortunes} />
         </>
       )}
+
+      <div className={`${grid} mb-10`}>
+        {rb.backgrounds.map((bg) => {
+          const variants = variantsOf(bg);
+          return (
+            <ChoiceCard
+              key={bg.id}
+              title={bg.name}
+              note={s.extraLanguages(bg.extra_languages)}
+              description={
+                <>
+                  {bg.description && <p className="mb-1">{bg.description}</p>}
+                  <ul className="mb-1">
+                    {FORTUNES.map((x) => (
+                      <li key={x}>
+                        <strong>{f.names[x]}:</strong> {variants[x].label}
+                      </li>
+                    ))}
+                  </ul>
+                  {bg.known_settings && s.knownIn(bg.known_settings)}
+                </>
+              }
+              checked={build.backgroundId === bg.id}
+              // Fewer language slots may leave too many picked, and the gear
+              // differs; start both over
+              onSelect={() => {
+                if (build.backgroundId === bg.id) return;
+                const next = { ...build, backgroundId: bg.id, languages: [] };
+                edit.setBuild({ ...next, equipment: defaultPicks(backgroundEquipment(rb, next)) });
+              }}
+            />
+          );
+        })}
+      </div>
 
       <Heading level={3}>
         {s.languages}{" "}
@@ -453,7 +601,7 @@ export const BackgroundSection: React.FC<SectionProps> = ({
       <p className="text-sm mb-4">
         {s.youSpeak(free.map(languageName).join(s.and))}
       </p>
-      <div className={grid}>
+      <div className={`${grid} mb-10`}>
         {rb.languages
           .filter((l) => l.learnable && !free.includes(l.id))
           .map((lang) => {
@@ -482,6 +630,143 @@ export const BackgroundSection: React.FC<SectionProps> = ({
             );
           })}
       </div>
+
+    </Section>
+  );
+};
+
+// ----- Gear: the background's, arms and armour, the mount, clothes, load -----
+
+export const GearSection: React.FC<BackgroundProps> = ({
+  rb,
+  build,
+  edit,
+  clothes = "",
+  onClothesChange,
+}) => {
+  const t = useDict();
+  const s = t.sheet;
+  const f = t.fortune;
+  const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  const variant = backgroundVariant(rb, build);
+  if (!edit) return null;
+  return (
+    <Section id="gear" title={s.gear}>
+      {!background && <p className="text-sm mb-10">{s.noBackground}</p>}
+      {background && (
+        <>
+          <Heading level={3}>
+            {f.sections.background}
+            {build.fortunes.background && (
+              <span className="text-sm normal-case font-normal text-dnd-ink/60">
+                {" "}
+                {f.names[build.fortunes.background]}
+              </span>
+            )}
+          </Heading>
+          <div className="mb-10">
+            {variant ? (
+              <>
+                <p className="text-sm mb-1 libre italic">{variant.label}</p>
+                <p className="text-sm mb-3">
+                  <strong>{s.purse}:</strong>{" "}
+                  {f.purse(formatCoins(variant.coins_copper, t.lang), variant.material)}
+                </p>
+                <EquipmentPicker
+                  items={rb.items}
+                  groups={backgroundEquipment(rb, build)}
+                  picks={build.equipment}
+                  onChange={(equipment) => edit.setBuild({ ...build, equipment })}
+                />
+              </>
+            ) : (
+              <p className="text-sm">{f.background.pickFortune}</p>
+            )}
+          </div>
+        </>
+      )}
+
+      <Heading level={3}>{f.sections.arms}</Heading>
+      <div className="mb-10">
+        <ArmsPicker
+          items={rb.items}
+          fortune={build.fortunes.arms}
+          picks={build.arms}
+          onChange={(arms) => edit.setBuild({ ...build, arms })}
+        />
+      </div>
+
+      <Heading level={3}>{f.sections.mount}</Heading>
+      <div className="mb-10">
+        <MountLine rb={rb} fortune={build.fortunes.mount} />
+      </div>
+
+      {onClothesChange && (
+        <>
+          <Heading level={3}>{f.clothes}</Heading>
+          <p className="text-sm mb-3">{f.clothesHelp}</p>
+          <textarea
+            rows={2}
+            maxLength={500}
+            placeholder={f.clothesPlaceholder}
+            value={clothes}
+            onChange={(e) => onClothesChange(e.target.value)}
+            className="w-full mb-10"
+          />
+        </>
+      )}
+
+      <Heading level={3}>{f.load.title}</Heading>
+      <div className="mb-10">
+        <LoadNote />
+      </div>
+
+    </Section>
+  );
+};
+
+// ----- Story: jumpstart, personality and backstory -----
+
+export const StorySection: React.FC<{
+  rb: SectionProps["rb"];
+  build: SectionProps["build"];
+  personality: string;
+  backstory: string;
+  onPersonalityChange: (personality: string) => void;
+  onBackstoryChange: (backstory: string) => void;
+  onJumpstart: (table: JumpstartTable, line: JumpstartLine) => void;
+}> = ({ rb, build, personality, backstory, onPersonalityChange, onBackstoryChange, onJumpstart }) => {
+  const t = useDict();
+  const s = t.sheet;
+  const j = t.fortune.jumpstart;
+  const background = rb.backgrounds.find((b) => b.id === build.backgroundId);
+  return (
+    <Section id="story" title={t.editor.steps.story.title}>
+      {background && (
+        <div className="mb-12">
+          <Heading level={3}>{j.title}</Heading>
+          <p className="text-sm mb-4">{j.help}</p>
+          <JumpstartTables background={background} onUse={onJumpstart} />
+        </div>
+      )}
+      <Heading level={3}>{s.personality}</Heading>
+      <p className="text-sm mb-3">{s.personalityHelp}</p>
+      <textarea
+        rows={4}
+        maxLength={1000}
+        placeholder={s.personalityPlaceholder}
+        value={personality}
+        onChange={(e) => onPersonalityChange(e.target.value)}
+        className="w-full mb-10"
+      />
+      <Heading level={3}>{s.backstory}</Heading>
+      <textarea
+        rows={10}
+        placeholder={s.backstoryPlaceholder}
+        value={backstory}
+        onChange={(e) => onBackstoryChange(e.target.value)}
+        className="w-full"
+      />
     </Section>
   );
 };
@@ -639,6 +924,9 @@ export const TraitsSection: React.FC<
 
   return (
     <Section id="traits" title={s.traits}>
+      <StoryBox title={dict.editor.traitsNotice.title} className="mt-0 mb-10">
+        <p>{dict.editor.traitsNotice.text}</p>
+      </StoryBox>
       <p className="mb-6">
         {s.traitsHelp}
       </p>

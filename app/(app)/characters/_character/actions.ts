@@ -11,6 +11,7 @@ import {
   type Build,
 } from "@/lib/rules/character";
 import { startingItems } from "@/lib/rules/equipment";
+import { armsAndMountItems } from "@/lib/rules/fortune";
 import { removeFolder, uploadImage } from "@/lib/uploadImage";
 import { check, fileFrom, type Result, toResult } from "@/lib/result";
 import type { Tables } from "@/lib/types/database.types";
@@ -21,6 +22,7 @@ interface SaveCharacterInput {
   name: string;
   backstory: string;
   personality: string;
+  clothes: string;
   /** Only used when creating; an existing character keeps its levels */
   startLevel: number;
   build: Build;
@@ -60,9 +62,14 @@ export async function saveCharacter(
       p_background_id: build.backgroundId ?? undefined,
       p_languages: build.languages,
       p_equipment_picks: build.equipment,
+      p_fortunes: build.fortunes,
+      p_arms_picks: build.arms,
       // Resolved here from the checked picks, never sent by the browser
       // Raw, so notes keep both languages
-      p_items: startingItems(rawRb.items, backgroundEquipment(rawRb, build), build.equipment),
+      p_items: [
+        ...armsAndMountItems(rawRb.items, build.arms, build.fortunes.mount),
+        ...startingItems(rawRb.items, backgroundEquipment(rawRb, build), build.equipment),
+      ],
       p_traits: build.traitIds,
       p_level: level,
       p_start_level: startLevel,
@@ -80,10 +87,13 @@ export async function saveCharacter(
     });
     if (error) throw error;
 
-    // Not part of the build function; the owner can update it directly
+    // Not part of the build function; the owner can update them directly
     const { error: personalityError } = await supabase
       .from("characters")
-      .update({ personality: input.personality.trim() || null })
+      .update({
+        personality: input.personality.trim() || null,
+        clothes: input.clothes.trim() || null,
+      })
       .eq("id", data);
     if (personalityError) throw personalityError;
     return data;

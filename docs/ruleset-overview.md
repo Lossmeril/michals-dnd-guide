@@ -303,8 +303,11 @@ Armour isn't bought as a suit ("full plate" is hard to price, and nobody bought 
 | Mail shirt (haubergeon), scale shirt | Body | 2 | 2 |
 | Mail hauberk, long and sleeved | Body + arms | 3 | 3 |
 | Coat of plates, breastplate *(harness)* | Body | 3 | 3 |
-| Iron cap, kettle hat | Head | 1 | 1 |
+| Brigandine *(2026-11-16; flexible, so never part of a harness)* | Body | 3 | 3 |
+| Padded hood, padded coif, mail coif, iron cap, kettle hat | Head | 1 | 1 |
+| Mask helmet *(2026-11-16)* | Head | 2 | 2 |
 | Bascinet with mail aventail *(harness)* | Head | 2 | 2 |
+| Closed bascinet, visored *(harness; 2026-11-16)* | Head | 3 | 3 |
 | Plate arms with gauntlets *(harness)* | Arms | 1 | 1 |
 | Mail chausses | Legs | 1 | 1 |
 | Plate legs *(harness)* | Legs | 1 | 1 |
@@ -717,7 +720,7 @@ From 5E's DMG (a d20 check, encounter on 18–20, rolled every few hours or once
 - **The side that didn't** is surprised: **disadvantaged initiative** in the first round (5E 2024's rule).
 - **A night encounter** breaks the rest: it becomes a poor rest.
 
-**How they react** (optional, for travellers, the lord's men and outlaws when the party doesn't strike first): 2d6, the classic reaction roll. The DM can add the [known setting](#backgrounds) +1 or a fitting talker's class level once they open their mouth.
+**How they react** (optional, for travellers, the lord's men and outlaws when the party doesn't strike first): 2d6, the classic reaction roll. The DM can add a fitting talker's class level once they open their mouth, or a [known setting](#backgrounds)'s +1 if the player asks and it fits.
 
 | 2d6 | Reaction |
 |---|---|
@@ -2014,6 +2017,7 @@ Resource points are counted **without perk bonuses**: a perk that raises a stat 
 
 ### As it stands
 
+- **The magic potential** *(Michal's, 2026-11-16; the rulebook's Casting magic page)*: magic is in everything, the weave that holds reality together, even where its effects are rarely seen. Casters differ only in having **awoken their connection** to it. Anyone could in theory awaken it, but most people never even meet a magic effect. The three magic types say whether a class has tapped into the weave yet.
 - **Three kinds of class:** *dormant*, *awakened* and *latent* *(renamed 2026-11-14 from none, full and pseudo)*.
   - **Awakened** (Incantor, Druid, Alchemist, Warlock, Mage, and every mighty class except Warlord and Ravager): **core spells** come free with the class, and more spells are taken as class perks.
   - **Latent** (Witcher, Shaman, Ravager): the same, but the caster must first **enter magic mode** by dealing themselves a **Scar**.
@@ -2574,6 +2578,9 @@ In the rulebook as *Crafting* (Equipment).
 The same for hazards, potions, elixirs and plain gear.
 
 - **Needs:** a place, tools, time and **Material**. A smithy for an axe; a pot and a campfire for a draught.
+- **Tools that fit the work** *(confirmed, 2026-11-16)*: a smith's tools need a forge, so on the road a smith only manages small repairs and rents a smithy for more; leather, cloth and clay work anywhere.
+- **Without the proper tools** *(confirmed, 2026-11-16)*: the DM decides whether it can be tried at all. If it can, it's never automatic: a [cost to attempt](#cost-to-attempt) the DM sets, then the skill check.
+- **Crafts belong to classes** *(confirmed, 2026-11-16)*: a background gives tools, not a skill; the roll uses the class whose skill fits (*Ironworks*, *Woodworking*, *Potions and poisons*). A player who wants their trade to count can ask the DM for +1 on the roll.
 - **Time in a hurry:** **1 Material goes in per round.** A strength-4 bomb (8 Material) takes 8 rounds. A pit still needs digging (see [Digging and mining](#digging-and-mining-draft)).
 - **Rolls:**
   - With **time, tools and a rest afterwards**, it simply works. A roll would only cost points the rest gives back.
@@ -2805,7 +2812,612 @@ The same for hazards, potions, elixirs and plain gear.
 
 ## Backgrounds
 
-*(Planned.)* Like 5E backgrounds, but **without skill proficiencies**, because those come from classes. A background gives:
+> **Status: being redesigned (2026-11-16).** Michal isn't happy with the background system or with how characters get their equipment. **All backgrounds and all items except weapons, armour, shields, ammunition (arrows, bolts, sling bullets, quiver) and the mantlets were deleted** from the database; the rows are kept in the `backup` schema (`backup.backgrounds_20261116`, `backup.items_20261116`; drop it once the new system is settled). What follows the redesign below describes the deleted draft, kept for reference.
+
+### The redesign *(agreed so far, 2026-11-16; from DrD2's starting equipment)*
+
+- **Why:** the old backgrounds gave no reason to build unusual combinations, and filled the inventory with clutter (the urchin's pet mouse). Their strength, an archetype to work from, stays.
+- **Three sections,** and in each the player says how fortunate the character has been: **poor, commoner or fortunate.**
+  1. **Arms and armour.** The same for every background. Swords and medium armour only when fortunate.
+  2. **The background.** Each background has three variants. Gear, kits, **coins and Material** come from here.
+  3. **A mount.** Poor: none. Commoner: a riding horse with tack. Fortunate: a warhorse with tack.
+- **The starting level sets the fortunes,** in whichever sections the player likes:
+
+  | Start | Fortunes |
+  |---|---|
+  | Rags to Riches (3) | Commoner, commoner, poor |
+  | Seasoned (7) | Fortunate, commoner, poor |
+  | Veteran (9) | Fortunate, commoner, commoner |
+
+  The value of a horse or a sword isn't balanced against anything; what balances it is what the player gives up. A rider who spends their fortune on a warhorse isn't fortunate in arms.
+- **Only gear that serves play:** kits, tools, rope, light. No keepsakes or pets as items.
+- **A minimal gear list, DrD2 style:** one kind of each thing (one rope, one blanket, one lantern; dice and loaded dice).
+- **Clothes are free text** on the sheet, with placeholder suggestions (capes, cloaks, hoods, tunics, boots, belts, bags…), not items.
+- **Jumpstart archetypes:** each background has a **d8 table** of ready-made archetypes, each with its recommended picks in small type ("Recommended: crossbow and pavise"). The player can copy one into personality and backstory, or write their own.
+- **One known setting** per background stays, but **with no flat bonus** *(confirmed, 2026-11-16)*: it's what the character knows. When it makes sense, the player can ask the DM for a **temporary +1** on a roll inside it, and the DM decides.
+- **Fewer backgrounds than 5E:** merge or drop the ones that would only bloat the list.
+- **Every jumpstart table ends with a 9th line:** "Or make up your own, picking whatever you feel like."
+- **Quirks, not traits:** the jumpstart personality bits are called **quirks**, since *traits* are already the challenge perks. Each background has a d8 table of them, plus the 9th line.
+
+**Arms and armour** *(draft)*: the same for every background. A ranged weapon comes with its quiver and 20 pieces of ammunition.
+
+| Fortune | Weapons | Armour |
+|---|---|---|
+| **Poor** | One weapon, no swords | A padded hood or a gambeson |
+| **Commoner** | Two weapons, or a weapon and a shield; no swords | Light: Protection up to 3 |
+| **Fortunate** | Two weapons, or a weapon and a shield; swords allowed | Up to medium: Protection up to 6 |
+
+**The gear list** *(2026-11-16)*: one kind of each thing, in the item list: backpack, pouch, bedroll, blanket, tent, waterskin, rations, iron pot, tinderbox, torch, lantern, oil, rope, shovel, dice, loaded dice, rank insignia, playing cards, costume, steel mirror, and ten instruments (flute, drum, shawm, hunting horn, lyre; lute, fiddle, hurdy-gurdy, bagpipes, dulcimer); the healer's kit, writing things, the disguise kit, the merchant's kit and the craft tools (smith's, leatherworker's, tailor's, potter's, bowyer's, goldsmith's, carpenter's, mason's, surveyor's) the herbalism kit and cartographer's tools, cook's utensils, brewer's supplies, thieves' tools and the forgery kit as bundles, a book, silvering, a hunting trap, manacles, plus a whetstone and a crowbar. Weapons gained a **lance** (1d12, Reach; disadvantaged within 1 m, two-handed unless mounted) and a **pick** (1d8 piercing, also the pick for digging). Mounts are gear for now (`riding-horse`, `warhorse`, category `mount`); they may become companion stat blocks.
+
+**In the app** *(2026-11-16)*:
+- **Backgrounds** hold three `variants` (jsonb: `poor`, `commoner`, `fortunate`, each a `label`, equipment groups, `coins_copper` and `material`) and the jumpstart tables as text, one line per d8 result (`archetypes`: `Name | text | recommended`; `ideals`: `Name | text`). The ninth line is added when shown. The old `equipment`, `coins_copper` and `material` columns are gone.
+- **Characters** store `fortunes` (`{ arms, background, mount }`), `arms_picks` (item ids) and `clothes`. The mount follows from its fortune. Saving turns arms picks (plus quiver and ammunition for ranged weapons), the variant's gear and the mount into inventory rows.
+- **Items** have `min_fortune` (`poor` by default): swords (longsword, shortsword, greatsword, rapier, scimitar) and the warhorse need fortunate, the riding horse commoner. The hunting sword (tesák) counts as a knife, open to everyone.
+- **The editor** checks the fortunes against the starting level, the arms against their limits (in hand, one shield, Protection, one piece per slot, the least fortune), and lets a jumpstart line be put into the backstory (archetypes) or the personality (the rest).
+- **To confirm:** poor armour is checked as Protection 1 at most, so an iron cap or a leather jerkin also passes, not only a padded hood or a gambeson. The Czech word for fortune is drafted as *štěstí* (chudý, prostý, zámožný), and the Rulebook page now says *Původ* for background, as the app does.
+
+#### First draft: Soldier
+
+**Known setting:** armies and war camps, soldiers and their officers. **Languages:** no extra.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a levy sent home, or a deserter) | Backpack, bedroll, waterskin, 3 days of rations, dice | 10 sp | 1 |
+| **Commoner** (a veteran of a few campaigns) | As poor, plus blanket, tinderbox, rope, a healer's kit, rank insignia | 25 sp | 2 |
+| **Fortunate** (a sergeant or an officer) | As commoner, plus a tent, a lantern and oil, writing things | 60 sp | 4 |
+
+No map of the region: unmapped land can be the point of an adventure.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Infantryman.** Stood in the line and held it. | Commoner or fortunate arms: spear or sword, and a shield |
+| 2 | **Archer.** Shot from behind the line at whatever came. | Fortunate arms: longbow or crossbow, medium armour |
+| 3 | **Pavisier.** Crossbow and a planted pavise, at sieges and on walls. | Commoner arms: crossbow and pavise |
+| 4 | **Scout.** Rode ahead and came back with news, or didn't. | Commoner mount, shortbow and a handaxe |
+| 5 | **Man-at-arms.** Fought from the saddle in the charge. | Fortunate mount, commoner arms: lance and shield |
+| 6 | **Sapper.** Dug mines under walls and countermines under theirs. | Commoner arms: pick, gambeson; fortunate background |
+| 7 | **Barber-surgeon.** Sewed the others up behind the line. | Poor arms: a dagger; fortunate background |
+| 8 | **Guard.** Kept the gate, walked the walls at night, and knows every face that comes through. | Commoner arms: spear and crossbow, iron cap |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+Each background also has d8 tables of **quirks, ideals, bonds and flaws** (5E's four, with quirks in place of personality traits), each ending with the 9th line. They're roleplay only, with no rules attached. Soldier:
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Counts everyone's rations, yours included, and remembers who ate more | **Duty.** An order is an order, even when the one who gave it is dead | Carries a dead comrade's letter to his family, and hasn't found the courage to deliver it | Obeys anyone who sounds like an officer, even when they know better |
+| 2 | Sleeps with a hand on their weapon, awake at the first snapped twig | **Comrades.** The banner means nothing; the one beside you means everything | Their old captain saved their life; whatever the captain asks, they'll do | Thunder, drums or a sudden shout, and they're back on the field, frozen or swinging |
+| 3 | Calls everyone by rank, and makes one up for people who haven't got one | **Survival.** The brave are buried first; they mean to be buried last | The company scattered after a lost battle; they look for the faces in every tavern | Drinks to sleep, and the nights are getting longer |
+| 4 | Tells the same war story at every fire, the enemy bigger each time | **Order.** War is chaos, and somebody has to keep the line straight | A village they burned on orders gets part of every pay, unsigned | Loots the dead without a thought, friends included |
+| 5 | Can't rest until the camp is in order: a ditch dug, a watch set, boots by the fire | **Glory.** Songs are sung about the ones who charged first | Their sworn brother rides with the enemy now; they've promised to bring him back alive | Despises civilians and their soft lives, and it shows |
+| 6 | Hums marching songs under their breath, louder the more scared they are | **Pay.** Fights for whoever pays, and holds to the deal as long as the pay lasts | The company's banner, torn from its pole, is wrapped at the bottom of their pack | Never backs down from a challenge, however stupid |
+| 7 | Doesn't trust anyone who has never held a line, and says so | **Protection.** Soldiers exist so farmers don't have to be | The lord they served owes them a year's pay, and they mean to collect | Deserted once; if anyone finds out, the noose is waiting |
+| 8 | Owes money in every camp they've served in, with dice in their pocket to win it back | **Atonement.** They did things in the war that can't be undone, but some can be made up for | A younger recruit they trained still writes, calling them their best teacher | Treats every problem as a siege: dig in, wait them out, starve them |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Entertainer *(draft, 2026-11-16; Czech Komediant)*
+
+**Known setting:** fairs, taverns and travelling troupes; audiences and patrons. **Languages:** one extra (they travel).
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a street busker) | Pouch, a flute, drum or shawm, playing cards | 5 sp | 1 |
+| **Commoner** (a player in a travelling troupe) | Backpack, bedroll, waterskin, a flute, drum, shawm, hunting horn or lyre, a costume, playing cards | 15 sp | 2 |
+| **Fortunate** (a court minstrel, or a troupe's master) | Backpack, bedroll, blanket, waterskin, a lute, fiddle, hurdy-gurdy, bagpipes or dulcimer, a costume, a disguise kit, a steel mirror, playing cards, writing things | 40 sp | 3 |
+
+No perfume or admirer's favour: they don't serve play. The costume and the disguise kit do (passing as someone else), and the horn is the herald's.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Minstrel.** Sang in taverns for a meal and a bed, and in better halls for silver. | Fortunate background: a lute or a fiddle; poor arms: a dagger |
+| 2 | **Knife-thrower.** Juggled blades at fairs, then threw them at an apple on a volunteer's head. | Commoner arms: two daggers |
+| 3 | **Tumbler.** Walked the rope over the market square and somersaulted for coins. | Poor arms: a club, no armour; commoner background |
+| 4 | **Fool.** Wore the motley at a lord's court and said what nobody else dared. | Fortunate background; poor arms: a club |
+| 5 | **Strolling player.** Toured the villages with a troupe and a cart, playing saints and devils. | Commoner mount, commoner background |
+| 6 | **Prize fighter.** Fought anyone at the fair who paid a groschen to try, with fists or blunted swords. | Fortunate arms: a sword and a shield; poor background |
+| 7 | **Fortune teller.** Read palms and cards at fairs, and told people what they wanted to hear. | Commoner background; poor arms: a dagger |
+| 8 | **Herald.** Rode before a lord, blew the horn and cried his name at tournaments. | Commoner mount, commoner background: a horn; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Turns every story into a performance, with voices for everyone in it | **Beauty.** A good song outlives the king it's about | Their old teacher's instrument, cracked and unplayable, is the one thing they'd save from a fire | Can't resist an audience, even when they should be hiding |
+| 2 | Can't pass a crowd without guessing how much it would pay | **Freedom.** No lord, no guild, no walls; the road is home | The troupe they grew up in broke up over a debt; they mean to bring it back together | Spends a night's takings before the night is over |
+| 3 | Sizes up every room as a stage: where the light falls, where the exits are | **Truth.** The fool is the only one allowed to tell the king he's wrong, and somebody has to | A lady at court once paid their way out of the stocks; they've sworn to sing at her wedding, whoever she marries | Lies when the truth would do, because the lie is a better story |
+| 4 | Bows after anything they do well, even with nobody watching | **Fame.** They'll be singing about you in a hundred years, or what was it all for | They wrote a song mocking a powerful man; it's sung everywhere now, and he hasn't forgotten who wrote it | Falls in love in every town, and promises to stay |
+| 5 | Hums the tune of whatever they're doing, and makes up the words | **Joy.** Life is hard; an hour of laughter is worth more than bread | They're searching for the last verse of a song nobody sings any more | Can't take criticism; a heckler becomes an enemy for life |
+| 6 | Speaks in rhyme when nervous, and doesn't notice | **Troupe.** The players are family, and family shares the last crust | A child from the audience followed them for a season; they still wonder whether they should have sent her home | Mocks the powerful to their face, and calls it art |
+| 7 | Remembers every audience that didn't laugh, town by town | **Coin.** Art is lovely, but the audience pays, so the audience decides | Their rival from the fair circuit is the only one as good as they are; one day they'll settle it | Lifts a little from every audience, just to keep their hands quick |
+| 8 | Never eats before a show, and treats every conversation as one | **Memory.** The old songs remember what the chronicles forgot | Their song is the only record of a massacre the lord wants forgotten | Drinks before every show for courage, and after every show to forget it |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+**The Artisan split** *(2026-11-16)* into the **Craftsman** and the **Builder** (both below); the brewer and the cook went to the **Servant**.
+
+#### Craftsman *(draft, 2026-11-16; Czech Řemeslník)*
+
+**Known setting:** guilds, workshops and markets; masters, journeymen and the people who buy from them. **Languages:** no extra. **What sets it apart:** Material, the raw stock for crafting and repairs.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a journeyman on the road, *vandr*) | Backpack, bedroll, waterskin, one craft's tools: smith's, leatherworker's, tailor's, potter's or bowyer's | 5 sp | 2 |
+| **Commoner** (a village craftsman, or a hand in a town workshop) | As poor, plus blanket, tinderbox, whetstone | 15 sp | 4 |
+| **Fortunate** (a guild master) | As commoner, plus a lantern and oil, writing things, a merchant's kit; the tools can also be a goldsmith's | 40 sp | 6 |
+
+- **Bundles:** smith's (hammer, tongs, file), leatherworker's (knife, awl, needle and thread, last), tailor's (shears, needle and thread, fabric scraps), potter's (ribs, cutting wire), bowyer's (drawknife, bowstring wax, fletching feathers), goldsmith's (files, saw, tweezers, touchstone). The tailor's and the bowyer's are new; the weaver's hand loom was too bulky.
+- **No guild letter:** membership is part of the known setting, not an item.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Village smith.** Shod horses and mended ploughs, and was the first one called when wolves came. | Commoner background: smith's tools; poor arms: a light hammer |
+| 2 | **Armourer.** Hammered out mail and plate for men who paid well and died anyway. | Fortunate background: smith's tools; commoner arms: armour of their own making |
+| 3 | **Locksmith.** Made the town's locks, and knows exactly how they open. | Commoner background: smith's tools; poor arms: a dagger |
+| 4 | **Journeyman.** Wandered from town to town, learning under one master after another. | Poor background; commoner arms: a quarterstaff and a gambeson |
+| 5 | **Saddler.** Made harness and saddles for a lord's stable. | Commoner background: leatherworker's tools; commoner mount |
+| 6 | **Goldsmith.** Weighed gold and set stones for burghers who never trusted the scales. | Fortunate background: goldsmith's tools; poor arms: a dagger |
+| 7 | **Bowyer.** Made bows and arrows, and can tell a good yew stave from across the yard. | Commoner background: bowyer's tools; commoner arms: a longbow |
+| 8 | **Tailor.** Knows cloth, fashion, and who in town wears what they can't afford. | Commoner background: tailor's tools; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Picks up every tool they pass and judges the maker | **Craft.** A thing worth making is worth making right | Their master's mark is stamped on their first piece; they'd die before selling it | Can't leave someone else's bad work alone, even mid-fight |
+| 2 | Knocks on walls, tugs at straps, taps blades: has to know what things are made of | **Guild.** The guild feeds its own, and its own keep its rules | Their guild expelled them over a quarrel; they mean to be taken back | Overprices everything, friends included |
+| 3 | Keeps their hands busy at every rest, whittling, mending, stitching | **Honesty.** Short weight and bad iron are theft, whoever does it | A customer died because of a piece they made badly; nobody knows it was theirs | Despises anyone who works with their mouth instead of their hands |
+| 4 | Sizes people up by their boots and buckles | **Independence.** A master answers to no lord, only to their work | They owe a moneylender for their tools, and he knows where they live | Won't take orders from someone who couldn't do the job themselves |
+| 5 | Tells everyone how it should have been made | **Legacy.** Their work should outlast them by a hundred years | Somewhere there's a masterpiece of their old master's that went missing; they'll find it | Keeps every trade secret, even when sharing it would save lives |
+| 6 | Counts the Material in everyone's pack, and their own twice | **Progress.** There's always a better way to do it, and they mean to find it | Their apprentice ran away to the war; they've heard the boy is still alive | Drinks away the money for raw stock, then works twice as hard to make up for it |
+| 7 | Carries a sample of their best work and shows it to strangers | **Fair trade.** A fair price for fair work, no more and no less | A rival workshop burned theirs down; they can't prove it | Swears by a single method and refuses to try anything else |
+| 8 | Burns, scars and missing fingertips, and a story for each | **Usefulness.** A thing is beautiful if it works | The town they grew up in still uses the bridge irons they forged at fifteen | Says yes to every commission, and finishes half of them |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Builder *(draft, 2026-11-16; Czech Stavitel)*
+
+**Known setting:** how buildings, mines and bridges are put together, **anywhere**; building sites, masons' lodges and their crews. Unlike other settings, the first half travels: it covers any wall, tunnel or bridge the party meets (a weak section, a hidden passage). **Languages:** no extra. Its Material is timber and stone, e.g. for shoring (1 per metre).
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a day labourer on a building site) | Backpack, bedroll, waterskin, shovel, rope | 5 sp | 2 |
+| **Commoner** (a journeyman of the lodge) | As poor, plus carpenter's or mason's tools, a crowbar, a tinderbox, a lantern and oil | 15 sp | 4 |
+| **Fortunate** (a master builder) | As commoner, plus a blanket, writing things, surveyor's tools | 40 sp | 6 |
+
+- **Bundles:** carpenter's (saw, plane, chisels, auger, claw hammer), mason's (mason's hammer, chisels, trowel, square), surveyor's (new: a knotted measuring cord, a plumb line, a water level).
+- **The pick stays one item,** a weapon taken through arms; it digs too. The background gives no weapons.
+- **The Soldier's sapper and the Builder's miner** overlap on purpose: the same skills, learned in war or in a mine.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Mason.** Cut stone for a cathedral that won't be finished in their lifetime. | Commoner background: mason's tools; poor arms: a light hammer |
+| 2 | **Carpenter.** Raised roof trusses and siege towers alike, whoever was paying. | Commoner background: carpenter's tools; commoner arms: a handaxe and a gambeson |
+| 3 | **Miner.** Followed the silver veins deep under a mining town, where the air goes bad. | Commoner background; commoner arms: a pick and an iron cap |
+| 4 | **Roofer.** Worked on rooftops in all weather, and never fell. Never once. | Poor background; poor arms: a sickle |
+| 5 | **Millwright.** Built mills and their gears, and knows water, wheels and every trick a miller has. | Fortunate background; poor arms: a dagger |
+| 6 | **Well-digger.** Dug wells for a living, and once found something else at the bottom. | Poor background; poor arms: a club |
+| 7 | **Bridge-builder.** Threw bridges over rivers for the lords who'd collect the tolls, and knows how a bridge falls. | Fortunate background; commoner mount |
+| 8 | **Master builder.** Drew the plans for a lord's castle, and knows every weakness hidden in it. | Fortunate background; commoner mount; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Pats every wall they pass, as if it were a horse | **Permanence.** Kings die; a good wall stands for five hundred years | Their mason's mark is cut into a cathedral pillar; one day they'll show it to their children | Can't walk past a badly built wall without saying so, loudly |
+| 2 | Counts steps, measures rooms by eye, and is never wrong by more than a hand | **The lodge.** Lodge brothers help each other, in any town, no questions asked | The lodge's secrets were entrusted to them; others would kill to learn them | Won't go anywhere that hasn't been shored, shored again and checked |
+| 3 | Sleeps badly anywhere with a crack in the ceiling | **Craft.** Measure twice, cut once, and never skimp on the foundations | A tunnel collapsed on their crew; they were the only one who got out | Overestimates every job: it takes twice as long and costs twice as much |
+| 4 | Whistles in the dark: an old miners' trick, to hear how far the walls are | **Safety.** Nobody dies on their site, and they'll fight anyone who cuts corners | They built a lord's secret passage, and the lord would rather it were forgotten, along with them | Takes money from both sides of a siege, if both sides need a builder |
+| 5 | Has an opinion on every castle they see, and will share it | **Ambition.** One day their name will be on something people come from far away to see | Their old master is in debtors' prison over a building that fell; they know it wasn't his fault | Superstitious about mines: whistling, women and the knockers in the walls |
+| 6 | Collects odd stones and keeps the best one in their pocket | **Usefulness.** A bridge is worth more than a hundred knights | The mine where they grew up is flooded; their family's still down there | Drinks with the crew every night, and the crew always drinks more |
+| 7 | Wakes before dawn every day, ready for the site | **Order.** Every stone in its place, every worker at their task | A village depends on the mill they built; they go back every spring to check it | Thinks anyone who can't use a trowel is soft |
+| 8 | Draws plans in the dirt with a stick to explain anything | **Freedom.** A lodge brother answers to the lodge, not to the lord | Somewhere there's a church they left half-built when the money ran out; they mean to finish it | Builds a way out into everything they make, and doesn't tell the client |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Hermit *(draft, 2026-11-16; Czech Poustevník)*
+
+**Known setting:** plants and mushrooms, and what grows where, **anywhere** (travels like the Builder's: naming a plant or finding a herb); wild places at the edge of settlements, and the folk who come to the hermit's door at night. **Languages:** no extra. Almost no coins, the most Material of any background (herbs, roots, bark). The herbalism kit and the Material let them brew with the Medic's *Potions and poisons*, which anyone can roll.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a vagrant sleeping rough) | Bedroll, blanket, waterskin, iron pot, tinderbox | 1 sp | 3 |
+| **Commoner** (a herbalist or wise woman at the edge of a village) | As poor, plus a backpack, a herbalism kit, a healer's kit | 5 sp | 5 |
+| **Fortunate** (a famous hermit, with patrons who bring gifts) | As commoner, plus a lantern and oil, writing things | 15 sp | 8 |
+
+**Herbalism kit:** leather gloves, clippers, a mortar and pestle, three glass jars, two pouches.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Herbalist.** Knew every plant in the valley, and what it did to the person who ate it. | Commoner background; poor arms: a sickle |
+| 2 | **Wise woman.** Knew the cures, the curses, and which girl was in trouble before her mother did. | Commoner background; poor arms: a quarterstaff |
+| 3 | **Drifter.** Worked harvests, haymaking and woodcutting from village to village, never staying past the season, sleeping in barns and under trees. | Poor background; poor arms: a sickle or a handaxe |
+| 4 | **Charcoal burner.** Tended kilns deep in the forest for weeks at a time, black to the elbows. | Poor background; commoner arms: a handaxe and a gambeson |
+| 5 | **Recluse.** Withdrew to a cave above the treeline to sit with the silence, and came back calmer than anyone has a right to be. | Poor background; poor arms: a quarterstaff |
+| 6 | **Honey hunter.** Climbed the forest's oldest trees for wild honey, and knows the forest from above. | Commoner background; poor arms: a handaxe |
+| 7 | **Exiled noble.** Banished from court after something unforgivable, and kept the sword. | Poor background; fortunate arms: a sword |
+| 8 | **Prophet.** Came down from the mountain with visions nobody asked for. | Poor background; poor arms: a quarterstaff |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Talks to plants, animals and the weather, and waits for answers | **Solitude.** Quiet is where the truth is heard | The village that drove them out still sends someone at night when a child is sick | Can't stand crowds; three people is a crowd |
+| 2 | Picks and sniffs every herb by the road, and pockets half of them | **Healing.** Nobody who comes to the door goes away without help | Their old teacher's hut stands empty; they're the only one who knows what's buried under it | Speaks the plain truth at the worst possible moment |
+| 3 | Eats sparingly, and comments on what others eat | **Nature.** The forest was here first and will be here last | A creature of the forest spared their life once; they owe it | Distrusts anything made in a town, coins included |
+| 4 | Keeps strange hours: sleeps at noon, walks at night | **Knowledge.** Every plant has a secret, and they mean to learn them all | Someone they love is buried in the clearing by the hut | Has forgotten how to lie, and how to tell when others do |
+| 5 | Measures time by moons and seasons, never by days | **Penance.** They withdrew to pay for a sin, and it isn't paid yet | They made a promise to a dying pilgrim and haven't kept it | Hoards herbs, roots and odd bits like a magpie |
+| 6 | Answers questions with riddles or proverbs | **Freedom.** No lord, no priest, no tax collector finds them | A noble family sends gifts every year to keep them away from court | Believes their visions over their eyes |
+| 7 | Can sit still for hours, and expects others to | **Faith.** God speaks in silence, and they listen | The wise woman of the next valley is their rival; neither will admit the other is better | Treats townsfolk like children |
+| 8 | Smells of smoke, mint and something nobody can name | **Balance.** Every cure costs something, and somebody has to pay | They saw something in the forest one night that nobody believes | Takes a long time to trust anyone, and forgives nothing |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Scholar *(draft, 2026-11-16; Czech Učenec)*
+
+**Known setting:** the written word, **anywhere** (texts, records, inscriptions, old documents, wherever they're found); universities, monastery libraries and chanceries, and the learned people in them. **Languages:** two extra (Liturgic or an Old tongue fit). There's no Latin in the world: Liturgic stands in for it.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a wandering student) | Backpack, bedroll, waterskin, writing things | 3 sp | 1 |
+| **Commoner** (a scribe, or a physician's assistant) | As poor, plus a lantern and oil, a book | 15 sp | 2 |
+| **Fortunate** (a university master, or a court physician) | As commoner, plus a second book, and a healer's kit, a herbalism kit or cartographer's tools | 40 sp | 3 |
+
+- **Book** *(confirmed, 2026-11-16)*: one item (`book`, 150 sp), whatever the subject; the player names it in the backstory (the editor can't set item notes yet). With an hour to consult it, a character can make a knowledge roll in its field even without a fitting class, and on a success the DM answers more fully. The old history, philosophy and prayer books stay in the backup.
+- **Cartographer's tools:** drawing compasses, a ruler, a quill, ink, 5 sheets of parchment.
+- **Medic overlap** (the physician, the apothecary) is fine: crafts belong to classes.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Wandering student.** Drank and disputed their way from one university to the next, singing for bread. | Poor background; poor arms: a dagger |
+| 2 | **Scribe.** Copied charters in a chancery, and knows exactly what a forgery looks like. | Commoner background; poor arms: a dagger |
+| 3 | **Physician.** Studied the ancients and read urine flasks, and never touched a wound until the plague came. | Fortunate background: a healer's kit; poor arms: a dagger |
+| 4 | **Apothecary.** Mixed theriac for the rich and sold sugar pills to everyone else. | Fortunate background: a herbalism kit; poor arms: a dagger |
+| 5 | **Astrologer.** Cast horoscopes for a lord who believed every word. | Fortunate background; commoner mount |
+| 6 | **Alchemist's apprentice.** Kept the fire going and the master's secrets, until the explosion. | Commoner background; poor arms: a club |
+| 7 | **Notary.** Knows every law, privilege and loophole in the land, and charges by the word. | Fortunate background; poor arms: a dagger |
+| 8 | **Chronicler.** Wrote the history of a noble house, including the parts they paid to have removed. | Commoner background; commoner mount |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Corrects everyone's Liturgic, and everyone's facts | **Knowledge.** Everything can be known, given enough time and candles | Their master's unfinished book is in their pack; they mean to finish it | Can't resist showing that they know better |
+| 2 | Takes notes on everything, in a script nobody else can read | **Truth.** A fact doesn't care who it offends | A letter from a dead colleague asks a question nobody has answered | Trusts a book over their own eyes |
+| 3 | Quotes the ancients at every occasion, sometimes accurately | **Tradition.** The ancients knew more than we ever will | Their university expelled them over a disputation they still think they won | Forgets to eat, sleep and keep watch when there's something to read |
+| 4 | Sniffs every book before opening it | **Progress.** The ancients were wrong about plenty, and somebody has to say so | A library burned with the only copy of something they need | Looks down on anyone who can't read |
+| 5 | Counts in fractions and speaks in footnotes | **Service.** Learning is worthless unless it helps someone | Their patron paid for their studies and expects a return | Steals rare books; borrowing is for people who give them back |
+| 6 | Collects odd facts and shares them at the wrong moment | **Secrets.** Some knowledge is too dangerous for the many | They copied a forbidden text once, and someone knows | Argues every point, especially the ones that don't matter |
+| 7 | Has ink stains on every finger, and on their nose | **Fame.** A name on a book lives forever | An old fellow student is now a bishop, and owes them a favour | Is a coward about anything that isn't a debate |
+| 8 | Measures and weighs everything, in case it's useful later | **Freedom.** No bishop or king decides what may be read | Their family sold its land to pay for the university | Is sure they're the cleverest person in the room, and usually says so |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Servant *(draft, 2026-11-16; Czech Služebník)*
+
+**Known setting:** servants **anywhere**, and the gossip they pass on (the staff of any household: in through the kitchen door); inns, kitchens and stables, and the servants' quarters of great houses. **Languages:** no extra. Nobody looks at a servant.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a scullion or a stable hand) | Pouch, bedroll, tinderbox, 3 days of rations | 3 sp | 1 |
+| **Commoner** (a cook, a maid or a barmaid in a good house or inn) | Backpack, bedroll, waterskin, 3 days of rations, tinderbox, and cook's utensils or a healer's kit | 15 sp | 2 |
+| **Fortunate** (an innkeeper, or a great house's steward) | As commoner, plus a lantern and oil, writing things, and brewer's supplies or a merchant's kit | 40 sp | 3 |
+
+- **Bundles:** cook's utensils (kitchen knives, iron pot, ladle, spice box); brewer's supplies (mash paddle, funnel and sieve, ladle; **no copper kettle**, too heavy: the brewer uses an iron pot, 3 sp).
+- **The inn is story, not property.** Owning one is a domain holding (a tavern licence), granted only by the DM.
+- **Overlaps kept:** the bathhouse maid's healer's kit with the Soldier's barber-surgeon; the steward's ledger with a future Merchant.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Innkeeper.** Ran an inn on the high road, and heard every rumour before the town did. | Fortunate background; poor arms: a club |
+| 2 | **Brewer.** Brewed the town's beer under its brewing right, and can name any tavern by the taste of its beer. | Fortunate background: brewer's supplies; poor arms: a club |
+| 3 | **Cook.** Fed a lord's household, a hundred mouths twice a day, and knows what a poisoned dish smells like. | Commoner background: cook's utensils; poor arms: a handaxe (the cleaver) |
+| 4 | **Barmaid.** Carried tankards, broke up fights, and remembers every face that didn't pay. | Poor background; poor arms: a club |
+| 5 | **Bathhouse maid.** Heated the water, scrubbed the guests, and heard the town's dirtiest secrets. | Commoner background: a healer's kit; poor arms: a dagger |
+| 6 | **Groom.** Kept a lord's horses, some of which like them better than people. | Poor background; commoner mount |
+| 7 | **Steward.** Kept the keys and accounts of a great house, and knows where its silver went. | Fortunate background: a merchant's kit; poor arms: a dagger |
+| 8 | **Lady's maid.** Dressed a noble every morning, and knew all their secrets by evening. | Commoner background; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Tidies wherever they go, even in a dungeon | **Hospitality.** A guest under your roof is sacred, whoever they are | The inn they grew up in was burned by soldiers; they mean to rebuild it | Gossips, and can't keep a secret past the second drink |
+| 2 | Judges every meal, every bed and every inn out loud | **Loyalty.** A good master deserves a good servant, to the end | Their old master died in suspicious circumstances; they saw something that night | Eavesdrops on everyone, out of habit |
+| 3 | Hears everything and pretends to hear nothing | **Pride.** Serving well is a craft, and they're a master of it | A noble child they raised still writes to them in secret | Steals small things from the rich: a spoon, a ribbon, a coin |
+| 4 | Moves so quietly people forget they're in the room | **Freedom.** They served long enough; now they serve no one | They know a lord's secret that could bring down his house | Bows to anyone in fine clothes, without thinking |
+| 5 | Can't sit idle while others work, or work while others sit | **Fairness.** Everyone eats at the same table, lord or stable boy | The tavern regulars are their family; they'd do anything for them | Resents every noble, and lets it show in small ways |
+| 6 | Cooks something for the party at every rest, asked or not | **Ambition.** Today the scullery, tomorrow their own inn | Their sister is still in service at a cruel house; they want her out | Spends money on fine things to look like their betters |
+| 7 | Remembers what everyone drinks, and how much | **Discretion.** What's seen in a house stays in the house | They owe the brewers' guild for a debt they didn't make | Waters down the drinks of people they dislike |
+| 8 | Polishes their boots every night, however tired | **Comfort.** A warm meal and a dry bed fix most of the world's troubles | Someone left a sealed letter with them at the inn, and never came back for it | Can't say no to anyone who asks politely |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Monster hunter *(draft, 2026-11-16; Czech Lovec netvorů)*
+
+**Known setting:** folk tales and superstitions about monsters, fiends and the undead, **anywhere**, and which of them are true (overlaps the Witcher's and Ranger's knowledge skills on purpose); border villages, graveyards and ruins, and the people who hire hunters. **Languages:** no extra. A poor background: hunters get paid when the thing is dead.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a village rat-catcher and grave-watcher) | Bedroll, waterskin, 3 torches, rope, a hunting trap | 2 sp | 2 |
+| **Commoner** (a hunter for hire on the borderlands) | As poor, plus a backpack, tinderbox, steel mirror, manacles | 10 sp | 3 |
+| **Fortunate** (a slayer of some fame, or the squire of an old order) | As commoner, plus a lantern and oil, a healer's kit, and silvering | 30 sp | 4 |
+
+- **Silvering** *(confirmed, 2026-11-16)*: an item (`silvering`, 50 sp) standing for one weapon, or ten pieces of ammunition, from the character's arms, silvered; the player names which in the backstory. The background still gives no weapons.
+- **No trophies as items:** trophies are the Ranger's and Witcher's skill; Material instead.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Rat-catcher.** Cleared cellars of rats, and once of something much bigger. | Poor background; poor arms: a club |
+| 2 | **Grave-watcher.** Sat the nights in the churchyard so the dead stayed where they were put. | Poor background; poor arms: a spear |
+| 3 | **Wolf hunter.** Tracked wolves through the winter, until the tracks started walking on two legs. | Fortunate background: silvering; commoner arms: a spear and a crossbow |
+| 4 | **Slayer for hire.** Took the lord's coin for the wyvern's head, and came back with it. | Fortunate background; fortunate arms: a sword and a shield |
+| 5 | **Witch-finder.** Hunted witches for the church, until they learned what's really out there. | Commoner background; commoner arms: a crossbow and a dagger |
+| 6 | **Survivor.** The only one left of a village the thing came for, and they've been hunting it since. | Poor background; commoner arms: an axe and a shield |
+| 7 | **Squire of an order.** Carried a monster-slaying knight's lance, until the knight didn't come back. | Fortunate background; commoner mount; commoner arms: a spear and a shield |
+| 8 | **Trapper.** Caught beasts with snares and pits, then learned the same works on worse things. | Commoner background; poor arms: a shortbow |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Checks every room for exits, shadows and claw marks before sitting down | **Protection.** Someone has to stand between the village and the dark | The thing that killed their family is still out there | Sees monsters where there are only people |
+| 2 | Salts every threshold they sleep behind | **Coin.** Nobody kills a monster for free, and neither do they | Their old master's hunting journal is half-finished, and the last pages are torn out | Haggles over the price while the village burns |
+| 3 | Collects trophies, and tells their stories unasked | **Knowledge.** Every monster has a weakness; the trick is finding it first | A village owes them its children, and treats them like a leper anyway | Drinks to forget what they've seen |
+| 4 | Sleeps with a light on, and won't explain why | **Glory.** Songs about slain dragons have to start somewhere | Their order cast them out for sparing something they were sent to kill | Can't resist poking at anything strange, however dangerous |
+| 5 | Sniffs the air when entering anywhere new | **Mercy.** Not every monster deserves to die, and not every man deserves to live | A fiend once spared them, and they don't know why | Doesn't trust priests, mages or anyone who deals with the other side |
+| 6 | Knows a folk remedy for everything, half of them nonsense | **Duty.** The order's oath binds until death, and maybe after | They carry a silver ring from someone the thing took | Takes every job, however hopeless, because saying no feels like cowardice |
+| 7 | Tests every coin with their teeth, in case it's fairy gold | **Vengeance.** Every monster pays for the one that took what was theirs | A rival hunter keeps beating them to the bounties, and they're sure it's no accident | Treats villagers as bait, if that's what it takes |
+| 8 | Hums an old song that keeps the dead at bay, or so their grandmother said | **Order.** Monsters are the wild breaking in; they keep it out | They've promised a child they'll come back for her when the hunt is over | Has stopped fearing death, and it makes them reckless |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Criminal *(draft, 2026-11-16; Czech Zločinec)*
+
+Takes in the old **Charlatan** (the con artist) and **Urchin** (the gutter child).
+
+**Known setting:** the underworld, **anywhere** (fences, smugglers, beggars and dens in any town); the dark side of their home town, its gangs, its watch and who can be bribed. **Languages:** one extra (Thieves' cant fits, but isn't given). Overlaps the Scout's *Underground influence* on purpose.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a gutter child or a pickpocket) | Pouch, tinderbox, dice and loaded dice | 2 sp | 1 |
+| **Commoner** (a burglar or a con artist with a gang) | Backpack, bedroll, rope, crowbar, and thieves' tools or a disguise kit | 15 sp | 1 |
+| **Fortunate** (a fence, a gang boss or a master forger) | As commoner, plus a lantern and oil, playing cards, and a forgery kit or a merchant's kit | 40 sp | 2 |
+
+- **Bundles:** thieves' tools (file, lockpicks, small mirror, scissors, pliers), disguise kit, forgery kit (blank seals, wax tools, sealing wax, quill, ink, parchment). Dark hooded clothes go in the clothes text.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Pickpocket.** Worked the market crowds, and can lift a purse without breaking stride. | Poor background; poor arms: a dagger |
+| 2 | **Burglar.** Came in through the roof, left through the cellar, and took only what fit in a sack. | Commoner background: thieves' tools; poor arms: a dagger |
+| 3 | **Con artist.** Sold relics, cures and titles to anyone who wanted to believe. | Commoner background: a disguise kit; poor arms: a dagger |
+| 4 | **Forger.** Made letters of passage, guild seals and the odd will, all better than the real ones. | Fortunate background: a forgery kit; poor arms: a dagger |
+| 5 | **Smuggler.** Moved salt, wine and people past the toll gates, by night and by river. | Commoner background; commoner mount; commoner arms: a crossbow and a club |
+| 6 | **Fence.** Bought what fell off the cart, asked no questions, and remembers every answer anyway. | Fortunate background: a merchant's kit; poor arms: a dagger |
+| 7 | **Gutter child.** Grew up on the streets, ran errands for the gangs, and knows every alley and hole in the walls. | Poor background; poor arms: a sling |
+| 8 | **Leg-breaker.** Collected debts for the gang boss, one finger at a time. | Poor background; commoner arms: a club and a gambeson |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Counts the exits, the guards and the purses in every room | **Freedom.** No lord, no law, no chains | The gang that raised them was hanged in the square; they were the only one not caught | Can't walk past an unattended purse |
+| 2 | Sits with their back to the wall, always | **Loyalty.** Thieves have their own law, and you don't rat on your own | A rival gang boss wants them dead over a debt they swear is paid | Lies by reflex, even when the truth would serve |
+| 3 | Talks to strangers in cant to see who answers | **Greed.** Everyone has a price, and they mean to collect it | Their little brother is still on the streets; everything they steal is for him | Never trusts anyone fully, the party included |
+| 4 | Tests every lock they pass, out of habit | **Charity.** Take from those who won't miss it, give to those who will | A watch sergeant lets them work, as long as he gets his cut | Gambles away every score, and the next one too |
+| 5 | Has three names and answers to all of them | **Respect.** One day the whole underworld will know their name | They hid the loot from their last big job, and someone is still looking for it | Runs at the first sign of the watch, whoever they leave behind |
+| 6 | Sleeps lightly, with their boots on | **Thrill.** The take matters less than getting away with it | A fence they trusted sold them out; they mean to find him | Holds a grudge forever, and pays it back double |
+| 7 | Haggles over everything, even when it's free | **Survival.** Nobody looks after you but you | They owe their life to a priest who didn't turn them in | Can't resist showing off how good they are |
+| 8 | Always eats like it's their last meal | **Family.** The gang is the only family that never turned them away | They stole something from a powerful man without knowing what it was | Despises honest folk as marks and fools |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Outlander *(draft, 2026-11-16; Czech Cizinec)*
+
+Takes in the old **Guide**.
+
+**Known setting:** the wild lands and the peoples who live in them (clans, nomads, the trails and fords between them), not surviving in the wild, which is the Hunter class's; one homeland far from here, its customs, its feuds and who rules it. **Languages:** one extra, usually the homeland's (a Kroll clan dialect, Second elvish, the Language of the Isles). Little coin, plenty of Material: furs, hides, amber and salt to trade.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a clan's youngest, or a lone wanderer) | Bedroll, waterskin, tinderbox, 3 days of rations, a hunting trap | 2 sp | 3 |
+| **Commoner** (a hunter, a herder or a guide) | Backpack, bedroll, blanket, waterskin, tinderbox, iron pot, rope, 3 days of rations, a hunting trap | 10 sp | 4 |
+| **Fortunate** (a chieftain's kin, or a wildland trader) | As commoner, plus a tent, and cartographer's tools or a merchant's kit | 30 sp | 6 |
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Clansman.** Grew up in a hill clan where the feud with the next valley is older than anyone's grandfather. | Poor background; commoner arms: an axe and a shield |
+| 2 | **Hunter.** Fed the clan through the winters, and can follow a deer for three days. | Commoner background; commoner arms: a longbow and a spear |
+| 3 | **Steppe rider.** Rode with a horde across the grass, and feels naked on foot. | Poor background; commoner mount; fortunate arms: a shortbow and a scimitar or khopesh |
+| 4 | **Wildland merchant.** Took salt and iron to the clans and came back with furs and amber, when they came back. | Fortunate background: a merchant's kit; commoner mount; poor arms: a spear |
+| 5 | **Guide.** Led travellers through the mountain passes for coin, and lost fewer than most. | Fortunate background: cartographer's tools; poor arms: a quarterstaff |
+| 6 | **Herder** (Czech *Bača*). Drove the flocks up to the high pastures every summer, alone with the wolves and the stars. | Poor background; poor arms: a sling and a quarterstaff |
+| 7 | **Island raider.** Came south on a longship to plunder, and stayed when the ship didn't go back. | Poor background; commoner arms: an axe and a shield |
+| 8 | **Stranger from afar.** Comes from somewhere nobody here has heard of, and their customs show it. | Commoner background; poor arms: a spear |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+- **Khopesh** isn't in the item list yet; the steppe rider's scimitar is.
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Sleeps outside, even when there's a bed | **Freedom.** Walls are for people who are afraid of the sky | Their clan cast them out; they mean to earn their way back | Has no idea how towns work, and won't admit it |
+| 2 | Greets everyone with a custom nobody here understands | **Kin.** The clan comes first, last and always | A blood feud follows them, and the other side has long memories | Settles insults with fists, wherever they are |
+| 3 | Reads the weather aloud every morning, and is usually right | **Honour.** A word given is a word kept, even to an enemy | Their horse is their oldest friend, and they'd die for it | Distrusts anyone who lives behind walls |
+| 4 | Eats anything, and judges people who don't | **Nature.** The land gives, the land takes, and it doesn't care what lords think | A trader they guided died on the way; his family wants to know why | Takes what they need, because in the wild nothing belongs to anyone |
+| 5 | Counts wealth in horses, furs and favours, never coins | **Hospitality.** Whoever shares your fire is under your protection | They carry a token they swore to return to a chieftain's daughter | Speaks the truth bluntly, and calls tact lying |
+| 6 | Wears charms against every spirit they've ever heard of | **Strength.** The weak don't last a winter, and shouldn't expect to | The horde they rode with is coming west, and they know when | Superstitious to the bone, and won't break a taboo for anything |
+| 7 | Tells time by the sun and stars, and laughs at bells | **Wandering.** There's always another valley over the next ridge | They promised their dying father to see the sea | Gets restless after three nights in one place |
+| 8 | Carves something during every rest, and gives it away | **Tradition.** The old ways kept their people alive; they'll keep them alive here too | Somewhere in a town lives a sibling who went soft, and they want to bring them home | Treats every stranger as a possible enemy until shown otherwise |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Noble *(draft, 2026-11-16; Czech Šlechtic)*
+
+**No large benefits in play** *(confirmed)*: the name opens doors and **commands nothing**. No land, servants, income or authority, and nobody has to obey them. Coins and Material are the same as other backgrounds'; swords and a warhorse come from fortunes, which anyone can choose. **The price of the name:** the family's debts, feuds and summons home are hooks the DM can pull; the background's description says so.
+
+**Known setting:** noble courts and town councils (etiquette, heraldry, who is feuding with whom); their own family, its lands and its lord. **Languages:** one extra (Liturgic, or a neighbouring court's tongue). The **councillor's child** is patrician, not strictly noble, and belongs here rather than in a future Merchant. A *vladyka* is the lowest rank of Czech nobility; the English text keeps the word.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a name and nothing behind it) | Bedroll, waterskin, tinderbox, 3 days of rations, playing cards | 3 sp | 0 |
+| **Commoner** (a minor house that still keeps up appearances) | Backpack, bedroll, waterskin, tinderbox, writing things, playing cards | 15 sp | 1 |
+| **Fortunate** (heir of a modest house) | As commoner, plus a lantern and oil, and a signet ring | 40 sp | 1 |
+
+- **Signet ring** (`signet-ring`, 50 sp, fortunate only): proves who you are and seals your letters; it grants no authority.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Third son of a third son.** Has a long name, a short inheritance, and no reason to stay home. | Poor background; fortunate arms: a sword |
+| 2 | **Hedge knight.** Knighted on a battlefield by a lord now dead, rides from tourney to tourney, and sleeps under hedges between them. | Poor background; fortunate mount; commoner arms: a lance and a shield |
+| 3 | **Councillor's child.** Grew up in a patrician house on the town square, with more money than blood and everyone knowing it. | Fortunate background; poor arms: a dagger |
+| 4 | **Child of a poor vladyka.** The family has a fortified farmhouse, a coat of arms and debts; the father ploughs alongside his serfs. | Poor background; commoner mount; commoner arms: a spear and a shield |
+| 5 | **Bastard.** Raised at the castle, acknowledged by nobody, and better at swordplay than the legitimate heirs. | Poor background; fortunate arms: a sword |
+| 6 | **Ward.** Raised at a rival lord's court as a hostage for their family's good behaviour, and isn't sure whose side they're on. | Commoner background; poor arms: a dagger |
+| 7 | **Runaway bride.** Was promised to a man three times her age, or to a convent, and chose the road instead. | Commoner background; commoner mount; poor arms: a dagger |
+| 8 | **Disgraced heir.** The family lost everything in a feud, a war or at dice, and the name is all that's left. | Poor background; fortunate arms: a sword and medium armour |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Introduces themselves with their full name and lineage, every time | **Honour.** A name is worth nothing if its bearer isn't | The family estate is mortgaged; they mean to buy it back | Expects to be served, and is surprised when they aren't |
+| 2 | Eats with perfect manners, even off a stick by the fire | **Duty.** Noble birth means protecting those beneath you | Their elder brother will inherit everything, and they love him anyway | Can't let an insult to the family pass |
+| 3 | Knows every coat of arms on the road, and whose debts it's hiding | **Ambition.** The family was great once and will be again | A marriage was arranged for them; the other family hasn't forgotten | Has never done a day of honest work, and it shows |
+| 4 | Speaks politely to everyone, servants included, which confuses them | **Freedom.** Better a poor knight on the road than a rich prisoner at home | Their old tutor is the only one who ever believed in them | Spends money they don't have to look like they have it |
+| 5 | Keeps a small book of everyone who has slighted them | **Chivalry.** Fight fair, keep your word, protect the weak | A rival house blames them for something their father did | Looks down on burghers, and burghers know it |
+| 6 | Hums court dances when nervous | **Power.** Titles are only paper; real power is people who owe you | They still write to their mother, who thinks they're at a monastery | Picks fights with people above their station, to prove they belong |
+| 7 | Can't resist a tournament, a duel or a dare | **Family.** Blood comes before everything, even the law | The lord who knighted them died owing them a favour; his son doesn't know | Lies about how grand the family really is |
+| 8 | Wears one good garment, mended a hundred times | **Fairness.** They've seen how the lords treat the poor, and won't be like them | The family's ancestral sword was sold; they've seen it on another man's hip | Can't take advice from anyone of lower birth |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Sailor *(draft, 2026-11-16; Czech Loďař)*
+
+Rivers and coasts as much as the sea: rafts, ferries and trading cogs. **Known setting:** ports, ships and crews **anywhere** (who's hiring, who's smuggling, which harbourmaster can be bought); their home waters' rivers and coasts, the shoals, weirs and tolls. Overlaps the Scout's *Seafaring* and the Ranger's small boats on purpose. **Languages:** one extra (the Language of the Isles, or a port's tongue). A poor background, like the Outlander.
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a deckhand or a raftsman) | Bedroll, waterskin, rope, 3 days of rations, dice | 2 sp | 1 |
+| **Commoner** (an able seaman or a river boatman) | Backpack, bedroll, waterskin, tinderbox, rope, 3 days of rations, dice or playing cards | 10 sp | 2 |
+| **Fortunate** (a ship's mate, a pilot or a ship-owner's child) | As commoner, plus a lantern and oil, and navigator's tools or a merchant's kit | 30 sp | 3 |
+
+- **Navigator's tools** (restored): a lodestone compass, a sounding line, a ruler.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Deckhand.** Hauled rope on a trading cog from port to port, and left a debt, a sweetheart and a grudge in every one. | Poor background; poor arms: a club (the belaying pin) |
+| 2 | **Raftsman** (*Vorař*). Rode timber rafts down the river to the city, and knows every weir and every tavern on the way. | Poor background; poor arms: a handaxe |
+| 3 | **Fisherman.** Went out before dawn in all weather, and knows the water better than the land. | Commoner background; poor arms: a spear (the gaff) |
+| 4 | **River pilot.** Knows every shoal, weir and toll on the river, and what every toll-keeper drinks. | Fortunate background: navigator's tools; poor arms: a dagger |
+| 5 | **Ship's crossbowman.** Guarded a merchant cog against pirates from the castle at the stern. | Commoner background; commoner arms: a crossbow and a gambeson |
+| 6 | **Pirate.** Sailed under a letter of marque, and later without one. | Poor background; fortunate arms: a sword |
+| 7 | **Ferryman.** Took people across the river for a coin, and remembers everyone who crossed at night. | Commoner background; poor arms: a quarterstaff (the pole) |
+| 8 | **Castaway.** The only one who came ashore when the ship broke up, and won't say how. | Poor background; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Walks with a roll, even on dry land | **Freedom.** The sea belongs to no lord | Their old ship lies at the bottom with the captain's chest still aboard | Drinks every port dry, then the next one |
+| 2 | Ties knots in anything they're holding | **Crew.** On a ship, everyone lives or everyone drowns | The crew that marooned them is still sailing, and they know the ship's name | Superstitious: no whistling aboard, no sailing on a Friday |
+| 3 | Reads the sky every morning and announces the weather | **Fortune.** One good cargo and they'll never work again | A sweetheart waits in a harbour town, or so they hope | Settles every argument with fists |
+| 4 | Swears in six languages, and only speaks four | **Adventure.** There's always another coast beyond the horizon | Their brother was pressed into a war fleet and never came home | Can't swim, and has never told anyone |
+| 5 | Sleeps anywhere, anytime, in any weather | **Honesty.** A fair captain gets a loyal crew | They owe a smuggler a cargo they lost to the toll-keepers | Spends their pay before they've earned it |
+| 6 | Tells sea stories that get bigger with every mug | **Respect.** The water humbles everyone, and so should you | A drowned shipmate visits them in dreams, asking for something | Can't stay ashore for more than a month |
+| 7 | Eats fast and guards their plate, as on the mess deck | **Tradition.** The old ways of the river keep the river kind | The raftsmen's guild expelled them; they mean to be taken back | Treats landsmen as fools |
+| 8 | Keeps a lucky trinket and touches it before anything risky | **Profit.** Every cargo has a price, and every toll-keeper too | They saw a sea monster once, and they're going back for it | Jumps ship at the first sign of trouble |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Merchant *(draft, 2026-11-16; Czech Kupec)*
+
+The road and the market; the councillor's child (Noble), the steward (Servant), the fence (Criminal) and the wildland trader (Outlander) live elsewhere. **Known setting:** markets, fairs and trade roads **anywhere** (what things are worth, who's buying, the tolls and staple rights); merchant guilds and trading houses, and who owes whom. The obvious case for the DM's temporary +1 when haggling. **Languages:** one extra. **No large benefits:** coins as other backgrounds'; the wealth shows as a little more Material (trade goods).
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a pedlar with a pack) | Backpack, bedroll, waterskin, pouch, 3 days of rations | 3 sp | 2 |
+| **Commoner** (a market trader or a carter) | Backpack, bedroll, waterskin, tinderbox, a merchant's kit, playing cards | 15 sp | 3 |
+| **Fortunate** (a trading house's merchant) | As commoner, plus a lantern and oil, writing things | 40 sp | 5 |
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Pedlar.** Carried needles, ribbons and gossip from village to village on their back. | Poor background; poor arms: a quarterstaff |
+| 2 | **Salt carrier** (*Soumar*). Led a pack train of salt along the Golden Trail over the border forest, past robbers and toll-keepers. | Commoner background; commoner mount; commoner arms: a crossbow and a club |
+| 3 | **Stallholder.** Sold cloth on the town square every market day, and knows what everything is worth. | Commoner background; poor arms: a club |
+| 4 | **Carter** (*Forman*). Drove a merchant's wagons on the high roads, and knows every inn and every ditch. | Commoner background; commoner mount; poor arms: a club |
+| 5 | **Factor.** Kept the books in a foreign trading house, and knows whose ships are late. | Fortunate background; poor arms: a dagger |
+| 6 | **Moneychanger.** Weighed foreign coins at a bench by the bridge, and knows a clipped groschen by feel. | Fortunate background; poor arms: a dagger |
+| 7 | **Horse trader.** Sold horses at fairs, some of them sound. | Commoner background; commoner mount; poor arms: a dagger |
+| 8 | **Bankrupt.** Was rich last year, and kept only the sword bought in better days. | Poor background; fortunate arms: a sword |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Prices everything they see, out loud | **Profit.** A deal is good when both sides think they've won, and one of them is right | Their partner ran off with the strongbox; they know which town he's in | Can't pass up a bargain, even one they don't need |
+| 2 | Bites every coin, and weighs every purse by hand | **Honesty.** Fair weight and fair measure, or the guild hangs you | A caravan they financed vanished on the road; nobody believes it was robbers | Haggles over everything, even with friends, even over life and death |
+| 3 | Keeps accounts of who in the party owes what | **Freedom.** Money buys what birth never gave them | They owe a moneylender more than they'll ever earn | Trusts a signed contract over a person's word |
+| 4 | Speaks a few words of every language, all of them numbers | **Ambition.** Their name will be on a house on the square one day | A noble owes them a fortune and won't pay; the courts belong to him | Bribes first, thinks later |
+| 5 | Never says no, only "that depends on the price" | **Community.** A market feeds the whole town, not just the traders | Their guild expelled them for underselling; they mean to prove it wrong | Hoards coin and won't spend it, even on the party |
+| 6 | Collects samples: a pinch of every spice, a scrap of every cloth | **Risk.** The biggest profits are on the roads nobody else dares | They carry a sealed letter of credit to a trading house far away | Looks down on anyone who's never earned their own bread |
+| 7 | Remembers every price from every fair for ten years back | **Reputation.** A merchant's word is their capital | A rival house ruined their family; they're keeping a ledger of their own | Sells anything to anyone, and asks no questions |
+| 8 | Wears a purse inside their shirt and touches it every few minutes | **Generosity.** Wealth is for spending, on people who need it | A child they took on as an apprentice was lost on the road | Thinks everyone has a price, and treats them that way |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Peasant *(draft, 2026-11-16; Czech Rolník)*
+
+Takes in the old **Folk hero**, and the old Farmer. Not only ploughing: everyone who lives off the land and the village. Not *Commoner*, which is a fortune. **Known setting:** villages and the countryside **anywhere** (the work, the livestock, the seasons and the customs, market days, who the reeve is); their home village, its lord and his bailiff. **Languages:** no extra. Little coin, a fair amount of Material (grain, hides, wool, a cheese).
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a cottar or a farmhand) | Bedroll, waterskin, tinderbox, 3 days of rations | 2 sp | 2 |
+| **Commoner** (a smallholder with a field and a cow) | Backpack, bedroll, blanket, waterskin, tinderbox, iron pot, rope, 3 days of rations, and a shovel or a healer's kit | 10 sp | 3 |
+| **Fortunate** (a rich farmer or a village reeve) | As commoner, plus a lantern and oil, and carpenter's tools or brewer's supplies | 30 sp | 5 |
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Ploughman.** Walked behind the oxen from dawn to dusk, and is stronger than any knight they've met. | Poor background; poor arms: a club |
+| 2 | **Swineherd.** Drove the village pigs into the oak woods every autumn, and knows every path in them. | Poor background; poor arms: a quarterstaff |
+| 3 | **Village reeve.** Collected the lord's dues and settled the village's quarrels, and was hated by both sides. | Fortunate background; poor arms: a club |
+| 4 | **Vintner.** Tended a vineyard on the slopes above the river, and judges every wine harshly. | Fortunate background: brewer's supplies; poor arms: a sickle |
+| 5 | **Folk hero.** Stood up to the lord's bailiff once, and the village still sings about it. | Commoner background; commoner arms: a spear and a shield |
+| 6 | **Woodcutter.** Felled trees for the charcoal burners and the town's builders, and has strong arms and few words. | Poor background; commoner arms: an axe and a gambeson |
+| 7 | **Gravedigger.** Dug the village's graves, and knows which ones were dug twice. | Poor background; poor arms: a club |
+| 8 | **Midwife.** Delivered every child in three villages, and a few calves. | Commoner background: a healer's kit; poor arms: a dagger |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Up before dawn every day, and wakes everyone else | **Hard work.** Bread is earned, not given | The lord's bailiff took the family's best field; they mean to get it back | Distrusts anything new, from a plough to a priest |
+| 2 | Reads the weather from the sky, the birds and their own knee | **Community.** The village stands together, or it starves alone | Their parents still work the land and need the money they send home | Hoards food, just in case |
+| 3 | Judges every field they pass, and the farmer who keeps it | **Freedom.** No man should be another's property | They ran from the lord's land, and his men are still looking | Can't read, and is ashamed of it |
+| 4 | Eats everything on the plate, and finishes others' | **Fairness.** The lord takes too much, and someday someone will say so | The village gave them its savings to bring back help | Treats townsfolk as cheats and lords as thieves |
+| 5 | Names every animal, even the ones they'll eat | **Tradition.** The old feasts and the old ways keep the harvest coming | A wolf, a bear or something worse took their flock; they know where it lairs | Stubborn as an ox, and proud of it |
+| 6 | Counts the days to the next feast, and knows every saint's day | **Faith.** God sends the rain and the hail, and both are deserved | They're betrothed back home, and the wedding keeps being put off | Superstitious about everything to do with the harvest |
+| 7 | Talks about the harvest at every fire, every year's | **Home.** Every road leads back to the village in the end | Their brother was taken as a levy and never came back | Settles things with fists, like back home |
+| 8 | Carries a pinch of home soil in a pouch | **Ambition.** Their grandchildren won't plough someone else's field | The village well went bad the year a stranger came; they think they know who | Bows to anyone in fine clothes, out of long habit |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+#### Acolyte *(draft, 2026-11-16; Czech Duchovní)*
+
+**Known setting:** the Star God's church **anywhere** (its rites and feasts, its hierarchy, who holds which parish and which abbot owes whom); monasteries, parishes, pilgrim roads and shrines. **Languages:** one extra (Liturgic fits, but isn't given).
+
+| Fortune | Gear | Coins | Material |
+|---|---|---|---|
+| **Poor** (a mendicant friar or a pilgrim) | Bedroll, waterskin, pouch, holy symbol, 3 days of rations | 1 sp | 2 |
+| **Commoner** (a parish priest, a monk or a nun) | Backpack, bedroll, waterskin, tinderbox, holy symbol, writing things | 10 sp | 2 |
+| **Fortunate** (a canon, a prior or a bishop's secretary) | As commoner, plus a lantern and oil, a book, and a healer's kit or a herbalism kit | 30 sp | 3 |
+
+- **Holy symbol** (`holy-symbol`, 3 sp, restored): the obvious ritual item for an Incantor, and what people hold up against the dead. Vestments go in the clothes text; a prayer book is the `book`, its subject named in the backstory.
+
+| d8 | Archetype | Recommended |
+|---|---|---|
+| 1 | **Mendicant friar.** Begged their way from town to town, preaching poverty to people who had nothing else. | Poor background; poor arms: a quarterstaff |
+| 2 | **Pilgrim.** Walked to a distant shrine to keep a vow, and came back changed, or hasn't come back yet. | Poor background; poor arms: a quarterstaff (the pilgrim's staff) |
+| 3 | **Village priest.** Christened, married and buried the whole village, and knows all their sins. | Commoner background; poor arms: a club |
+| 4 | **Infirmarian.** Ran the monastery's infirmary and herb garden, and has seen every way a body fails. | Fortunate background: a herbalism kit; poor arms: a dagger |
+| 5 | **Runaway nun.** Took the veil, by choice or not, and left the convent for reasons of her own. | Commoner background; poor arms: a dagger |
+| 6 | **Sergeant-brother.** Served a knightly order as a lay brother: cooked, prayed, and held the line behind the knights. | Commoner background; commoner arms: a mace and a shield |
+| 7 | **Inquisitor's clerk.** Wrote down the confessions at the inquisitor's trials, and can't forget them. | Fortunate background; poor arms: a dagger |
+| 8 | **Heretic preacher.** Preached that the church is rotten, and the church agreed to burn them for it. | Poor background; poor arms: a quarterstaff |
+| 9 | Or make up your own, picking whatever you feel like. | |
+
+| d8 | Quirk | Ideal | Bond | Flaw |
+|---|---|---|---|---|
+| 1 | Prays before every meal, every fight and every door | **Faith.** The Star God sees everything, and that's enough | Their old abbot sent them out with a task and a sealed letter | Sees sin everywhere, especially in others |
+| 2 | Quotes scripture for every occasion, often the wrong verse | **Charity.** Whoever is hungry gets fed, whoever they are | A relic was stolen from their monastery; they've sworn to bring it back | Can't refuse a confession, even an enemy's |
+| 3 | Keeps the hours: wakes at night for prayers, and wakes everyone else | **Tradition.** The rites are old for a reason | They heard a confession they can't repeat and can't forget | Drinks the communion wine, and more besides |
+| 4 | Blesses everything, from horses to soup | **Reform.** The church has grown fat and rich, and has to be made clean again | The village they served was taken by plague; they buried everyone | Trusts priests too readily, and heretics not at all |
+| 5 | Fasts on feast days and feasts on fast days, by a calendar nobody else knows | **Mercy.** Every soul can be saved, even the worst | A bishop owes their family a debt, and won't acknowledge it | Is sure every misfortune is a punishment, and says whose |
+| 6 | Counts prayer beads when nervous, and loses count | **Obedience.** The order's rule is the path; stepping off it is the fall | They left someone behind at the convent, and promised to come back | Breaks their vows in small ways, and confesses in big ones |
+| 7 | Speaks Liturgic when they don't want to be understood | **Truth.** A lie is a sin, even a kind one | Their brother monk was burned as a heretic; they're not sure he was wrong | Can't stand to see the church mocked, and makes a scene |
+| 8 | Writes down everyone's sins, to pray for them later | **Power.** The church is the only power older than kings, and they mean to rise in it | A pilgrim died in their arms and asked them to finish the pilgrimage | Prays instead of acting, and calls it patience |
+| 9 | Or make up your own, picking whatever you feel like | | | |
+
+### Load *(agreed, 2026-11-16; DrD2's naložení)*
+
+- **By eye, not by numbers.** The player compares the character with three silhouettes (`public/img/rulebook/load.png`): **light** (clothes and personal things), **medium** (more than a couple of bags), **heavy** (a heavy pack with things hung on it, a shield and two swords).
+- **Overloading is a punishment, not a second armour system:** medium load costs what medium armour does (1 Body to attempt hindered activities), heavy load what heavy armour does (2). It isn't added on top of armour; the worse of the two counts.
+- **A mount carries the load,** but only while it's there. The character can leave most of their things on the horse outside the dungeon, and risks a thief unless they spend time hiding them.
+- The travel tables' *encumbered* and *heavily encumbered* are medium and heavy load.
+
+*(Planned, the deleted draft.)* Like 5E backgrounds, but **without skill proficiencies**, because those come from classes. A background gives:
 
 - **Starting inventory:** equipment, **coins** and **Material**.
   - Equipment is made of **individual items** from the item catalogue (`/admin/items`: weapons, armour, shields, clothing, tools, gear, each with an optional picture).
@@ -2814,11 +3426,7 @@ The same for hazards, potions, elixirs and plain gear.
   - The picks become rows in the character's **inventory** (`character_items`): quantity, carried or left behind, broken, a note. Inventory is shared across campaigns; the owner and the DM of any campaign the character is in can change it. Managing it in play isn't built yet; the sheet shows it read-only.
   - Changing the background or the picks later replaces the background's items; saving the build otherwise leaves the inventory alone.
 - **Non-class abilities**, such as the number of **languages** spoken.
-- **Known settings**, such as the criminal underbelly or noble courts: places to navigate or groups of people to deal with. A roll there gets **+1** on top of the class level, e.g. a Criminal haggling with a fence, or a Sailor finding a ship in port.
-  - The DM decides whether a roll falls inside the setting.
-  - *(Confirmed.)* It applies to **every kind of roll**: skill checks, challenges and defense rolls.
-  - It works **without a fitting class** too: a plain 2d6 + 1.
-  - **Only Soul and Charisma rolls.** It's knowing the place and the people, not fighting there. *A Soldier gets it searching a war camp or dealing with its soldiers, but not in a brawl in that camp.*
+- **Known settings**, such as the criminal underbelly or noble courts: places to navigate or groups of people to deal with. *(Changed 2026-11-16: no flat +1.)* When it makes sense, the player can ask the DM for a temporary +1 on a roll inside the setting, e.g. a Criminal haggling with a fence; the DM decides.
 
 ### Languages
 
@@ -2885,7 +3493,7 @@ Every character speaks the **Common tongue**. Elves (Second elvish) and Krolls a
 | **Wayfarer** | Two daggers, thieves' tools, gaming set, bedroll, pouches | 25 sp | 1 | 1 | ~100 sp |
 | **Monster hunter** | One **silvered** weapon (dagger, spear, axe, mace, warhammer, flail, shortsword or longsword); hide jerkin, torches, rope, a trophy, bedroll, waterskin | 3 sp | 2 | 0 | 105–125 sp (55–75 without the silvering) |
 
-**Known settings** (the +1): as in the database; e.g. Guard: town watches and gatehouses, law and its enforcers; Scribe: town halls and chanceries, records and those who keep them.
+**Known settings:** as in the database; e.g. Guard: town watches and gatehouses, law and its enforcers; Scribe: town halls and chanceries, records and those who keep them.
 
 ## Economy and prices
 
@@ -2926,7 +3534,7 @@ Every character speaks the **Common tongue**. Elves (Second elvish) and Krolls a
 
 - **Final price = base × season × region × event**, rounded to clean coins. Grain swings most (±30% by season, ×2–4 in famine); arms and horses ×1.5 in war (warhorses ×2); a siege multiplies food by 5 or more.
 - **Regions:** big towns cheapest for imports and dearest for food and lodging; mining towns +25–50% on food, lodging and labour; villages cheap food, dear or missing manufactured goods.
-- **Haggling:** optionally roll 2d6 for the day's price (2: −30%, 3–4: −15%, 5–9: list, 10–11: +15%, 12: +30%). *Ours:* a won haggling roll (a Charisma skill such as Juggler's *Influence and deception* or Medic's *Negotiation*, with a known setting's +1 where it fits) moves it one step the buyer's way. It replaces the source's Persuasion check.
+- **Haggling:** optionally roll 2d6 for the day's price (2: −30%, 3–4: −15%, 5–9: list, 10–11: +15%, 12: +30%). *Ours:* a won haggling roll (a Charisma skill such as Juggler's *Influence and deception* or Medic's *Negotiation*, with a known setting's +1 if the DM allows it) moves it one step the buyer's way. It replaces the source's Persuasion check.
 - **Pawnbrokers pay half** the list price.
 
 ### Wages, lifestyle, property
@@ -2961,6 +3569,7 @@ Every item has `price_copper`, set in the item editor (admin only) and never sho
 - **Later:** the DM can grant traits as a **story event**, and a trait can be **removed**, e.g. by overcoming it in the story.
 - **They must affect play,** not only roleplay: the upside and downside hook into the rules (rests, the Danger Level, Scars, advantage, costs to attempt). Illnesses are typical, but not required.
 - **Premade traits** *(2026-11-15)*: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive (a d20 after every rest: even, Soul and Charisma Danger Level starts 1 lower; odd, 1 higher), Pious (advantage resisting seduction and temptation; disadvantage resisting alcohol, and anything immoral costs 1 Soul to attempt).
+- **Not for new players** *(2026-11-16)*: the editor's Traits page says so in a story box; a newcomer who wants a flaw or a habit writes it into the personality instead.
 - Traits are flavour and challenge. They don't count towards level (see [Validating a character's level](#validating-a-characters-level)).
 
 ## Roles in the app
@@ -2991,7 +3600,7 @@ A user's role is account-wide. A user with the `dm` role is the DM of the campai
 **Built** at `/rulebook` (public, no login needed), following the structure below.
 
 - **Admin-editable:** pages and chapters live in the database (`rulebook_chapters`, `rulebook_pages`). Admins edit them at `/admin/rulebook`: Markdown with shortcodes, a live preview, image uploads (header, side or plain; a plain one can take `width` and/or `height`, and `align`; on a header or side picture `align` picks the part that stays in view: `top`, `bottom left`, `30%` or `20% 70%`), and ordering of chapters and pages. The front page has the slug `index`.
-- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds: `companion`, `unit`, `network`, `organization`, `ritual-item`; any can take an `emblem:` picture and an `allegiance:`; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
+- **Shortcodes:** examples (`:::example`), notes, formulas, resource names (`:body`), rolled dice (`:roll[d6 4 2]`), resource bars, pictures, videos (`::video{src="…"}`: a YouTube link becomes an embedded youtube-nocookie player, any other link plays as a file; the editor's *Upload video* sends MP4, WebM or MOV up to 50 MB straight from the browser to the public `videos` bucket, which only admins can write to) and cards (`::::cards` with `:::card`s inside; `{cols="2"}` or `{cols="3"}` for rows, three only on extra-wide screens), stat blocks (```` ```npc ```` and the other kinds: `companion`, `unit`, `network`, `organization`, `ritual-item`; any can take an `emblem:` picture and an `allegiance:`; a toolbar button inserts a template) and bestiary creatures by id (`::creature{id="wyvern"}`). The editor has a cheat sheet. Dice notation like 2d6 gets its die icon automatically.
 - **Two languages:** every page and data field can hold English and Czech (`English |cs| Czech`, or the editor's tabs); readers switch in the navbar. See *Languages* in [visual-language.md](visual-language.md).
 - **Data blocks:** races, backgrounds, languages, traits, weapons, aspects and class cards are read from their own tables (`::races`, `::aspects`, `::classes{rank="basic"}`, …), so the other admin pages update the rulebook directly. Each class's own page is still built in code from the class data.
 
@@ -3101,8 +3710,8 @@ The magic, NPC, manoeuvre and poison Q&A resumed on **2026-10-28** (Q14o, Q14p, 
 10. ~~Characters in several campaigns~~: answered (shared ghost; build and levels shared, Scars and exhaustion per campaign; guest appearances; simultaneous campaigns use separate characters).
     - ~~Q10a~~: answered (inventory is shared across ghosts).
 11. ~~Backgrounds~~: answered (inventory, coins, Material, languages and known settings; no proficiencies).
-    - ~~**Q11b, known settings**~~: answered. The bonus applies to every kind of roll inside the setting, with or without a fitting class, but only to Soul and Charisma rolls.
-    - ~~**Q11c**~~: answered. It's a flat **+1**, not advantage, so it stacks with advantage from other sources.
+    - ~~**Q11b, known settings**~~: answered, **changed 2026-11-16**. No flat bonus; the DM may allow a temporary +1 when the player asks and it fits.
+    - ~~**Q11c**~~: answered. When allowed, it's **+1**, not advantage, so it stacks with advantage from other sources.
     - **Q11a:** A draft list of 10 backgrounds and 8 languages is in the doc; the background kits and coins still need review. Racial languages are answered.
 12. ~~Traits~~: answered (premade or custom; any number; the DM can grant more later).
     - ~~Q12a~~: answered (custom traits need the campaign DM's approval; traits can be removed).

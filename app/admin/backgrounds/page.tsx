@@ -1,7 +1,7 @@
-import EquipmentList from "@/components/game/equipmentList";
 import { DataTable } from "@/components/ui/dataTable";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import { formatCoins } from "@/lib/rules/format";
+import { FORTUNES, variantsOf } from "@/lib/rules/fortune";
 import { parseSort } from "@/lib/sort";
 import { AdminHeader } from "../_components";
 
@@ -21,11 +21,15 @@ const AdminBackgroundsPage = async ({ searchParams }: PageProps<"/admin/backgrou
         href={(b) => `/admin/backgrounds/${b.id}`}
         columns={[
           { label: "Background", id: "name", render: (b) => b.name, sortValue: (b) => b.name },
-          { label: "Equipment", render: (b) => <EquipmentList items={rb.items} equipment={b.equipment} /> },
-          { label: "Coins", render: (b) => formatCoins(b.coins_copper), sortValue: (b) => b.coins_copper },
-          { label: "Material", render: (b) => b.material, sortValue: (b) => b.material },
+          {
+            label: "Purse (poor / commoner / fortunate)",
+            render: (b) => {
+              const v = variantsOf(b);
+              return FORTUNES.map((f) => `${formatCoins(v[f].coins_copper)}, ${v[f].material} M`).join(" / ");
+            },
+          },
           { label: "Languages", render: (b) => `+${b.extra_languages}`, sortValue: (b) => b.extra_languages },
-          { label: "+1 in", render: (b) => b.known_settings },
+          { label: "Known setting", render: (b) => b.known_settings },
         ]}
       />
     </>

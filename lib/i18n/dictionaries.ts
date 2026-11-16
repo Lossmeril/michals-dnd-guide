@@ -11,7 +11,13 @@ const en = {
     back: "Back to the sheet →",
     hint: "A4, portrait. Turn on “Background graphics” in the print dialog to keep the colours.",
     danger: "Danger",
-    feel: ["Walk in a park", "Same shit, different day", "Time to file a safety report", "The danger is real", "The fuck did I stumble into?"],
+    feel: [
+      "Walk in a park",
+      "Same shit, different day",
+      "Time to file a safety report",
+      "The danger is real",
+      "The fuck did I stumble into?",
+    ],
     dangerHint: "Default 3. Mark it with a token.",
     title: "Character sheet",
     race: "Race",
@@ -19,11 +25,12 @@ const en = {
     speed: "Speed",
     languages: "Languages",
     knownSettings: "Known settings",
-    knownHint: "(+1 to Soul and Charisma rolls there)",
+    knownHint: "(the DM may allow a +1 when it fits)",
     level: "Level",
     unique: "Unique",
     noSkills: (pool: string) => `No ${pool} skills`,
-    boxHint: "Strike a box / when you exhaust a point, X when a Scar blocks it. ★ unique: only your class can try it. Any other non-unique skill: roll with no bonus.",
+    boxHint:
+      "Strike a box / when you exhaust a point, X when a Scar blocks it. ★ unique: only your class can try it. Any other non-unique skill: roll with no bonus.",
     armour: "Armour",
     rating: "rating",
     encumbrance: "Encumbrance:",
@@ -41,11 +48,13 @@ const en = {
     copper: "Copper",
     material: "Material",
     materialHint: "1 Material = 1 silver",
-    startedWith: (coins: string, material: number) => `Started with ${coins}, ${material} Material`,
+    startedWith: (coins: string, material: number) =>
+      `Started with ${coins}, ${material} Material`,
     scars: "Scars",
     scarHead: ["Pool", "Level", "What happened", "Healing (5 a level)"],
     dying: "Dying",
-    dyingHint: "A Scar bigger than its pool, or one on a fully blocked pool. d20 each turn: 10+ succeeds.",
+    dyingHint:
+      "A Scar bigger than its pool, or one on a fully blocked pool. d20 each turn: 10+ succeeds.",
     successes: "Successes",
     failures: "Failures",
     dyingPools: "Body: dying. Soul: madness. Charisma: ruined name.",
@@ -57,7 +66,12 @@ const en = {
     passive: "Passive",
     used: "Used",
     perksAndSpells: "Perks and spells",
-    tags: { racial: "Racial", aspect: "Aspect", core: "Core spell", spell: "Spell" },
+    tags: {
+      racial: "Racial",
+      aspect: "Aspect",
+      core: "Core spell",
+      spell: "Spell",
+    },
     noPerks: "No perks yet.",
     gearAndStory: "Gear and story",
     unknownItem: "Unknown item",
@@ -75,8 +89,16 @@ const en = {
   },
   remove: {
     kinds: {
-      character: { button: "Delete character", fallback: "this character", typeName: "Type the character's name" },
-      campaign: { button: "Delete campaign", fallback: "this campaign", typeName: "Type the campaign's name" },
+      character: {
+        button: "Delete character",
+        fallback: "this character",
+        typeName: "Type the character's name",
+      },
+      campaign: {
+        button: "Delete campaign",
+        fallback: "this campaign",
+        typeName: "Type the campaign's name",
+      },
     },
     prompt: (label: string, consequences: string, type: string) =>
       `Delete ${label} for good? ${consequences} This can't be undone.\n\n${type} to confirm:`,
@@ -88,6 +110,56 @@ const en = {
     deleting: "Deleting…",
   },
   editor: {
+    steps: {
+      start: {
+        title: "Who are you?",
+        intro:
+          "Start with the basics. Agree on a starting level with your DM, give your character a name and, if you have one, a portrait.\n\nThen split 15 points between Body, Soul and Charisma. They're how far your character can push: strength and reflexes, mind and focus, wits with people. Lopsided is fine, but under 2 in a pool they won't last long in a harsh world.",
+      },
+      race: {
+        title: "Race",
+        intro:
+          "Race matters more for how the world treats you than for your numbers. Pick one, then pick its one racial perk.",
+      },
+      classes: {
+        title: "Classes",
+        intro:
+          "Every level you start with goes into a class. Classes are bundles of skills, not a whole identity: most characters mix two or three. Two basic classes that add up to 6 levels unlock the advanced class between them.\n\nNot sure? Pick the two basic classes that sound most like your character, and split the levels between them.",
+      },
+      perks: {
+        title: "Perks",
+        intro:
+          "Each class level gives one perk of that class. Open a card to read it in full; locked cards say what they need.\n\nAspects are granted on their own once your levels in the parent classes are high enough, and the perks beside them need that aspect.",
+      },
+      background: {
+        title: "Background",
+        intro:
+          "What did your character do before the adventure? First give out your fortunes: for arms and armour, for your background and for a mount, say whether your character has been poor, a commoner or fortunate. Your starting level decides which fortunes you have. Click a ticked fortune to take it back.\n\nThen pick a background, and any languages it gives.",
+      },
+      gear: {
+        title: "Gear",
+        intro:
+          "Now pack. Your background's fortune decides what it gives you; your arms fortune decides how many weapons you carry and how heavy your armour can be. Write down what your character wears, and check the load against the silhouettes.",
+      },
+      traits: {
+        title: "Traits",
+        intro:
+          "Traits are optional. Each is a challenge with an upside and a downside, both with teeth in play. Take as many as you like, or none.",
+      },
+      story: {
+        title: "Story",
+        intro:
+          "Last, the person behind the numbers. Roll or pick from your background's tables if you want a push, and the lines you use go into the personality and backstory. Then write in your own words. A few lines are enough, and playing them well earns merit points.",
+      },
+    },
+    traitsNotice: {
+      title: "Not for your first character",
+      text: "Traits are for players who already know the rules: a downside that bites at the wrong moment can sink a new character fast. If you want a flaw or a habit to play, write it into your personality on the last page instead. It costs you nothing, and playing it well earns merit points.",
+    },
+    back: "← Back",
+    next: "Next →",
+    stepOf: (n: number, total: number) => `Step ${n} of ${total}`,
+    stepIssues: "To fix on this page",
     sections: {
       start: "Start",
       race: "Race",
@@ -115,7 +187,8 @@ const en = {
     allSet: "All set.",
     editCharacter: "Edit character",
     printSheet: "Print sheet",
-    deleteConsequences: "Their build, inventory and place in every campaign go with them.",
+    deleteConsequences:
+      "Their build, inventory and place in every campaign go with them.",
     unknownOwner: "Unknown",
     errors: {
       name: "Give your character a name.",
@@ -156,8 +229,8 @@ const en = {
     background: "Background",
     purse: "Starting purse",
     material: (n: number) => `${n} Material`,
-    knownSettings: "+1 to rolls in",
-    knownIn: (s: string) => `+1 in: ${s}`,
+    knownSettings: "Known setting",
+    knownIn: (s: string) => `Knows: ${s}`,
     noBackground: "No background picked yet.",
     extraLanguages: (n: number) => `${n} extra language(s)`,
     languages: "Languages",
@@ -174,7 +247,15 @@ const en = {
     broken: " (broken)",
     armour: {
       label: "Armour:",
-      line: (a: { rating: number; protection: number; protectionTier: string; encumbrance: number; burden: number; burdenTier: string; harness: boolean }) =>
+      line: (a: {
+        rating: number;
+        protection: number;
+        protectionTier: string;
+        encumbrance: number;
+        burden: number;
+        burdenTier: string;
+        harness: boolean;
+      }) =>
         `rating ${a.rating} (${a.protectionTier}, protection ${a.protection}) · encumbrance ${a.encumbrance ? `${a.encumbrance} Body` : "none"} (${a.burdenTier}, burden ${a.burden}${a.harness ? ", fitted harness" : ""})`,
       onePiece: (slots: string) => ` · only one piece counts on: ${slots}`,
       tiers: { none: "none", light: "light", medium: "medium", heavy: "heavy" },
@@ -185,7 +266,8 @@ const en = {
     custom: "Custom",
     awaiting: "Custom · awaiting DM approval",
     personality: "Personality",
-    personalityHelp: "A few words to roleplay from: how they talk, what they want, what they can't stand.",
+    personalityHelp:
+      "A few words to roleplay from: how they talk, what they want, what they can't stand.",
     personalityPlaceholder: "Gruff, loyal to a fault, can't resist a bet…",
     backstory: "Backstory",
     backstoryPlaceholder: "Where they come from, what drives them…",
@@ -218,25 +300,34 @@ const en = {
       freeLanguage: "You already speak that language for free.",
       unlearnable: "Player characters can't learn that language.",
       moreLanguages: (n: number) => `Pick ${n} more language(s).`,
-      tooManyLanguages: (n: number) => `You can only pick ${n} extra language(s).`,
+      tooManyLanguages: (n: number) =>
+        `You can only pick ${n} extra language(s).`,
       unknownTrait: "Unknown trait.",
       racialPerk: "Pick one racial perk.",
       notRacial: (perk: string) => `${perk} isn't a perk of your race.`,
       unknownClass: (id: string) => `Unknown class ${id}.`,
       classLevel: (c: string, max: number) => `${c} must be level 1–${max}.`,
-      locked: (c: string, parents: string, n: number) => `${c} needs ${parents} to total ${n} levels.`,
-      tooManyPerks: (c: string, n: number) => `${c} ${n} can only have ${n} perks.`,
+      locked: (c: string, parents: string, n: number) =>
+        `${c} needs ${parents} to total ${n} levels.`,
+      tooManyPerks: (c: string, n: number) =>
+        `${c} ${n} can only have ${n} perks.`,
       morePerks: (c: string, n: number) => `Pick ${n} more ${c} perk(s).`,
-      noMorePerks: (c: string, n: number) => `${c} has no more perks to pick yet; ${n} slot(s) stay empty.`,
-      wrongClass: (perk: string, c: string) => `${perk} can't be picked as a ${c} perk.`,
+      noMorePerks: (c: string, n: number) =>
+        `${c} has no more perks to pick yet; ${n} slot(s) stay empty.`,
+      wrongClass: (perk: string, c: string) =>
+        `${perk} can't be picked as a ${c} perk.`,
       perkNeeds: (perk: string, r: string) => `${perk} needs ${r}.`,
       negative: "Resources can't go below 0.",
       spread: (n: number) => `Spread all ${n} starting resource points.`,
-      lowPool: (pool: string, n: number) => `${pool} ${n} is very low: a single ${pool} Scar can leave the character dying.`,
-      startingLevels: (n: number) => `Starting levels all go into classes: spread exactly ${n} resource points and take one perk per class level.`,
-      gainedLevels: (n: number) => `Only the ${n} level(s) gained after creation can go into resources or extra perks.`,
+      lowPool: (pool: string, n: number) =>
+        `${pool} ${n} is very low: a single ${pool} Scar can leave the character dying.`,
+      startingLevels: (n: number) =>
+        `Starting levels all go into classes: spread exactly ${n} resource points and take one perk per class level.`,
+      gainedLevels: (n: number) =>
+        `Only the ${n} level(s) gained after creation can go into resources or extra perks.`,
       pointsLeft: (n: number) => `${n} level-up point(s) left to spend.`,
-      pointsOver: (n: number, level: number) => `${n} point(s) over level ${level}.`,
+      pointsOver: (n: number, level: number) =>
+        `${n} point(s) over level ${level}.`,
       gear: "Choose your starting gear.",
       gearChoice: "Pick an item for each choice in your starting gear.",
     },
@@ -291,7 +382,8 @@ const en = {
       "The campaign goes for good, with its updates, pictures and merit points. The characters stay with their players.",
     deleteConsequences:
       "Its updates, pictures and merit points go with it; the characters stay with their players.",
-    noneToAdd: "No characters to add yet. Players join a campaign with a character, so someone has to",
+    noneToAdd:
+      "No characters to add yet. Players join a campaign with a character, so someone has to",
     createOne: "create one",
     first: " first.",
     choose: "Choose a character…",
@@ -312,7 +404,8 @@ const en = {
     youllDm: "You'll be its DM. Add a cover and characters once it exists.",
     name: "Name",
     description: "Description",
-    descriptionHint: "What the players should know going in. You can change it later.",
+    descriptionHint:
+      "What the players should know going in. You can change it later.",
     gathering: "Gathering the party…",
     create: "Create campaign",
     errors: {
@@ -343,7 +436,8 @@ const en = {
         "A guard steps out of the gatehouse and plants a spear in the dirt in front of you.",
         "“Halt. Nobody gets in without papers. Seen you before, have I? Let's have them, then.”",
       ],
-      expired: "That link is invalid or has expired. Log in to get a new one sent.",
+      expired:
+        "That link is invalid or has expired. Log in to get a new one sent.",
       forgot: "Forgot your password?",
       pending: "Showing your papers…",
       submit: "Log in",
@@ -363,7 +457,8 @@ const en = {
         "The guard writes it all down, slowly, tongue between teeth. “Right. A runner will bring a letter to ",
         ". Bring me the seal inside and the gate is yours.”",
       ],
-      openLink: "Open the link in the email to confirm your account. It logs you in straight away.",
+      openLink:
+        "Open the link in the email to confirm your account. It logs you in straight away.",
       signupPassword: "Sign-up password",
       signupPasswordHint: "The table is invite-only. Your DM knows it.",
       nameHint: "What other players and your DM see. You can change it later.",
@@ -385,8 +480,12 @@ const en = {
         "“Lost your papers? Happens to the best of us. Mostly to the drunk ones. Tell me where you live and I'll send word.”",
       ],
       expired: "That link is invalid or has expired. Ask for a new one below.",
-      sent: ["If an account uses ", ", a link to set a new password is on its way. Open it in this browser."],
-      nothing: "Nothing after a few minutes? Check the spam folder, or try again.",
+      sent: [
+        "If an account uses ",
+        ", a link to set a new password is on its way. Open it in this browser.",
+      ],
+      nothing:
+        "Nothing after a few minutes? Check the spam folder, or try again.",
       pending: "Sending a rider…",
       submit: "Send me a link",
       rateLimit: "Too many emails just now. Try again in a minute.",
@@ -408,7 +507,10 @@ const en = {
       title: "Profile",
       emailPending: (email: string) =>
         `One seal down. The clerk wants the other one too: confirm the link sent to ${email} as well.`,
-      emailChanged: ["The clerk scratches out the old address and writes in ", ". Your letters go there from now on."],
+      emailChanged: [
+        "The clerk scratches out the old address and writes in ",
+        ". Your letters go there from now on.",
+      ],
       expired: "That link is invalid or has expired. Request the change again.",
       avatar: "Avatar",
       avatarUpdated: "Avatar updated",
@@ -417,9 +519,13 @@ const en = {
       saving: "Saving…",
       saveName: "Save name",
       currentEmail: "Current email:",
-      waiting: ["Waiting for you to confirm ", ". Check that inbox for the link."],
+      waiting: [
+        "Waiting for you to confirm ",
+        ". Check that inbox for the link.",
+      ],
       newEmail: "New email",
-      newEmailHint: "Your email stays the same until you click the link we send.",
+      newEmailHint:
+        "Your email stays the same until you click the link we send.",
       sending: "Sending…",
       changeEmail: "Change email",
       changing: "Changing…",
@@ -430,17 +536,26 @@ const en = {
         `We sent a confirmation link to ${email}. If a link also arrives at ${old}, confirm that one too.`,
       samePassword: "That's your current password.",
       passwordChanged: "Password changed.",
-      roles: { player: "Player", dm: "DM", admin: "Admin" } as Record<string, string>,
+      roles: { player: "Player", dm: "DM", admin: "Admin" } as Record<
+        string,
+        string
+      >,
     },
   },
   credits: {
     title: "Credits",
     lead: "Nothing here was made in a vacuum. This is where the rules, pictures and code came from.",
     noAi: "No AI images have been used.",
-    rights: "All rights to the images belong to their rightful authors. This is a non-public, non-commercial passion project, and the images are used strictly as decoration.",
-    concerns: ["If you have any concerns about an image, please write to ", " and it will be taken down."],
-    alpha: "The app is an alpha test, built quickly with AI-assisted development, but with human-designed architecture and UI components. The ruleset is subject to change.",
-    notPublic: "This demo isn't public: it's meant mainly for the author's friends and family. By entering, you accept the content as it is and waive any right to object to it.",
+    rights:
+      "All rights to the images belong to their rightful authors. This is a non-public, non-commercial passion project, and the images are used strictly as decoration.",
+    concerns: [
+      "If you have any concerns about an image, please write to ",
+      " and it will be taken down.",
+    ],
+    alpha:
+      "The app is an alpha test, built quickly with AI-assisted development, but with human-designed architecture and UI components. The ruleset is subject to change.",
+    notPublic:
+      "This demo isn't public: it's meant mainly for the author's friends and family. By entering, you accept the content as it is and waive any right to object to it.",
     coverOf: (title: string) => `Cover of ${title}`,
     sourceMissing: "source to be added",
     noDate: "n.d.",
@@ -451,13 +566,32 @@ const en = {
   alpha: {
     title: "Alpha test",
     paragraphs: [
-      ["This version of the app is an ", "alpha test", ". It's ", "unfinished", ", built quickly as a proof of concept, so expect missing pieces, rough edges and the odd thing that breaks."],
-      ["It was built quickly with ", "AI-assisted development", ", but the architecture and the UI components were designed by a human."],
-      ["This demo ", "isn't public", ": it's meant mainly for the author's friends and family. By entering, you accept the content as it is and waive any right to object to it."],
-      ["", "The ruleset is subject to change.", " Rules, classes, perks and numbers may all be reworked in the future."],
+      [
+        "This version of the app is an ",
+        "alpha test",
+        ". It's ",
+        "unfinished",
+        ", built quickly as a proof of concept, so expect missing pieces, rough edges and the odd thing that breaks.",
+      ],
+      [
+        "It was built quickly with ",
+        "AI-assisted development",
+        ", but the architecture and the UI components were designed by a human.",
+      ],
+      [
+        "This demo ",
+        "isn't public",
+        ": it's meant mainly for the author's friends and family. By entering, you accept the content as it is and waive any right to object to it.",
+      ],
+      [
+        "",
+        "The ruleset is subject to change.",
+        " Rules, classes, perks and numbers may all be reworked in the future.",
+      ],
     ],
     noAi: "No AI images have been used.",
-    images: " All rights to the images belong to their rightful authors. This is a non-public, non-commercial passion project, and the images are used strictly as decoration. If you have any concerns about an image, please write to ",
+    images:
+      " All rights to the images belong to their rightful authors. This is a non-public, non-commercial passion project, and the images are used strictly as decoration. If you have any concerns about an image, please write to ",
     takenDown: " and it will be taken down.",
     more: ["More in the ", "credits", "."],
     understood: "Understood",
@@ -470,6 +604,7 @@ const en = {
     close: "Close",
     breadcrumb: "Breadcrumb",
     noStartingGear: "No starting gear.",
+    remove: "Remove",
     meritPoints: "Merit points",
     spendMerit: "Spend a merit point",
     awardMerit: "Award a merit point",
@@ -491,11 +626,14 @@ const en = {
   home: {
     welcome: "Welcome to Michal's D&D Guide!",
     rulebook: "Rulebook",
-    rulebookText: "The rules: dice, resources, Scars, combat, classes and everything in between.",
+    rulebookText:
+      "The rules: dice, resources, Scars, combat, classes and everything in between.",
     characters: "Characters",
-    charactersText: "Browse your characters, create new ones, and manage your adventures.",
+    charactersText:
+      "Browse your characters, create new ones, and manage your adventures.",
     campaigns: "Campaigns",
-    campaignsText: "Manage your campaigns, have track of your adventures, and learn about your companions.",
+    campaignsText:
+      "Manage your campaigns, have track of your adventures, and learn about your companions.",
   },
   upload: {
     unreadable: "Couldn't read that image.",
@@ -562,6 +700,108 @@ const en = {
     skillHead: ["Skill", "Resource", ""],
     unique: "unique",
   },
+  fortune: {
+    hints: {
+      arms: {
+        poor: "One weapon, and no sword. A padded hood or a gambeson at most.",
+        commoner:
+          "Two weapons, or a weapon and a shield, still no sword. Light armour: a gambeson with a mail shirt, or leather and an iron cap.",
+        fortunate:
+          "As commoner, and swords are allowed. Medium armour: mail or a coat of plates over a gambeson, with a helmet.",
+      },
+      background: {
+        poor: "The bare essentials of your old life and a few coins: a pack, a bedroll, about 10 silver.",
+        commoner:
+          "A proper kit for your trade, the tools that make it work, and a modest purse.",
+        fortunate:
+          "The best your trade offers, comforts like a tent or a lantern, and a fuller purse.",
+      },
+      mount: {
+        poor: "No horse. You walk, and carry everything yourself.",
+        commoner:
+          "A riding horse with tack: twice your speed on the road, and it carries your load. It shies in a fight.",
+        fortunate:
+          "A warhorse with tack: as fast, trained not to bolt at steel or fire, so you can fight from the saddle.",
+      },
+    },
+    names: { poor: "Poor", commoner: "Commoner", fortunate: "Fortunate" },
+    sections: {
+      arms: "Arms and armour",
+      background: "Background",
+      mount: "Mount",
+    },
+    title: "Fortune",
+    help: "In each section, say how fortunate your character has been. Your starting level decides which fortunes you get.",
+    yours: (list: string) => `Yours to give out: ${list}.`,
+    left: (list: string) => `Still to give out: ${list}.`,
+    allGiven: "All given out.",
+    arms: {
+      rules: {
+        poor: "One weapon, no swords. A padded hood or a gambeson.",
+        commoner:
+          "Two weapons, or a weapon and a shield; no swords. Light armour, Protection up to 3.",
+        fortunate:
+          "Two weapons, or a weapon and a shield; swords allowed. Armour up to medium, Protection up to 6.",
+      },
+      ammo: "A bow, crossbow or sling comes with its quiver and 20 pieces of ammunition.",
+      inHand: "Weapons and shield",
+      armour: "Armour",
+      add: "Add…",
+      none: "None",
+      pickFortune: "Give arms and armour a fortune first.",
+    },
+    mount: {
+      poor: "No mount. You walk.",
+      commoner: "A riding horse with tack.",
+      fortunate: "A warhorse with tack.",
+      pickFortune: "Give the mount a fortune.",
+    },
+    background: {
+      pickFortune: "Give the background a fortune to see its gear.",
+    },
+    purse: (coins: string, material: number) =>
+      `${coins} · ${material} Material`,
+    clothes: "Clothes",
+    clothesHelp: "Clothes aren't items; write what your character wears.",
+    clothesPlaceholder:
+      "A faded red cloak, a hood, a quilted tunic, worn boots, a belt with a pouch…",
+    load: {
+      title: "Load",
+      text: "Load is judged by eye. Compare your character with the three silhouettes: light (clothes and personal things), medium (more than a couple of bags) and heavy (a heavy pack with things hung on it, a shield and two swords). Medium load costs what medium armour does (1 Body to attempt hindered activities), heavy what heavy armour does (2); only the worse of load and armour counts. A mount carries the load while it's there.",
+      alt: "Three silhouettes: light, medium and heavy load",
+    },
+    jumpstart: {
+      title: "Jumpstart",
+      help: "Roll a d8 or pick a line, if you want a start. Archetypes go into the backstory, the rest into the personality. Everything is roleplay only.",
+      tables: {
+        archetypes: "Archetype",
+        quirks: "Quirk",
+        ideals: "Ideal",
+        bonds: "Bond",
+        flaws: "Flaw",
+      },
+      own: "Or make up your own, picking whatever you feel like.",
+      recommended: "Recommended:",
+      use: "Use",
+      roll: "Roll d8",
+      added: "Added.",
+    },
+    errors: {
+      unset: "Give arms and armour a fortune.",
+      assign: "Give every section a fortune.",
+      wrongSet: "Those aren't the fortunes your starting level gives.",
+      notArms: "Only weapons, shields and armour count as arms.",
+      hands: (n: number) =>
+        n === 1
+          ? "Your fortune allows one weapon."
+          : `Your fortune allows ${n} weapons, or a weapon and a shield.`,
+      shields: "Only one shield.",
+      tooDear: (name: string) => `${name} is too dear for your fortune.`,
+      slots: "Only one armour piece per slot.",
+      protection: (n: number) =>
+        `Your fortune allows armour up to Protection ${n}.`,
+    },
+  },
   blocks: {
     noneYet: "None written yet.",
     speed: "Speed",
@@ -573,13 +813,22 @@ const en = {
       gear: "Starting gear",
       purse: "Purse",
       languages: "Extra languages",
-      known: "+1 in",
+      known: "Known setting",
+      variants: "By fortune",
+      jumpstart: "Archetypes, quirks, ideals, bonds and flaws",
+      tables: "Jumpstart",
     },
     material: (n: number) => `${n} Material`,
     languageHead: ["Language", "Spoken by", "Racial language of", "Related to"],
     weaponHead: ["Weapon", "Damage", "Type", "Properties", "Free manoeuvre"],
     armourHead: ["Piece", "Covers", "Protection", "Burden"],
-    armourSlots: { under: "under", body: "body", head: "head", arms: "arms", legs: "legs" },
+    armourSlots: {
+      under: "under",
+      body: "body",
+      head: "head",
+      arms: "arms",
+      legs: "legs",
+    },
     harness: "plate harness",
     aspectHead: ["Class", "Parents"],
     aspectColumn: (n: number) => `Aspect ${n}`,
@@ -631,8 +880,9 @@ const en = {
     },
     print: (name: string) => `Print ${name}`,
     now: "now",
-    runningIt: "Running it",
     ritual: {
+      use: "Stored points pay perk activation prices and manoeuvres when casting, for any magic the Incantor has.",
+      lost: "Lost: until the next solstice or equinox, whoever holds it has symbolic touch on the owner.",
       stored: "Stored",
       storedNote: "1 point a box, 5 at most",
       charging: "Charging",
@@ -648,7 +898,12 @@ const en = {
       noStack:
         "Charges don't stack: when several occasions meet (a wellspring at a solstice), only the highest counts. An item already holding that many takes nothing more; points stored before stay.",
       link: "Link renewed",
-      seasons: ["Spring equinox", "Summer solstice", "Autumn equinox", "Winter solstice"],
+      seasons: [
+        "Spring equinox",
+        "Summer solstice",
+        "Autumn equinox",
+        "Winter solstice",
+      ],
     },
     labels: {
       kind: "Kind",
@@ -684,16 +939,7 @@ const en = {
       languages: "Languages",
     },
     notes: {
-      fate: "(back at sunrise)",
-      bond: "(never above the master's Charisma)",
-      unitBond: "(companion unit; never above the master's Charisma)",
-      networkBond: "(+1 per 5 payments, up to the master's Charisma)",
-      upkeep: "(one tick a week)",
       bodyTimes: (n: number) => `(Body ×${n})`,
-      average: "the average member's",
-      muscle: "muscle: theft, ambushes, kidnapping",
-      information: "information, finding things",
-      influence: "influence, bribery",
       sizeAt: (size: string, body: number) => `${size} at ${body}`,
       tracksOff: (total: number, want: number) =>
         `The tracks add up to ${total}, not ${want}.`,
@@ -723,70 +969,6 @@ const en = {
       4: "Shapes decisions across the land, or decisive in a large region",
       5: "Decisive across the land",
     } as Record<number, string>,
-    rules: {
-      rolls: "Rolls: challenge d20 + bonus; undefended attack 2d6 + bonus ≥ 9.",
-      hit: (threat: string | undefined) =>
-        `Hitting a player character: ${threat ? `${threat} ` : "the threat die "}− their armour rating = the Scar's level.`,
-      companionManoeuvres: "Manoeuvres cost 1 Bond, unless granted above.",
-      npcManoeuvres:
-        "Manoeuvres granted above are free; any other costs 1 Soul or Charisma.",
-      companionBond:
-        "Averting a failure costs Bond equal to the master's Danger Level. Scarring the Bond gives 2 temporary points. Below 0 Bond, the DM takes it over.",
-      fate: "Spending 1 Fate turns a lost roll into a win.",
-      noFate: "No Fate: its failures land.",
-      bondHealing:
-        "1 payment refills 1 Bond. Healing a Bond scar: a roll and 5 payments per level.",
-      armourDamage: "Hits on its Body lose its armour rating; 0 or less is absorbed.",
-      socialDamage:
-        "A won Soul or Charisma roll against it takes the Danger Level it faces right now + the winner's class level off that track.",
-      zeroTracks:
-        "At 0 in a track it's overpowered: Body, down or dead; Soul, breaks, panics or is controlled; Charisma, surrenders, flees or gives in.",
-      unitAction:
-        "One initiative, one action a round. Free Widespread on every action, plus one other manoeuvre.",
-      unitHarm: (who: string) =>
-        `Only a widespread action reaching ${who} harms its tracks. Smaller ones only matter in the story.`,
-      enoughMembers: "enough members",
-      unitDamage:
-        "Damage is rolled once against the Body track. It drops a size when Body falls to the next size's mark; at 0 it's dead, scattered or surrendered.",
-      unitDefense:
-        "Any number of free Defenses against smaller units; it can react to anything within reach with the Defense manoeuvre.",
-      unitCounter:
-        "A smaller unit's counter doesn't cancel its effect on other targets.",
-      unitDouble:
-        "A player character exhausting against it pays double the Danger Level.",
-      unitBond:
-        "Companion unit: averts with Bond at its master's Danger Level; lost members are Bond scars.",
-      unitNoFate:
-        "No Fate: it averts nothing unless an important commander is named above.",
-      networkElsewhere:
-        "Acts while its master is elsewhere. The DM sets the task's Danger Level.",
-      networkRolls:
-        "Rolls 2d6 or d20 + its bonus within its specialisation; outside it, with no bonus.",
-      networkAvert:
-        "Averting a failure costs Bond equal to the Danger Level. A failure not averted is a Bond scar: a member caught, a contact gone quiet.",
-      networkUpkeep:
-        "Upkeep, once a week: one payment's worth of attention (silver, a favour, a visit, protection). Kept: one tip from its specialisation. Skipped: a level-1 Bond scar.",
-      networkRefill:
-        "1 payment refills 1 spent Bond. Healing a Bond scar: a roll and 5 payments per level.",
-      networkCap: "Its bonus is at most the master's Standing + 2.",
-      orgNoActions: "It takes no actions and rolls nothing; its members act.",
-      orgPossibilities:
-        "Standing gives possibilities, not bonuses: the member still rolls with their class skills.",
-      orgNetwork:
-        "Standing 0 can only ask favours. Standing 1 or more commands its part of the organization as a network, with a bonus up to Standing + 2.",
-      orgCompanions:
-        "Any Standing can find and bind companions within its reach.",
-      orgMighty:
-        "Anyone can join at a low rank, and build and lead an organization of Reach 1–2. Standing 3–5 comes only from mighty class perks.",
-      ritualUse:
-        "Stored points pay perk activation prices and manoeuvres when casting, for any magic the Incantor has.",
-      ritualOwner:
-        "Incantor only: no one else can charge or use it. One per character.",
-      ritualLink:
-        "It holds part of its owner's body; the owner renews the link at every solstice or equinox.",
-      ritualLost:
-        "Lost: until the next solstice or equinox, whoever holds it has symbolic touch on the owner.",
-    },
   },
 };
 
@@ -799,7 +981,13 @@ const cs: Dict = {
     back: "Zpátky na deník →",
     hint: "A4, na výšku. V dialogu tisku zapni „Grafika na pozadí“, ať zůstanou barvy.",
     danger: "Ohrožení",
-    feel: ["Procházka parkem", "Jiný den, stejný sračky", "Radši vyplnit hlášení BOZP", "Nebezpečí je skutečné", "„Do prdele, kam jsem to vlezl?“"],
+    feel: [
+      "Procházka parkem",
+      "Jiný den, stejný sračky",
+      "Radši vyplnit hlášení BOZP",
+      "Nebezpečí je skutečné",
+      "„Do prdele, kam jsem to vlezl?“",
+    ],
     dangerHint: "Obvykle 3. Označ ho žetonem.",
     title: "Deník postavy",
     race: "Rasa",
@@ -807,11 +995,12 @@ const cs: Dict = {
     speed: "Rychlost",
     languages: "Jazyky",
     knownSettings: "Známá prostředí",
-    knownHint: "(+1 k hodům na Duši a Vliv tam)",
+    knownHint: "(PJ může povolit +1, když to dává smysl)",
     level: "Level",
     unique: "Jedinečná",
     noSkills: (pool: string) => `Žádné dovednosti: ${pool}`,
-    boxHint: "Při vyčerpání bodu políčko přeškrtni /, když ho zablokuje Jizva, X. ★ jedinečná: zkusit ji může jen tvoje povolání. Jakoukoli jinou nejedinečnou dovednost házíš bez bonusu.",
+    boxHint:
+      "Při vyčerpání bodu políčko přeškrtni /, když ho zablokuje Jizva, X. ★ jedinečná: zkusit ji může jen tvoje povolání. Jakoukoli jinou nejedinečnou dovednost házíš bez bonusu.",
     armour: "Zbroj",
     rating: "úroveň",
     encumbrance: "Omezení:",
@@ -829,11 +1018,13 @@ const cs: Dict = {
     copper: "Měďáky",
     material: "Materiál",
     materialHint: "1 Materiál = 1 stříbrný",
-    startedWith: (coins: string, material: number) => `Na začátku ${coins}, ${material} Materiálu`,
+    startedWith: (coins: string, material: number) =>
+      `Na začátku ${coins}, ${material} Materiálu`,
     scars: "Jizvy",
     scarHead: ["Zdroj", "Stupeň", "Co se stalo", "Léčení (5 za stupeň)"],
     dying: "Umírání",
-    dyingHint: "Jizva větší než její zdroj, nebo Jizva na úplně zablokovaném zdroji. Každý tah k20: 10+ je úspěch.",
+    dyingHint:
+      "Jizva větší než její zdroj, nebo Jizva na úplně zablokovaném zdroji. Každý tah k20: 10+ je úspěch.",
     successes: "Úspěchy",
     failures: "Neúspěchy",
     dyingPools: "Tělo: umírání. Duše: šílenství. Vliv: zničené jméno.",
@@ -845,7 +1036,12 @@ const cs: Dict = {
     passive: "Pasivní",
     used: "Použito",
     perksAndSpells: "Perky a kouzla",
-    tags: { racial: "Rasový", aspect: "Aspekt", core: "Základní kouzlo", spell: "Kouzlo" },
+    tags: {
+      racial: "Rasový",
+      aspect: "Aspekt",
+      core: "Základní kouzlo",
+      spell: "Kouzlo",
+    },
     noPerks: "Zatím žádné perky.",
     gearAndStory: "Výbava a příběh",
     unknownItem: "Neznámý předmět",
@@ -863,8 +1059,16 @@ const cs: Dict = {
   },
   remove: {
     kinds: {
-      character: { button: "Smazat postavu", fallback: "tuhle postavu", typeName: "Napiš jméno postavy" },
-      campaign: { button: "Smazat kampaň", fallback: "tuhle kampaň", typeName: "Napiš název kampaně" },
+      character: {
+        button: "Smazat postavu",
+        fallback: "tuhle postavu",
+        typeName: "Napiš jméno postavy",
+      },
+      campaign: {
+        button: "Smazat kampaň",
+        fallback: "tuhle kampaň",
+        typeName: "Napiš název kampaně",
+      },
     },
     prompt: (label: string, consequences: string, type: string) =>
       `Smazat ${label} navždy? ${consequences} Nejde to vrátit.\n\n${type} pro potvrzení:`,
@@ -876,6 +1080,56 @@ const cs: Dict = {
     deleting: "Mažu…",
   },
   editor: {
+    steps: {
+      start: {
+        title: "Kdo jsi?",
+        intro:
+          "Začni základy. Domluv se s PJ na počáteční úrovni, dej postavě jméno a, pokud máš, portrét.\n\nPak rozděl 15 bodů mezi Tělo, Duši a Vliv. Určují, jak moc se postava dokáže vybičovat: síla a reflexy, mysl a soustředění, důvtip s lidmi. Nevyvážené rozdělení je v pořádku, ale s méně než 2 body v jedné zásobě postava v drsném světě dlouho nevydrží.",
+      },
+      race: {
+        title: "Rasa",
+        intro:
+          "Rasa víc určuje, jak se k tobě svět chová, než tvá čísla. Vyber jednu a pak její jeden rasový perk.",
+      },
+      classes: {
+        title: "Povolání",
+        intro:
+          "Každá počáteční úroveň jde do povolání. Povolání jsou balíčky dovedností, ne celá identita: většina postav míchá dvě nebo tři. Dvě základní povolání, která dohromady dají 6 úrovní, odemknou pokročilé povolání mezi nimi.\n\nNevíš si rady? Vyber dvě základní povolání, která tvé postavě sedí nejvíc, a rozděl mezi ně úrovně.",
+      },
+      perks: {
+        title: "Perky",
+        intro:
+          "Každá úroveň povolání dává jeden perk toho povolání. Otevři kartu a přečti si ji celou; zamčené karty říkají, co potřebují.\n\nAspekty se udělují samy, jakmile máš dost úrovní v rodičovských povoláních, a perky vedle nich ten aspekt potřebují.",
+      },
+      background: {
+        title: "Původ",
+        intro:
+          "Co postava dělala před dobrodružstvím? Nejdřív rozděl štěstí: u zbraní a zbroje, u původu a u koně řekni, jestli byla chudá, prostá, nebo zámožná. Jaké možnosti máš, určuje počáteční úroveň. Kliknutím na zaškrtnuté štěstí ho vrátíš.\n\nPak vyber původ a jazyky, které dává.",
+      },
+      gear: {
+        title: "Výbava",
+        intro:
+          "Teď se sbal. Štěstí původu určuje, co ti dá; štěstí zbraní určuje, kolik zbraní uneseš a jak těžkou zbroj. Zapiš, co má postava na sobě, a porovnej naložení se siluetami.",
+      },
+      traits: {
+        title: "Rysy",
+        intro:
+          "Rysy jsou volitelné. Každý je výzva s výhodou i nevýhodou a obě se ve hře projeví. Vezmi si jich kolik chceš, nebo žádný.",
+      },
+      story: {
+        title: "Příběh",
+        intro:
+          "Nakonec člověk za čísly. Chceš-li postrčit, hoď si nebo vyber z tabulek svého původu; použité řádky se zapíšou do povahy a příběhu. Pak piš vlastními slovy. Stačí pár řádků, a když je budeš dobře hrát, vysloužíš si bonusy.",
+      },
+    },
+    traitsNotice: {
+      title: "Nevhodné pro nové hráče",
+      text: "Rysy jsou spíše pro hráče, kteří už něco odehráli a chtějí extra výzvu. Chceš-li hrát nějakou chybu nebo zvyk, napiš ho radši do povahy na poslední stránce. Nic tě to nestojí, a když ho budeš dobře hrát, vysloužíš si bonusy.",
+    },
+    back: "← Zpět",
+    next: "Dál →",
+    stepOf: (n: number, total: number) => `Krok ${n} z ${total}`,
+    stepIssues: "K opravě na této stránce",
     sections: {
       start: "Začátek",
       race: "Rasa",
@@ -894,7 +1148,12 @@ const cs: Dict = {
     unnamed: "Bezejmenná",
     edit: "Upravit",
     newCharacter: "Nová postava",
-    pointsLeft: (n: number) => (n === 1 ? "nový level zbývá" : n >= 2 && n <= 4 ? "nové levely zbývají" : "nových levelů zbývá"),
+    pointsLeft: (n: number) =>
+      n === 1
+        ? "nový level zbývá"
+        : n >= 2 && n <= 4
+          ? "nové levely zbývají"
+          : "nových levelů zbývá",
     toFix: (n: number) => `k opravě: ${n}`,
     cancel: "Zrušit",
     save: "Uložit",
@@ -903,7 +1162,8 @@ const cs: Dict = {
     allSet: "Všechno v pořádku.",
     editCharacter: "Upravit postavu",
     printSheet: "Vytisknout deník",
-    deleteConsequences: "Spolu s ní zmizí její build, inventář i místo ve všech kampaních.",
+    deleteConsequences:
+      "Spolu s ní zmizí její build, inventář i místo ve všech kampaních.",
     unknownOwner: "Neznámý",
     errors: {
       name: "Dej své postavě jméno.",
@@ -944,8 +1204,8 @@ const cs: Dict = {
     background: "Původ",
     purse: "Počáteční měšec",
     material: (n: number) => `${n} Materiálu`,
-    knownSettings: "+1 k hodům v prostředí",
-    knownIn: (s: string) => `+1 v prostředí: ${s}`,
+    knownSettings: "Známé prostředí",
+    knownIn: (s: string) => `Zná: ${s}`,
     noBackground: "Zatím žádný původ.",
     extraLanguages: (n: number) => `jazyky navíc: ${n}`,
     languages: "Jazyky",
@@ -962,10 +1222,23 @@ const cs: Dict = {
     broken: " (rozbité)",
     armour: {
       label: "Zbroj:",
-      line: (a: { rating: number; protection: number; protectionTier: string; encumbrance: number; burden: number; burdenTier: string; harness: boolean }) =>
+      line: (a: {
+        rating: number;
+        protection: number;
+        protectionTier: string;
+        encumbrance: number;
+        burden: number;
+        burdenTier: string;
+        harness: boolean;
+      }) =>
         `úroveň ${a.rating} (${a.protectionTier}, Ochrana ${a.protection}) · omezení ${a.encumbrance ? `${a.encumbrance} ${a.encumbrance === 1 ? "Tělo" : "Těla"}` : "žádné"} (${a.burdenTier}, Zátěž ${a.burden}${a.harness ? ", padnoucí plátová zbroj" : ""})`,
       onePiece: (slots: string) => ` · jen jeden kus se počítá na: ${slots}`,
-      tiers: { none: "žádná", light: "lehká", medium: "střední", heavy: "těžká" },
+      tiers: {
+        none: "žádná",
+        light: "lehká",
+        medium: "střední",
+        heavy: "těžká",
+      },
     },
     traits: "Rysy",
     traitsHelp:
@@ -973,7 +1246,8 @@ const cs: Dict = {
     custom: "Vlastní",
     awaiting: "Vlastní · čeká na schválení PJ",
     personality: "Povaha",
-    personalityHelp: "Pár slov, ze kterých se dá hrát: jak mluví, co chce, co nesnáší.",
+    personalityHelp:
+      "Pár slov, ze kterých se dá hrát: jak mluví, co chce, co nesnáší.",
     personalityPlaceholder: "Nevrlý, věrný až za hrob, neodolá sázce…",
     backstory: "Příběh",
     backstoryPlaceholder: "Odkud pochází, co ho žene…",
@@ -993,7 +1267,8 @@ const cs: Dict = {
     needs: (r: string) => `Potřebuje ${r}`,
     extraPerk: "Perk navíc: stojí 1 nový level",
     noPointsLeft: "Na perky navíc už nezbývají nové levely",
-    slotsUsed: (n: number, c: string) => `Obsazená jsou všechna místa na perky povolání ${c} (${n})`,
+    slotsUsed: (n: number, c: string) =>
+      `Obsazená jsou všechna místa na perky povolání ${c} (${n})`,
     fromLevel: (c: string, n: number) => `Od úrovně ${c} ${n}`,
     perks: "Perky",
     aspects: "Aspekty",
@@ -1005,26 +1280,36 @@ const cs: Dict = {
       background: "Vyber původ.",
       freeLanguage: "Tímhle jazykem už mluvíš zadarmo.",
       unlearnable: "Tenhle jazyk se hráčská postava naučit nemůže.",
-      moreLanguages: (n: number) => `Vyber ještě ${n} ${n === 1 ? "jazyk" : n < 5 ? "jazyky" : "jazyků"}.`,
+      moreLanguages: (n: number) =>
+        `Vyber ještě ${n} ${n === 1 ? "jazyk" : n < 5 ? "jazyky" : "jazyků"}.`,
       tooManyLanguages: (n: number) => `Jazyků navíc můžeš vybrat jen ${n}.`,
       unknownTrait: "Neznámý rys.",
       racialPerk: "Vyber jeden rasový perk.",
       notRacial: (perk: string) => `${perk} není perk tvé rasy.`,
       unknownClass: (id: string) => `Neznámé povolání ${id}.`,
       classLevel: (c: string, max: number) => `${c} musí mít úroveň 1–${max}.`,
-      locked: (c: string, parents: string, n: number) => `${c} potřebuje ${parents} dohromady na ${n} úrovní.`,
-      tooManyPerks: (c: string, n: number) => `${c} ${n} může mít jen ${n} perků.`,
-      morePerks: (c: string, n: number) => `Vyber ještě ${n} ${n === 1 ? "perk" : n < 5 ? "perky" : "perků"} povolání ${c}.`,
-      noMorePerks: (c: string, n: number) => `${c} zatím nemá další perky na výběr; volných míst zůstává ${n}.`,
-      wrongClass: (perk: string, c: string) => `${perk} se nedá vybrat jako perk povolání ${c}.`,
+      locked: (c: string, parents: string, n: number) =>
+        `${c} potřebuje ${parents} dohromady na ${n} úrovní.`,
+      tooManyPerks: (c: string, n: number) =>
+        `${c} ${n} může mít jen ${n} perků.`,
+      morePerks: (c: string, n: number) =>
+        `Vyber ještě ${n} ${n === 1 ? "perk" : n < 5 ? "perky" : "perků"} povolání ${c}.`,
+      noMorePerks: (c: string, n: number) =>
+        `${c} zatím nemá další perky na výběr; volných míst zůstává ${n}.`,
+      wrongClass: (perk: string, c: string) =>
+        `${perk} se nedá vybrat jako perk povolání ${c}.`,
       perkNeeds: (perk: string, r: string) => `${perk} potřebuje ${r}.`,
       negative: "Zdroje nemůžou klesnout pod 0.",
       spread: (n: number) => `Rozděl všech ${n} počátečních bodů zdrojů.`,
-      lowPool: (pool: string, n: number) => `${pool} ${n} je hodně málo: jediná Jizva ${pool === "Tělo" ? "Těla" : pool === "Duše" ? "Duše" : "Vlivu"} může postavu poslat do umírání.`,
-      startingLevels: (n: number) => `Počáteční levely jdou všechny do povolání: rozděl přesně ${n} bodů zdrojů a za každou úroveň povolání vezmi jeden perk.`,
-      gainedLevels: (n: number) => `Do zdrojů nebo perků navíc můžou jít jen levely získané po vytvoření postavy (${n}).`,
+      lowPool: (pool: string, n: number) =>
+        `${pool} ${n} je hodně málo: jediná Jizva ${pool === "Tělo" ? "Těla" : pool === "Duše" ? "Duše" : "Vlivu"} může postavu poslat do umírání.`,
+      startingLevels: (n: number) =>
+        `Počáteční levely jdou všechny do povolání: rozděl přesně ${n} bodů zdrojů a za každou úroveň povolání vezmi jeden perk.`,
+      gainedLevels: (n: number) =>
+        `Do zdrojů nebo perků navíc můžou jít jen levely získané po vytvoření postavy (${n}).`,
       pointsLeft: (n: number) => `Zbývá utratit nových levelů: ${n}.`,
-      pointsOver: (n: number, level: number) => `O ${n} bodů víc, než dovoluje level ${level}.`,
+      pointsOver: (n: number, level: number) =>
+        `O ${n} bodů víc, než dovoluje level ${level}.`,
       gear: "Vyber si počáteční výbavu.",
       gearChoice: "U každé volby v počáteční výbavě vyber předmět.",
     },
@@ -1079,7 +1364,8 @@ const cs: Dict = {
       "Kampaň zmizí navždy, i s novinkami, obrázky a bonusy. Postavy zůstanou svým hráčům.",
     deleteConsequences:
       "Zmizí s ní novinky, obrázky a bonusy; postavy zůstanou svým hráčům.",
-    noneToAdd: "Zatím není koho přidat. Hráči se do kampaně přidávají s postavou, takže ji nejdřív musí někdo",
+    noneToAdd:
+      "Zatím není koho přidat. Hráči se do kampaně přidávají s postavou, takže ji nejdřív musí někdo",
     createOne: "vytvořit",
     first: ".",
     choose: "Vyber postavu…",
@@ -1131,7 +1417,8 @@ const cs: Dict = {
         "Z strážnice vyjde strážný a zabodne před tebe do hlíny kopí.",
         "„Stůj. Bez glejtu nikdo neprojde. Neviděl jsem tě už? Tak sem s ním.“",
       ],
-      expired: "Odkaz je neplatný nebo mu vypršela platnost. Přihlas se a pošleme nový.",
+      expired:
+        "Odkaz je neplatný nebo mu vypršela platnost. Přihlas se a pošleme nový.",
       forgot: "Zapomenuté heslo?",
       pending: "Ukazuju glejt…",
       submit: "Přihlásit se",
@@ -1172,8 +1459,12 @@ const cs: Dict = {
         "Strážný na tebe přimhouří oči a pak do svého seznamu.",
         "„Glejt je pryč? Stává se to nejlepším z nás. Hlavně těm opilým. Řekni mi, kde bydlíš, a pošlu zprávu.“",
       ],
-      expired: "Odkaz je neplatný nebo mu vypršela platnost. Níž si řekni o nový.",
-      sent: ["Pokud nějaký účet používá ", ", odkaz na nastavení nového hesla je na cestě. Otevři ho v tomhle prohlížeči."],
+      expired:
+        "Odkaz je neplatný nebo mu vypršela platnost. Níž si řekni o nový.",
+      sent: [
+        "Pokud nějaký účet používá ",
+        ", odkaz na nastavení nového hesla je na cestě. Otevři ho v tomhle prohlížeči.",
+      ],
       nothing: "Po pár minutách pořád nic? Mrkni do spamu, nebo to zkus znovu.",
       pending: "Posílám jezdce…",
       submit: "Pošlete mi odkaz",
@@ -1196,8 +1487,12 @@ const cs: Dict = {
       title: "Profil",
       emailPending: (email: string) =>
         `Jedna pečeť je tu. Písař chce i tu druhou: potvrď ještě odkaz poslaný na ${email}.`,
-      emailChanged: ["Písař škrtne starou adresu a připíše ", ". Dopisy ti odteď chodí tam."],
-      expired: "Odkaz je neplatný nebo mu vypršela platnost. Požádej o změnu znovu.",
+      emailChanged: [
+        "Písař škrtne starou adresu a připíše ",
+        ". Dopisy ti odteď chodí tam.",
+      ],
+      expired:
+        "Odkaz je neplatný nebo mu vypršela platnost. Požádej o změnu znovu.",
       avatar: "Avatar",
       avatarUpdated: "Avatar změněn",
       uploading: "Nahrávám…",
@@ -1207,7 +1502,8 @@ const cs: Dict = {
       currentEmail: "Současný e-mail:",
       waiting: ["Čeká se, až potvrdíš ", ". Odkaz najdeš v té schránce."],
       newEmail: "Nový e-mail",
-      newEmailHint: "E-mail se nezmění, dokud neklikneš na odkaz, který pošleme.",
+      newEmailHint:
+        "E-mail se nezmění, dokud neklikneš na odkaz, který pošleme.",
       sending: "Posílám…",
       changeEmail: "Změnit e-mail",
       changing: "Měním…",
@@ -1218,17 +1514,26 @@ const cs: Dict = {
         `Poslali jsme potvrzovací odkaz na ${email}. Jestli přijde odkaz i na ${old}, potvrď i ten.`,
       samePassword: "Tohle je tvoje současné heslo.",
       passwordChanged: "Heslo změněno.",
-      roles: { player: "Hráč", dm: "PJ", admin: "Správce" } as Record<string, string>,
+      roles: { player: "Hráč", dm: "PJ", admin: "Správce" } as Record<
+        string,
+        string
+      >,
     },
   },
   credits: {
     title: "Poděkování",
     lead: "Nic z toho nevzniklo ve vzduchoprázdnu. Tady je, odkud pochází pravidla, obrázky a kód.",
     noAi: "Nebyly použity žádné obrázky z AI.",
-    rights: "Všechna práva k obrázkům patří jejich autorům. Je to neveřejný, nekomerční projekt z nadšení a obrázky slouží výhradně jako výzdoba.",
-    concerns: ["Pokud máte k některému obrázku výhrady, napište prosím na ", " a obrázek bude stažen."],
-    alpha: "Aplikace je v alfa testu, postavená rychle s pomocí AI, ale s architekturou a komponentami rozhraní navrženými člověkem. Pravidla se ještě můžou změnit.",
-    notPublic: "Tohle demo není veřejné: je určené hlavně pro autorovy přátele a rodinu. Vstupem přijímáte obsah tak, jak je, a vzdáváte se práva proti němu cokoli namítat.",
+    rights:
+      "Všechna práva k obrázkům patří jejich autorům. Je to neveřejný, nekomerční projekt z nadšení a obrázky slouží výhradně jako výzdoba.",
+    concerns: [
+      "Pokud máte k některému obrázku výhrady, napište prosím na ",
+      " a obrázek bude stažen.",
+    ],
+    alpha:
+      "Aplikace je v alfa testu, postavená rychle s pomocí AI, ale s architekturou a komponentami rozhraní navrženými člověkem. Pravidla se ještě můžou změnit.",
+    notPublic:
+      "Tohle demo není veřejné: je určené hlavně pro autorovy přátele a rodinu. Vstupem přijímáte obsah tak, jak je, a vzdáváte se práva proti němu cokoli namítat.",
     coverOf: (title: string) => `Obálka: ${title}`,
     sourceMissing: "zdroj bude doplněn",
     noDate: "b.r.",
@@ -1239,13 +1544,32 @@ const cs: Dict = {
   alpha: {
     title: "Alfa test",
     paragraphs: [
-      ["Tahle verze aplikace je ", "alfa test", ". Je ", "nedokončená", ", postavená rychle jako ověření nápadu, takže počítejte s chybějícími kusy, hrubými hranami a sem tam něčím, co se rozbije."],
-      ["Vznikla rychle s ", "pomocí AI", ", ale architekturu a komponenty rozhraní navrhl člověk."],
-      ["Tohle demo ", "není veřejné", ": je určené hlavně pro autorovy přátele a rodinu. Vstupem přijímáte obsah tak, jak je, a vzdáváte se práva proti němu cokoli namítat."],
-      ["", "Pravidla se ještě můžou změnit.", " Pravidla, povolání, perky i čísla se v budoucnu můžou předělat."],
+      [
+        "Tahle verze aplikace je ",
+        "alfa test",
+        ". Je ",
+        "nedokončená",
+        ", postavená rychle jako ověření nápadu, takže počítejte s chybějícími kusy, hrubými hranami a sem tam něčím, co se rozbije.",
+      ],
+      [
+        "Vznikla rychle s ",
+        "pomocí AI",
+        ", ale architekturu a komponenty rozhraní navrhl člověk.",
+      ],
+      [
+        "Tohle demo ",
+        "není veřejné",
+        ": je určené hlavně pro autorovy přátele a rodinu. Vstupem přijímáte obsah tak, jak je, a vzdáváte se práva proti němu cokoli namítat.",
+      ],
+      [
+        "",
+        "Pravidla se ještě můžou změnit.",
+        " Pravidla, povolání, perky i čísla se v budoucnu můžou předělat.",
+      ],
     ],
     noAi: "Nebyly použity žádné obrázky z AI.",
-    images: " Všechna práva k obrázkům patří jejich autorům. Je to neveřejný, nekomerční projekt z nadšení a obrázky slouží výhradně jako výzdoba. Pokud máte k některému obrázku výhrady, napište prosím na ",
+    images:
+      " Všechna práva k obrázkům patří jejich autorům. Je to neveřejný, nekomerční projekt z nadšení a obrázky slouží výhradně jako výzdoba. Pokud máte k některému obrázku výhrady, napište prosím na ",
     takenDown: " a obrázek bude stažen.",
     more: ["Víc v ", "poděkování", "."],
     understood: "Rozumím",
@@ -1258,6 +1582,7 @@ const cs: Dict = {
     close: "Zavřít",
     breadcrumb: "Drobečková navigace",
     noStartingGear: "Bez počáteční výbavy.",
+    remove: "Odebrat",
     meritPoints: "Bonusy",
     spendMerit: "Utratit bonus",
     awardMerit: "Udělit bonus",
@@ -1279,11 +1604,14 @@ const cs: Dict = {
   home: {
     welcome: "Vítej v Michalových D&D pravidlech!",
     rulebook: "Pravidla",
-    rulebookText: "Pravidla: kostky, zdroje, Jizvy, boj, povolání a všechno mezi tím.",
+    rulebookText:
+      "Pravidla: kostky, zdroje, Jizvy, boj, povolání a všechno mezi tím.",
     characters: "Postavy",
-    charactersText: "Prohlížej své postavy, vytvářej nové a spravuj svá dobrodružství.",
+    charactersText:
+      "Prohlížej své postavy, vytvářej nové a spravuj svá dobrodružství.",
     campaigns: "Kampaně",
-    campaignsText: "Spravuj své kampaně, sleduj svá dobrodružství a poznej své společníky.",
+    campaignsText:
+      "Spravuj své kampaně, sleduj svá dobrodružství a poznej své společníky.",
   },
   upload: {
     unreadable: "Ten obrázek se nepodařilo přečíst.",
@@ -1352,6 +1680,104 @@ const cs: Dict = {
     skillHead: ["Dovednost", "Zdroj", ""],
     unique: "jedinečná",
   },
+  fortune: {
+    hints: {
+      arms: {
+        poor: "Jedna zbraň, žádný meč. Nanejvýš prošívaná kápě nebo prošívanice.",
+        commoner:
+          "Dvě zbraně, nebo zbraň a štít, pořád bez meče. Lehká zbroj: prošívanice s kroužkovou košilí, nebo kůže a železná čapka.",
+        fortunate:
+          "Jako prostý, a meče jsou povoleny. Střední zbroj: kroužky nebo plátová košile přes prošívanici, s přilbou.",
+      },
+      background: {
+        poor: "Holé nezbytnosti z dřívějšího života a pár mincí: batoh, spací rohož, zhruba 10 stříbrných.",
+        commoner:
+          "Pořádná výbava k tvému řemeslu, nástroje, se kterými se dá pracovat, a skromný měšec.",
+        fortunate:
+          "To nejlepší, co tvé řemeslo nabízí, pohodlí jako stan nebo lucerna, a plnější měšec.",
+      },
+      mount: {
+        poor: "Žádný kůň. Chodíš pěšky a všechno neseš sám.",
+        commoner:
+          "Jezdecký kůň s postrojem: na cestě dvakrát rychlejší než ty a nese tvůj náklad. V boji se plaší.",
+        fortunate:
+          "Válečný kůň s postrojem: stejně rychlý, cvičený, aby se nesplašil před ocelí ani ohněm, takže můžeš bojovat ze sedla.",
+      },
+    },
+    names: { poor: "Chudý", commoner: "Prostý", fortunate: "Zámožný" },
+    sections: { arms: "Zbraně a zbroj", background: "Původ", mount: "Kůň" },
+    title: "Štěstí",
+    help: "V každé části řekni, jak se tvé postavě vedlo. Které možnosti dostaneš, určuje počáteční úroveň.",
+    yours: (list: string) => `Můžeš rozdělit: ${list}.`,
+    left: (list: string) => `Zbývá rozdělit: ${list}.`,
+    allGiven: "Vše rozděleno.",
+    arms: {
+      rules: {
+        poor: "Jedna zbraň, žádné meče. Prošívaná kápě, nebo prošívanice.",
+        commoner:
+          "Dvě zbraně, nebo zbraň a štít; žádné meče. Lehká zbroj, Ochrana nejvýš 3.",
+        fortunate:
+          "Dvě zbraně, nebo zbraň a štít; meče povoleny. Zbroj nejvýš střední, Ochrana nejvýš 6.",
+      },
+      ammo: "K luku, kuši nebo praku patří toulec a 20 kusů střeliva.",
+      inHand: "Zbraně a štít",
+      armour: "Zbroj",
+      add: "Přidat…",
+      none: "Nic",
+      pickFortune: "Nejdřív urči, jak se ti vedlo ve zbraních a zbroji.",
+    },
+    mount: {
+      poor: "Bez koně. Chodíš pěšky.",
+      commoner: "Jezdecký kůň s postrojem.",
+      fortunate: "Válečný kůň s postrojem.",
+      pickFortune: "Urči, jak se ti vedlo s koněm.",
+    },
+    background: {
+      pickFortune: "Urči, jak se ti vedlo v původu, a uvidíš jeho výbavu.",
+    },
+    purse: (coins: string, material: number) =>
+      `${coins} · ${material} Materiálu`,
+    clothes: "Oblečení",
+    clothesHelp: "Oblečení nejsou předměty; napiš, co má postava na sobě.",
+    clothesPlaceholder:
+      "Vybledlý červený plášť, kápě, prošívaná suknice, ošoupané boty, opasek s váčkem…",
+    load: {
+      title: "Naložení",
+      text: "Naložení se posuzuje od oka. Porovnej postavu se třemi siluetami: lehké (oblečení a osobní věci), střední (víc než pár brašen) a těžké (těžká krosna s věcmi zavěšenými na ní, štít a dva meče). Střední naložení stojí jako střední zbroj (1 Tělo za pokus u omezovaných činností), těžké jako těžká (2); počítá se jen horší z naložení a zbroje. Kůň nese náklad, dokud je u tebe.",
+      alt: "Tři siluety: lehké, střední a těžké naložení",
+    },
+    jumpstart: {
+      title: "Rychlý začátek",
+      help: "Chceš-li se od něčeho odrazit, hoď k8 nebo si vyber řádek. Archetyp jde do příběhu, ostatní do povahy. Všechno slouží jen k hraní role.",
+      tables: {
+        archetypes: "Archetyp",
+        quirks: "Zvláštnost",
+        ideals: "Ideál",
+        bonds: "Pouto",
+        flaws: "Chyba",
+      },
+      own: "Nebo si vymysli vlastní a vyber si, co tě láká.",
+      recommended: "Doporučeno:",
+      use: "Použít",
+      roll: "Hodit k8",
+      added: "Přidáno.",
+    },
+    errors: {
+      unset: "Urči, jak se ti vedlo ve zbraních a zbroji.",
+      assign: "Urči štěstí pro každou část.",
+      wrongSet: "Tohle nejsou možnosti, které dává tvá počáteční úroveň.",
+      notArms: "Mezi zbraně a zbroj patří jen zbraně, štíty a zbroj.",
+      hands: (n: number) =>
+        n === 1
+          ? "Tvé štěstí dovoluje jednu zbraň."
+          : `Tvé štěstí dovoluje ${n} zbraně, nebo zbraň a štít.`,
+      shields: "Jen jeden štít.",
+      tooDear: (name: string) => `${name} je na tvé štěstí moc drahý.`,
+      slots: "Na každém místě jen jeden kus zbroje.",
+      protection: (n: number) =>
+        `Tvé štěstí dovoluje zbroj nejvýš s Ochranou ${n}.`,
+    },
+  },
   blocks: {
     noneYet: "Zatím nic.",
     speed: "Rychlost",
@@ -1363,13 +1789,22 @@ const cs: Dict = {
       gear: "Počáteční výbava",
       purse: "Měšec",
       languages: "Jazyky navíc",
-      known: "+1 v",
+      known: "Známé prostředí",
+      variants: "Podle štěstí",
+      jumpstart: "Archetypy, zvláštnosti, ideály, pouta a chyby",
+      tables: "Rychlý začátek",
     },
     material: (n) => `${n} Materiálu`,
     languageHead: ["Jazyk", "Mluví jím", "Rasový jazyk", "Příbuzné"],
     weaponHead: ["Zbraň", "Zranění", "Typ", "Vlastnosti", "Manévr zdarma"],
     armourHead: ["Kus", "Kryje", "Ochrana", "Zátěž"],
-    armourSlots: { under: "spodek", body: "trup", head: "hlava", arms: "paže", legs: "nohy" },
+    armourSlots: {
+      under: "spodek",
+      body: "trup",
+      head: "hlava",
+      arms: "paže",
+      legs: "nohy",
+    },
     harness: "plátová zbroj",
     aspectHead: ["Povolání", "Rodiče"],
     aspectColumn: (n) => `${n}. aspekt`,
@@ -1421,8 +1856,9 @@ const cs: Dict = {
     },
     print: (name) => `Vytisknout: ${name}`,
     now: "teď",
-    runningIt: "Jak s tím hrát",
     ritual: {
+      use: "Uložené body platí aktivační ceny perků a manévry při sesílání, pro jakoukoli magii, kterou zaříkávač ovládá.",
+      lost: "Ztracený: do příštího slunovratu nebo rovnodennosti má jeho držitel na majitele symbolický dotyk.",
       stored: "Uloženo",
       storedNote: "1 bod za políčko, nejvýš 5",
       charging: "Nabíjení",
@@ -1438,7 +1874,12 @@ const cs: Dict = {
       noStack:
         "Nabití se nesčítají: když se sejde víc příležitostí (pramen síly o slunovratu), platí jen ta nejvyšší. Předmět, který už tolik bodů má, nepřijme nic dalšího; dřív uložené body zůstávají.",
       link: "Pouto obnoveno",
-      seasons: ["Jarní rovnodennost", "Letní slunovrat", "Podzimní rovnodennost", "Zimní slunovrat"],
+      seasons: [
+        "Jarní rovnodennost",
+        "Letní slunovrat",
+        "Podzimní rovnodennost",
+        "Zimní slunovrat",
+      ],
     },
     labels: {
       kind: "Druh",
@@ -1474,16 +1915,7 @@ const cs: Dict = {
       languages: "Jazyky",
     },
     notes: {
-      fate: "(obnoví se s východem slunce)",
-      bond: "(nikdy víc než Vliv pána)",
-      unitBond: "(jednotka pomocníků; nikdy víc než Vliv pána)",
-      networkBond: "(+1 za 5 plateb, nejvýš do Vlivu pána)",
-      upkeep: "(jedno zaškrtnutí za týden)",
       bodyTimes: (n) => `(Tělo ×${n})`,
-      average: "průměrného člena",
-      muscle: "svaly: krádeže, přepadení, únosy",
-      information: "informace, hledání věcí",
-      influence: "vliv, úplatky",
       sizeAt: (size, body) => `${size} při ${body}`,
       tracksOff: (total, want) =>
         `Hodnoty dávají dohromady ${total}, ne ${want}.`,
@@ -1512,70 +1944,6 @@ const cs: Dict = {
       3: "Rozhoduje klíčové otázky malého kraje, nebo radí u větších",
       4: "Utváří rozhodnutí v celé zemi, nebo rozhoduje ve velkém kraji",
       5: "Rozhoduje v celé zemi",
-    },
-    rules: {
-      rolls: "Hody: střet d20 + bonus; útok bez obrany 2d6 + bonus ≥ 9.",
-      hit: (threat) =>
-        `Zásah postavy hráče: ${threat ? `${threat} ` : "kostka hrozby "}− hodnota její zbroje = stupeň Jizvy.`,
-      companionManoeuvres: "Manévry stojí 1 Pouto, pokud nejsou uvedené výše.",
-      npcManoeuvres:
-        "Manévry uvedené výše jsou zdarma; jakýkoli jiný stojí 1 Duši nebo Vliv.",
-      companionBond:
-        "Odvrácení neúspěchu stojí tolik Pouta, kolik je Ohrožení pána. Zjizvení Pouta dá 2 dočasné body. Pod 0 Pouta ho převezme PJ.",
-      fate: "Utracená 1 Sudba promění prohraný hod ve výhru.",
-      noFate: "Bez Sudby: jeho neúspěchy platí.",
-      bondHealing:
-        "1 platba doplní 1 Pouto. Léčení jizvy na Poutu: hod a 5 plateb za stupeň.",
-      armourDamage: "Zásahy do jeho Těla ztrácí jeho hodnotu zbroje; 0 a méně zbroj pohltí.",
-      socialDamage:
-        "Vyhraný hod na Duši nebo Vliv proti němu mu z dané hodnoty ubere jeho současné Ohrožení + úroveň povolání vítěze.",
-      zeroTracks:
-        "Na 0 v kterékoli hodnotě je přemožen: Tělo, padne nebo zemře; Duše, zlomí se, zpanikaří nebo je ovládnut; Vliv, vzdá se, uteče nebo ustoupí.",
-      unitAction:
-        "Jedna iniciativa, jedna akce za kolo. Manévr Rozsáhle zdarma u každé akce, k tomu jeden další manévr.",
-      unitHarm: (who) =>
-        `Její hodnoty zraní jen rozsáhlá akce, která zasáhne ${who}. Menší akce mají význam jen v příběhu.`,
-      enoughMembers: "dost členů",
-      unitDamage:
-        "Zranění se hází jednou proti Tělu. Když Tělo klesne na hranici menší velikosti, jednotka se zmenší; na 0 je mrtvá, rozprášená nebo se vzdala.",
-      unitDefense:
-        "Libovolně mnoho obran zdarma proti menším jednotkám; na cokoli v dosahu může reagovat manévrem obrana.",
-      unitCounter:
-        "Úspěšná odpověď menší jednotky neruší její účinek na ostatní cíle.",
-      unitDouble:
-        "Postava hráče, která proti ní vyčerpává, platí dvojnásobek Ohrožení.",
-      unitBond:
-        "Jednotka pomocníků: odvrací Poutem při Ohrožení svého pána; ztracení členové jsou jizvy na Poutu.",
-      unitNoFate:
-        "Bez Sudby: nic neodvrací, pokud výše není uvedený důležitý velitel.",
-      networkElsewhere:
-        "Jedná, zatímco je její pán jinde. Ohrožení úkolu určí PJ.",
-      networkRolls:
-        "Hází 2d6 nebo d20 + bonus ve své specializaci; mimo ni bez bonusu.",
-      networkAvert:
-        "Odvrácení neúspěchu stojí tolik Pouta, kolik je Ohrožení. Neodvrácený neúspěch je jizva na Poutu: chycený člen, kontakt, který zmlkl.",
-      networkUpkeep:
-        "Údržba jednou za týden: pozornost v hodnotě jedné platby (stříbro, laskavost, návštěva, ochrana). Splněno: jeden tip ze specializace. Vynecháno: jizva 1. stupně na Poutu.",
-      networkRefill:
-        "1 platba doplní 1 utracené Pouto. Léčení jizvy na Poutu: hod a 5 plateb za stupeň.",
-      networkCap: "Její bonus je nejvýš Postavení pána + 2.",
-      orgNoActions: "Sama nejedná a nehází; jednají její členové.",
-      orgPossibilities:
-        "Postavení dává možnosti, ne bonusy: člen dál hází s dovednostmi svých povolání.",
-      orgNetwork:
-        "Postavení 0 může jen prosit o laskavost. Postavení 1 a víc velí své části organizace jako síti kontaktů, s bonusem nejvýš Postavení + 2.",
-      orgCompanions:
-        "Každé Postavení může najít a získat pomocníky ve svém dosahu.",
-      orgMighty:
-        "Kdokoli se může přidat na nízké pozici a založit a vést organizaci s Dosahem 1–2. Postavení 3–5 dávají jen perky mocných povolání.",
-      ritualUse:
-        "Uložené body platí aktivační ceny perků a manévry při sesílání, pro jakoukoli magii, kterou zaříkávač ovládá.",
-      ritualOwner:
-        "Jen pro zaříkávače: nikdo jiný ho nenabije ani nepoužije. Každá postava má jen jeden.",
-      ritualLink:
-        "Obsahuje část těla majitele; majitel obnovuje pouto o každém slunovratu a rovnodennosti.",
-      ritualLost:
-        "Ztracený: do příštího slunovratu nebo rovnodennosti má jeho držitel na majitele symbolický dotyk.",
     },
   },
 };

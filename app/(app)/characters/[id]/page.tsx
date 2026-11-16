@@ -77,7 +77,7 @@ const CharacterSheetPage = ({ params }: PageProps<"/characters/[id]">) => {
       <RaceSection {...sectionProps} />
       <ClassesSection {...sectionProps} />
       <PerksSection {...sectionProps} />
-      <BackgroundSection {...sectionProps} />
+      <BackgroundSection {...sectionProps} clothes={character.clothes ?? ""} />
       <InventorySection items={rb.items} inventory={inventory} />
       <TraitsSection {...sectionProps} />
       <PersonalitySection personality={character.personality ?? ""} />

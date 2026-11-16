@@ -201,19 +201,20 @@ const PerkTree: React.FC<PerkTreeProps> = ({
       {aspects.length > 0 && (
         <section>
           <Overline>{t.build.aspects}</Overline>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
             {aspects.map((node) => {
               const kids = descendants(node);
+              // The aspect takes the first column; its perks fill the other two
               return (
                 <div
                   key={node.perk.id}
-                  className="grid grid-cols-1 md:grid-cols-[13rem_1fr] gap-3 md:gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3"
                 >
-                  <div className="md:sticky md:top-4 self-start">
+                  <div className="sm:sticky sm:top-24 self-start">
                     {tile(node.perk)}
                   </div>
                   {kids.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-3 pl-4 border-l-2 border-dnd-gold">
+                    <div className="xl:col-span-2 grid grid-cols-1 xl:grid-cols-2 gap-3 content-start">
                       {kids.map((kid) => tile(kid.perk))}
                     </div>
                   )}

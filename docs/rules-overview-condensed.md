@@ -415,7 +415,7 @@ Halving rounds down (in the character's favour); averting costs at least 1. Dama
 
 ### Writing a stat block
 
-In rulebook pages (and in notes for the app), a stat block is a fenced block: ```` ```npc ```` (or `companion`, `unit`, `network`, `organization`, `ritual-item`), one `field: value` per line, then `## Sections` for abilities and actions. Any field can hold `English |cs| Czech`. Fields left out aren't shown; unknown fields are shown as they are. Under each block the card prints a **Running it** box with the rules that apply; `rules: no` hides it. Any block can take an `emblem:` picture and an `allegiance:`.
+In rulebook pages (and in notes for the app), a stat block is a fenced block: ```` ```npc ```` (or `companion`, `unit`, `network`, `organization`, `ritual-item`), one `field: value` per line, then `## Sections` for abilities and actions. Any field can hold `English |cs| Czech`. Fields left out aren't shown; unknown fields are shown as they are. There are no rules reminders on the card: the rulebook explains how to run it. Any block can take an `emblem:` picture and an `allegiance:`.
 
 ```npc
 name: Village guard
@@ -530,7 +530,7 @@ No fairies, vampires or ghosts as player races.
 
 ### Backgrounds
 
-All 5E PHB backgrounds (2014 and 2024), merged, with the Entertainer as our Bard, plus our **Monster hunter**: 20 in all. **No skill proficiencies.** A background gives gear (classes give none, so each brings a weapon), coins, Material, languages and **known settings**: **+1** to Soul and Charisma rolls there (knowing the place and people, not fighting there), with or without a fitting class.
+All 5E PHB backgrounds (2014 and 2024), merged, with the Entertainer as our Bard, plus our **Monster hunter**: 20 in all. **No skill proficiencies.** A background gives gear (classes give none, so each brings a weapon), coins, Material, languages and **known settings**: what the character knows, with no flat bonus; the DM may allow a temporary **+1** when the player asks and it fits.
 
 **Swords don't sell:** only a knight, noble or armourer pays a sword's worth; anyone else pays its iron, about a tenth. So Soldiers and Nobles may start with one, and it counts at melt value.
 
@@ -1165,7 +1165,7 @@ Tolls: a city gate is 1 cp on foot.
 
 ### Prices move
 
-**Final price = base × season × region × event.** Grain ±30% by season, ×2–4 in famine; arms and horses ×1.5 in war (warhorses ×2); a siege ×5+ on food. Big towns are cheap for imports and dear for food and lodging; mining towns +25–50%; villages cheap food, dear or missing goods. **Pawnbrokers pay half.** Crafted substances: **(Material + labour) × 1.25**, roughly Material × 1.5. A won haggling roll (a Charisma skill, known settings' +1 apply) moves the day's price one step:
+**Final price = base × season × region × event.** Grain ±30% by season, ×2–4 in famine; arms and horses ×1.5 in war (warhorses ×2); a siege ×5+ on food. Big towns are cheap for imports and dear for food and lodging; mining towns +25–50%; villages cheap food, dear or missing goods. **Pawnbrokers pay half.** Crafted substances: **(Material + labour) × 1.25**, roughly Material × 1.5. A won haggling roll (a Charisma skill, plus a known setting's +1 if the DM allows it) moves the day's price one step:
 
 | 2d6 (optional day's price) | Price |
 |---|---|

@@ -21,6 +21,7 @@ import { hrefOf, INDEX_SLUG } from "@/lib/rulebookNav";
 import { slugify } from "@/lib/slugify";
 import type { Tables } from "@/lib/types/database.types";
 import { uploadRulebookImage } from "../../actions";
+import { uploadVideo } from "./uploadVideo";
 import {
   AdminHeader,
   formGrid,
@@ -45,6 +46,7 @@ const SNIPPETS: { label: string; text: string; block?: boolean }[] = [
   { label: "Coins", text: ":coins|" },
   { label: "Resource bars", block: true, text: ':::stats[|Michal\'s Charisma, before and after]\n::stat{r="charisma" base="5"}\n::stat{r="charisma" base="5" exhausted="3"}\n:::' },
   { label: "Stat block", block: true, text: "```npc\nname: |Name\nsubtitle: Human, ordinary\narmour: Light (1)\nspeed: 6 m\nthreat: d6\nbody: 11\nsoul: 4\ncharisma: 4\nskills: Fighter skills +2\n\n## Actions\n***Weapon.*** Foot close combat, reach 1 m. Hit: 1d6 + 2.\n```" },
+  { label: "YouTube video", block: true, text: '::video{src="|https://www.youtube.com/watch?v=" caption=""}' },
   { label: "Table", block: true, text: "| Column | Column |\n|---|---|\n| | |" },
   { label: "Cards", block: true, text: "::::cards\n:::card[|Title]{subtitle=\"\"}\nText.\n:::\n::::" },
   { label: "Cards, 3 in a row", block: true, text: "::::cards{cols=\"3\"}\n:::card[|Title]{image=\"\"}\nText.\n:::\n:::card[Title]\nText.\n:::\n:::card[Title]\nText.\n:::\n::::" },
@@ -98,6 +100,7 @@ const PageEditor: React.FC<{
   const { uploading, upload: uploadImage } = useImageUpload((fd) =>
     uploadRulebookImage("rulebook", fd),
   );
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const preview = useDeferredValue(content);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const { pending, runAction } = useAdminAction();
@@ -150,6 +153,13 @@ const PageEditor: React.FC<{
     if (!url) return;
     if (layout === "url") insert(url);
     else insert(`::image{src="${url}" alt="|" layout="${layout}"}`, true);
+  };
+
+  const addVideo = async (file: File) => {
+    setUploadingVideo(true);
+    const url = await uploadVideo(file);
+    setUploadingVideo(false);
+    if (url) insert(`::video{src="${url}" caption="|"}`, true);
   };
 
   const save = () =>
@@ -264,6 +274,15 @@ const PageEditor: React.FC<{
               onFile={upload}
             >
               {uploading ? "Uploading…" : "Upload image"}
+            </FileButton>
+            <FileButton
+              secondary
+              accept="video/mp4,video/webm,video/quicktime"
+              disabled={uploadingVideo}
+              className="text-xs px-2.5 py-1"
+              onFile={addVideo}
+            >
+              {uploadingVideo ? "Uploading video…" : "Upload video"}
             </FileButton>
           </div>
           <div role="tablist" aria-label="Language" className="flex gap-1 border-b border-dnd-gold">

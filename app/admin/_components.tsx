@@ -235,8 +235,10 @@ export const ImageField: React.FC<{
   /** Needed when several image fields share a page */
   id?: string;
 }> = ({ target, value, onChange, square, id = `${target}-image` }) => {
-  const { uploading, upload } = useImageUpload((fd) =>
-    uploadRulebookImage(target, fd),
+  // Perk art comes with transparent padding: cut it away, keeping it square
+  const { uploading, upload } = useImageUpload(
+    (fd) => uploadRulebookImage(target, fd),
+    { trim: square ? "square" : false },
   );
 
   return (

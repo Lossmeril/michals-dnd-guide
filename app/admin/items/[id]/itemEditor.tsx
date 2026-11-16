@@ -123,6 +123,7 @@ const ItemEditor: React.FC<{
       free_manoeuvre: null,
       image_url: null,
       contents: [],
+      min_fortune: "poor",
       sort: nextSort,
     },
     isNew,
@@ -151,6 +152,15 @@ const ItemEditor: React.FC<{
             set({ kind: v as Tables<"items">["kind"], category: null })
           }
         />
+        <SelectField
+          label="Least fortune"
+          id="min-fortune"
+          value={row.min_fortune}
+          options={enumOptions(Constants.public.Enums.fortune)}
+          onChange={(v) => set({ min_fortune: (v ?? "poor") as Tables<"items">["min_fortune"] })}
+          hint="The least fortune a new character needs to start with it: swords and warhorses are fortunate."
+        />
+        <div />
         {categories ? (
           <SelectField
             label="Category"

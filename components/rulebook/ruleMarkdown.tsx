@@ -24,6 +24,7 @@ import {
   Note,
   RuleCard,
   RuleImage,
+  RuleVideo,
 } from "./elements";
 import remarkRulebook from "./remarkRulebook";
 
@@ -113,6 +114,10 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
           height={height}
           align={align}
         />
+      ) : null,
+    "rb-video": ({ src, title, caption, width, poster }) =>
+      src ? (
+        <RuleVideo src={src} title={title} caption={caption} width={width} poster={poster} />
       ) : null,
     "rb-formula": ({ children }) => <Formula>{children}</Formula>,
     "rb-stat": ({ r, base, bonus, exhausted, scarred }) =>

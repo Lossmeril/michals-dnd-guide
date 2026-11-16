@@ -8,12 +8,14 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { SkeletonCard } from "@/components/ui/card";
 import IssueList from "@/components/ui/issueList";
 import StickyBar from "@/components/ui/stickyBar";
+import Stepper from "@/components/ui/stepper";
 import { useDict } from "@/lib/i18n/client";
 import { prepareImage } from "@/lib/hooks/useImageUpload";
 import { fetchCharacterBuild } from "@/lib/endpoints/character_build";
 import { fetchRulebook } from "@/lib/endpoints/rulebook";
 import {
   type Build,
+  type BuildStep,
   characterLevel,
   emptyBuild,
   freePointsLeft,
@@ -21,29 +23,34 @@ import {
   STARTS,
   validateBuild,
 } from "@/lib/rules/character";
+import { jumpstartText } from "@/lib/rules/fortune";
 import { saveCharacter, uploadCharacterPortrait } from "./actions";
 import {
   BackgroundSection,
-  BackstorySection,
   CharacterHeader,
   ClassesSection,
+  GearSection,
   PerksSection,
-  PersonalitySection,
   RaceSection,
   Section,
   StartSection,
+  StepIntro,
+  StorySection,
   TraitsSection,
 } from "./sections";
 
-const SECTION_LINKS = [
-  "race",
-  "classes",
-  "perks",
-  "background",
-  "traits",
-  "personality",
-  "backstory",
-] as const;
+/** The editor's pages, in order, and the build problems each one owns */
+const PAGES = [
+  { id: "start", owns: ["start", "resources"] },
+  { id: "race", owns: ["race"] },
+  { id: "classes", owns: ["classes"] },
+  { id: "perks", owns: ["perks"] },
+  { id: "background", owns: ["background"] },
+  { id: "gear", owns: ["gear"] },
+  { id: "traits", owns: ["traits"] },
+  { id: "story", owns: [] },
+] as const satisfies readonly { id: string; owns: readonly BuildStep[] }[];
+type PageId = (typeof PAGES)[number]["id"];
 
 interface CharacterEditorProps {
   /** Omit to create a new character */
@@ -62,10 +69,12 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   const [savedName, setSavedName] = useState("");
   const [backstory, setBackstory] = useState("");
   const [personality, setPersonality] = useState("");
+  const [clothes, setClothes] = useState("");
   const [level, setLevel] = useState<number>(STARTS[1].level);
   // A new character's levels are all starting levels
   const [startLevel, setStartLevel] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
+  const [page, setPage] = useState<PageId>("start");
   // Uploaded after saving, since a new character has no id before that
   const [portrait, setPortrait] = useState<File | null>(null);
   const [portraitUrl, setPortraitUrl] = useState<string | null>(null);
@@ -83,6 +92,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           setSavedName(existing.character.name);
           setBackstory(existing.character.backstory ?? "");
           setPersonality(existing.character.personality ?? "");
+          setClothes(existing.character.clothes ?? "");
           setLevel(existing.character.level);
           setStartLevel(existing.character.start_level);
           setPortraitUrl(existing.character.image_url);
@@ -103,8 +113,22 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   const start = startLevel ?? level;
   const remaining = level - characterLevel(build);
   const freePoints = freePointsLeft(build, level, start);
-  const { errors, warnings } = validateBuild(rb, build, level, start, t.lang);
+  const { errors, warnings, issues, softIssues } = validateBuild(rb, build, level, start, t.lang);
   const problems = [...errors, ...(name.trim() ? [] : [e.nameIt])];
+  const pageIndex = PAGES.findIndex((p) => p.id === page);
+  const owned = (id: PageId, list: typeof issues) => {
+    const owns: readonly BuildStep[] = PAGES.find((p) => p.id === id)!.owns;
+    return [
+      ...(id === "start" && list === issues && !name.trim() ? [e.nameIt] : []),
+      ...list.filter((i) => owns.includes(i.step)).map((i) => i.message),
+    ];
+  };
+  const stepLabel = (id: PageId) =>
+    id === "gear" || id === "story" ? e.steps[id].title : e.sections[id];
+  const goTo = (id: PageId) => {
+    setPage(id);
+    window.scrollTo({ top: 0 });
+  };
   const sectionProps = {
     rb,
     build,
@@ -125,6 +149,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       name,
       backstory,
       personality,
+      clothes,
       startLevel: start,
       build,
     });
@@ -161,13 +186,15 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         ]}
       />
       <StickyBar position="top">
-        <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-          {[...(characterId ? [] : (["start"] as const)), ...SECTION_LINKS].map((id) => (
-            <a key={id} href={`#${id}`} className="link no-underline">
-              {e.sections[id]}
-            </a>
-          ))}
-        </nav>
+        <Stepper
+          steps={PAGES.map((p) => ({
+            id: p.id,
+            label: stepLabel(p.id),
+            flagged: owned(p.id, issues).length > 0,
+          }))}
+          current={page}
+          onSelect={(id) => goTo(id as PageId)}
+        />
         <div className="flex flex-wrap items-center gap-4">
           <p className="text-sm">
             <span
@@ -180,9 +207,9 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
             {e.pointsLeft(remaining)}
           </p>
           {problems.length > 0 && (
-            <a href="#checklist" className="link text-sm">
+            <button type="button" onClick={() => goTo("story")} className="button-link text-sm">
               {e.toFix(problems.length)}
-            </a>
+            </button>
           )}
           {characterId && (
             <Link
@@ -202,36 +229,90 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         </div>
       </StickyBar>
 
-      {!characterId && <StartSection level={level} onChange={setLevel} />}
+      <p className="text-xs uppercase tracking-wider text-dnd-ink/60 mb-2">
+        {e.stepOf(pageIndex + 1, PAGES.length)}
+      </p>
+      <StepIntro.Provider value={e.steps[page].intro}>
+        {page === "start" && (
+          <Section id="start" title={e.steps.start.title}>
+            {!characterId && <StartSection level={level} onChange={setLevel} />}
+            <CharacterHeader
+              {...sectionProps}
+              name={name}
+              imageUrl={portraitUrl}
+              level={level}
+              onNameChange={setName}
+              onPortraitChange={changePortrait}
+            />
+          </Section>
+        )}
+        {page === "race" && <RaceSection {...sectionProps} />}
+        {page === "classes" && <ClassesSection {...sectionProps} />}
+        {page === "perks" && <PerksSection {...sectionProps} />}
+        {page === "background" && <BackgroundSection {...sectionProps} startLevel={start} />}
+        {page === "gear" && (
+          <GearSection {...sectionProps} clothes={clothes} onClothesChange={setClothes} />
+        )}
+        {page === "traits" && (
+          <TraitsSection
+            {...sectionProps}
+            onTraitCreated={(trait) =>
+              setRb({ ...rb, traits: [...rb.traits, trait] })
+            }
+          />
+        )}
+        {page === "story" && (
+          <StorySection
+            rb={rb}
+            build={build}
+            personality={personality}
+            backstory={backstory}
+            onPersonalityChange={setPersonality}
+            onBackstoryChange={setBackstory}
+            onJumpstart={(table, line) => {
+              // Archetypes are who they were; the rest is how they are
+              const text = jumpstartText(line);
+              const add = (old: string) => (old.trim() ? `${old.trimEnd()}\n${text}` : text);
+              if (table === "archetypes") setBackstory(add);
+              else setPersonality(add);
+              toast.success(t.fortune.jumpstart.added);
+            }}
+          />
+        )}
+      </StepIntro.Provider>
 
-      <CharacterHeader
-        {...sectionProps}
-        name={name}
-        imageUrl={portraitUrl}
-        level={level}
-        onNameChange={setName}
-        onPortraitChange={changePortrait}
-      />
-      <RaceSection {...sectionProps} />
-      <ClassesSection {...sectionProps} />
-      <PerksSection {...sectionProps} />
-      <BackgroundSection {...sectionProps} />
-      <TraitsSection
-        {...sectionProps}
-        onTraitCreated={(trait) =>
-          setRb({ ...rb, traits: [...rb.traits, trait] })
-        }
-      />
-      <PersonalitySection
-        personality={personality}
-        onChange={setPersonality}
-      />
-      <BackstorySection backstory={backstory} onChange={setBackstory} />
+      {page === "story" ? (
+        <Section id="checklist" title={e.beforeSaving}>
+          {problems.length === 0 && <p>{e.allSet}</p>}
+          <IssueList errors={problems} warnings={warnings} />
+        </Section>
+      ) : (
+        (owned(page, issues).length > 0 || owned(page, softIssues).length > 0) && (
+          <div className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-wider text-dnd-red mb-2">{e.stepIssues}</p>
+            <IssueList errors={owned(page, issues)} warnings={owned(page, softIssues)} />
+          </div>
+        )
+      )}
 
-      <Section id="checklist" title={e.beforeSaving}>
-        {problems.length === 0 && <p>{e.allSet}</p>}
-        <IssueList errors={problems} warnings={warnings} />
-      </Section>
+      <div className="flex justify-between gap-4 border-t border-dnd-gold pt-6 mb-8">
+        {pageIndex > 0 ? (
+          <button type="button" className="button-secondary" onClick={() => goTo(PAGES[pageIndex - 1].id)}>
+            {e.back}
+          </button>
+        ) : (
+          <span />
+        )}
+        {pageIndex < PAGES.length - 1 ? (
+          <button type="button" onClick={() => goTo(PAGES[pageIndex + 1].id)}>
+            {e.next}
+          </button>
+        ) : (
+          <button type="button" onClick={save} disabled={saving || problems.length > 0}>
+            {saving ? e.saving : e.save}
+          </button>
+        )}
+      </div>
     </>
   );
 };

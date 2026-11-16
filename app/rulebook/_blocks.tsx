@@ -4,6 +4,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import EquipmentList from "@/components/game/equipmentList";
+import JumpstartTables from "@/components/game/jumpstartTables";
 import { PerkTile } from "@/components/game/perkTree";
 import { TraitList } from "@/components/game/traitCard";
 import RuleMarkdown, { type RenderBlock } from "@/components/rulebook/ruleMarkdown";
@@ -23,6 +24,7 @@ import type { Dict } from "@/lib/i18n/dictionaries";
 import type { Lang } from "@/lib/i18n/localize";
 import { type Bestiary, creatureStatBlock } from "@/lib/rules/bestiary";
 import { isArmourPiece } from "@/lib/rules/armour";
+import { FORTUNES, variantsOf } from "@/lib/rules/fortune";
 import { damageTypeName, formatCoins, propertiesText } from "@/lib/rules/format";
 import { hrefOf, type NavChapter } from "@/lib/rulebookNav";
 import type { Tables } from "@/lib/types/database.types";
@@ -67,42 +69,59 @@ const Races: React.FC<BlockProps> = ({ rb, t }) =>
     );
   });
 
-/** One section per background: there are too many, with too much gear, for a table */
+/** One section per background: its three variants by fortune and its jumpstart tables */
 const Backgrounds: React.FC<BlockProps> = ({ rb, t }) =>
   rb.backgrounds.length === 0 ? (
     <p>{t.blocks.noneYet}</p>
   ) : (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8 my-6">
-      {rb.backgrounds.map((b) => (
-        <section key={b.id} id={b.id} className="scroll-mt-8 text-sm">
-          <h3 className="libre text-lg font-bold text-dnd-red uppercase mb-1">{b.name}</h3>
-          {b.description && <p className="mb-2">{b.description}</p>}
-          <dl className="flex flex-col gap-1">
-            <div>
-              <dt className="font-bold">{t.blocks.background.gear}</dt>
-              <dd>
-                <EquipmentList items={rb.items} equipment={b.equipment} lang={t.lang} />
-              </dd>
-            </div>
-            <div>
-              <dt className="font-bold inline">{t.blocks.background.purse}: </dt>
-              <dd className="inline">
-                {formatCoins(b.coins_copper, t.lang)} · {t.blocks.material(b.material)}
-              </dd>
-            </div>
-            <div>
-              <dt className="font-bold inline">{t.blocks.background.languages}: </dt>
-              <dd className="inline">{b.extra_languages}</dd>
-            </div>
-            {b.known_settings && (
+    <div className="flex flex-col gap-12 my-6">
+      {rb.backgrounds.map((b) => {
+        const variants = variantsOf(b);
+        return (
+          <section key={b.id} id={b.id} className="scroll-mt-8 text-sm">
+            <h3 className="libre text-lg font-bold text-dnd-red uppercase mb-1">{b.name}</h3>
+            {b.description && <p className="mb-2">{b.description}</p>}
+            <dl className="flex flex-col gap-1 mb-4">
+              {b.known_settings && (
+                <div>
+                  <dt className="font-bold inline">{t.blocks.background.known}: </dt>
+                  <dd className="inline">{b.known_settings}</dd>
+                </div>
+              )}
               <div>
-                <dt className="font-bold inline">{t.blocks.background.known}: </dt>
-                <dd className="inline">{b.known_settings}</dd>
+                <dt className="font-bold inline">{t.blocks.background.languages}: </dt>
+                <dd className="inline">{b.extra_languages}</dd>
               </div>
-            )}
-          </dl>
-        </section>
-      ))}
+            </dl>
+            <Overline>{t.blocks.background.variants}</Overline>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              {FORTUNES.map((f) => (
+                <Panel key={f} tight>
+                  <p className="font-bold libre text-dnd-red">{t.fortune.names[f]}</p>
+                  {variants[f].label && <p className="italic mb-2">{variants[f].label}</p>}
+                  <EquipmentList items={rb.items} equipment={variants[f].equipment} lang={t.lang} className="mb-2" />
+                  <p>
+                    <strong>{t.blocks.background.purse}:</strong>{" "}
+                    {t.fortune.purse(formatCoins(variants[f].coins_copper, t.lang), variants[f].material)}
+                  </p>
+                </Panel>
+              ))}
+            </div>
+            {/* The d8 tables are long: closed by default, so the page can be skimmed */}
+            <details className="group bg-dnd-bg border border-dnd-gold rounded-lg shadow-sm">
+              <summary className="flex items-center justify-between cursor-pointer list-none px-4 py-2 libre font-bold text-dnd-red-dark">
+                {t.blocks.background.jumpstart}
+                <span aria-hidden className="transition-transform group-open:rotate-180">
+                  ▾
+                </span>
+              </summary>
+              <div className="px-4 py-4 border-t border-dnd-gold/40">
+                <JumpstartTables background={b} />
+              </div>
+            </details>
+          </section>
+        );
+      })}
     </div>
   );
 
