@@ -6,6 +6,8 @@ const avatarCommonClasses =
 interface AvatarProps {
   imgSrc?: string;
   name: string;
+  /** Gold border, e.g. for the campaign's DM. */
+  highlight?: boolean;
 
   indicatorColor?: "green" | "red" | "yellow" | "blue" | "gray";
 }
@@ -13,6 +15,7 @@ interface AvatarProps {
 export const Avatar: React.FC<AvatarProps> = ({
   imgSrc,
   name,
+  highlight,
   indicatorColor,
 }) => {
   const initials = name
@@ -31,9 +34,11 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <div
+      title={name}
       className={twMerge(
         "bg-dnd-red text-white font-bold",
         avatarCommonClasses,
+        highlight && "border-dnd-gold z-10",
       )}
     >
       {imgSrc ? (

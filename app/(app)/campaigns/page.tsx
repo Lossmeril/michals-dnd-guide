@@ -26,7 +26,7 @@ const CampaignCard: React.FC<{
       fetchPlayersInCampaign(campaign.id),
       fetchProfile(campaign.dm!),
     ]);
-    return { players: players ?? [], dmName: dm?.display_name ?? null };
+    return { players: players ?? [], dm };
   }, [campaign.id, campaign.dm]);
   const cover = campaignCover(campaign);
 
@@ -41,19 +41,31 @@ const CampaignCard: React.FC<{
       }
     >
       <p className="text-xs text-dnd-ink/75 mb-4">
-        {t.dmedBy} {data?.dmName || <SkeletonInlineText />}
+        {t.dmedBy} {data?.dm?.display_name || <SkeletonInlineText />}
       </p>
 
       {loading ? (
         <SkeletonAvatarGroup count={3} />
       ) : (
-        data &&
-        data.players.length > 0 && (
+        data && (
           <AvatarGroup
-            avatars={data.players.map((player) => ({
-              name: player.display_name || t.unknown,
-              imgSrc: player.avatar_url || undefined,
-            }))}
+            avatars={[
+              ...(data.dm
+                ? [
+                    {
+                      name: data.dm.display_name || t.unknown,
+                      imgSrc: data.dm.avatar_url || undefined,
+                      highlight: true,
+                    },
+                  ]
+                : []),
+              ...data.players
+                .filter((player) => player.id !== data.dm?.id)
+                .map((player) => ({
+                  name: player.display_name || t.unknown,
+                  imgSrc: player.avatar_url || undefined,
+                })),
+            ]}
           />
         )
       )}
