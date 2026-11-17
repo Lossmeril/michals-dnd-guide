@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { CardGrid } from "@/components/ui/card";
 import { Heading } from "@/components/ui/typography";
 import { fetchCharacterSummaries } from "@/lib/endpoints/character_build";
+import { fetchLevelInfo } from "@/lib/endpoints/level_grants";
 import { useLoad } from "@/lib/hooks/useLoad";
 import { fetchCharactersPlayerSees } from "@/lib/specialFecthers/playerCharacters";
 import type { Tables } from "@/lib/types/database.types";
@@ -13,11 +14,15 @@ import { useDict } from "@/lib/i18n/client";
 
 const CharactersPage = () => {
   const t = useDict().lists;
-  const { data, loading } = useLoad(async () => {
+  const { data, loading, reload } = useLoad(async () => {
     const { owned, other } = await fetchCharactersPlayerSees();
     const all = [...(owned ?? []), ...(other ?? [])];
-    const summaries = await fetchCharacterSummaries(all.map((c) => c.id));
-    return { owned: owned ?? [], other: other ?? [], summaries };
+    const ids = all.map((c) => c.id);
+    const [summaries, levels] = await Promise.all([
+      fetchCharacterSummaries(ids),
+      fetchLevelInfo(ids),
+    ]);
+    return { owned: owned ?? [], other: other ?? [], summaries, levels };
   }, []);
 
   const card = (character: Tables<"characters">) => (
@@ -26,6 +31,8 @@ const CharactersPage = () => {
       character={character}
       raceName={data?.summaries.raceNames[character.race_id ?? ""]}
       classes={data?.summaries.classesByCharacter[character.id] ?? []}
+      levelInfo={data?.levels[character.id]}
+      onLevelChange={reload}
     />
   );
 

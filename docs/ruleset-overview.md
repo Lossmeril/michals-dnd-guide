@@ -1978,6 +1978,14 @@ Each level-up gives the player **one point to invest**, in one of four ways:
 3. **Take an extra perk** in a class already at level 5, if the perk's prerequisites are met.
 4. **Add +1 to Body, Soul or Charisma.**
 
+### Granting levels *(2026-11-17)*
+
+- **The DM grants a level-up point**, from a campaign the character is currently put forward in. Any such DM can, including the DM of a campaign the character only visits as a guest. **The level stays** when the character leaves the campaign, or the campaign is deleted.
+- **Every grant is recorded:** the campaign, the DM, the date and an optional reason ("Slew the wyvern"). The character sheet shows the level history; level = starting level + grants.
+- **Undo:** the DM of the campaign a grant came from can undo it, even after the character has moved on; no DM can undo another campaign's grant. If the point was already spent, the sheet warns that the build has a pick too many, and the player gives one back in the editor.
+- **Where:** a *Grant a level* button on the campaign's player cards, the character list and the character page, shown only to a DM who may grant or undo.
+- **In the app:** `character_level_grants`, written only by `grant_level` and `revoke_level`. A trigger stops anyone changing `level` or `start_level` by hand, and a new character starts at its starting level (3, 7 or 9).
+
 ### Starting level
 
 Characters can start above level 1. There are three typical starts:
@@ -3584,7 +3592,7 @@ The database's user roles are **player**, **dm** and **admin**.
 
 **Editing characters:**
 - Only the **owner** can edit their character's build: classes, perks, resource split, backstory.
-- The **DM of a campaign the character is in** can add **Scars**, manage **resources** (exhaustion, healing, coins, Material) and **grant levels**.
+- The **DM of a campaign the character is in** can add **Scars**, manage **resources** (exhaustion, healing, coins, Material) and **grant levels**. Levels are granted and undone as in [Granting levels](#granting-levels-2026-11-17).
 
 **Same character in several campaigns:** a character can appear in more than one campaign as a shared **ghost**.
 - The **build is shared**: classes, levels, perks and resource split. A level granted by any campaign's DM applies everywhere.

@@ -407,6 +407,55 @@ export type Database = {
           },
         ]
       }
+      character_level_grants: {
+        Row: {
+          campaign_id: number | null
+          character_id: number
+          created_at: string
+          granted_by: string | null
+          id: number
+          reason: string | null
+        }
+        Insert: {
+          campaign_id?: number | null
+          character_id: number
+          created_at?: string
+          granted_by?: string | null
+          id?: never
+          reason?: string | null
+        }
+        Update: {
+          campaign_id?: number | null
+          character_id?: number
+          created_at?: string
+          granted_by?: string | null
+          id?: never
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "character_level_grants_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_level_grants_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_level_grants_granted_by_fkey"
+            columns: ["granted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       characters: {
         Row: {
           arms_picks: Json
@@ -1219,6 +1268,14 @@ export type Database = {
           p_role: Database["public"]["Enums"]["user_role"]
           p_user: string
         }
+        Returns: undefined
+      }
+      grant_level: {
+        Args: { p_campaign_id: number; p_character_id: number; p_reason?: string }
+        Returns: undefined
+      }
+      revoke_level: {
+        Args: { p_grant_id: number }
         Returns: undefined
       }
       set_campaign_character: {

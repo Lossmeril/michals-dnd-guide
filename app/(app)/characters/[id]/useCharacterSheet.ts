@@ -17,7 +17,7 @@ export type CharacterSheet = {
 
 // Shared by every sheet subpage: rulebook, the character's build and who owns it
 export const useCharacterSheet = (characterId: number) => {
-  const { data: sheet, loading } = useLoad(async (): Promise<CharacterSheet | null> => {
+  const { data: sheet, loading, reload } = useLoad(async (): Promise<CharacterSheet | null> => {
     const [rb, found, user] = await Promise.all([
       fetchRulebook(),
       fetchCharacterBuild(characterId),
@@ -33,5 +33,5 @@ export const useCharacterSheet = (characterId: number) => {
     };
   }, [characterId]);
 
-  return { loading, sheet };
+  return { loading, sheet, reload };
 };

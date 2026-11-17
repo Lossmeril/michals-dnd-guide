@@ -3,6 +3,7 @@
 import { use } from "react";
 import { toast } from "sonner";
 import MeritCounter from "@/components/game/meritCounter";
+import { GrantLevelButton } from "@/components/game/levelGrant";
 import Card, { CardGrid } from "@/components/ui/card";
 import CoverImage from "@/components/ui/coverImage";
 import DeleteButton from "@/components/ui/deleteButton";
@@ -47,7 +48,7 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
 
   if (!details) return <p>{t.notFound}</p>;
 
-  const { campaign, userId, isDm, dmName, members, availablePlayers, myCharacters } =
+  const { campaign, userId, isDm, dmName, members, availablePlayers, myCharacters, levels } =
     details;
   const cover = campaignCover(campaign);
 
@@ -171,6 +172,18 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
                     </Link>
                   </p>
                 ))}
+              {isDm && character && levels[character.id] && (
+                <div className="mt-3">
+                  <GrantLevelButton
+                    characterId={character.id}
+                    characterName={character.name}
+                    level={character.level}
+                    info={levels[character.id]}
+                    campaignId={campaign.id}
+                    onChange={reload}
+                  />
+                </div>
+              )}
               <MeritCounter
                 points={membership.merit_points}
                 canAward={isDm}
