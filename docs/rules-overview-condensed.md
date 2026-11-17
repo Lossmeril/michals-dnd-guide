@@ -4,7 +4,7 @@ The whole ruleset in one file, written to be handed to a language model (or a ne
 
 - The full version, with sources and reasoning, is [ruleset-overview.md](ruleset-overview.md). When the two disagree, that one wins.
 - *(Draft)* marks rules not confirmed yet. **Rule of thumb** marks advice for converting or improvising that isn't in the rulebook.
-- Updated 2026-11-14.
+- Updated 2026-11-17.
 
 ---
 
@@ -12,7 +12,7 @@ The whole ruleset in one file, written to be handed to a language model (or a ne
 
 - **This is not 5E.** It borrows 5E's weapons, conditions, spells and stat blocks, but player characters have **no attributes and no hit points**. Never give a player character hit points, Strength scores or saving throw bonuses.
 - **Everything a player character does is a roll with a class level,** and every failure can be averted by spending points from a pool. Design encounters around **what failure costs** (the Danger Level), not around damage races.
-- **NPCs are 5E-like:** stat blocks with hit points (their Body track), plus small Soul and Charisma tracks that can be beaten with fear or words.
+- **NPCs are 5E-like:** stat blocks with hit points (their Body track), plus small Soul and Charisma tracks that can be beaten with fear or words. To make one, follow *Building NPCs* (section 5): from scratch, or copied from a 5E or DrD2 stat block.
 - **Units:** metres (5 ft = 1 m), silver pennies (5E's gold × 10 = our silver), a round is 6 seconds.
 - **Setting:** gritty, low-to-mid fantasy in a Central-European feel (around 1300–1400). Magic is real but limited; lasting magic items are rare; plate is a fortune.
 - **Language:** refer to player characters as *they/them* or *you*. Rules terms are capitalised as here: Body, Soul, Charisma, Danger Level, Scar, Fate, Bond, Material.
@@ -127,7 +127,7 @@ Advanced classes answer too when they fit: *Mechanisms* (Rogue) for a lock trap,
 
 ### Cost to attempt
 
-Some things are hard before you start: pay the **cost to attempt** (exhaust points) **before rolling**, whatever the result. It comes **on top of** the Danger Level. Cases: armour encumbrance, ice magic on a hot day, tracking on packed earth, each action through a sigil, climbing a siege ladder, a forced march past 8 hours (1 Body per hour).
+Some things are hard before you start: pay the **cost to attempt** (exhaust points) **before rolling**, whatever the result. It comes **on top of** the Danger Level, from the skill's pool unless the rule names another; a Scar can pay it if the pool can't. Cases: armour encumbrance, ice magic on a hot day, tracking on packed earth, each action through a sigil, climbing a siege ladder, a forced march past 8 hours (1 Body per hour).
 
 ### Exhaustion and rest
 
@@ -150,8 +150,8 @@ Some things are hard before you start: pay the **cost to attempt** (exhaust poin
 ### Dying
 
 - If a Scar's level exceeds the pool's boxes not yet scarred (exhausted ones count), it blocks the **whole pool** and the character starts **dying**. So does any Scar on an already fully blocked pool.
-- Body: physically dying. Soul: madness or catatonia. Charisma: reputation and self-worth ruined.
-- **Dying rolls** (all three pools), each turn a d20: **10+** a success; **three successes** stabilise, **three failures** are the end. A natural 20 counts as two successes, a natural 1 as two failures; a hit taken while dying is a failure. Someone within touch can help with a skill check (Medic for Body, Incantor for Soul, Scout for Charisma).
+- Body: physically dying (Unconscious). Soul: madness or a catatonic state. Charisma: reputation and self-worth ruined (paralysing anxiety).
+- **Dying rolls** (all three pools), each turn a d20 with no bonuses, not necessarily consecutive: **10+** a success; **three successes** stabilise, **three failures** are the end. A natural 20 counts as two successes, a natural 1 as two failures; a hit taken while dying is a failure. Someone within touch can spend their turn helping with a non-unique skill check (Medic for Body, Incantor for Soul, Scout for Charisma).
 
 ### Item scars
 
@@ -178,7 +178,7 @@ Some things are hard before you start: pay the **cost to attempt** (exhaust poin
 
 ### Threat dice: NPC hits on player characters
 
-NPCs don't roll weapon damage against player characters. A hit that lands and isn't averted makes the NPC roll its **threat die**:
+NPCs don't roll weapon damage against player characters. A hit that lands and isn't averted makes the NPC roll its **threat die** (choosing one for a new NPC: see *Building NPCs*):
 
 **scar level = threat die − armour rating** (0 or less: absorbed, no Scar; the DM may break a piece of armour instead)
 
@@ -271,6 +271,7 @@ Ammunition: 20 sling bullets 2 cp, 20 bolts 2 sp, 20 arrows 3 sp, a quiver 1 sp.
 - **Finesse:** attack and damage use either the Fighter or the Juggler level (the same one for both).
 - **Heavy:** halflings attack with it **Feeble**. **Light:** krolls attack with it **Imprecise**.
 - **Loading:** reloading takes an action.
+- **Ammunition:** half is recovered after a battle. **Range:** beyond normal range is disadvantaged, nothing beyond long. **Reach:** +1 m. A broken weapon counts as improvised (d4) until repaired.
 - **Unarmed strike:** 1 + Fighter level bludgeoning (*Rock fist*: d4 + Fighter level; the Warrior's *Empty hand*: d6–d10 + Warrior level). **Improvised weapon:** d4.
 
 ### Manoeuvres
@@ -388,30 +389,251 @@ Halving rounds down (in the character's favour); averting costs at least 1. Dama
 
 - **Fate** (important NPCs only, 1–3): spend 1 to turn a lost roll into a win. Refills at the next sunrise, never during a fight. Ordinary NPCs have none.
 
-### Converting from 5E *(rule of thumb)*
+### Building NPCs *(draft, 2026-11-17)*
+
+How to make an NPC that is as hard here as it was meant to be, whether it's built from scratch ("make me a wolf") or copied from a 5E or DrD2 stat block. The method is the same every time: **decide the NPC's role, then fit the numbers to the role's budget.** Numbers copied from a source are kept where they sit inside the budget, and pulled into it where they don't. A wolf should come out about the same whichever way it was made.
+
+The numbers below are estimates from the rules' maths, not yet tested at the table.
+
+#### How a fight with an NPC works
+
+Five levers decide how hard an NPC is:
+
+1. **How often it wins:** its skill bonus.
+2. **How long it lasts:** Body, stretched by armour.
+3. **What its wins cost the players:** how many attacks it makes, its threat die, its free manoeuvres, and the scene's Danger Level.
+4. **The other ways to beat it:** Soul and Charisma.
+5. **How it escapes a bad result:** Fate.
+
+**Winning rolls.** The skill bonus is used both to attack and to defend, so one point counts twice.
+
+| Bonus minus the opponent's | −4 | −3 | −2 | −1 | 0 | +1 | +2 | +3 | +4 | +5 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Attacker wins the challenge | 30% | 34% | 38% | 43% | 47% | 52% | 57% | 62% | 66% | 70% |
+
+| Bonus on an undefended attack (2d6 ≥ 9) | 0 | +1 | +2 | +3 | +4 | +5 |
+|---|---|---|---|---|---|---|
+| Lands | 28% | 42% | 58% | 72% | 83% | 92% |
+| Lands with Precise | 52% | 68% | 81% | 89% | 95% | 98% |
+
+- **Equal bonuses make a coin flip.** Starting player characters have about +2 in their fighting class, late ones +4 or +5. An NPC with the same bonus is an even match one on one.
+- **Precise is worth about +3 or +4** in a challenge (47% → 64%), and more on an undefended attack. A free Precise on every attack is a big gift; hand it out for a situation (pack tactics, attacking from behind), not by default.
+- **Defending costs an action.** An NPC that defends doesn't attack that round, unless it gets a free Defense (a shield once a round, a unit, a boss). Ordinary NPCs usually attack and take their hits undefended. That's why they fall fast and still hurt.
+- **Hits on an NPC that doesn't defend land very often** against good player characters (83–92%). A lone NPC against a whole party gets hit a lot, which is what *Action economy* below fixes.
+
+**What player characters deal.** One hit is the weapon's dice + the class level − the NPC's armour. Most characters attack once a round; a few perks add a second attack or a free Mighty.
+
+| Party | One hit | Lands, on average | Per character a round |
+|---|---|---|---|
+| Rags to Riches (level 3) | 6–7 | ~65% | ~4–5 |
+| Seasoned (level 7) | 7–9 | ~70% | ~5–6 |
+| Veteran (level 9) and later | 9–12; with a free Mighty 14+ | ~75% | ~7–10 |
+
+- **Our player characters stay at 5E's first tier.** Class levels stop at 5 and nobody gets 5E's Extra Attack, so a party here deals about what a 5E party of level 2–4 deals, however far it advances. Their toughness comes from their pools and from averting, not from damage.
+- **Armour makes fights longer,** and more so for weaker attackers. Against starting characters (about 7 a hit), armour 1 makes an NPC last about ×1.2 as long, 2 ×1.4, 3 ×1.75, 4 ×2.3 and 5 ×3.5. That's why Mighty's extra die and the perks that grant it free are the answer to armour.
+
+**What NPC wins cost player characters.** A player character has no hit points; their pools are their hit points. A starting character has about 5–7 points in their main pool and 15 in all.
+
+- **When they defend and lose,** averting costs the Danger Level minus their armour (minimum 1): about 2 at Danger Level 3 in light armour. Mighty adds 1, Very mighty 2.
+- **When they can't or don't defend,** the NPC rolls 2d6 + bonus against 9 to land. A landed hit can't be averted, and becomes a Scar of the threat die minus armour.
+
+| Threat die | Average Scar against armour 0 | 1 | 2 | 3 | Feels like |
+|---|---|---|---|---|---|
+| d4 | 2.5 | 1.5 | 0.75 | 0.25 | Rarely gets through armour |
+| d6 | 3.5 | 2.5 | 1.7 | 1 | A real wound |
+| d8 | 4.5 | 3.5 | 2.6 | 1.9 | Can overflow a small pool in one hit |
+| d10 | 5.5 | 4.5 | 3.6 | 2.8 | Lethal to anyone who doesn't defend |
+
+- **The scene's Danger Level isn't part of the stat block,** but it's the biggest lever on cost. A boss fight is usually Danger Level 4–5, which makes every lost roll cost twice what a brawl does.
+
+#### Role budgets
+
+Pick the role first. The role says how many player-character actions the NPC should soak up and how much it should drain from them.
+
+| Role | Example | Bonus | Body | Armour | Soul, Charisma | Threat | Fate | Free manoeuvres | Actions a round |
+|---|---|---|---|---|---|---|---|---|---|
+| **Minion** | A peasant with a pitchfork, a rat, a possessed child | 0–1 | 1–6: one hit | 0–1 | 1–3 | d4 | — | — | 1 |
+| **Ordinary** | A guard, a wolf, a bandit, a boar | +2 | 7–15: two hits | 0–2 | 3–6: one win | d6 | — | 0–1 | 1 |
+| **Tough** | A veteran, a bear, a bandit chief, an ogre | +3 | 25–60 | 0–2 | 5–10 | d6–d8 | 0–1 | 1 | 1 |
+| **Elite** | A knight, a witcher, a troll | +4 | 40–80 | 1–3 | 8–12: two wins | d8 | 1 | 1–2; strong possible | 1, or 2 if built for it |
+| **Boss** | A wyvern, the house's fiend, a robber baron | +4–5 | 70–130 | 2–3 (4) | 12–18: three wins | d8–d10 | 2 | 2; strong | One per two player characters |
+| **Legendary** | A dragon, an archfiend | +6–8 | 130–200 | 3–5 | 16+, or immune | d10–d12 | 3 | 2–3; strong or cruel | One per two player characters |
+
+**Body.**
+- **Size moves Body within the role:** Small at the bottom of the range, Large at the top, Huge and Gargantuan one role higher in Body only. A Large ordinary horse has about 19.
+- **Armour 3 or more:** take Body from the bottom of the range. Armour stretches the fight (see above).
+- **Above 200 Body** a fight drags past ten rounds even for a strong party. Don't go there, not even for a dragon.
+
+**Soul and Charisma** are counted in **wins**. One won roll against an NPC deals the stakes (1–5, usually 3–4) + the winner's class level: about **6**.
+- **One win (up to 6)** breaks it: it flees, panics or gives in at the first real threat. Most people and animals.
+- **Two wins (7–12)** for the proud, the brave and the stubborn.
+- **Three wins (13–18)** for fanatics, great lords and ancient things.
+- **Immune:** mindless things (a zombie, a golem) to Soul; animals to lies, though not to fear.
+- **Give every NPC below a boss one soft spot.** A dim brute has low Soul (an ogre's 3), a coward low Charisma, and a fanatic who can't be scared down can still be cut down. Winning with words should be as real an option as winning with steel, not a guaranteed shortcut.
+
+**Fate** turns one lost roll into a win, so each point cancels about one player success. That's one round of one character's work, or one hostage who doesn't crack.
+
+**Free manoeuvres:**
+- **Each free manoeuvre is worth about 1 point an action.** Precise is about +3 or +4.
+- Free Mighty on every attack makes each averted hit cost 1 more, about **+50% pressure** at Danger Level 3.
+- **Tie a free manoeuvre to a situation where you can** (pack tactics, a charge, cornered) rather than "always". It plays better, and the players can deny it.
+
+**Action economy.** One NPC against four player characters gets one action against their four.
+- **Bosses and legends get one action per two player characters,** rounded up, each on its own initiative count (5E's legendary actions).
+- **Or they get free Defenses:** one a round per two player characters.
+- **Or they don't fight alone:** add minions or make the boss's guard a [unit](#units).
+- **Never give one NPC all three** of high armour, high Body and free Defense against every attack.
+
+#### Encounters
+
+**Count the pressure:** the NPCs' attacks a round per player character, at the scene's Danger Level.
+
+| Fight | NPC attacks a round per player character | Danger Level | Typical cost to each player character |
+|---|---|---|---|
+| **Easy** | ½ | 2–3 | 1–2 points, no Scars |
+| **Normal** | 1 | 3 | 3–4 points; a Scar for whoever's unlucky |
+| **Hard** | 1½ | 3–4 | Most of the main pool; some Scars |
+| **Deadly** | 2 or more | 4–5 | Scars for everyone; someone may be dying |
+
+**And count the length:** the NPCs' Body (stretched by armour) against the party's damage a round (see *What player characters deal*). A normal fight should be about **3 rounds**: a starting party of four deals about 18 a round, so about 55 Body in all. Four town guards (11 Body each, armour 2) come to about 60.
+
+Two things change the sums:
+- **Soul and Charisma are the other way out.** A fight where half the enemies flee after one good threat is shorter than its Body says.
+- **Ordinary NPCs flee or surrender** when the fight is clearly lost (half of them down, their leader broken). They don't fight to the last unless the story says so.
+
+#### Building from scratch
+
+1. **Concept and role.** What it is, its [bestiary](#6-bestiary) category, its size, and its role.
+2. **Bonus areas.** One or two areas it's good at: a whole class's skills (*Fighter skills +2*), part of one (*Foot close combat +3*), or its own (*Tracking by smell +3*). Everything else rolls plain dice. **Its attack bonus works against any target**; the "humans and beasts" split binds player classes only.
+3. **Numbers from the role budget:** Body (size within the role), armour, Soul and Charisma (with one soft spot), threat die, Fate, speed in metres.
+4. **Attacks.**
+   - **A weapon:** its dice + the bonus.
+   - **A natural weapon,** by size: Tiny 1, Small d4, Medium d6, Large 2d6, Huge 3d8, Gargantuan 4d10, + the bonus. A long one (horns, a tail) has 1 m more reach.
+   - **An attack on the mind** (a scream, a hateful stare) deals the same dice to Soul or Charisma, and its Scars land there.
+5. **Free manoeuvres and special abilities** within the role (ordinary 1–2 abilities, important 2–4, bosses up to 6).
+   - **Borrow a class perk** where one fits ("*Fire bending*, as the Warlock's, rolled with its bonus") rather than writing a new rule.
+   - **NPCs have no pools.** A perk's Body, Soul or Charisma price comes off the matching track, so a caster that casts a lot gets easier to break. Or the ability is free a set number of times (*3 a day*).
+   - **Material prices are ignored:** NPC substances are pre-made. Give it a stock (*carries 2 bombs*) if that matters.
+6. **Check it against the budget** and *Action economy*.
+7. **Write the description** (below).
+
+#### Copying from 5E or DrD2
+
+Copying means reading the source's **role**, then keeping its numbers wherever they fit that role's budget. Where a number doesn't fit, the budget wins: a 5E adult dragon's 256 hit points, an ogre's Wisdom that would make it stubborn.
+
+**From 5E:**
+- **The role** comes from CR and how the creature is meant to be used:
+
+  | CR | Role |
+  |---|---|
+  | 0 | Minion |
+  | ⅛–½ | Ordinary |
+  | 1–3 | Tough or elite (by its hit points) |
+  | 4–9 | Elite or boss |
+  | 10+ | Boss or legendary |
+
+  Our parties stay at 5E's first tier in damage, so a high-CR creature becomes the top of our scale, not something beyond it.
+- **What to keep and what to change:**
 
 | 5E | Ours |
 |---|---|
-| Hit points | Body track, unchanged |
-| Wisdom score | Soul track ≈ score ÷ 2 |
-| Charisma score | Charisma track ≈ score ÷ 2 |
-| Proficiency + ability modifier on attacks and skills | One skill bonus for that group. Roughly: CR ¼–1 → +1–2, CR 2–4 → +2–3, CR 5–8 → +3–4, CR 9–12 → +5, CR 13+ → +6–8 (legendary only) |
-| AC | Armour rating from what it wears (rating 0–3); natural armour: AC 12–13 → 1, 14–16 → 2, 17+ → 3, dragons and golems 4–5 |
-| Its attack damage | Kept for NPC vs NPC and companions; against player characters it's the threat die (CR under 1 d4, 1–4 d6, 5–10 d8, 11+ d10) |
-| Saving throw vs its ability | The target's defense roll (against the creature) or a saving throw (skill check) against the environment |
-| Save DC | Its skill bonus in a challenge, or for traps a hazard strength (DC 10 → 2, 12 → 3, 15 → 4–5, 18+ → 6–8) |
-| Legendary Resistance (3/day) | Fate 1–3 |
-| Legendary actions, lair actions | Special abilities, or a free manoeuvre each round |
-| Multiattack | Extra attacks as a special ability, or free Widespread |
-| Advantage on attacks from a trait | A free Precise in the stat block |
-| Pack tactics, knockdown bites | A free Precise or free Cunning |
-| Spell slots, X/day | An activation price paid from Soul or Charisma, or uses per day |
-| Swarm | A unit (see Units) |
-| Poisoned condition | Imprecise |
-| Feet | Metres at 5 ft = 1 m; speed 30 ft = 6 m |
-| Gold pieces | ×10 in silver (see Economy) |
-| Short rest / long rest | Poor rest / quality rest |
-| Magic items | Rare; usually a consumable or a story artefact |
+| Hit points | **Body**, as they are, within the role's range. Above 120, pull them towards the range (an adult dragon's 256 → about 180) |
+| AC | Armour from what it wears, as pieces; natural AC 12–13 → 1, 14–16 → 2, 17–18 → 3, 19+ → 4–5. Then check *Armour 3 or more* above |
+| Attack bonus | +3/+4 → **+2**, +5/+6 → **+3**, +7/+8 → **+4**, +9/+10 → **+5**, +11 and up → **+6 to +8** |
+| Skills (*Perception +4*) | A bonus in our matching skill, same table (see the skill list below) |
+| Wisdom, Charisma | Soul and Charisma by **wins** for the role. Score ÷ 2 is a starting point; a low score marks the soft spot |
+| Strength, Dexterity, Constitution, Intelligence, saving throw bonuses | Nothing of their own: they're already in the hit points, the attack bonus and the skills |
+| Speed, senses | Metres, 5 ft = 1 m |
+| Damage (*2d8 + 4*) | Keep the dice, swap the modifier for the bonus (*2d8 + 3*). Against player characters it's the threat die |
+| Multiattack | A second attack as an ability (elite and up), or a free Widespread when the attacks go to several targets |
+| Advantage from a trait (pack tactics) | A free Precise in that situation |
+| Knocks prone, grapples or pushes on a hit | A free Cunning |
+| Extra damage on a hit (a charge) | A free Mighty in that situation. A trait that does both picks one: one manoeuvre an action |
+| Its save DC (*DC 13 Constitution*) | The target defends against its bonus. A trap or a poison is a hazard: DC 10 → strength 2, 12 → 3, 15 → 4–5, 18+ → 6–8 |
+| Recharge, X/day | Once a fight, or X a day |
+| Spellcasting | The matching class's spells and perks, rolled with its bonus. Cantrips are free; slotted spells cost Soul off its track, or X a day |
+| Legendary Resistance | Fate, as the role says |
+| Legendary actions | *Action economy* |
+| Lair actions | Hazards of the place |
+| Resistances, immunities, vulnerabilities | Resistance, immunity, weakness. *Poisoned* becomes *Imprecise* |
+| Swarm | A unit |
+
+| 5E skill | Ours |
+|---|---|
+| Athletics | Strength (Fighter) |
+| Acrobatics; Stealth in town | Acrobatics (Juggler) |
+| Sleight of Hand | Tricks and sleight of hand (Juggler) |
+| Stealth in the wild | Wilderness movement (Hunter) |
+| Perception, Survival | Wilderness survival (Hunter); Urban survival (Juggler) in town |
+| Nature, Animal Handling | Hunting, Animal handling (Hunter) |
+| Insight, Deception, Persuasion, Performance | Influence and deception (Juggler); bargaining: Negotiation (Medic) |
+| Intimidation | Confidence and intimidation (Fighter) |
+| Medicine | Healing the human body (Medic) |
+| Arcana, History, Religion, Investigation | Scholarship (Incantor) |
+
+**From DrD2.** Our player characters are built on DrD2's scale, so its bonuses carry straight over. What doesn't carry is its NPC system: DrD2 NPCs exhaust Fate and have no hit points. So read each part for **what it tells you about the role**, and build the numbers from the budget.
+
+| DrD2 | Tells you | Ours |
+|---|---|---|
+| **Charakteristika X–Y** | How good it is: the range is weak to strong individuals | The bonus, as it is, for the areas named after it (*zejména …*). Everything else is plain dice |
+| **Sudba** | How much it matters, and how hard it is to finish | Fate by role. A big Sudba on a creature that's ordinary in the story (a boar's 5) gives nothing; 10+ usually marks an important one |
+| **Hranice: Tělo** | How tough it is: 2 frail, 3–4 ordinary, 5–6 tough, 7+ elite | Body from the budget for that role and its size, or a 5E creature of the same kind |
+| **Hranice: Duše, Vliv** | How easily it breaks: up to 3 one push, 4–6 two, 7+ three | Soul and Charisma in wins; the limit × 2 lands there |
+| **Special abilities** (talents, skin, natural weapons, vulnerabilities) | What it's good at and how it can be beaten | **By effect, not by name.** A situational edge is a free manoeuvre in that situation; a steady edge, +1–2 bonus in that area; a hide, armour; *Nezranitelnost* is immunity, *Zranitelnost* weakness, *Neschopnost* Incapacitated. An ability "found at" a class is our perk of that class |
+| **Oblíbený manévr** (favourite manoeuvre) | How it fights | Not free: the one it usually pays for, and a hint for the DM |
+| **Weapon kinds** (krátká, dlouhá, drtivá, symbol, …) | Reach and damage type | A natural weapon by size; **no free manoeuvre** from the kind. *Symbol* attacks Soul or Charisma |
+| **Jak jedná, Jak bojuje, Jakou roli má v příběhu** | Behaviour and hooks | The description, nearly as it is |
+| **Varianta** | A related creature | Its own block: *As [the base], except:* |
+
+#### Writing the description
+
+The stat block holds the numbers; the creature's description (its lore, Markdown) holds the rest, in DrD2's order, a few lines each:
+- **What it is:** what people know and believe about it.
+- **How it acts:** what it wants, when it avoids or seeks people, how to talk to it.
+- **How it fights:** its tactics, when it flees or won't back down, which manoeuvre it likes. Say its soft spot here.
+- **Its place in the story:** two or three hooks, each as prey, attacker, tool, ally or legend.
+- **Variants,** each with its own short stat block.
+
+#### Example: one boar, three ways
+
+**From scratch:** a Medium animal, **ordinary**. The budget gives bonus +2, Body about 11, a thick hide (armour 1), Soul and Charisma at one win, threat d6, one situational free manoeuvre and one ability.
+
+**From 5E** (boar: CR ¼, 11 hit points, AC 11, tusk +3 for 1d6 + 1 slashing, *Charge* adds damage and knocks prone, *Relentless*, Wisdom 9, Charisma 5, speed 40 ft):
+- CR ¼ means ordinary, and the 11 hit points fit.
+- Attack +3 gives +2.
+- *Charge* does two things, so it keeps one: knocking prone is a free Cunning.
+- *Relentless* (staying up once at 1) would do for its ability; DrD2's *cornered* does the same job, and the block uses that.
+- Charisma 5 halves to 2; one win either way.
+
+**From DrD2** (divočák: Charakteristika 1–3 especially for running, smell, close combat and moving quietly in the wild; Sudba 5; Hranice Body 4, Soul 2, Charisma 3; *proficiency when cornered*, tusks, *bison hide*, keen senses; favourite manoeuvre Mighty):
+- A Body limit of 4 means ordinary. Soul and Charisma limits of 2 and 3 mean one push each.
+- Sudba 5 on an ordinary animal gives no Fate.
+- The bonus is 1–3, so a sow +2 and the old tusker +3, but only in the named areas.
+- *Proficiency when cornered* is an edge in one situation, so it becomes a free manoeuvre then; its favourite, Mighty, is the natural pick.
+- *Bison hide* is armour 1.
+
+All three land on the same animal:
+
+```npc
+name: Wild boar
+subtitle: Medium animal, ordinary
+armour: Thick hide (1)
+speed: 8 m
+threat: d6
+body: 11
+soul: 4
+charisma: 4
+skills: Foot close combat +2, Wilderness movement +2, Wilderness survival +2 (smell); an old tusker +3
+senses: Keen smell and hearing; short-sighted
+## Traits
+***Charge.*** After moving 4 m straight at a target, a free **Cunning** on the hit: knocked prone.
+***Cornered.*** When it can't flee, a free **Mighty** on every attack.
+## Actions
+***Tusks.*** Reach 1 m. Hit: 1d6 + 2 slashing.
+```
+
+- **Its soft spot is the open field.** It flees anything it notices in time, and it only gets dangerous when it's surprised or cornered.
+- **Against starting characters it's an easy fight,** half a party's attacks for one round. Two boars and a sow with piglets (who won't flee) make a normal one.
 
 ### Writing a stat block
 
@@ -530,32 +752,34 @@ No fairies, vampires or ghosts as player races.
 
 ### Backgrounds
 
-All 5E PHB backgrounds (2014 and 2024), merged, with the Entertainer as our Bard, plus our **Monster hunter**: 20 in all. **No skill proficiencies.** A background gives gear (classes give none, so each brings a weapon), coins, Material, languages and **known settings**: what the character knows, with no flat bonus; the DM may allow a temporary **+1** when the player asks and it fits.
+15 backgrounds: Entertainer, Craftsman, Builder, Hermit, Scholar, Servant, Monster hunter, Soldier, Criminal, Outlander, Noble, Sailor, Merchant, Peasant, Acolyte. **No skill proficiencies.**
 
-**Swords don't sell:** only a knight, noble or armourer pays a sword's worth; anyone else pays its iron, about a tenth. So Soldiers and Nobles may start with one, and it counts at melt value.
+**Three fortunes:** the player says how lucky the character has been in each of three sections: **poor, commoner or fortunate.**
+- **Arms and armour** (the same for everyone):
+  - Poor: one weapon (no swords) and a padded hood or gambeson.
+  - Commoner: two weapons, or a weapon and a shield, no swords; light armour (Protection up to 3).
+  - Fortunate: swords allowed; up to medium armour (Protection up to 6).
+  - A ranged weapon comes with a quiver and 20 ammunition.
+- **The background:** each has a poor, commoner and fortunate variant with its own gear, coins and Material.
+- **A mount:** poor none, commoner a riding horse, fortunate a warhorse.
 
-| Background | Gear, in short | Coins | Material | Languages | Value |
-|---|---|---|---|---|---|
-| Acolyte | Quarterstaff, mace or club; holy symbol, prayer book, vestments, calligrapher's things | 15 sp | 3 | 1 | ~190 sp |
-| Artisan | One craft's tools; light hammer, handaxe or dagger; guild letter | 70 sp | 5 | 0 | 115–155 sp |
-| Charlatan | Disguise or forgery kit; a con; dagger, fine clothes | 20 sp | 1 | 1 | ~210 sp |
-| Criminal | Two daggers (or dagger and club), leather jerkin, crowbar, thieves' tools, dark clothes | 50 sp | 1 | 1 | ~145 sp |
-| Bard | A simple weapon; an instrument; two costumes, mirror, perfume, admirer's favour | 10 sp | 3 | 1 | 120–220 sp |
-| Farmer | Spear, quarterstaff or flail; sickle, carpentry tools, healer's things, iron pot, shovel | 30 sp | 6 | 0 | 95–115 sp |
-| Folk hero | One craft's tools; spear, handaxe, quarterstaff or flail; gambeson, shovel, iron pot | 30 sp | 2 | 0 | 100–155 sp |
-| Guard | Spear and light crossbow, or spear and shield; gambeson, iron cap, lantern, manacles | 30 sp | 1 | 0 | 140–180 sp |
-| Guide | Shortbow, or sling and spear or handaxe; hide jerkin, cartographer's tools, tent, bedroll | 25 sp | 2 | 1 | ~125 sp |
-| Hermit | Quarterstaff, herbalism tools, book of philosophy, notes, lamp, bedroll | 5 sp | 6 | 1 | ~210 sp |
-| Merchant | Dagger, mace or club; scales, counting cloth, ledger, writing things | 50 sp | 3 | 1 | 125–140 sp |
-| Noble | Dagger, spear, mace, or a longsword, shortsword or rapier; fine clothes, signet ring, pedigree, perfume | 20 sp | 0 | 1 | 255–275 sp |
-| Outlander | Quarterstaff, spear, handaxe or greatclub, or a shortbow; hide jerkin, trap, trophy | 30 sp | 6 | 1 | 95–110 sp |
-| Sage | Quarterstaff, knife, book of history, a dead colleague's letter, writing things, robe | 5 sp | 2 | 2 | ~220 sp |
-| Sailor | Club, dagger or handaxe; leather jerkin, navigation things, rope, lucky charm | 35 sp | 2 | 1 | ~120 sp |
-| Scribe | Dagger or quarterstaff; knife, writing things, parchment, lamp, robe | 60 sp | 2 | 1 | ~120 sp |
-| Soldier | Spear and shortbow, two military weapons (swords too), or one and a shield; gambeson, kettle hat, insignia, trophy | 25 sp | 4 | 0 | 120–180 sp |
-| Urchin | Sling or club; dagger, home-town map, pet mouse, token of the parents | 60 sp | 1 | 0 | ~85 sp |
-| Wayfarer | Two daggers, thieves' tools, gaming set, bedroll, pouches | 25 sp | 1 | 1 | ~100 sp |
-| Monster hunter | One **silvered** weapon, a sword too; hide jerkin, torches, rope, trophy, bedroll | 3 sp | 2 | 0 | 105–125 sp |
+| Start | Fortunes, in any sections |
+|---|---|
+| Rags to Riches (3) | Commoner, commoner, poor |
+| Seasoned (7) | Fortunate, commoner, poor |
+| Veteran (9) | Fortunate, commoner, commoner |
+
+**Each background also gives:**
+- **Known settings:** what the character knows. There's no flat bonus; the DM may allow a temporary **+1** when the player asks and it fits.
+- Extra languages.
+- d8 tables of **archetypes** (with recommended picks) and of **quirks, ideals, bonds and flaws**, each with a ninth line: make up your own.
+
+**Gear:**
+- Only gear that serves play: kits as bundles, tools, rope, light.
+- Clothes are free text on the sheet.
+- **Swords don't sell:** only a knight, a noble or an armourer pays what one is worth; anyone else pays for its iron, about a tenth.
+
+**Load** is judged by eye against three silhouettes. Medium load costs what medium armour does (1 Body to attempt), heavy what heavy armour does (2); the worse of load and armour counts. A mount carries the load while it's there.
 
 ### Languages
 
