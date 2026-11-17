@@ -29,17 +29,11 @@ export const fetchCampaignsPlayerIsPartOf = async (
     (campaign) => campaign.dm === playerId,
   );
 
-  // Filter campaigns where the player is a participant (not DM)
-  const ownedCharacters = (await fetchCharacters()).filter(
-    (character) => character.owner === playerId,
-  );
+  // Campaigns the player was added to, with or without a character
   const campaignPlayers = await fetchCampaign_Players();
-
   const campaignsPlayerIsPartOf = campaigns.filter((campaign) =>
     campaignPlayers.some(
-      (cp) =>
-        cp.campaign_id === campaign.id &&
-        ownedCharacters.some((character) => character.id === cp.character_id),
+      (cp) => cp.campaign_id === campaign.id && cp.player === playerId,
     ),
   );
 
@@ -52,33 +46,15 @@ export const fetchCampaignsPlayerIsPartOf = async (
 export const fetchPlayersInCampaign = async (
   campaignId: number,
 ): Promise<import("../types/database.types").Tables<"profiles">[] | null> => {
-  const campaignPlayers = await fetchCampaign_Players();
-  const characters = await fetchCharacters();
-  const profiles = await fetchProfiles();
-
-  console.log(profiles);
-  console.log(profiles.map((p) => p.id));
-
-  // Get character IDs for the given campaign
-  const charactersInCampaign = campaignPlayers
+  const [campaignPlayers, profiles] = await Promise.all([
+    fetchCampaign_Players(),
+    fetchProfiles(),
+  ]);
+  const playerIds = campaignPlayers
     .filter((cp) => cp.campaign_id === campaignId)
-    .map((cp) => cp.character_id);
-
-  // Get player IDs for those characters
-  const playerIdsInCampaign = charactersInCampaign.map((charId) => {
-    const character = characters.find((char) => char.id === charId);
-    return character ? character.owner : null;
-  });
-
-  // Get profiles for those player IDs
-  const playersInCampaign = profiles.filter((profile) => {
-    console.log("Checking profile:", profile.id);
-    return playerIdsInCampaign.includes(profile.id);
-  });
-
-  console.log("Players in campaign:", playersInCampaign);
-
-  return playersInCampaign.length > 0 ? playersInCampaign : null;
+    .map((cp) => cp.player);
+  const players = profiles.filter((profile) => playerIds.includes(profile.id));
+  return players.length > 0 ? players : null;
 };
 
 export const fetchCampaignDetails = async (campaignId: number) => {
@@ -96,7 +72,7 @@ export const fetchCampaignDetails = async (campaignId: number) => {
   const memberships = campaignPlayers.filter(
     (cp) => cp.campaign_id === campaignId,
   );
-  const memberIds = memberships.map((cp) => cp.character_id);
+  const memberIds = memberships.map((cp) => cp.player);
 
   const playerName = (profileId: string) =>
     profiles.find((p) => p.id === profileId)?.display_name || "Unknown";
@@ -106,21 +82,20 @@ export const fetchCampaignDetails = async (campaignId: number) => {
     userId: user.id,
     isDm: campaign.dm === user.id,
     dmName: campaign.dm ? playerName(campaign.dm) : null,
-    members: characters
-      .filter((c) => memberIds.includes(c.id))
-      .map((character) => ({
-        character,
-        playerName: playerName(character.owner),
-        // Per-campaign state, like merit points
-        membership: memberships.find((m) => m.character_id === character.id)!,
-      })),
-    // Characters the DM can still add to the campaign
-    availableCharacters: characters
-      .filter((c) => !memberIds.includes(c.id))
-      .map((character) => ({
-        character,
-        playerName: playerName(character.owner),
-      })),
+    // Players added by the DM, each with the character they put forward (if any)
+    members: memberships.map((membership) => ({
+      membership,
+      player: profiles.find((p) => p.id === membership.player) ?? null,
+      playerName: playerName(membership.player),
+      character:
+        characters.find((c) => c.id === membership.character_id) ?? null,
+    })),
+    // People the DM can still add: everyone but the DM and those already in
+    availablePlayers: profiles.filter(
+      (p) => p.id !== campaign.dm && !memberIds.includes(p.id),
+    ),
+    // The user's own characters, to put one forward
+    myCharacters: characters.filter((c) => c.owner === user.id),
   };
 };
 

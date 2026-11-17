@@ -3639,7 +3639,9 @@ The pages added on 2026-10-28 hold rules only; their examples and story bits are
 Built so far: a campaign overview (cover, name, description, DM, characters) and a campaign updates feed.
 
 - **Creating:** users with the `dm` or `admin` role start campaigns at `/campaigns/new` and become their DM.
-- **Characters:** the DM adds and removes characters; a player can take their own character out ("Leave campaign").
+- **Players, not characters** *(2026-11-17)*: the DM adds **players** (any account but their own) and removes them. A player then **puts one of their characters forward**, changes it or withdraws it, on their own card; until then the card shows the player's name and avatar. A player added without a character already sees the campaign and its updates, and can post. A player can leave ("Leave campaign").
+  - **Merit points** belong to the player's place in the campaign (`campaign_players`, one row per player), so they stay when the character is swapped.
+  - In the database: `campaign_players.player` (unique per campaign), `character_id` nullable; the player sets it through `set_campaign_character`, never by a direct update.
 - **Updates:** the DM and players post to the campaign's feed with a rich text editor (bold, italics, headings, lists, quotes, links, pictures). Posts are stored as Markdown; pictures go to the `campaigns` bucket under `<campaign id>/updates/`.
 - The database enforces the same: only the DM edits or deletes a campaign or changes its character list.
 

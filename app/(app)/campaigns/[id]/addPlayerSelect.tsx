@@ -1,36 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useDict } from "@/lib/i18n/client";
 
-interface AddCharacterSelectProps {
-  options: { id: number; label: string }[];
-  onAdd: (characterId: number) => Promise<void>;
+interface AddPlayerSelectProps {
+  options: { id: string; label: string }[];
+  onAdd: (playerId: string) => Promise<void>;
 }
 
-export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
+/** The DM picks a player to add; the player brings a character later */
+export const AddPlayerSelect: React.FC<AddPlayerSelectProps> = ({
   options,
   onAdd,
 }) => {
   const [selected, setSelected] = useState("");
   const t = useDict().campaigns;
 
-  // Say why there's nothing to add, instead of showing nothing
   if (options.length === 0) {
-    return (
-      <p className="text-sm text-dnd-ink/70 mb-8">
-        {t.noneToAdd}{" "}
-        <Link href="/characters/new" className="link">
-          {t.createOne}
-        </Link>
-        {t.first}
-      </p>
-    );
+    return <p className="text-sm text-dnd-ink/70 mb-8">{t.everyoneIn}</p>;
   }
 
   return (
-    <div className="flex items-center gap-2 mb-8">
+    <div className="flex flex-wrap items-center gap-2 mb-8">
       <select value={selected} onChange={(e) => setSelected(e.target.value)}>
         <option value="" disabled>
           {t.choose}
@@ -45,7 +36,7 @@ export const AddCharacterSelect: React.FC<AddCharacterSelectProps> = ({
         type="button"
         disabled={!selected}
         onClick={async () => {
-          await onAdd(Number(selected));
+          await onAdd(selected);
           setSelected("");
         }}
       >

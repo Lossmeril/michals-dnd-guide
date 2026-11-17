@@ -97,21 +97,24 @@ export type Database = {
       campaign_players: {
         Row: {
           campaign_id: number
-          character_id: number
+          character_id: number | null
           id: number
           merit_points: number
+          player: string
         }
         Insert: {
           campaign_id: number
-          character_id: number
+          character_id?: number | null
           id?: number
           merit_points?: number
+          player: string
         }
         Update: {
           campaign_id?: number
-          character_id?: number
+          character_id?: number | null
           id?: number
           merit_points?: number
+          player?: string
         }
         Relationships: [
           {
@@ -126,6 +129,13 @@ export type Database = {
             columns: ["character_id"]
             isOneToOne: false
             referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_players_player_fkey"
+            columns: ["player"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1209,6 +1219,10 @@ export type Database = {
           p_role: Database["public"]["Enums"]["user_role"]
           p_user: string
         }
+        Returns: undefined
+      }
+      set_campaign_character: {
+        Args: { p_campaign_id: number; p_character_id: number | null }
         Returns: undefined
       }
       set_merit_points: {

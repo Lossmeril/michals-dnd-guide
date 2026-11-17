@@ -12,14 +12,16 @@ import { campaignCover } from "@/lib/campaignCover";
 import { useLoad } from "@/lib/hooks/useLoad";
 import { fetchCampaignDetails } from "@/lib/specialFecthers/playerCampaigns";
 import type { Campaign } from "@/lib/types/campaign";
+import Link from "next/link";
 import {
-  addCharacterToCampaign,
+  addPlayerToCampaign,
   deleteCampaign,
-  removeCharacterFromCampaign,
+  removePlayerFromCampaign,
   saveCampaign,
+  setCampaignCharacter,
   setMeritPoints,
 } from "./actions";
-import { AddCharacterSelect } from "./addCharacterSelect";
+import { AddPlayerSelect } from "./addPlayerSelect";
 import { CoverUpload } from "./coverUpload";
 import { useDict } from "@/lib/i18n/client";
 
@@ -45,7 +47,7 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
 
   if (!details) return <p>{t.notFound}</p>;
 
-  const { campaign, userId, isDm, dmName, members, availableCharacters } =
+  const { campaign, userId, isDm, dmName, members, availablePlayers, myCharacters } =
     details;
   const cover = campaignCover(campaign);
 
@@ -61,20 +63,30 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
     setCampaign(data);
   };
 
-  const addCharacter = async (characterId: number) => {
-    const { error } = await addCharacterToCampaign(campaign.id, characterId);
+  const addPlayer = async (playerId: string) => {
+    const { error } = await addPlayerToCampaign(campaign.id, playerId);
     if (error) toast.error(error);
     else reload();
   };
 
-  const removeCharacter = async (characterId: number, name: string) => {
-    if (!window.confirm(t.takeOut(name))) return;
-    const { error } = await removeCharacterFromCampaign(campaign.id, characterId);
+  const removePlayer = async (playerId: string, name: string) => {
+    const self = playerId === userId;
+    if (!window.confirm(self ? t.leaveConfirm : t.takeOut(name))) return;
+    const { error } = await removePlayerFromCampaign(campaign.id, playerId);
     if (error) toast.error(error);
     else {
-      toast.success(t.left(name));
+      toast.success(self ? t.left : t.removed(name));
       reload();
     }
+  };
+
+  const putForward = async (value: string) => {
+    const { error } = await setCampaignCharacter(
+      campaign.id,
+      value ? Number(value) : null,
+    );
+    if (error) toast.error(error);
+    else reload();
   };
 
   return (
@@ -110,43 +122,73 @@ const CampaignDetailsPage = ({ params }: PageProps<"/campaigns/[id]">) => {
         className="mb-20"
       />
 
-      <Heading level={2}>{t.characters}</Heading>
+      <Heading level={2}>{t.players}</Heading>
       {isDm && (
-        <AddCharacterSelect
-          options={availableCharacters.map(({ character, playerName }) => ({
-            id: character.id,
-            label: `${character.name} (${playerName})`,
+        <AddPlayerSelect
+          options={availablePlayers.map((p) => ({
+            id: p.id,
+            label: p.display_name || t.unknown,
           }))}
-          onAdd={addCharacter}
+          onAdd={addPlayer}
         />
       )}
       <CardGrid empty={t.noMembers} className="mb-20">
-        {members.map(({ character, playerName, membership }) => (
-          <Card
-            key={character.id}
-            title={character.name}
-            imageUrl={character.image_url}
-          >
-            <p className="text-xs text-dnd-ink/75">
-              {t.levelPlayedBy(character.level, playerName)}
-            </p>
-            <MeritCounter
-              points={membership.merit_points}
-              canAward={isDm}
-              canSpend={isDm || character.owner === userId}
-              onChange={(points) => setMeritPoints(membership.id, points)}
-            />
-            {(isDm || character.owner === userId) && (
-              <button
-                type="button"
-                className="button-secondary text-xs px-3 py-1 mt-3"
-                onClick={() => removeCharacter(character.id, character.name)}
-              >
-                {isDm ? t.removeFrom : t.leave}
-              </button>
-            )}
-          </Card>
-        ))}
+        {members.map(({ membership, player, playerName, character }) => {
+          const mine = membership.player === userId;
+          return (
+            <Card
+              key={membership.id}
+              title={character?.name ?? playerName}
+              imageUrl={character?.image_url ?? player?.avatar_url}
+            >
+              <p className="text-xs text-dnd-ink/75">
+                {character
+                  ? t.levelPlayedBy(character.level, playerName)
+                  : t.noCharacterYet(playerName)}
+              </p>
+              {mine &&
+                (myCharacters.length > 0 ? (
+                  <label className="block text-xs font-bold mt-3">
+                    {t.yourCharacter}
+                    <select
+                      className="block mt-1 w-full font-normal"
+                      value={membership.character_id ?? ""}
+                      onChange={(e) => putForward(e.target.value)}
+                    >
+                      <option value="">{t.noCharacter}</option>
+                      {myCharacters.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : (
+                  <p className="text-xs mt-3">
+                    {t.noOwnCharacters}{" "}
+                    <Link href="/characters/new" className="link">
+                      {t.createOne}
+                    </Link>
+                  </p>
+                ))}
+              <MeritCounter
+                points={membership.merit_points}
+                canAward={isDm}
+                canSpend={isDm || mine}
+                onChange={(points) => setMeritPoints(membership.id, points)}
+              />
+              {(isDm || mine) && (
+                <button
+                  type="button"
+                  className="button-secondary text-xs px-3 py-1 mt-3"
+                  onClick={() => removePlayer(membership.player, playerName)}
+                >
+                  {mine ? t.leave : t.removeFrom}
+                </button>
+              )}
+            </Card>
+          );
+        })}
       </CardGrid>
 
       {isDm && (

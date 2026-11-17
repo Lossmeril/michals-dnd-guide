@@ -4,7 +4,6 @@ import { createClient } from "@/utils/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { fetchCampaign, updateCampaign } from "@/lib/endpoints/campaigns";
 import { createCampaign_Player } from "@/lib/endpoints/campaign_players";
-import { fetchCharacter } from "@/lib/endpoints/characters";
 import { removeFolder, uploadImage } from "@/lib/uploadImage";
 import { check, fileFrom, toResult } from "@/lib/result";
 import type { CampaignUpdate } from "@/lib/types/campaign";
@@ -58,30 +57,22 @@ export async function deleteCampaign(campaignId: number) {
   });
 }
 
-export async function addCharacterToCampaign(
-  campaignId: number,
-  characterId: number,
-) {
+/** The DM adds a player; the player puts their character forward later */
+export async function addPlayerToCampaign(campaignId: number, playerId: string) {
   return asDm(campaignId, () =>
-    createCampaign_Player({
-      campaign_id: campaignId,
-      character_id: characterId,
-    }),
+    createCampaign_Player({ campaign_id: campaignId, player: playerId }),
   );
 }
 
-/** The DM can take out any character; a player can take out their own */
-export async function removeCharacterFromCampaign(
+/** The DM can remove any player; a player can leave */
+export async function removePlayerFromCampaign(
   campaignId: number,
-  characterId: number,
+  playerId: string,
 ) {
   const user = await requireUser();
   return toResult(async () => {
-    const [campaign, character] = await Promise.all([
-      fetchCampaign(campaignId),
-      fetchCharacter(characterId),
-    ]);
-    if (campaign?.dm !== user.id && character?.owner !== user.id) {
+    const campaign = await fetchCampaign(campaignId);
+    if (campaign?.dm !== user.id && playerId !== user.id) {
       throw new Error((await getDict()).campaigns.errors.dmOrPlayer);
     }
     const supabase = createClient(await cookies());
@@ -90,9 +81,27 @@ export async function removeCharacterFromCampaign(
         .from("campaign_players")
         .delete()
         .eq("campaign_id", campaignId)
-        .eq("character_id", characterId),
+        .eq("player", playerId),
     );
     return null;
+  });
+}
+
+/** A player puts one of their characters forward, or withdraws it (null) */
+export async function setCampaignCharacter(
+  campaignId: number,
+  characterId: number | null,
+) {
+  await requireUser();
+  return toResult(async () => {
+    const supabase = createClient(await cookies());
+    check(
+      await supabase.rpc("set_campaign_character", {
+        p_campaign_id: campaignId,
+        p_character_id: characterId,
+      }),
+    );
+    return characterId;
   });
 }
 
