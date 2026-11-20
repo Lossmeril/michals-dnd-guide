@@ -1,7 +1,9 @@
 // Building blocks of rulebook pages, shared by the Markdown renderer and the
 // pages still written in code (a class's page)
 
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import { classIdOf } from "@/lib/rules/classNames";
 import { Portrait } from "@/components/ui/mediaObject";
 import { panelClass } from "@/components/ui/panel";
 
@@ -199,3 +201,84 @@ export const RuleCard: React.FC<{
     </div>
   </div>
 );
+
+/** Famous characters, three to a row on wide screens */
+export const FamousGrid: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="clear-both grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 my-6 items-stretch">
+    {children}
+  </div>
+);
+
+const initialsOf = (name = "") =>
+  name
+    .split(/\s+/)
+    .filter((w) => /^\p{Lu}/u.test(w))
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+
+/**
+ * A famous character in a few lines: a small portrait (their initials until
+ * a picture is uploaded), where they're from, and tags for the classes they
+ * would be, each linking to its class page.
+ */
+export const FamousCharacter: React.FC<{
+  name?: string;
+  image?: string;
+  from?: string;
+  /** Class names, comma-separated: "Ranger, Shaman" */
+  classes?: string;
+  align?: string;
+  children?: React.ReactNode;
+}> = ({ name, image, from, classes, align, children }) => {
+  // Commas inside brackets belong to the tag: "Scout (Ghost, Outrider)"
+  const tags = (classes ?? "").split(/,(?![^(]*\))/).map((c) => c.trim()).filter(Boolean);
+  return (
+    <div className={twMerge(panelClass, "flex gap-3 p-3 shadow-sm")}>
+      {image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={image}
+          alt={name ?? ""}
+          loading="lazy"
+          className="w-16 sm:w-20 aspect-[3/4] self-start object-cover rounded-md border border-dnd-gold shrink-0"
+          style={{ objectPosition: cropPosition(align) ?? "top" }}
+        />
+      ) : (
+        <div
+          aria-hidden
+          className="w-16 sm:w-20 aspect-[3/4] self-start flex items-center justify-center rounded-md border border-dashed border-dnd-gold bg-dnd-accent-yellow/60 libre text-xl text-dnd-red-dark/70 shrink-0"
+        >
+          {initialsOf(name)}
+        </div>
+      )}
+      <div className="min-w-0 flex flex-col gap-1">
+        {name && <p className="libre font-bold text-dnd-red text-sm leading-tight">{name}</p>}
+        {from && <p className="text-[0.7rem] italic text-dnd-ink/70 leading-tight">{from}</p>}
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {tags.map((tag) => {
+              const id = classIdOf(tag);
+              const cls =
+                "px-2 py-px rounded-full border border-dnd-red/60 text-[0.7rem] font-bold text-dnd-red bg-dnd-bg";
+              return id ? (
+                <Link key={tag} href={`/rulebook/classes/${id}`} className={twMerge(cls, "hover:bg-dnd-red hover:text-white")}>
+                  {tag}
+                </Link>
+              ) : (
+                <span key={tag} className={cls}>
+                  {tag}
+                </span>
+              );
+            })}
+          </div>
+        )}
+        {children && (
+          <div className="text-xs leading-relaxed hyphens-auto flex flex-col gap-1 mt-1">
+            {children}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

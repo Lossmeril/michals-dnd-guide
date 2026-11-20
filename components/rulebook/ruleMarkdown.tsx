@@ -19,6 +19,8 @@ import { panelClass } from "@/components/ui/panel";
 import { Overline } from "@/components/ui/typography";
 import { hrefOf, slugify } from "@/lib/rulebookNav";
 import {
+  FamousCharacter,
+  FamousGrid,
   Formula,
   type ImageLayout,
   Note,
@@ -167,6 +169,18 @@ const buildComponents = (lang: Lang, renderBlock?: RenderBlock): Components => {
       <RuleCard title={title} subtitle={subtitle} image={image} id={id}>
         {children}
       </RuleCard>
+    ),
+    "rb-famous": ({ children }) => <FamousGrid>{children}</FamousGrid>,
+    "rb-character": ({ title, image, from, classes, align, children }) => (
+      <FamousCharacter
+        name={title}
+        image={image}
+        from={from}
+        classes={classes}
+        align={align}
+      >
+        {children}
+      </FamousCharacter>
     ),
     "rb-statblock": ({ kind, source, wide }) => {
       if (!isStatBlockKind(kind)) return null;

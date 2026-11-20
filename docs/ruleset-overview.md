@@ -3911,7 +3911,7 @@ Drafted while writing the pages, to confirm:
 **Consolidated 2026-11-14:** every page after Manoeuvres rewritten in prose with explanatory examples and notes; each rule stated once (poisons on *Traps and hazards*, armour in a hit on *Defending and getting hit*, travel rules on *Travel* with the tables in *Useful tables*). English only for now: the old Czech halves of these pages were dropped and get rewritten once the English settles.
 
 - **Introduction** *(the chapter was called "Finished" until 2026-11-15)*: What this game is · Dice rolls (including saving throws) · Advantage · Bonuses
-- **Classes:** How classes work · Basic classes · Advanced classes and aspects · Mighty classes · one page per class (skills, aspects, perks)
+- **Classes:** How classes work · Basic classes · Advanced classes and aspects · Mighty classes · Who would they be? (famous characters and their classes, for new players; 2026-11-20) · one page per class (skills, aspects, perks)
 - **Resources:** Resources · Danger Level · Cost to attempt · Exhaustion · Scars · Healing · Item scars · Dying
 - **Combat:** Turns and actions · Manoeuvres · Defending and getting hit (the defense roll, undefended attacks, threat dice and armour in a hit, resistances) · Conditions (with penalties as mirrors of the manoeuvres) · NPCs
 - **Magic:** Casting magic · Durations and concentration · Sigils · Ritual items · Control and mind reading · Countering magic · Substances (poisons, narcotics, potions, elixirs, with a table of what works on what)

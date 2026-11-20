@@ -33,7 +33,7 @@ export const KNOWN = {
     "chapters",
     "travel-calculator",
   ],
-  containerDirective: ["example", "note", "stats", "cards", "card"],
+  containerDirective: ["example", "note", "stats", "cards", "card", "famous", "character"],
 } as const;
 
 const isDirective = (node: Nodes): node is Directive =>

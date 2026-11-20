@@ -19,6 +19,7 @@ const ROWS: [string, string][] = [
   ['::video{src="https://youtu.be/…" caption="…"}', "A video: a YouTube link (watch, youtu.be or shorts; t=90 starts it at 1:30) becomes an embedded player, any other link plays as a file. \"Upload video\" puts an MP4 or WebM (up to 50 MB) in storage and inserts this for you. Optional width=\"600\" and, for files, poster=\"…\" (a still shown before it plays)"],
   [':::stats[Caption] + ::stat{r="body" base="5" exhausted="2" scarred="1"}', "Resource bars, e.g. before and after"],
   ['::::cards + :::card[Title]{#id image="…" subtitle="…"}', "Cards in a column, e.g. conditions; {#id} lets links jump to one"],
+  ['::::famous + :::character[Name]{image="…" from="…" classes="Ranger, Shaman"}', "Famous characters as small cards, three in a row: a thumbnail (initials when there's none; align=\"top\" picks the crop), where they're from, and class tags that link to the class pages. A sentence or two of text, then :::"],
   ["```npc (or companion, unit, network, organization, ritual-item)", "A stat block: `key: value` lines (name, subtitle, image, body, soul, charisma, …), then ## sections. emblem: a coat of arms or logo shown by the name, allegiance: whose side it's on. A ritual-item is a small card to fill in by hand: just name, subtitle and emblem. ```npc wide spans the page"],
   [":::en / :::cs", "Text for one language only, e.g. an example that only makes sense in Czech. Close with :::"],
   ['::creature{id="wyvern"}', "A creature's stat block from the bestiary, by its id (shown on the real page, not in the preview)"],

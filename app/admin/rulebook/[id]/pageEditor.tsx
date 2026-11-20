@@ -50,6 +50,7 @@ const SNIPPETS: { label: string; text: string; block?: boolean }[] = [
   { label: "Table", block: true, text: "| Column | Column |\n|---|---|\n| | |" },
   { label: "Cards", block: true, text: "::::cards\n:::card[|Title]{subtitle=\"\"}\nText.\n:::\n::::" },
   { label: "Cards, 3 in a row", block: true, text: "::::cards{cols=\"3\"}\n:::card[|Title]{image=\"\"}\nText.\n:::\n:::card[Title]\nText.\n:::\n:::card[Title]\nText.\n:::\n::::" },
+  { label: "Famous characters", block: true, text: "::::famous\n:::character[|Name]{image=\"\" from=\"\" classes=\"\"}\nWhy they fit.\n:::\n::::" },
 ];
 
 const DATA_BLOCKS = [
