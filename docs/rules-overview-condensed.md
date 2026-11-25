@@ -8,15 +8,66 @@ The whole ruleset in one file, written to be handed to a language model (or a ne
 
 ---
 
-## 0. Notes for a model planning with these rules
+## 0. Read this first: a briefing for the next model
 
-- **This is not 5E.** It borrows 5E's weapons, conditions, spells and stat blocks, but player characters have **no attributes and no hit points**. Never give a player character hit points, Strength scores or saving throw bonuses.
-- **Everything a player character does is a roll with a class level,** and every failure can be averted by spending points from a pool. Design encounters around **what failure costs** (the Danger Level), not around damage races.
-- **NPCs are 5E-like:** stat blocks with hit points (their Body track), plus small Soul and Charisma tracks that can be beaten with fear or words. To make one, follow *Building NPCs* (section 5): from scratch, or copied from a 5E or DrD2 stat block.
-- **Units:** metres (5 ft = 1 m), silver pennies (5E's gold × 10 = our silver), a round is 6 seconds.
-- **Setting:** gritty, low-to-mid fantasy in a Central-European feel (around 1300–1400). Magic is real but limited; lasting magic items are rare; plate is a fortune.
-- **Language:** refer to player characters as *they/them* or *you*. Rules terms are capitalised as here: Body, Soul, Charisma, Danger Level, Scar, Fate, Bond, Material.
-- **Tone:** dry, a bit joking, to the point.
+You're about to work with a homebrew system that looks familiar and isn't. Most mistakes come from filling a gap with what 5E or DrD2 would do. This section is what I'd want to know before touching it.
+
+### What you're dealing with
+
+- **A hybrid, not a variant.** The engine (pools, Danger Level, averting failure, manoeuvres, magic as skills) comes from **DrD2**. The content (weapons, conditions, spells, monsters, the stat block format) comes from **5E**. When the two clash, the hybrid usually keeps DrD2's *idea* and 5E's *numbers*.
+- **Player characters have no attributes and no hit points.** Never give one hit points, a Strength score, an AC or a saving throw bonus. Their pools (Body, Soul, Charisma, 15 points in all) are both their hit points and their stamina.
+- **NPCs are the opposite:** 5E-like stat blocks whose Body track works as hit points, plus small Soul and Charisma tracks. They never exhaust; only important ones have Fate.
+- **Setting:** gritty low-to-mid fantasy with a Central European feel (Bohemia around 1300–1400). Silver is the everyday coin, a gold piece is months of wages, plate is a fortune, lasting magic items are rare, and magic is real but rarely seen.
+- **Status:** a living draft. Core resolution is confirmed, and much of it comes from the table. Much of the rest (NPC budgets, domains, battles, sieges, backgrounds, hidden classes) is new, marked *(Draft)*, and **untested at the table**. Treat those numbers as estimates.
+
+### Strengths: what the system does well, so don't "fix" it
+
+- **Every failure is a choice.** A lost roll isn't final: the player decides whether to pay at the Danger Level, take a Scar, or accept it. This is the heart of the game; protect it.
+- **One lever for everything.** The Danger Level prices physical, mental and social risk alike, so a debate, a river crossing and a sword fight run on the same rule. A good DM moves it constantly.
+- **Scars are story.** A Scar is a broken arm, a nightmare, a ruined name, not a number going down. Describe them.
+- **Words win fights.** NPCs' Soul and Charisma tracks make fear, threats and bargaining real ways to end an encounter, often faster than steel.
+- **Free-form builds.** Classes are skill bundles; everyone multiclasses, and advanced and mighty classes unlock from combinations. Odd builds are encouraged.
+- **Few numbers, reused.** A hazard's strength is at once its Danger Level, its dice and its price; a scar level is a scar level everywhere. Lookup tables replace arithmetic.
+
+### Caveats: where models (and people) go wrong
+
+1. **Two kinds of Body.** A player character's Body *pool* (about 3–10) is spent at the Danger Level. An NPC's Body *track* (a guard 11, an ogre 59) is 5E hit points. Never compare them or convert one into the other.
+2. **Damage is asymmetric.** Player characters roll weapon dice + class level against NPC tracks. NPCs roll a **threat die** (d4–d12) against player characters, and the result is a Scar level. NPCs never deal 5E damage to a player character.
+3. **Defending costs the action.** A defense roll uses the action you were about to take, unless you pay the Defense manoeuvre or have a shield. An attack nobody defends against can't be averted. This drives action economy more than anything else.
+4. **Disadvantage always wins.** Unlike 5E, any disadvantage beats any number of advantages. Advantage and disadvantage never stack.
+5. **One manoeuvre per action,** free ones included. **Weapons grant no free manoeuvres** (DrD2 texts and older notes say they do; that rule was dropped).
+6. **"Saving throw" means two things.** Against an attacker or caster, read it as a **defense roll** (a challenge). Against the environment (a trap, poison, a fall), it's a **skill check**. There are no 5E saves.
+7. **Class levels stop at 5,** and there's no Extra Attack, so a party's damage stays around 5E's levels 2–4 however far they advance. **Don't scale encounters by 5E CR alone;** use the role budgets in section 5.
+8. **NPCs have no Danger Level.** Only player characters (and companions, through their master) track one. Don't invent a per-NPC Danger Level.
+9. **Magic is limited by design.** Core spells can't kill (chip damage at most). Every spell needs touch, symbolic touch, sight or contact through a sigil or substance. A specific spell's area can't be widened. Lasting magic items belong to the Necromancer only.
+10. **"Humans and beasts"** in a skill name binds player classes: a Fighter's sword skill doesn't add its level against a wyvern (that's the Ranger and Witcher). NPC attack bonuses work against anyone.
+11. **Similar words, different things.** *Fate* (an important NPC's 1–3 points that turn a lost roll into a win), *Bond* (a companion's pool), *merit points* (rewards for good play, one free resource point each), *level-up points* (advancement), *Power* (organizations, not confirmed). DrD2's *Sudba* and *limits* don't exist here as rules.
+12. **Material is abstract** (1 Material = 1 silver of whatever's needed, named when spent), but rare ingredients must be found in play.
+13. **This file is a summary.** The full [ruleset-overview.md](ruleset-overview.md) wins on any disagreement and holds the reasoning and open questions. The live rulebook in the app is what players read.
+
+### How Michal (the designer and DM) likes things done
+
+- **Story beats numbers.** When a rule and the fiction disagree, the DM decides; rules give the DM a starting point, not a cage.
+- **Tables, not maths.** Precompute answers into lookup tables; prefer steps ("one column right") to multipliers. If you need a formula at the table, the rule is wrong.
+- **Reuse before inventing.** A new effect should borrow an existing perk, condition, hazard line or stat block. A new subsystem needs a very good reason.
+- **Propose, then write.** Suggest content (backgrounds, perks, tables, gear) in conversation and agree on it before it goes into the rulebook or the database.
+- **Plain, dry, a bit joking.** No flowery or "AI-sounding" prose. Short sentences, concrete examples.
+- **Mark what you made up.** Anything not in these rules is labelled **Rule of thumb**, *(est.)* or *(Draft)*, so it can be checked later. Never present an improvised ruling as an existing rule.
+
+### My honest read
+
+- **The core is elegant and holds together.** Resolution, averting, Scars and the Danger Level are consistent, and most later subsystems (hazards, units, networks, domains) are built on the same parts.
+- **The risk is bookkeeping.** Three pools with exhausted and scarred boxes, Scar levels, merit points per campaign, Bond for companions: players may lose track. Keep the table light; don't add trackers.
+- **Fights are swingy at high Danger Levels.** At 4–5 one bad round can empty a pool. That's intended for boss fights; it's harsh as a default. The default is 3 for a reason.
+- **Watch these numbers** when they first meet play: NPC armour 3+ (fights drag), free Mighty on every NPC attack (pressure climbs fast), lopsided pools (a Charisma-0 brute breaks on the first threat), and the economy (silver amounts are realistic for the period, so players feel poor; that's on purpose).
+- **When unsure, ask the DM** rather than guess. A short question beats a confident invention.
+
+### Quick conventions
+
+- **Units:** metres (5 ft = 1 m); silver as the default coin (5E's gold × 10 = our silver); a round is 6 seconds.
+- **Terms** are capitalised as here: Body, Soul, Charisma, Danger Level, Scar, Fate, Bond, Material.
+- **People:** refer to player characters as *they/them* or *you*.
+- **Building NPCs:** follow section 5, from scratch or copied from a 5E or DrD2 stat block.
 
 ---
 
