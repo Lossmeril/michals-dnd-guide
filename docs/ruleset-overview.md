@@ -3857,6 +3857,7 @@ Every item has `price_copper`, set in the item editor (admin only) and never sho
 - **Later:** the DM can grant traits as a **story event**, and a trait can be **removed**, e.g. by overcoming it in the story.
 - **They must affect play,** not only roleplay: the upside and downside hook into the rules (rests, the Danger Level, Scars, advantage, costs to attempt). Illnesses are typical, but not required.
 - **Premade traits** *(2026-11-15)*: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive (a d20 after every rest: even, Soul and Charisma Danger Level starts 1 lower; odd, 1 higher), Pious (advantage resisting seduction and temptation; disadvantage resisting alcohol, and anything immoral costs 1 Soul to attempt).
+  - ***Weak of body*** *(2026-11-25)*: fits, hides and balances where an adult can't, with a free Precise on hiding or sneaking where size helps, and enemies don't target them in a fight until they attack or draw attention. Raw strength costs 2 Body to attempt, any armour (even light) adds 2 Body to its cost to attempt, and Heavy weapons are Feeble.
   - The Traits page's example uses ***Hothead***, which isn't one of them; *Short fuse* is the premade one that fits.
 - **Not for new players** *(2026-11-16)*: the editor's Traits page says so in a story box; a newcomer who wants a flaw or a habit writes it into the personality instead.
 - Traits are flavour and challenge. They don't count towards level (see [Validating a character's level](#validating-a-characters-level)).

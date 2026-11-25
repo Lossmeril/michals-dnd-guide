@@ -803,7 +803,7 @@ Everyone speaks the **Common tongue**. Elves (Second elvish) and Krolls also spe
 
 ### Traits
 
-A trait has an **upside and a downside**, both affecting play, not only roleplay (premade: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive, Pious; or custom with the DM's approval). Any number; the DM can grant or remove them in the story. They don't count towards level.
+A trait has an **upside and a downside**, both affecting play, not only roleplay (premade: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive, Pious, Weak of body; or custom with the DM's approval). Any number; the DM can grant or remove them in the story. They don't count towards level.
 
 ### Leveling
 
