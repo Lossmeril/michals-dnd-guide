@@ -16,6 +16,7 @@ import {
   FaLink,
   FaListOl,
   FaListUl,
+  FaPaperclip,
   FaQuoteLeft,
   FaStrikethrough,
 } from "react-icons/fa6";
@@ -32,6 +33,8 @@ interface RichTextEditorProps {
   disabled?: boolean;
   /** Uploads a picked image and returns its URL; omit to hide the button */
   onUploadImage?: (file: File) => Promise<string | null>;
+  /** Uploads any picked file and returns its URL; the post gets a link to it */
+  onUploadFile?: (file: File) => Promise<string | null>;
   className?: string;
 }
 
@@ -66,8 +69,10 @@ const Toolbar: React.FC<{
   editor: Editor;
   disabled?: boolean;
   onUploadImage?: RichTextEditorProps["onUploadImage"];
-}> = ({ editor, disabled, onUploadImage }) => {
+  onUploadFile?: RichTextEditorProps["onUploadFile"];
+}> = ({ editor, disabled, onUploadImage, onUploadFile }) => {
   const [uploading, setUploading] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
   // Re-render the buttons when the selection's marks change
   const active = useEditorState({
     editor,
@@ -133,6 +138,36 @@ const Toolbar: React.FC<{
           <FaImage /> {uploading ? t.uploading : t.picture}
         </FileButton>
       )}
+      {onUploadFile && (
+        <FileButton
+          secondary
+          accept="*/*"
+          disabled={disabled || uploadingFile}
+          className={twMerge(
+            "inline-flex items-center gap-1.5 text-xs px-2.5 py-1",
+            !onUploadImage && "ml-auto",
+          )}
+          onFile={async (file) => {
+            setUploadingFile(true);
+            const url = await onUploadFile(file);
+            setUploadingFile(false);
+            // Its own paragraph: a link named after the file
+            if (url)
+              chain()
+                .insertContent([
+                  {
+                    type: "paragraph",
+                    content: [
+                      { type: "text", text: file.name, marks: [{ type: "link", attrs: { href: url } }] },
+                    ],
+                  },
+                ])
+                .run();
+          }}
+        >
+          <FaPaperclip /> {uploadingFile ? t.uploading : t.file}
+        </FileButton>
+      )}
     </div>
   );
 };
@@ -143,6 +178,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   placeholder,
   disabled,
   onUploadImage,
+  onUploadFile,
   className,
 }) => {
   const editor = useEditor({
@@ -178,7 +214,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     >
       {editor ? (
         <>
-          <Toolbar editor={editor} disabled={disabled} onUploadImage={onUploadImage} />
+          <Toolbar
+            editor={editor}
+            disabled={disabled}
+            onUploadImage={onUploadImage}
+            onUploadFile={onUploadFile}
+          />
           <EditorContent editor={editor} />
         </>
       ) : (

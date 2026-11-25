@@ -8,6 +8,8 @@ export const imageTargets = {
   profiles: { bucket: "profiles", folder: "" },
   characters: { bucket: "characters", folder: "" },
   campaigns: { bucket: "campaigns", folder: "" },
+  // Not pictures: files attached to campaign updates, for removeFolder
+  campaignFiles: { bucket: "campaign-files", folder: "" },
 
   classes: { bucket: "ruleset", folder: "classes" },
   races: { bucket: "ruleset", folder: "races" },

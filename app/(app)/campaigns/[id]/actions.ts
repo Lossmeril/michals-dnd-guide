@@ -50,6 +50,7 @@ export async function deleteCampaign(campaignId: number) {
   return asDm(campaignId, async () => {
     const supabase = createClient(await cookies());
     await removeFolder(supabase, "campaigns", String(campaignId));
+    await removeFolder(supabase, "campaignFiles", String(campaignId));
     // Updates and the character list go with it (on delete cascade);
     // the characters themselves stay with their players
     check(await supabase.from("campaigns").delete().eq("id", campaignId));

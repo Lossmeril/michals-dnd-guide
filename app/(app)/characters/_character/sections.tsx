@@ -78,6 +78,13 @@ export const Section: React.FC<{
   );
 };
 
+/** Advice for a page of the editor, in the DM's voice */
+const Notice: React.FC<{ notice: { title: string; text: string } }> = ({ notice }) => (
+  <StoryBox title={notice.title} className="mt-0 mb-10">
+    <p>{notice.text}</p>
+  </StoryBox>
+);
+
 // ----- Header: portrait, name, classes and resources -----
 
 interface HeaderProps extends SectionProps {
@@ -551,9 +558,11 @@ export const BackgroundSection: React.FC<BackgroundProps> = ({
 
   return (
     <Section id="background" title={s.background}>
+      <Notice notice={t.editor.occupationNotice} />
       {startLevel !== undefined && (
         <>
           <Heading level={3}>{f.title}</Heading>
+          <Notice notice={t.editor.fortuneNotice} />
           <FortuneChoice startLevel={startLevel} fortunes={build.fortunes} onChange={setFortunes} />
         </>
       )}
@@ -652,6 +661,7 @@ export const GearSection: React.FC<BackgroundProps> = ({
   if (!edit) return null;
   return (
     <Section id="gear" title={s.gear}>
+      <Notice notice={t.editor.fortuneNotice} />
       {!background && <p className="text-sm mb-10">{s.noBackground}</p>}
       {background && (
         <>
@@ -924,9 +934,7 @@ export const TraitsSection: React.FC<
 
   return (
     <Section id="traits" title={s.traits}>
-      <StoryBox title={dict.editor.traitsNotice.title} className="mt-0 mb-10">
-        <p>{dict.editor.traitsNotice.text}</p>
-      </StoryBox>
+      <Notice notice={dict.editor.traitsNotice} />
       <p className="mb-6">
         {s.traitsHelp}
       </p>

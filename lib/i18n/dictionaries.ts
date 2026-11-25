@@ -152,6 +152,14 @@ const en = {
           "Last, the person behind the numbers. Roll or pick from your background's tables if you want a push, and the lines you use go into the personality and backstory. Then write in your own words. A few lines are enough, and playing them well earns merit points.",
       },
     },
+    occupationNotice: {
+      title: "A background is a job",
+      text: "A background is much closer to a real occupation than a class is. It's what your character did for a living: a smith, a soldier, a priest. Their classes are what they're good at, and the two don't have to match. A Soldier needn't be a Fighter, and a Fighter can come from any background: a village smith who turned out handy with a hammer is a Craftsman with Fighter levels.",
+    },
+    fortuneNotice: {
+      title: "Why only the fortunate",
+      text: "Swords and warhorses are expensive. A sword costs about four months of a labourer's wages, and a warhorse more than a town house. A poor farmhand or a common soldier would never own one, so they're kept for the fortunate. You can still win, loot or buy one in play.",
+    },
     traitsNotice: {
       title: "Not for your first character",
       text: "Traits are for players who already know the rules: a downside that bites at the wrong moment can sink a new character fast. If you want a flaw or a habit to play, write it into your personality on the last page instead. It costs you nothing, and playing it well earns merit points.",
@@ -641,6 +649,7 @@ const en = {
     linkAddress: "Link address",
     uploading: "Uploading…",
     picture: "Picture",
+    file: "File",
     tools: {
       bold: "Bold",
       italic: "Italic",
@@ -671,6 +680,9 @@ const en = {
     notImage: "File must be an image.",
     failed: (e: string) => `Error uploading image: ${e}`,
     noFile: "No file",
+    fileTooBig: (mb: number) => `The file must be smaller than ${mb} MB.`,
+    fileFailed: (e: string) =>
+      `Couldn't upload the file (${e}). PDFs, documents, spreadsheets, text, zip, pictures, audio and MP4 or WebM videos are allowed.`,
   },
   customTrait: {
     heading: "Write your own",
@@ -1151,6 +1163,14 @@ const cs: Dict = {
         intro:
           "Nakonec člověk za čísly. Chceš-li postrčit, hoď si nebo vyber z tabulek svého původu; použité řádky se zapíšou do povahy a příběhu. Pak piš vlastními slovy. Stačí pár řádků, a když je budeš dobře hrát, vysloužíš si bonusy.",
       },
+    },
+    occupationNotice: {
+      title: "Povolání není zaměstnání",
+      text: "Povolání se sice říká povolání, ale je to spíš sada dovedností: to, v čem je postava dobrá. Skutečné zaměstnání, tedy čím se postava živila, je její původ: kovář, voják, kněz. Obojí se shodovat nemusí. Voják nemusí být Bojovník a Bojovník může mít jakýkoli původ: vesnický kovář, který se ukázal šikovný s kladivem, je Řemeslník s úrovněmi Bojovníka.",
+    },
+    fortuneNotice: {
+      title: "Proč jen zámožní",
+      text: "Meče a váleční koně jsou drazí. Meč stojí zhruba čtyři měsíce nádeníkovy mzdy a válečný kůň víc než měšťanský dům. Chudý čeledín ani obyčejný voják by takový nikdy neměl, proto zůstávají zámožným. Ve hře ho můžeš vyhrát, ukořistit nebo koupit.",
     },
     traitsNotice: {
       title: "Nevhodné pro nové hráče",
@@ -1649,6 +1669,7 @@ const cs: Dict = {
     linkAddress: "Adresa odkazu",
     uploading: "Nahrávám…",
     picture: "Obrázek",
+    file: "Soubor",
     tools: {
       bold: "Tučně",
       italic: "Kurzíva",
@@ -1679,6 +1700,9 @@ const cs: Dict = {
     notImage: "Soubor musí být obrázek.",
     failed: (e: string) => `Obrázek se nepodařilo nahrát: ${e}`,
     noFile: "Chybí soubor",
+    fileTooBig: (mb: number) => `Soubor musí být menší než ${mb} MB.`,
+    fileFailed: (e: string) =>
+      `Soubor se nepodařilo nahrát (${e}). Povolené jsou PDF, dokumenty, tabulky, text, zip, obrázky, zvuk a videa MP4 nebo WebM.`,
   },
   customTrait: {
     heading: "Vlastní rys",

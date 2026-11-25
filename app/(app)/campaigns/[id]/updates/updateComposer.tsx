@@ -4,6 +4,7 @@ import { useState } from "react";
 import RichTextEditor from "@/components/ui/richTextEditor";
 import { useImageUpload } from "@/lib/hooks/useImageUpload";
 import { uploadUpdateImage } from "./actions";
+import { uploadUpdateFile } from "./uploadFile";
 import { useDict } from "@/lib/i18n/client";
 
 interface UpdateComposerProps {
@@ -40,6 +41,7 @@ export const UpdateComposer: React.FC<UpdateComposerProps> = ({
         placeholder={t.sharePlaceholder}
         disabled={posting}
         onUploadImage={upload}
+        onUploadFile={(file) => uploadUpdateFile(campaignId, file)}
         className="w-full"
       />
       <button type="button" onClick={post} disabled={posting || !body.trim()}>
