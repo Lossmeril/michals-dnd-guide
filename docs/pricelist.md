@@ -477,6 +477,10 @@ A bed in the common room is 2 cp; a private room 1 sp.
 | Copying a book *(est.)* | 150 sp: a scribe's half year |
 | A blessing or a prayer said for you *(est.)* | 1 sp to the church box |
 | Ransom of a captured knight *(est.)* | About a year's income: 30–100 gp |
+| Company: a quick visit, cheap house or bathhouse *(est.)* | 2–5 cp |
+| Company: a whole night, ordinary house *(est.)* | 1 sp |
+| Company: a bathhouse evening (bath, wine, company) *(est.)* | 2–3 sp |
+| Company: a courtesan for the wealthy *(est.)* | 10–30 sp a night, plus gifts |
 
 **Healing in the rules:** a physician or a barber's fee buys the treatment. **Healing a Scar** still costs 5 resource points per level and a skill check. The healer can pay those points only with a perk such as *Good Samaritan*. The fee is for their time.
 
@@ -545,6 +549,8 @@ A labourer working six days a week earns about 300 sp a year, roughly the cost o
 | Farmhand, live-in servant, maid | 3–5 cp + board | 25–50 sp a year + food and clothing |
 | Journeyman craftsman | 5–7 cp + board | 3–4 sp a week |
 | Minstrel | 5 cp–2 sp + food, per performance | — |
+| Bathhouse maid, harlot (ordinary house) *(est.)* | 2–5 cp a visit, 1 sp a night, less the house's cut | — |
+| Courtesan *(est.)* | 10–30 sp a night + gifts | — |
 | Unskilled day labourer (town) | 1 sp | about 25 sp a month |
 | Silver miner (Kutná Hora) | 1–1.5 sp | 7–8 sp a week |
 | Town guard, watchman | 1–1.5 sp | 30–40 sp a month |
