@@ -180,7 +180,12 @@ A level-N scar **blocks N points** of its resource until it's healed, and the ch
 
 Healing costs 5 points per level (see Healing a scar above).
 
-**Overflow and dying:** if a scar's level exceeds the pool's boxes that aren't scarred yet (exhausted ones count) *(confirmed, 2026-11-14)*, the scar blocks the **entire pool** and the character immediately enters the **dying** stage, as in 5E. The same happens if a character takes a scar while that pool is already fully blocked. This applies to all three pools, and each leads to an adventure-ending state if not resolved:
+**Overflow and dying:** dying comes from **overflowing** a pool, not from running it dry. If a scar's level exceeds the pool's boxes that aren't scarred yet (exhausted ones count) *(confirmed, 2026-11-14)*, the scar blocks the **entire pool** and the character enters the **dying** stage, as in 5E.
+- **Filling isn't overflowing** *(confirmed, 2026-11-26)*: a pool of 3 with nothing scarred survives a level-3 Scar (fully blocked, still standing); a level-4 Scar overflows it.
+- **Running out of points isn't dying.** With every box exhausted but one still unscarred, the character can still push on: a level-1 Scar on that box gives 2 points (3 with a perk such as *Fury*) and fits.
+- **Every box scarred:** any Scar overflows. If the character still exhausts or spends that pool to pay for their own action, they pay with a Scar, the action happens, and they enter dying **right after the action**.
+
+This applies to all three pools, and each leads to an adventure-ending state if not resolved:
 
 | Pool | What "dying" looks like |
 |---|---|
@@ -3858,7 +3863,7 @@ Every item has `price_copper`, set in the item editor (admin only) and never sho
 - **Later:** the DM can grant traits as a **story event**, and a trait can be **removed**, e.g. by overcoming it in the story.
 - **They must affect play,** not only roleplay: the upside and downside hook into the rules (rests, the Danger Level, Scars, advantage, costs to attempt). Illnesses are typical, but not required.
 - **Premade traits** *(2026-11-15)*: Insomniac, Short fuse, Show-off, Drunkard, Coward, Superstitious, Night-blind, Manic-depressive (a d20 after every rest: even, Soul and Charisma Danger Level starts 1 lower; odd, 1 higher), Pious (advantage resisting seduction and temptation; disadvantage resisting alcohol, and anything immoral costs 1 Soul to attempt).
-  - ***Weak of body*** *(2026-11-25)*: fits, hides and balances where an adult can't, with a free Precise on hiding or sneaking where size helps, and enemies don't target them in a fight until they attack or draw attention. Raw strength costs 2 Body to attempt, any armour (even light) adds 2 Body to its cost to attempt, and Heavy weapons are Feeble.
+  - ***Weak of body*** *(2026-11-25)*: fits, hides and balances where an adult can't, with a free Precise on hiding or sneaking where size helps, and enemies don't target them in a fight until they attack or draw attention. Raw strength costs 2 Body to attempt, any armour (even light) costs 2 Body to attempt on top of the armour's own cost (light 2, medium 3, heavy 4), and Heavy weapons are Feeble.
   - The Traits page's example uses ***Hothead***, which isn't one of them; *Short fuse* is the premade one that fits.
 - **Not for new players** *(2026-11-16)*: the editor's Traits page says so in a story box; a newcomer who wants a flaw or a habit writes it into the personality instead.
 - Traits are flavour and challenge. They don't count towards level (see [Validating a character's level](#validating-a-characters-level)).
