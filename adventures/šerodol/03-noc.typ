@@ -193,6 +193,7 @@ Spustí se, až když se hráči rychtářky zeptají na *podivnou knihu*, o kte
 
 #sb(
   [Farář Vojtěch], [Střední člověk, obyčejný],
+  obrazek: image("../šerodol-img/Farář.png"),
   telo: 8, duse: 7, vliv: 4,
   zbroj: [talár (0)], rychlost: [6 m], hrozba: [k4],
   dovednosti: [Učenost +3, Síla vůle +2, Přežití ve městě +1],

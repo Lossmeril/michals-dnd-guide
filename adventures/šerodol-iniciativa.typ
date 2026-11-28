@@ -21,14 +21,14 @@
   ("Půlknír", "Půlknír.png", none),
   ("Stará", "Stará.png", "Královna lesa"),
   ("Kovář Bořek", "Kovář Bořek.png", none),
-  ("Farář Vojtěch", none, none),
+  ("Farář Vojtěch", "Farář.png", none),
   ("Probuzený medvěd", "Bear.png", none),
   ("Rarášek", "Rarášek.png", "pomocník"),
 )
   + n("Stínový zvěd", 3, "Stínový zvěd.png", none)   // dva ve vsi a jeden, kterého přivolá Lidovid
   + n("Toulavý pes", 2, "Dog.png", none)
   + n("Krajemírův pes", 2, "Krajemírův pes.webp", none)
-  + n("Strážný", 4, none, "hradní stráž")
+  + range(1, 5).map(i => ("Strážný " + str(i), "Strážný " + str(calc.rem(i - 1, 2) + 1) + ".png", none))
   + n("Vlk", 5, "Wolf.jpg", none)
   + n("Havíř", 6, none, none))
 

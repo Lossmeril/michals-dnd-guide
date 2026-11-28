@@ -364,6 +364,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
 
 #sb(
   [Hradní strážný, sluha], [Střední člověk, obyčejný],
+  obrazek: image("../šerodol-img/Strážný 1.png"),
   telo: 11, duse: 4, vliv: 6,
   zbroj: [prošívanice a železný klobouk (1)], rychlost: [6 m], hrozba: [k6],
   dovednosti: [dovednosti Bojovníka +2, Přežití ve městě +1],
