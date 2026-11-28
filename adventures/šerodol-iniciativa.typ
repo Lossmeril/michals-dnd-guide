@@ -22,32 +22,31 @@
   ("Hradní stráž", none, none),
   ("Krajemírovi psi", none, none),
   ("Toulaví psi", none, none),
-  ("Vlci", none, none),
   ("Probuzený medvěd", none, none),
-  ("Utopení havíři", none, none),
   ("Rarášek", none, "pomocník"),
-)
+) + range(1, 6).map(i => ("Vlk " + str(i), none, none)) + range(1, 7).map(i => ("Havíř " + str(i), none, "utopený"))
 
-#let w = 64mm      // šířka stříšky
-#let h = 43mm      // výška jedné strany
+#let w = 47mm      // šířka stříšky
+#let h = 64mm      // výška jedné strany
+#let pas = 13mm    // pás se jménem pod portrétem
+
+#let jmeno-text(jmeno, pod, velke) = align(center + horizon)[
+  #text(font: heading-font, size: if velke { 15pt } else if jmeno.len() > 16 { 9pt } else { 11.5pt }, weight: "bold", fill: reddark, jmeno)
+  #if pod != none [ \ #text(size: 7pt, style: "italic", pod) ]
+]
 
 #let strana(jmeno, obr, pod) = box(
-  width: w, height: h, fill: parch, inset: 2.5mm, clip: true,
+  width: w, height: h, fill: white, clip: true,
   stroke: (paint: gold, thickness: 1pt),
 )[
   #if obr != none {
-    align(center, box(height: h - 16mm, image("šerodol-img/" + obr, height: 100%, fit: "contain")))
-    v(-0.3em)
-    align(center + bottom)[
-      #text(font: heading-font, size: if jmeno.len() > 18 { 10pt } else { 12.5pt }, weight: "bold", fill: reddark, jmeno)
-      #if pod != none [ \ #text(size: 7pt, style: "italic", pod) ]
-    ]
+    stack(
+      box(width: w, height: h - pas, clip: true, image("šerodol-img/" + obr, width: 100%, height: 100%, fit: "cover")),
+      line(length: w, stroke: (paint: gold, thickness: 1pt)),
+      box(width: w, height: pas, inset: (x: 1.5mm), jmeno-text(jmeno, pod, false)),
+    )
   } else {
-    // bez obrázku: jen jméno, velké, uprostřed
-    align(center + horizon)[
-      #text(font: heading-font, size: 17pt, weight: "bold", fill: reddark, jmeno)
-      #if pod != none [ \ #text(size: 8pt, style: "italic", pod) ]
-    ]
+    box(width: w, height: h, inset: 2mm, jmeno-text(jmeno, pod, true))
   }
 ]
 
@@ -65,6 +64,6 @@
 #align(center, text(size: 7pt, style: "italic")[Vystřihněte podél čárkované čáry, přeložte podél tečkované a postavte na zástěnu.])
 #v(2mm)
 #align(center, grid(
-  columns: 3, column-gutter: 1mm, row-gutter: 1mm,
+  columns: 4, column-gutter: 1mm, row-gutter: 1mm,
   ..kdo.map(((j, o, p)) => stříška(j, o, p)),
 ))
