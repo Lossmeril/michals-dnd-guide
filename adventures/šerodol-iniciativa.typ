@@ -21,6 +21,8 @@
   ("Půlknír", "Půlknír.png", none),
   ("Stará", "Stará.png", "Královna lesa"),
   ("Kovář Bořek", "Kovář Bořek.png", none),
+  ("Hostinský Ondřej", "Hostinský Ondřej.png", none),
+  ("Svatava", "Svatava.png", none),
   ("Farář Vojtěch", "Farář.png", none),
   ("Probuzený medvěd", "Bear.png", none),
   ("Rarášek", "Rarášek.png", "pomocník"),
