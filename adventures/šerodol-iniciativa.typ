@@ -30,7 +30,7 @@
   + n("Krajemírův pes", 2, "Krajemírův pes.webp", none)
   + range(1, 5).map(i => ("Strážný " + str(i), "Strážný " + str(calc.rem(i - 1, 2) + 1) + ".png", none))
   + n("Vlk", 5, "Wolf.jpg", none)
-  + n("Havíř", 6, none, none))
+  + range(1, 7).map(i => ("Havíř " + str(i), "Horník " + str(calc.rem(i - 1, 3) + 1) + ".png", none)))
 
 // obrázky na šířku: celé, neořezávat
 #let na-sirku = ("Rarášek.png", "Wolf.jpg")

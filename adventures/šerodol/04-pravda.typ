@@ -171,6 +171,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 
 #sb(
   [Utopený havíř], [Střední nemrtvý, obyčejný],
+  obrazek: image("../šerodol-img/Horník 1.png"),
   telo: 15, duse: 3, vliv: 2,
   zbroj: [rozedraná kazajka (0)], rychlost: [6 m, ve vodě bez postihu], hrozba: [k6],
   dovednosti: [Síla +2, Pěší boj zblízka +2, kopání +4],
