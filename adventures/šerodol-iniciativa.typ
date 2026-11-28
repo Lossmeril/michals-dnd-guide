@@ -44,8 +44,8 @@
   #if pod != none [ \ #text(size: 7pt, style: "italic", pod) ]
 ]
 
-// erb v pravém horním rohu: Karlův a páni Šerodolu se svými lidmi
-#let serodolsti = ("Krajemír", "Lidovid", "Miloslav", "Půlknír", "Strážný", "Krajemírův pes", "Stínový zvěd")
+// erb v pravém horním rohu: Karlův a páni Šerodolu se svými lidmi (stínoví zvědové ne, to by prozradilo, čí jsou)
+#let serodolsti = ("Krajemír", "Lidovid", "Miloslav", "Půlknír", "Strážný", "Krajemírův pes")
 #let erb(jmeno) = {
   if jmeno == "Karl von Wettersdorf" { "Karl von Wettersdorf coat of arms.png" } else if serodolsti.any(x => jmeno.starts-with(x)) { "Šerodol coat of arms.png" } else { none }
 }
@@ -65,7 +65,12 @@
       box(width: w, height: pas, inset: (x: 1.5mm), jmeno-text(jmeno, pod, false)),
     )
   } else {
-    box(width: w, height: h, inset: 2mm, jmeno-text(jmeno, pod, true))
+    if jmeno == "" {
+      // prázdná stříška: řádek na jméno dole
+      box(width: w, height: h, inset: (x: 4mm, bottom: 6mm), align(bottom, line(length: 100%, stroke: (paint: ink.lighten(40%), thickness: 0.6pt))))
+    } else {
+      box(width: w, height: h, inset: 2mm, jmeno-text(jmeno, pod, true))
+    }
   }
 ]
 
@@ -85,4 +90,11 @@
 #align(center, grid(
   columns: 4, column-gutter: 1mm, row-gutter: 1mm,
   ..kdo.map(((j, o, p)) => stříška(j, o, p)),
+))
+
+// prázdné stříšky na dopsání tužkou, na vlastní stránce
+#pagebreak()
+#align(center, grid(
+  columns: 4, column-gutter: 1mm, row-gutter: 1mm,
+  ..range(8).map(_ => stříška("", none, none)),
 ))
