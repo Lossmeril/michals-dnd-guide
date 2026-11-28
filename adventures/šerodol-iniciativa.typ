@@ -9,9 +9,11 @@
 #let n(jmeno, pocet, obr, pod) = range(1, pocet + 1).map(i => (jmeno + " " + str(i), obr, pod))
 
 #let kdo = ((
-  ("Carmen", "PC - Carmen.png", "hráčská postava"),
-  ("Kapitán Železné Srdce", "PC - Kapitán Železné Srdce.png", "hráčská postava"),
-  ("Tamara", "PC - Tamara.png", "hráčská postava"),
+  ("Carmen", "PC - Carmen.png", none),
+  ("Kapitán Železné Srdce", "PC - Kapitán Železné Srdce.png", none),
+  ("Tamara", "PC - Tamara.png", none),
+  ("Karl von Wettersdorf", "PC - Karl von Wettersdorf.png", none),
+  ("Rondus", "PC - Rondus.png", none),
   ("Perníčkář", "Perníčkář.png", none),
   ("Krajemír", "Krajemír.png", none),
   ("Lidovid", "Lidovid.png", none),
@@ -28,7 +30,7 @@
   + n("Krajemírův pes", 2, "Krajemírův pes.webp", none)
   + n("Strážný", 4, none, "hradní stráž")
   + n("Vlk", 5, "Wolf.jpg", none)
-  + n("Havíř", 6, none, "utopený"))
+  + n("Havíř", 6, none, none))
 
 // obrázky na šířku: celé, neořezávat
 #let na-sirku = ("Rarášek.png", "Wolf.jpg")
