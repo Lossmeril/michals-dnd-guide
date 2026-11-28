@@ -51,6 +51,10 @@ type Props = {
   inventory: Tables<"character_items">[];
   /** The reader's language: the sheet's own words, and the ritual item card's */
   dict: Dict;
+  /** A picture for this printout only, in place of the saved one */
+  picture?: string | null;
+  /** A coat of arms for this printout only, shown next to the picture */
+  emblem?: string | null;
 };
 
 // -----------------------------------------------------------------------------
@@ -182,7 +186,8 @@ const DangerTrack: React.FC<{ p: Dict["print"] }> = ({ p }) => (
 // Page 1: the front
 // -----------------------------------------------------------------------------
 
-const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
+const Front: React.FC<Props> = ({ rb, character, build, inventory, dict, picture, emblem }) => {
+  const portrait = picture ?? character.image_url;
   const p = dict.print;
   const lang = dict.lang;
   const race = rb.races.find((r) => r.id === build.raceId);
@@ -206,15 +211,19 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
       {/* Header */}
       <header className="flex gap-[4mm]">
         <div className="relative w-[32mm] h-[42mm] shrink-0 border-2 border-dnd-gold bg-dnd-bg">
-          {character.image_url && (
+          {portrait && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={character.image_url}
+              src={portrait}
               alt=""
               className="absolute inset-0 w-full h-full object-cover object-top"
             />
           )}
         </div>
+        {emblem && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={emblem} alt="" className="w-[20mm] h-[42mm] shrink-0 object-contain object-top" />
+        )}
         <div className="flex-1 min-w-0 flex flex-col">
           <p className="text-[7pt] uppercase tracking-[0.2em] text-dnd-ink/60">{p.title}</p>
           <h1 className="libre caps text-[22pt] font-bold text-dnd-red-dark leading-tight border-b-2 border-dnd-gold pb-1 mb-1">

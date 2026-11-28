@@ -10,6 +10,10 @@ const en = {
     print: "Print",
     back: "Back to the sheet →",
     hint: "A4, portrait. Turn on “Background graphics” in the print dialog to keep the colours.",
+    tempPicture: "Picture for this print",
+    tempEmblem: "Coat of arms for this print",
+    tempClear: "Remove",
+    tempHint: "Only for this printout: nothing is uploaded or saved, and it's gone when you leave the page.",
     danger: "Danger",
     feel: [
       "Very easy",
@@ -1023,6 +1027,10 @@ const cs: Dict = {
     print: "Tisk",
     back: "Zpátky na deník →",
     hint: "A4, na výšku. V dialogu tisku zapni „Grafika na pozadí“, ať zůstanou barvy.",
+    tempPicture: "Obrázek jen pro tisk",
+    tempEmblem: "Erb jen pro tisk",
+    tempClear: "Odebrat",
+    tempHint: "Jen pro tenhle výtisk: nic se nenahraje ani neuloží a po odchodu ze stránky zmizí.",
     danger: "Ohrožení",
     feel: [
       "Velmi snadné",
