@@ -41,7 +41,7 @@ Noc skončí jedním ze dvou způsobů. Buď se páni sejdou s Perníčkářem n
   - *Noc skončí.* Rozbřesk přijde bez kohouta; Perníčkář už nemá důvod ho držet.
   - *Stará je volná.* Krajemír už nedrží zemi. Do jara se probudí a v údolí ji nikdo nezastaví. Háček na další dobrodružství.
   - *Půlknír* je volný, protože páni už nežijí. Viz _Když přísaha padne_ níže.
-  - *Kletba hostů:* družina pomohla ublížit svým hostitelům. _(návrh)_ Každý člen dostane Jizvu na #V úrovně 2, která se nezahojí, dokud za pány něco neodčiní. Lidé v údolí to poznají a chléb a sůl jim už nikdo nepodá.
+  - *Kletba hostů:* družina pomohla ublížit svým hostitelům. Každý člen dostane Jizvu na #V úrovně 3, která se nezahojí, dokud za pány něco neodčiní. Lidé v údolí to poznají a chléb a sůl jim už nikdo nepodá.
 ]
 
 == Finále B: Kuropění
@@ -70,11 +70,11 @@ Noc skončí jedním ze dvou způsobů. Buď se páni sejdou s Perníčkářem n
 === Odměna od pánů
 
 #pv[
-  Miloslav slíbil práci na zimu, vděčnost rodu a „cokoli z naší skromné pokladnice“. Páni slib dodrží. _(návrh)_ V pokladnici je:
-  - postříbřený dlouhý meč starého pána Bohuslava,
-  - kumánská přilba s maskou na levou půlku tváře, dvojče té Půlknírovy,
-  - 200 stříbrných,
-  - list s pečetí pánů: kdo ho ukáže, tomu v údolí každý dům podá chléb a sůl.
+  Miloslav slíbil práci na zimu, vděčnost rodu a „cokoli z naší skromné pokladnice“. Pokladnice je opravdu skromná; páni čtyřicet let platili hlavně strachem. Družina dostane:
+  - *1 zlatý* (100 stříbrných) pro celou družinu,
+  - jeden předmět, který si vybere: *Zrcátko svítání*.
+
+  *Zrcátko svítání* je malé bronzové zrcátko se sluncem Šerodolu na rubu. Jednou za den, za úsvitu nebo kdykoli v noci, může jeho držitel akcí nechat zrcátko na jedno kolo zazářit jako polední slunce do vzdálenosti 10 m. Stíny a noční duchové v tom světle utečou (s polovinou Těla nebo méně okamžitě, jinak dostanou 2k6 zářivého zranění). Bohuslav ho prý dostal od zakladatele Voka.
 ]
 
 == Když přísaha padne

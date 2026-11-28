@@ -14,9 +14,7 @@ Ve druhé kapitole se údolí otevře. Družina se ve tmě ptá, hledá a sklád
 
 == Hodiny noci
 
-#otazka[
-  *Návrh nové mechaniky.* Původní text říká jen „strach roste, čím déle noc trvá“ a dává čtyři příklady. Navrhuji z nich udělat počitadlo: po každém navštíveném místě (nebo každých pár hodin) posuňte noc o jeden krok. Hráči tak cítí, že čas běží, i když slunce nevyjde.
-]
+Po každém navštíveném místě, nebo po pár hodinách, posuňte noc o krok. Hráči tak cítí, že čas běží, i když slunce nevyjde.
 
 #tab(
   columns: (auto, 1fr, auto),
@@ -303,7 +301,7 @@ Všechny tři vesnické cesty se sbíhají k jednomu jménu: *k babce kořenář
 #tab(
   columns: (auto, 1fr),
   head: ([k8], [Setkání]),
-  [1], [*Figurka na větvi.* Ze tmy se ozve tiché klapání, jako když dřevo ťuká o dřevo. Na větvi nad stezkou visí na provázku malá dřevěná figurka a pomalu se otáčí obličejem k vám. Je to Lidovidovo oko. Připomeňte zaříkadlo: _„Na nic, co najdete v lese, nesahejte.“_ _(návrh)_ Kdo ji vezme, toho Lidovid sleduje až k babce. Kdo ji rozbije, vezme Lidovidovi jedno oko, a on to pozná.],
+  [1], [*Figurka na větvi.* Ze tmy se ozve tiché klapání, jako když dřevo ťuká o dřevo. Na větvi nad stezkou visí na provázku malá dřevěná figurka a pomalu se otáčí obličejem k vám. Je to Lidovidovo oko. Připomeňte zaříkadlo: _„Na nic, co najdete v lese, nesahejte.“_ Figurka je *symbolický dotek*: kdo ji vezme, dává pánům cestu k sobě. Lidovid jím vidí a páni na něj mohou kouzlit, dokud ji u sebe nese. Kdo ji rozbije, zničí jedno Lidovidovo oko. Z lesa se v tu chvíli ozve výkřik, daleký a lidský, a Lidovid to pozná.],
   [2], [*Vlci v cestě.* Napříč stezkou stojí tři až pět vlků a dívají se na vás. Neútočí a neutečou: dál nemáte. Když je družina zkusí obejít, jdou opodál s ní. Pořádné zastrašení je rozežene, útok spustí boj. Šaman, který se jich dotkne _Myslí zvířete_, v nich najde cizí vůli. (→ _Vlk_)],
   [3], [*Havrani.* Hejno havranů se usadí ve větvích a mlčky s vámi letí od stromu ke stromu. Kdo jednoho sestřelí, ostatní se rozkřičí a les kolem zasténá. Krajemír teď ví přesně, kde jste.],
   [4], [*Padající smrk.* Zmrzlý kmen hlasitě praskne a řítí se přes stezku. Záchranný hod (*Akrobacie*) na Ohrožení 3, jinak Jizva na #T s kostkou hrozby k6 a #stav[Ležící].],

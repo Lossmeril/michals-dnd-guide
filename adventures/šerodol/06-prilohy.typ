@@ -96,10 +96,6 @@ Texty, které hráči najdou. Vytiskněte je, vystřihněte a podávejte, až je
   Dáno na rozcestí pod Šerodolem. Stvrzeno krví a medovým chlebem.
 ]
 
-#otazka[
-  *Znění úmluvy je zatím návrh,* stejně jako noc svaté Lucie (13. prosince, sedí k „před nejhorší zimou“). Bod 7 dovoluje pánům mluvit se Svatavou, protože při úmluvě stála; to je dobrý důvod, proč ji páni drží blízko, a ne mrtvou.
-]
-
 #pagebreak()
 
 = Rejstřík statbloků

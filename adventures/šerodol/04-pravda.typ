@@ -225,6 +225,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 
 #sb(
   [Stará, Královna lesa], [Obrovský běs (strážce místa), boss; jen u studánky],
+  obrazek: image("../šerodol-img/Stará.png"),
   telo: 90, duse: 15, vliv: 12, sudba: 2,
   zbroj: [kůra a bulvy (1)], rychlost: [0 m (kořeny sahají po celé jeskyni)], hrozba: [k8],
   dovednosti: [Jednání s nadpřirozenými bytostmi +5, Ovlivňování a klam +5, Síla +4],
@@ -232,7 +233,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
   slabiny: [oheň],
   vlastnosti: (
     ([Nesmrtelná], [Nemůže zemřít, dokud je živá voda. S 0 Těla je zničená jen její tělesná podoba (viz výše).]),
-    ([Uvězněná], [Nemůže ze štoly ani nikomu ublížit dál než 10 m od vody.]),
+    ([Uvězněná], [Dokud páni vládnou, nemůže ze štoly ani nikomu ublížit dál než 10 m od vody. Viz _Stará a propadlé nádvoří_ v kapitole _Stavby Šerodolu_.]),
     ([Dvě akce], [Jedná dvakrát za kolo, pokaždé na jiné iniciativě.]),
     ([Zamrzající voda], [Voda štoly kolem studánky je pro nepřátele terén za polovinu rychlosti; kdo v ní běží nebo bojuje, hází záchranný hod (*Akrobacie*) na Ohrožení 3, jinak je #stav[Ležící].]),
   ),
@@ -285,7 +286,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 ]
 
 *Jak dostat kohouta přes kameny* _(pravidlo od oka)_:
-- *Přerušit spojení mezi kameny* magií ochrany, třeba obráceným _Zaštítěním_ čaroděje, nebo _Zlomením kouzla_.
+- *Rozbít kámen, nebo magií přerušit spojení mezi kameny* (_Zlomení kouzla_, obrácené _Zaštítění_). Do minuty se to zacelí, ale po tu minutu je v prahu mezera a kohout jí projde. Hodnoty kamene jsou v kapitole _Stavby Šerodolu_.
 - *Nechat ho umřít a vrátit:* kameny kohouta srazí do umírání, ne na smrt. Hraje se jako hody na umírání s _Léčením zvířat_, které může zkusit kdokoli s holými kostkami.
 - *Odnést ho mrtvého ke studánce* ve štole a ponořit ho.
 

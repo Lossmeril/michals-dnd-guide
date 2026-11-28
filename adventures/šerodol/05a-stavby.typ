@@ -86,10 +86,9 @@ Nepřátelská štola z doby obléhání končí přímo pod propadlou dlažbou 
   - *Krajemír* výbuch ucítí dřív, než dozní.
 ]
 
-#otazka[
-  Propadlé nádvoří s otvorem dolů do štoly je přímá cesta pro havíře a možná i pro Starou ven z jeskyně. Zůstane uvězněná, dokud Krajemír drží zemi, nebo jí otvor stačí?
+#pv[
+  *Stará a propadlé nádvoří.* Natrvalo se ven dostane, jen když páni přijdou o vládu. Otvorem z propadlého nádvoří může *na chvíli proklouznout*, ale bratři ji umějí znovu zapečetit. Kdyby se ale do hradu zřítila *celá chodba* štoly, ne jen úsek nádvoří, Stará je venku a zůstane venku, dokud se hrad neopraví: na měsíce.
 ]
-
 === Štola
 
 #pravidla[
@@ -144,6 +143,16 @@ Nepřátelská štola z doby obléhání končí přímo pod propadlou dlažbou 
 
 == Hraniční kameny
 
-#otazka[
-  *Dají se hraniční kameny zničit?* Jsou to kameny, takže fyzicky ano. Navrhuji hodnoty *Tělo 120, Pevnost 20* (ohlazený žulový balvan). Rozbitý kámen by ale znamenal, že spojení mezi kameny padá a kohout projde: další cesta, jak ho dostat do údolí, a velmi hlasitá. Krajemír i Perníčkář by to ucítili okamžitě. Chceš to připustit, nebo jsou kameny chráněné (praskliny se do minuty zacelí, jako Půlknírovy rány)?
+#tab(
+  columns: (2.2fr, auto, auto, auto, 1fr),
+  align: (left, center, center, center, left),
+  head: ([Stavba], [Tělo], [Pevnost], [Hoří], [Rozebrat]),
+  [Hraniční kámen (ohlazený žulový balvan)], [120], [20], [ne], [nejde, viz níže],
+)
+
+#pravidla[
+  - *Kámen se dá rozbít,* nebo se dá *magií přerušit spojení* mezi oběma kameny (_Zlomení kouzla_, obrácené _Zaštítění_, _Protikouzlo_ proti Perníčkářově +5).
+  - *Do minuty se zacelí:* rozbitý kámen sroste a přerušené spojení se obnoví.
+  - *Během té minuty je v prahu mezera.* Kohout, který jí projde, nepadne do umírání. Kdo chce kohouta dostat do údolí touhle cestou, musí ho mít připraveného hned za kameny.
+  - *Krajemír i Perníčkář to ucítí okamžitě.*
 ]
