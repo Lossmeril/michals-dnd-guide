@@ -6,7 +6,11 @@ Noc skončí jedním ze dvou způsobů. Buď se páni sejdou s Perníčkářem n
 
 == Finále A: Perníčkář vyhraje
 
-*Kdy:* láhev leží ve štole pod propadlou dlažbou nádvoří a Perníčkář, který požil chléb a sůl hradu, stojí na nádvoří tváří v tvář všem třem pánům.
+*Kdy:* láhev leží ve štole pod nádvořím a Perníčkář, který je v hradě pozvaný (požil chléb a sůl hradu), stojí na nádvoří tváří v tvář všem třem pánům.
+
+*Dvě cesty, jak se sejdou nad lahví:*
+- *Štola zůstane celá.* Láhev je pod nimi, ale hluboko ve skále. Perníčkář je všechny přenese k ní: viz čtené _Nicota_ níže, pak scéna pokračuje na nádvoří.
+- *Štola se zřítí* (alchymistova nálož, viz _Pod nádvořím_ v kapitole _Stavby Šerodolu_). Nádvoří se propadne, láhev leží v sutinách přímo pod nimi a Perníčkář nic přenášet nemusí. Rovnou čtené _Na nádvoří_.
 
 #pv[
   - Páni vyjdou na nádvoří, protože Lidovid vidí, co se děje, a utéct nemohou: hrad je jejich střecha.
@@ -15,7 +19,15 @@ Noc skončí jedním ze dvou způsobů. Buď se páni sejdou s Perníčkářem n
 ]
 
 #cti[
-  Perníčkář stojí uprostřed nádvoří, přesně nad propadlou dlažbou, a usmívá se. „Tak jsme se přece sešli. Všichni čtyři, a víno taky.“
+  #text(weight: "bold")[Nicota.] _(Jen když štola zůstala celá.)_ Perníčkář tleskne. Nádvoří zmizí. Hrad, sníh i tma zmizí a nezůstane nic, ani zima. Vznášíte se v ničem, vy, tři páni a Perníčkář, a hluboko pod vámi, sama v té prázdnotě, leží láhev martikovského. Je jediná věc, která tu má barvu.
+
+  „Tak,“ řekne Perníčkář. „Teď jsme všichni u jednoho stolu.“
+
+  Pak tleskne znovu a vy stojíte zpátky na nádvoří, ve sněhu, přesně tam, kde jste stáli. Nikdo se nepohnul.
+]
+
+#cti[
+  #text(weight: "bold")[Na nádvoří.] Perníčkář stojí uprostřed nádvoří, přesně nad místem, kde dole leží láhev, a usmívá se. „Tak jsme se přece sešli. Všichni čtyři, a víno taky.“
 
   Páni se nemůžou pohnout. Vidíte, jak se o to snaží: Krajemírovi naběhnou žíly na krku, Lidovid těká očima, Miloslav otevře ústa, ale nevyjde z nich ani hlásek.
 
@@ -95,7 +107,6 @@ Platí pro pány po kuropění a pro Půlkníra, ať jeho přísaha padne jakkol
 
 == Co se stane s ostatními
 
-_Návrh; uprav podle toho, jak skončí tvoje hra._
 
 #tab(
   columns: (auto, 1fr, 1fr),

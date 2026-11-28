@@ -246,7 +246,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 )
 
 *Co se tu dá udělat:*
-- *Láhev:* položit martikovskou láhev na konec štoly pod nádvořím. Pak stačí, aby se Perníčkář setkal se všemi třemi bratry tváří v tvář na nádvoří nad ní.
+- *Láhev:* položit martikovskou láhev na konec štoly pod nádvořím. Pak stačí, aby se Perníčkář setkal se všemi třemi bratry tváří v tvář na nádvoří nad ní. Štolu není třeba bořit (Perníčkář si s tím poradí sám, viz _Finále A_), ale zřícená štola je taky cesta: viz _Pod nádvořím_ v kapitole _Stavby Šerodolu_.
 - *Kohout:* mrtvý kohout ponořený do studánky ožije jako otrok vody. Ze štoly nemůže, ale může tu zakokrhat. Pod hradem je pořád údolí, takže se to počítá. Stará to musí dovolit, a proto ji je potřeba obelhat.
 
 #pv[

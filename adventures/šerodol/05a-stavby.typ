@@ -82,7 +82,7 @@ Nepřátelská štola z doby obléhání končí přímo pod propadlou dlažbou 
 #pravidla[
   - *Odpálení:* upěchovaná nálož na konci štoly, jejíž hod dosáhne Pevnosti dlažby (10), propadne úsek nádvoří nad sebou okamžitě (asi 3 × 3 m) a sousední úsek ztratí polovinu Těla.
   - *Kdo stojí na dlažbě,* spadne 4 m do vody štoly a kamení: nástraha síly 3 (záchranný hod *Akrobacie*, jinak Jizva na #T s kostkou hrozby k6) a je #stav[Zadržený] pod sutinami, dokud ho někdo nevyhrabe.
-  - *Láhev* pod sutinami pořád leží pod nádvořím. Pro smlouvu se nic nemění.
+  - *Láhev* pod sutinami leží přímo pod nádvořím. Pro Perníčkáře je to zkratka: nemusí nikoho přenášet do nicoty (viz _Finále A_). Bořit štolu ale není podmínka.
   - *Krajemír* výbuch ucítí dřív, než dozní.
 ]
 
