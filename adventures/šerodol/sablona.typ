@@ -30,12 +30,12 @@
 
 // Text k přečtení nahlas: zelený pruh s inkoustovými linkami nahoře a dole.
 #let cti(body) = block(
-  width: 100%, breakable: false, above: 0.9em, below: 0.9em,
+  width: 100%, breakable: true, above: 0.9em, below: 0.9em,
   fill: green, inset: (x: 8pt, top: 6pt, bottom: 7pt),
   stroke: (top: 1.4pt + ink, bottom: 1.4pt + ink),
 )[
-  #label([▶ Přečtěte nahlas], col: greenline.darken(30%))
-  #v(-0.3em)
+  // Dlouhý text se smí zlomit do dalšího sloupce, ale nadpis zůstane s prvním řádkem
+  #block(sticky: true, below: 0.45em, label([▶ Přečtěte nahlas], col: greenline.darken(30%)))
   #set text(font: heading-font, style: "italic", size: 8.4pt)
   #set par(leading: 0.62em, spacing: 0.75em)
   #body

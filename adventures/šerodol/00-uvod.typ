@@ -87,14 +87,3 @@ Zákon pohostinství svazuje družinu postupně. Sledujte, komu je čím zaváza
   [*Farář Vojtěch*], [Věří ve Hvězdného boha, má klíč od tajné komory.],
 )
 
-== Jak číst tento text
-
-#cti[Text v zeleném pruhu čtěte nahlas nebo převyprávějte.]
-#vsim[Věci, které si postavy mohou všimnout, když se dívají, nebo když mají vhodné povolání.]
-#vi[postava][Co postava řekne, když se jí zeptají. Odpovědi jsou návod, ne scénář.]
-#pv[Tajné informace jen pro vás.]
-#pravidla[Hody, Ohrožení a následky scény.]
-#otazka[Nesrovnalosti a otevřené otázky, které je potřeba dořešit.]
-#chybi[název][Scény, které v příběhu zatím chybí.]
-
-Statbloky stojí u scény, kde se postava nebo nestvůra poprvé objeví. Rejstřík statbloků je na poslední straně.

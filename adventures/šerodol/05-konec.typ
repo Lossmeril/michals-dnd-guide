@@ -118,4 +118,3 @@ Platí pro pány po kuropění a pro Půlkníra, ať jeho přísaha padne jakkol
   [*Vesnice*], [Bez pánů a bez ochrany. Figurky jsou jen dřevo.], [Figurky jsou jen dřevo. Okenice se otevírají.],
   [*Kokeš*], [Prodá do údolí prvního kohouta.], [Prodá do údolí prvního kohouta.],
 )
-

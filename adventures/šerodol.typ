@@ -49,7 +49,23 @@
   #v(0.6cm)
   #text(size: 10pt)[Pro začínající družinu (úroveň 3) \ Dvě až tři sezení]
   #v(1fr)
-  #text(size: 8pt, fill: ink.lighten(25%))[Verze pro vypravěče · rozpracováno]
+  // Jak číst tento text
+  #set align(left)
+  #set text(size: 8pt)
+  #grid(columns: (1fr, 1fr), column-gutter: 10pt,
+    [
+      #cti[Text v zeleném pruhu čtěte nahlas nebo převyprávějte.]
+      #vsim[Čeho si postavy mohou všimnout, když se dívají, nebo když mají vhodné povolání.]
+      #vi[postava][Co postava řekne, když se jí zeptají. Odpovědi jsou návod, ne scénář.]
+    ],
+    [
+      #pv[Tajné informace jen pro vás.]
+      #pravidla[Hody, Ohrožení a následky scény.]
+      Statbloky stojí u scény, kde se postava nebo nestvůra poprvé objeví. Rejstřík statbloků je na poslední straně.
+    ],
+  )
+  #v(0.4cm)
+  #align(center, text(size: 8pt, fill: ink.lighten(25%))[Verze pro vypravěče])
 ]
 
 #set page(
