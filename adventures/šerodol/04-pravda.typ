@@ -130,6 +130,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
   - *Perníčkář:* stála u toho, na rozcestí pod Šerodolem. „Voněl medem a hřebíčkem. Dal jim každému kus perníku a oni ho snědli.“
   - *Proč odešla:* „Přál si nevěstu, která ho bude milovat. Já ho milovala. Tak proč si to přál?“
   - *Co chce:* aby Miloslav zestárl a umřel jako člověk. „Chci ho vidět starého. Aspoň jednou.“
+  - *Miloslavova slabina:* „Všichni ho milují, a nikdo se ho nedotkne. Jsou jako na pouti před svatým obrazem. Čtyřicet let ho nikdo neobjal.“ Smutně se usměje. „Kdybys ho políbila, zapomene, jak se dýchá. Vím to. Tak to bylo i se mnou.“
 ]
 
 == Štola pod hradem
@@ -394,6 +395,13 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
 === Páni v boji
 
 #pv[
+  *Tělesné slabiny pánů* (kdo je zná, má v boji šanci):
+  - *Miloslav:* dotek. Ví o tom Svatava (viz _Co ví Svatava_).
+  - *Lidovid:* roztočená figurka. Ví o tom babka Kuňka (po úkolu).
+  - *Krajemír:* bolest země. Nikdo to neřekne; hráči na to musí přijít sami. Stopy: viz _Čeho si lze všimnout_ na nádvoří (kapitola 1) a výkřik lesa, když se rozbije figurka nebo sestřelí havran.
+]
+
+#pv[
   Páni a družina jsou si navzájem hosty, takže k boji dojít nemá. Když přesto dojde (zákon poruší jedna strana, nebo družina pány svrhne s Půlknírem), použijte tyto statbloky. *Kdo zákon pohostinství poruší, toho stihne kletba* (viz kapitola 4).
 ]
 
@@ -408,6 +416,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
     ([Země mu odpovídá], [Cítí každého v údolí. Jednou za kolo pohne krajem: kořeny (záchranný hod *Síla*, Ohrožení 3, jinak #stav[Zadržený]), praskající led, padající větev.]),
     ([Pán zvěře], [Zvířata v údolí ho poslouchají a nedají se jeho vůli vzít.]),
     ([Slabé místo], [Otec. Kdo mu připomene oměj, bere mu Duši s *Přesně* zdarma.]),
+    ([Zraněná země], [Kdo poblíž ublíží zemi (zapálí strom, vyhodí do povětří skálu, otráví studnu, rozsekne kořen), toho bolest cítí Krajemír. Je #stav[Omráčený] do konce svého příštího tahu. Jednou za kolo; Sudbou to setřese.]),
   ),
   akce: (
     ([Lovecký oštěp], [Dosah 2 m. Zásah: 1k8 + 4 bodné proti NPC; proti hráčským postavám kostka hrozby k8.]),
@@ -425,6 +434,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
     ([Vidí vše], [Nedá se překvapit. Vidí každou figurkou v údolí; *Rychle* má zdarma.]),
     ([Stíny], [Jednou za scénu přivolá stínového zvěda.]),
     ([Nikdy nespí], [Slabé místo: Duše. Je unavený čtyřicet let.]),
+    ([Roztočené oko], [Kdo akcí prudce točí figurkou, třese s ní nebo ji přehazuje z ruky do ruky, tomu se s ní zatočí Lidovidovi svět. Je #stav[Omráčený] do konce svého příštího tahu. Jednou za kolo; Sudbou to setřese.]),
   ),
   akce: (
     ([Vrhací nože], [Dostřel 4/12 m. Zásah: 1k4 + 4 bodné proti NPC; proti hráčským postavám kostka hrozby k6.]),
@@ -442,6 +452,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
     ([Okouzlení], [Akce. Střet *Ovlivňování a klam* proti *Síle vůle* cíle. Výhra: cíl je #stav[Okouzlený], dokud ho Miloslav nepustí. Nefunguje na Svatavu.]),
     ([Cítí Svatavu], [Vždycky ví, kde je a co cítí.]),
     ([Slabé místo], [Svatava. Kdo mluví jejím jménem, bere mu Vliv s *Přesně* zdarma.]),
+    ([Nikdo se ho nedotkl], [Čtyřicet let ho všichni milují, ale zdálky. Kdo se k němu fyzicky přitulí, pohladí ho nebo políbí a vyhraje střet *Ovlivňování a klam* proti jeho *Síle vůle*, toho Miloslav nečeká. Je #stav[Omráčený] do konce svého příštího tahu. Jednou za kolo; Sudbou to setřese.]),
   ),
   akce: (
     ([Meč], [Dosah 1 m. Zásah: 1k8 + 2 sečné proti NPC; proti hráčským postavám kostka hrozby k6.]),

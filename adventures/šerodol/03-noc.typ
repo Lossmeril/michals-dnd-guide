@@ -428,6 +428,7 @@ Až když holčička usne, babka promluví o tom, o čem čtyřicet let mlčela.
   - *Tohle je důkaz, který potřebuje Půlknír.* Babka to řekne jen jednou a jen těm, kdo jí pomohli. Půlkníra by přesvědčilo, kdyby to slyšel od ní samé, nebo spolu s pohřebním zápisem z fary.
   - *Kluky pořád miluje.* „Říkám vám to, protože jsou dost staří na to, aby za to zaplatili. Jen jim neříkejte, že to máte ode mě.“
   - *Její prosba:* „Slibte mi, že moje kluky nedáte čertovi.“
+  - *Lidovidova slabina* (jen když se družina ptá na pány nebo na figurky): „Lidovid se jako kluk díval skulinou ve stodole a starší kluci s prknem zatřásli. Spadl ze žebříku a týden se mu motala hlava.“ Pokývá k figurce, kterou mají hráči u sebe. „Ty jeho panenky jsou teď jeho skulina. Zatřes s ní, roztoč ji, a jemu se zatočí svět.“
 ]
 
 === Rarášek

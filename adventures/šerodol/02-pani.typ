@@ -68,6 +68,7 @@ Bratři nejsou zlí v tom, co říkají, jen v tom, co zamlčí. Hrajte je jako 
 
 #vsim[
   - *Lovec, šaman nebo druid:* psi u Krajemírových nohou nezavrčí, ani když se k nim někdo přiblíží. Celou dobu neštěknou.
+  - *Kdo sleduje Krajemíra:* v rohu nádvoří štípe sluha dříví. Při každém úderu sekery do špalku Krajemírovi cukne v tváři, jako by ho někdo štípl. Nikdo jiný si toho nevšimne a on se tváří, že nic.
   - *Lupič nebo zvěd:* dlažba nádvoří je na několika místech mírně propadlá. Hrad působí zpustošeně.
   - Lidovid ví věci, které vědět nemá: jména, odkud přišli, co jedli. Kdo si v údolí všiml, že na cestě nebyla žádná hlídka, ví, že lže.
 ]
