@@ -73,4 +73,5 @@
 #include "šerodol/03-noc.typ"
 #include "šerodol/04-pravda.typ"
 #include "šerodol/05-konec.typ"
+#include "šerodol/05a-stavby.typ"
 #include "šerodol/06-prilohy.typ"

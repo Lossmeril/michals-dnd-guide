@@ -117,7 +117,7 @@ Texty, které hráči najdou. Vytiskněte je, vystřihněte a podávejte, až je
   [Probuzený medvěd], [tvrdý], [Kapitola 2, Cesta k babce],
   [Půlknír], [elitní], [Kapitola 3, Věž],
   [Utopený havíř], [obyčejný], [Kapitola 3, Štola],
-  [Kořeny Staré], [boss], [Kapitola 3, Studánka],
+  [Stará, Královna lesa], [boss], [Kapitola 3, Studánka],
   [Hradní strážný, sluha], [obyčejný], [Kapitola 3, Hrad v noci],
   [Krajemírův pes], [obyčejný], [Kapitola 3, Hrad v noci],
   [Krajemír, Lidovid, Miloslav], [elitní], [Kapitola 3, Páni v boji],

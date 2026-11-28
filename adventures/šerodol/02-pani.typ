@@ -48,10 +48,6 @@ Bratři nejsou zlí v tom, co říkají, jen v tom, co zamlčí. Hrajte je jako 
 - *Lidovid, prostřední.* Hubený a bledý, s tmavými kruhy pod očima, protože nikdy nespí. Vlasy má stejné jako starší bratr, na tváři mírné strniště. Oči mu pořád těkají. Osloví hráče jménem dřív, než se mu představí.
 - *Miloslav, nejmladší.* Hezký, vřelý a usměvavý, rozený hostitel. Středně dlouhé vlnité černé vlasy. Už od prvního pohledu je to člověk, kterému můžete věřit. Mluví rád, ale zvláštně smutným tónem.
 
-#otazka[
-  *Chybějící portréty:* Svatava, babka Kuňka a Stará.
-]
-
 === Chléb a sůl
 
 #cti[
@@ -144,6 +140,7 @@ Bratři nejsou zlí v tom, co říkají, jen v tom, co zamlčí. Hrajte je jako 
 
 #sb(
   [Kovář Bořek], [Střední člověk, obyčejný],
+  obrazek: image("../šerodol-img/Kovář Bořek.png"),
   telo: 13, duse: 4, vliv: 5,
   zbroj: [kožená zástěra (0)], rychlost: [6 m], hrozba: [k4],
   dovednosti: [dovednosti Bojovníka +2, Kovářství +3],
@@ -157,6 +154,8 @@ Bratři nejsou zlí v tom, co říkají, jen v tom, co zamlčí. Hrajte je jako 
 )
 
 === Hostinský
+
+#portret(image("../šerodol-img/Hostinský Ondřej.png"), jmeno: [Hostinský Ondřej], vyska: 4cm)
 
 Ať to skončí jakkoli, do rvačky zasáhne hostinský. Vyhraje-li někdo z hráčů, Bořek uzná, že se mýlil, a omluví se. Vesničanům pak trochu opadne opatrnost.
 
@@ -243,11 +242,8 @@ Když pokračují, *zastaví čas* pro všechny. Družina jediná vnímá, co se
 ]
 
 #pv[
+  *Kolik nabízí:* chalupu nemá na prodej ani tu nejhorší. Je to opilecké přehánění. Doopravdy vysype z měšce *12 stříbrných* a k tomu slíbí sýr; usmlouvat se dá na 18 a tím je vyčerpaný, to je skoro měsíc jeho výdělku.
   *Když mu láhev prodají:* víno vypije doma a prázdnou láhev hodí na kompost za svou chalupou. Odtud ji družina může později vyhrabat. *Smlouvě stačí láhev, i prázdná.*
-]
-
-#otazka[
-  *Havlova chalupa „víc stříbra, než stojí“.* Dům stojí podle ceníku 4–10 zlatých (400–1 000 stříbrných); tolik Havel nemá. Je to opilecké přehánění, nebo opravdu nabídne celé jmění (10–30 stříbrných)? Pro hru stačí konkrétní částka.
 ]
 
 == Znovu na hradě

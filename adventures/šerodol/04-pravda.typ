@@ -109,6 +109,8 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 
 === Svatava
 
+#portret(image("../šerodol-img/Svatava.png"), jmeno: [Svatava], vyska: 4.5cm)
+
 #cti[
   Nahoře ve věži je jediná místnost. Na stole hoří svíčka, u kamen sedí stará žena v čistých, mnohokrát spravovaných šatech. Bílé vlasy má spletené do copu, jak se nosí u nevěst. Stěny kolem ní jsou popsané uhlem, řádek pod řádkem, pořád dokola stejný text.
 
@@ -215,20 +217,29 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
   - *Prohraný hod* stojí jako vždy Ohrožení ve Vlivu. Kdo ho neodvrátí, toho Stará prokoukne: havíři se probudí a kořeny se dají do pohybu.
 ]
 
+#pv[
+  *Boj se Starou.* Zabít ji nejde: jejím srdcem je živá voda. Její tělesnou podobu, kořeny s bulvami kolem studánky, ale zničit lze. Bojuje mrazem: kde sáhne, tam voda zamrzá, kůže praská a dech se mění v jinovatku.
+  - *Zničená podoba:* s 0 Těla kořeny zčernají, zmrznou a popraskají. Stará zmlkne a do příští zimy se nebude moct projevit. Pak dorostou.
+  - *Pozor:* se zničenou podobou nemůže oživit kohouta, ani kdyby chtěla. Kdo s ní bojuje dřív, než ho přemluví, přijde o tuhle cestu.
+]
+
 #sb(
-  [Kořeny Staré], [Obrovský běs (strážce místa), boss; jen u studánky],
+  [Stará, Královna lesa], [Obrovský běs (strážce místa), boss; jen u studánky],
   telo: 90, duse: 15, vliv: 12, sudba: 2,
   zbroj: [kůra a bulvy (1)], rychlost: [0 m (kořeny sahají po celé jeskyni)], hrozba: [k8],
   dovednosti: [Jednání s nadpřirozenými bytostmi +5, Ovlivňování a klam +5, Síla +4],
-  imunity: [zastrašování; nemůže zemřít, dokud je živá voda (s 0 Těla kořeny jen ochabnou)],
+  imunity: [ledové; zastrašování],
   slabiny: [oheň],
   vlastnosti: (
+    ([Nesmrtelná], [Nemůže zemřít, dokud je živá voda. S 0 Těla je zničená jen její tělesná podoba (viz výše).]),
     ([Uvězněná], [Nemůže ze štoly ani nikomu ublížit dál než 10 m od vody.]),
     ([Dvě akce], [Jedná dvakrát za kolo, pokaždé na jiné iniciativě.]),
+    ([Zamrzající voda], [Voda štoly kolem studánky je pro nepřátele terén za polovinu rychlosti; kdo v ní běží nebo bojuje, hází záchranný hod (*Akrobacie*) na Ohrožení 3, jinak je #stav[Ležící].]),
   ),
   akce: (
-    ([Kořen], [Dosah 10 m. Zásah: 2k6 + 4 drtivé proti NPC; proti hráčským postavám kostka hrozby k8. *Lstivě* zdarma: cíl je #stav[Zadržený] a stažený o 3 m k vodě.]),
-    ([Do vody], [Cíl #stav[Zadržený] u vody stáhne pod hladinu. Záchranný hod (*Síla*) na Ohrožení 4; kdo ho neodvrátí, začne se topit (Jizva na #T úrovně 2 každé kolo pod vodou).]),
+    ([Mrazivý kořen], [Dosah 10 m. Zásah: 2k6 + 4 ledové proti NPC; proti hráčským postavám kostka hrozby k8. *Lstivě* zdarma: cíl je #stav[Zadržený] přimrzlým kořenem a stažený o 3 m k vodě.]),
+    ([Jinovatka], [Jednou za kolo. Kužel 5 m z hladiny. Každý v něm hází obranný hod proti její +4; NPC, které prohraje, dostane 3k6 ledové (vyhraje: polovinu), hráčská postava kostku hrozby k8 a má postih #stav[Pomalu] do konce svého příštího tahu.]),
+    ([Do vody], [Cíl #stav[Zadržený] u vody stáhne pod ledovou hladinu. Záchranný hod (*Síla*) na Ohrožení 4; kdo ho neodvrátí, začne se topit (Jizva na #T úrovně 2 každé kolo pod vodou).]),
     ([Sladký hlas], [Střet proti *Síle vůle* cíle. Výhra: cíl je #stav[Okouzlený] do konce scény a brání ji.]),
   ),
 )
@@ -291,6 +302,7 @@ Ve třetí kapitole se družina dozví, co přesně páni před čtyřiceti lety
 
 #pv[
   - *Brána:* dokud družina neprojde věží, strážný pořád opakuje: „Páni po setmění nepřijímají. Přijďte ráno.“ Jenže ráno nepřichází.
+  - *Prohlídka:* páni pustí družinu dovnitř, jen když ji stráž u brány prohledá a láhev u sebe nemá. Kdo ji nese, musí ji nechat venku před branou. Strážný na ni nesáhne; leží ve sněhu, dokud se pro ni někdo nevrátí. Láhev schovaná na těle se hledá střetem *Triky a zručnost rukou* proti strážnému (+2); figurky na bráně se dívají taky.
   - *Miloslav si družinu zavolá.* Jakmile někdo dojde ke Svatavě, Miloslav to ucítí a varuje bratry. Když se pak družina vrátí k hradu, brána se otevře a sluha řekne: „Páni vás očekávají.“
   - *Páni v noci* nespí a čekají na nádvoří u ohně. Krajemír poslouchá zemi, Lidovid sleduje figurky, Miloslav je smutnější než kdy dřív. Vědí, kde všude družina byla.
   - *Co páni chtějí:* rozbřesk. O smlouvě mluvit nemohou, ani když ji družina zná.

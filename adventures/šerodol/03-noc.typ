@@ -274,7 +274,7 @@ Staré zápisy a matrika leží v nejstarší části fary: v nízké klenuté k
 ]
 
 #pv[
-  *Kdo za tím je* _(návrh)_: Lidovid figurkou vidí, co družina hledá, a Krajemírův mráz rozštípne starou klenbu. Páni nechtějí, aby se o smrti starého pána něco našlo. Hráči to poznat nemusí.
+  *Kdo za tím je:* páni. Lidovid figurkou vidí, co družina hledá, a Krajemírův mráz rozštípne starou klenbu. Nechtějí družinu zabít, jen zdržet a nechat ji bez stopy: o smrti starého pána se nemá nic najít. Hráči to poznat nemusí.
 ]
 
 #pravidla[
@@ -343,6 +343,8 @@ Všechny tři vesnické cesty se sbíhají k jednomu jménu: *k babce kořenář
 )
 
 == Babka kořenářka
+
+#portret(image("../šerodol-img/Kunhuta.png"), jmeno: [Babka Kuňka], vyska: 4.5cm)
 
 #cti[
   Les se rozestoupí a před vámi je mýtina. Uprostřed stojí chalupa napůl zapuštěná do země, se střechou porostlou mechem a zasypanou sněhem. Z komína stoupá kouř, který voní pelyňkem a pryskyřicí. Pod okapem visí svazky sušených bylin. Když přijdete blíž, uvidíte, že práh je hustě pobitý železnými hřeby, hlavička vedle hlavičky.
