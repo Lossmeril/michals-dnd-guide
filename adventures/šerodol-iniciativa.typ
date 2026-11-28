@@ -6,7 +6,9 @@
 #set text(font: body-font, size: 8pt, fill: ink, lang: "cs")
 
 // (jméno, obrázek nebo none, podtitul)
-#let kdo = (
+#let n(jmeno, pocet, obr, pod) = range(1, pocet + 1).map(i => (jmeno + " " + str(i), obr, pod))
+
+#let kdo = ((
   ("Carmen", "PC - Carmen.png", "hráčská postava"),
   ("Kapitán Železné Srdce", "PC - Kapitán Železné Srdce.png", "hráčská postava"),
   ("Tamara", "PC - Tamara.png", "hráčská postava"),
@@ -17,14 +19,19 @@
   ("Půlknír", "Půlknír.png", none),
   ("Stará", "Stará.png", "Královna lesa"),
   ("Kovář Bořek", "Kovář Bořek.png", none),
-  ("Stínový zvěd", "Stínový zvěd.png", none),
   ("Farář Vojtěch", none, none),
-  ("Hradní stráž", none, none),
-  ("Krajemírovi psi", none, none),
-  ("Toulaví psi", none, none),
-  ("Probuzený medvěd", none, none),
-  ("Rarášek", none, "pomocník"),
-) + range(1, 6).map(i => ("Vlk " + str(i), none, none)) + range(1, 7).map(i => ("Havíř " + str(i), none, "utopený"))
+  ("Probuzený medvěd", "Bear.png", none),
+  ("Rarášek", "Rarášek.png", "pomocník"),
+)
+  + n("Stínový zvěd", 3, "Stínový zvěd.png", none)   // dva ve vsi a jeden, kterého přivolá Lidovid
+  + n("Toulavý pes", 2, "Dog.png", none)
+  + n("Krajemírův pes", 2, "Krajemírův pes.webp", none)
+  + n("Strážný", 4, none, "hradní stráž")
+  + n("Vlk", 5, "Wolf.jpg", none)
+  + n("Havíř", 6, none, "utopený"))
+
+// obrázky na šířku: celé, neořezávat
+#let na-sirku = ("Rarášek.png", "Wolf.jpg")
 
 #let w = 47mm      // šířka stříšky
 #let h = 64mm      // výška jedné strany
@@ -41,7 +48,7 @@
 )[
   #if obr != none {
     stack(
-      box(width: w, height: h - pas, clip: true, image("šerodol-img/" + obr, width: 100%, height: 100%, fit: "cover")),
+      box(width: w, height: h - pas, clip: true, image("šerodol-img/" + obr, width: 100%, height: 100%, fit: if obr in na-sirku { "contain" } else { "cover" })),
       line(length: w, stroke: (paint: gold, thickness: 1pt)),
       box(width: w, height: pas, inset: (x: 1.5mm), jmeno-text(jmeno, pod, false)),
     )
