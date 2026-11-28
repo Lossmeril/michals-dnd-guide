@@ -1,6 +1,6 @@
 // Vůně perníku: dobrodružství v Šerodolu, verze pro vypravěče k tisku.
 // Překlad: typst compile --root adventures adventures/šerodol.typ adventures/šerodol.pdf
-// Zdroj obsahu: adventures/šerodol.md; kapitoly jsou ve složce adventures/šerodol/.
+// Kapitoly jsou ve složce adventures/šerodol/.
 
 #import "šerodol/sablona.typ": *
 
