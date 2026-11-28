@@ -44,13 +44,23 @@
   #if pod != none [ \ #text(size: 7pt, style: "italic", pod) ]
 ]
 
+// erb v pravém horním rohu: Karlův a páni Šerodolu se svými lidmi
+#let serodolsti = ("Krajemír", "Lidovid", "Miloslav", "Půlknír", "Strážný", "Krajemírův pes", "Stínový zvěd")
+#let erb(jmeno) = {
+  if jmeno == "Karl von Wettersdorf" { "Karl von Wettersdorf coat of arms.png" } else if serodolsti.any(x => jmeno.starts-with(x)) { "Šerodol coat of arms.png" } else { none }
+}
+
 #let strana(jmeno, obr, pod) = box(
   width: w, height: h, fill: white, clip: true,
   stroke: (paint: gold, thickness: 1pt),
 )[
   #if obr != none {
     stack(
-      box(width: w, height: h - pas, clip: true, image("šerodol-img/" + obr, width: 100%, height: 100%, fit: if obr in na-sirku { "contain" } else { "cover" })),
+      box(width: w, height: h - pas, clip: true)[
+        #image("šerodol-img/" + obr, width: 100%, height: 100%, fit: if obr in na-sirku { "contain" } else { "cover" })
+        #let e = erb(jmeno)
+        #if e != none { place(top + right, dx: -1.5mm, dy: 1.5mm, image("šerodol-img/" + e, width: 9mm)) }
+      ],
       line(length: w, stroke: (paint: gold, thickness: 1pt)),
       box(width: w, height: pas, inset: (x: 1.5mm), jmeno-text(jmeno, pod, false)),
     )
