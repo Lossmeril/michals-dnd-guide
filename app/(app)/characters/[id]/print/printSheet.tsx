@@ -2,6 +2,9 @@
 // sheet: pools to strike through in pencil, skills by resource, a Danger Level
 // track for a token, armour, weapons, purse and Scars. Perks and spells flow on from page
 // 2 over as many sheets as they need; the gear and the story close it.
+//
+// The front and the last page each fill exactly one sheet: the Scars on the front and
+// the notes on the last page stretch or shrink to take up whatever space is left.
 
 import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
@@ -34,8 +37,12 @@ import { groupByBundle, itemName } from "@/lib/rules/equipment";
 import type { Tables } from "@/lib/types/database.types";
 
 const POOLS: Pool[] = ["body", "soul", "charisma"];
-const SCAR_ROWS = 10;
-const NOTE_LINES = 10;
+/** Enough rows to fill any leftover space; the box clips what doesn't fit */
+const FILL_ROWS = 40;
+/** Inventory rows in each column, at least */
+const GEAR_ROWS = 12;
+/** Columns of the Scars list: pool, level, what happened, healing */
+const SCAR_COLS = "grid grid-cols-[16mm_10mm_1fr_30mm]";
 
 type Props = {
   rb: Rulebook;
@@ -51,17 +58,17 @@ type Props = {
 // -----------------------------------------------------------------------------
 
 /** One A4 sheet on screen; on paper the @page rule sets the size and the browser paginates */
-const Page: React.FC<{ children: React.ReactNode; fixed?: boolean; className?: string }> = ({
+const Page: React.FC<{ children: React.ReactNode; fill?: boolean; className?: string }> = ({
   children,
-  fixed,
+  fill,
   className,
 }) => (
   <section
     className={twMerge(
       "sheet-page bg-white text-dnd-ink w-[210mm] p-[10mm] mx-auto mb-8 shadow-[0_0_12px_rgba(0,0,0,0.3)]",
       "min-h-[297mm]",
-      // The front fills one sheet; a big build spills onto the next
-      fixed && "sheet-front flex flex-col",
+      // Fills one sheet exactly: one section stretches to take the space that's left
+      fill && "sheet-fill flex flex-col",
       className,
     )}
   >
@@ -114,8 +121,8 @@ const Circles: React.FC<{ count: number }> = ({ count }) => (
   </span>
 );
 
-const Lines: React.FC<{ count: number }> = ({ count }) => (
-  <div>
+const Lines: React.FC<{ count: number; className?: string }> = ({ count, className }) => (
+  <div className={className}>
     {Array.from({ length: count }, (_, i) => (
       <div key={i} className="h-[7mm] border-b border-dnd-ink/30" />
     ))}
@@ -195,7 +202,7 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
     .join(", ");
 
   return (
-    <Page fixed className="gap-[3mm] text-[8pt] leading-snug">
+    <Page fill className="gap-[3mm] text-[8pt] leading-snug">
       {/* Header */}
       <header className="flex gap-[4mm]">
         <div className="relative w-[32mm] h-[42mm] shrink-0 border-2 border-dnd-gold bg-dnd-bg">
@@ -367,32 +374,23 @@ const Front: React.FC<Props> = ({ rb, character, build, inventory, dict }) => {
         </Box>
       </div>
 
-      {/* Scars and dying */}
-      <div className="grid grid-cols-[1fr_42mm] gap-[3mm] items-start">
-        <Box>
+      {/* Scars and dying: they take what's left of the sheet, but never fewer than five rows */}
+      <div className="flex-[1_1_0px] min-h-[42mm] flex gap-[3mm]">
+        <Box className="flex-1 min-w-0 flex flex-col">
           <Label>{p.scars}</Label>
-          <table className="w-full">
-            <thead>
-              <tr className="text-left text-[6.5pt] uppercase tracking-wider text-dnd-ink/70">
-                <th className="font-bold w-[16mm]">{p.scarHead[0]}</th>
-                <th className="font-bold w-[10mm]">{p.scarHead[1]}</th>
-                <th className="font-bold">{p.scarHead[2]}</th>
-                <th className="font-bold w-[30mm]">{p.scarHead[3]}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({ length: SCAR_ROWS }, (_, i) => (
-                <tr key={i} className="border-b border-dnd-ink/25">
-                  <td className="h-[6mm]" />
-                  <td />
-                  <td />
-                  <td />
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className={twMerge(SCAR_COLS, "text-[6.5pt] uppercase tracking-wider text-dnd-ink/70 font-bold")}>
+            {p.scarHead.map((h) => (
+              <span key={h}>{h}</span>
+            ))}
+          </div>
+          {/* As many rows as fit; the rest are clipped */}
+          <div className="flex-[1_1_0px] min-h-0 overflow-hidden">
+            {Array.from({ length: FILL_ROWS }, (_, i) => (
+              <div key={i} className={twMerge(SCAR_COLS, "h-[6mm] border-b border-dnd-ink/25")} />
+            ))}
+          </div>
         </Box>
-        <Box className="flex flex-col gap-2">
+        <Box className="w-[42mm] shrink-0 flex flex-col gap-2 self-start">
           <Label>{p.dying}</Label>
           <p className="text-[6.5pt] leading-tight">
             {p.dyingHint}
@@ -524,53 +522,59 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, dict }) =
   const traits = rb.traits.filter((trait) => build.traitIds.includes(trait.id));
   const nameOf = (row: Tables<"character_items">) =>
     row.name ?? (row.item_id ? itemName(rb.items, row.item_id) : p.unknownItem);
-  const groups = [
-    { label: p.carried, rows: inventory.filter((i) => i.carried) },
-    { label: p.leftBehind, rows: inventory.filter((i) => !i.carried) },
-  ];
+  const gear = groupByBundle(inventory);
+  const gearRows = Math.max(GEAR_ROWS, gear.length + 3);
 
   return (
-    <Page className="text-[8pt] leading-snug flex flex-col gap-[4mm]">
+    <Page fill className="text-[8pt] leading-snug gap-[4mm]">
       <h2 className="libre caps text-[16pt] font-bold text-dnd-red-dark border-b-2 border-dnd-gold">
         {p.gearAndStory}
       </h2>
+      {/* What they own, and an empty column for what they pick up in play */}
       <div className="grid grid-cols-2 gap-[6mm]">
-        {groups.map((g) => (
-          <div key={g.label}>
-            <Label>{g.label}</Label>
-            <ul>
-              {groupByBundle(g.rows).map((group) =>
-                group.bundle ? (
-                  <li key={`bundle-${group.rows[0].id}`} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-baseline py-[0.5mm]">
-                    <span className="w-[6mm] shrink-0" />
-                    <span>
-                      <span className="font-bold">{itemName(rb.items, group.bundle)}:</span>{" "}
-                      {group.rows.map((row, i) => (
-                        <span key={row.id} className={row.broken ? "line-through text-dnd-ink/60" : ""}>
-                          {i > 0 && ", "}
-                          {row.quantity > 1 && `${row.quantity}× `}
-                          {nameOf(row)}
-                        </span>
-                      ))}
-                    </span>
+        <div>
+          <Label>{p.carried}</Label>
+          <ul>
+            {gear.map((group) =>
+              group.bundle ? (
+                <li key={`bundle-${group.rows[0].id}`} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-baseline py-[0.5mm]">
+                  <span className="w-[6mm] shrink-0" />
+                  <span>
+                    <span className="font-bold">{itemName(rb.items, group.bundle)}:</span>{" "}
+                    {group.rows.map((row, i) => (
+                      <span key={row.id} className={row.broken ? "line-through text-dnd-ink/60" : ""}>
+                        {i > 0 && ", "}
+                        {row.quantity > 1 && `${row.quantity}× `}
+                        {nameOf(row)}
+                      </span>
+                    ))}
+                  </span>
+                </li>
+              ) : (
+                group.rows.map((row) => (
+                  <li key={row.id} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-center">
+                    <span className="w-[6mm] text-right font-bold">{row.quantity > 1 ? `${row.quantity}×` : ""}</span>
+                    <span className={row.broken ? "line-through text-dnd-ink/60" : ""}>{nameOf(row)}</span>
+                    {row.broken && <span className="italic text-dnd-ink/60">{p.broken}</span>}
+                    {!row.carried && <span className="italic text-dnd-ink/60">({p.leftBehind})</span>}
+                    {row.note && <span className="text-dnd-ink/60">· {l(row.note)}</span>}
                   </li>
-                ) : (
-                  group.rows.map((row) => (
-                    <li key={row.id} className="flex gap-1 border-b border-dnd-ink/25 min-h-[5.5mm] items-center">
-                      <span className="w-[6mm] text-right font-bold">{row.quantity > 1 ? `${row.quantity}×` : ""}</span>
-                      <span className={row.broken ? "line-through text-dnd-ink/60" : ""}>{nameOf(row)}</span>
-                      {row.broken && <span className="italic text-dnd-ink/60">{p.broken}</span>}
-                      {row.note && <span className="text-dnd-ink/60">· {l(row.note)}</span>}
-                    </li>
-                  ))
-                ),
-              )}
-              {Array.from({ length: Math.max(3, 8 - groupByBundle(g.rows).length) }, (_, i) => (
-                <li key={`blank-${i}`} className="border-b border-dnd-ink/25 h-[5.5mm]" />
-              ))}
-            </ul>
-          </div>
-        ))}
+                ))
+              ),
+            )}
+            {Array.from({ length: gearRows - gear.length }, (_, i) => (
+              <li key={`blank-${i}`} className="border-b border-dnd-ink/25 h-[5.5mm]" />
+            ))}
+          </ul>
+        </div>
+        <div>
+          <Label>{p.gathered}</Label>
+          <ul>
+            {Array.from({ length: gearRows }, (_, i) => (
+              <li key={i} className="border-b border-dnd-ink/25 h-[5.5mm]" />
+            ))}
+          </ul>
+        </div>
       </div>
 
       {traits.length > 0 && (
@@ -631,9 +635,10 @@ const StoryPage: React.FC<Props> = ({ rb, character, build, inventory, dict }) =
           <p className="whitespace-pre-line text-justify">{character.backstory}</p>
         </div>
       )}
-      <div>
+      {/* The notes take whatever is left of the sheet, and give way first when it's full */}
+      <div className="flex-[1_1_0px] min-h-[14mm] overflow-hidden flex flex-col">
         <Label className="break-after-avoid">{p.notes}</Label>
-        <Lines count={hasRitualItem(rb, build) ? 3 : NOTE_LINES} />
+        <Lines count={FILL_ROWS} className="flex-[1_1_0px] min-h-0 overflow-hidden" />
       </div>
     </Page>
   );

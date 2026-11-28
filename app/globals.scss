@@ -359,7 +359,10 @@
     break-after: page;
   }
   // The front fills one sheet (297 mm minus the margins, less a hair for rounding)
-  .char-sheet .sheet-page.sheet-front {
+  // At least one full sheet: the printable area of A4 at 10 mm margins, a hair
+  // under 277 mm so rounding never pushes a blank page out. The stretching section
+  // fills it; only content too big for one sheet spills onto the next.
+  .char-sheet .sheet-page.sheet-fill {
     min-height: 276mm;
   }
   .char-sheet .sheet-page:last-child {
