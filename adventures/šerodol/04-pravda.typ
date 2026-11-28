@@ -386,6 +386,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
 
 #sb(
   [Krajemír], [Střední člověk, elitní; pán země],
+  obrazek: image("../šerodol-img/Krajemír.png"),
   telo: 50, duse: 9, vliv: 10, sudba: 2,
   zbroj: [lovecký kabátec (1)], rychlost: [6 m], hrozba: [k8],
   dovednosti: [dovednosti Bojovníka +4, dovednosti Lovce +4],
@@ -402,6 +403,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
 
 #sb(
   [Lidovid], [Střední člověk, elitní; ten, který vidí],
+  obrazek: image("../šerodol-img/Lidovid.png"),
   telo: 40, duse: 7, vliv: 10, sudba: 2,
   zbroj: [žádná (0)], rychlost: [6 m], hrozba: [k6],
   dovednosti: [dovednosti Kejklíře +4, dovednosti Zvěda +4],
@@ -418,6 +420,7 @@ Hlavní cesta, jak dostat Perníčkáře do hradu. Dělaná pro zvěda.
 
 #sb(
   [Miloslav], [Střední člověk, elitní; ten, kterého milují],
+  obrazek: image("../šerodol-img/Miloslav.png"),
   telo: 45, duse: 10, vliv: 9, sudba: 2,
   zbroj: [žádná (0)], rychlost: [6 m], hrozba: [k6],
   dovednosti: [Ovlivňování a klam +5, Vliv ve vysoké společnosti +4, dovednosti Bojovníka +2],

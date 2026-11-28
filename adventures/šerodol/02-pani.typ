@@ -36,12 +36,20 @@ V první kapitole se družina setká s pány Šerodolu, přijme jejich chléb a 
 
 Bratři nejsou zlí v tom, co říkají, jen v tom, co zamlčí. Hrajte je jako unavené lidi, kteří nemají čas vysvětlovat. Jejich statbloky jsou v kapitole 3 (_Hrad v noci_).
 
+#grid(columns: (1fr, 1fr, 1fr), gutter: 4pt,
+  ..(("Krajemír", "nejstarší"), ("Lidovid", "prostřední"), ("Miloslav", "nejmladší")).map(((n, k)) => align(center)[
+    #image("../šerodol-img/" + n + ".png", width: 100%)
+    #v(-0.5em)
+    #text(font: heading-font, size: 7.5pt, weight: "bold", fill: reddark, n) \
+    #text(size: 6.5pt, style: "italic", k)
+  ]))
+
 - *Krajemír, nejstarší.* Vysoký, ošlehaný, ruce lovce. Stojí na mrazu bez pokrývky hlavy. Má dlouhé rovné havraní vlasy. Mluví málo a často se odmlčí, jako by poslouchal něco, co nikdo jiný neslyší.
 - *Lidovid, prostřední.* Hubený a bledý, s tmavými kruhy pod očima, protože nikdy nespí. Vlasy má stejné jako starší bratr, na tváři mírné strniště. Oči mu pořád těkají. Osloví hráče jménem dřív, než se mu představí.
 - *Miloslav, nejmladší.* Hezký, vřelý a usměvavý, rozený hostitel. Středně dlouhé vlnité černé vlasy. Už od prvního pohledu je to člověk, kterému můžete věřit. Mluví rád, ale zvláštně smutným tónem.
 
 #otazka[
-  *Obrázky pánů.* Ve složce s obrázky zatím chybí portréty tří bratrů, Svatavy, babky a Staré. Hodily by se hlavně páni (hráči je vidí na nádvoří a pak znovu v noci).
+  *Chybějící portréty:* Svatava, babka Kuňka a Stará.
 ]
 
 === Chléb a sůl
